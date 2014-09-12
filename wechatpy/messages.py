@@ -1,5 +1,4 @@
 from __future__ import absolute_import, unicode_literals
-import copy
 import six
 
 from .fields import BaseField, StringField, IntegerField, FloatField
@@ -28,19 +27,19 @@ class MessageMetaClass(type):
         # Create the class
         module = attrs.pop('__module__')
         new_class = super_new(cls, name, bases, {'__module__': module})
-        setattr(new_class, '_fields', ObjectDict())
+        setattr(new_class, '_meta', ObjectDict())
 
         # Add all attributes to the class
         for obj_name, obj in attrs.items():
             if isinstance(obj, BaseField):
-                new_class._fields[obj_name] = obj
+                new_class._meta[obj_name] = obj
             else:
                 setattr(new_class, obj_name, obj)
-        # Add the fields inherited from parent classes
+        # Add the fields from inherited
         for parent in parents:
             for obj_name, obj in parent.__dict__.items():
                 if isinstance(obj, BaseField):
-                    new_class._fields[obj_name] = copy.deepcopy(obj)
+                    new_class._meta[obj_name] = obj
         return new_class
 
 
@@ -52,7 +51,7 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
     time = IntegerField('CreateTime', 0)
 
     def __init__(self, message):
-        for name, field in self._fields.items():
+        for name, field in self._meta.items():
             value = message.get(field.name, field.default)
             if value and field.converter:
                 value = field.converter(value)
