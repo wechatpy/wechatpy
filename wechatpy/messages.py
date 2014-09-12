@@ -1,26 +1,61 @@
 from __future__ import absolute_import, unicode_literals
-import functools
+import six
 
-from .fields import StringField, IntegerField, FloatField
+from .fields import BaseField, StringField, IntegerField, FloatField
+from .utils import ObjectDict
 
 
 MESSAGE_TYPES = {}
 
 
 def register_message(type):
-    @functools.wraps
     def register(cls):
         MESSAGE_TYPES[type] = cls
         return cls
     return register
 
 
-class BaseMessage(object):
+class MessageMetaClass(type):
+    """Metaclass for all messages"""
+    def __new__(cls, name, bases, attrs):
+        super_new = super(MessageMetaClass, cls).__new__
+        # Ensure initialization is only performed for subclasses of
+        # BaseMessage excluding BaseMessage class itself
+        parents = [b for b in bases if isinstance(b, MessageMetaClass)]
+        if not parents:
+            return super_new(cls, name, bases, attrs)
+        # Create the class
+        module = attrs.pop('__module__')
+        new_class = super_new(cls, name, bases, {'__module__': module})
+        setattr(new_class, '_meta', ObjectDict())
+
+        # Add all attributes to the class
+        for obj_name, obj in attrs.items():
+            if isinstance(obj, BaseField):
+                new_class._meta[obj_name] = obj
+            else:
+                setattr(new_class, obj_name, obj)
+        # Add the fields from inherited
+        for parent in parents:
+            for obj_name, obj in parent.__dict__.items():
+                if isinstance(obj, BaseField):
+                    new_class._meta[obj_name] = obj
+        return new_class
+
+
+class BaseMessage(six.with_metaclass(MessageMetaClass)):
     type = 'unknown'
     id = IntegerField('MsgId', 0)
     source = StringField('FromUserName')
     target = StringField('ToUserName')
     time = IntegerField('CreateTime', 0)
+
+    def __init__(self, message):
+        for name, field in self._meta.items():
+            value = message.get(field.name, field.default)
+            if value and field.converter:
+                value = field.converter(value)
+            setattr(self, name, value)
 
 
 @register_message('text')
