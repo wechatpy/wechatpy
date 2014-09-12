@@ -29,3 +29,12 @@ class IntegerField(BaseField):
         value = self.converter(value)
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
+
+
+class FloatField(BaseField):
+    converter = float
+
+    def to_xml(self, value):
+        value = self.converter(value)
+        tpl = '<{name}>{value}</{name}>'
+        return tpl.format(name=self.name, value=value)
