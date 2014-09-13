@@ -68,6 +68,22 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
         data = '\n'.join(nodes)
         return tpl.format(data=data)
 
+    def __str__(self):
+        if six.PY2:
+            return six.binary_type(self.render())
+        else:
+            return six.text_type(self.render())
+
+    def __repr__(self):
+        _repr = '<{klass} {time}>'.format(
+            klass=self.__name__,
+            time=self.time
+        )
+        if six.PY2:
+            return six.binary_type(_repr)
+        else:
+            return six.text_type(_repr)
+
 
 @register_reply('text')
 class TextReply(BaseReply):

@@ -59,6 +59,16 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
                 value = field.converter(value)
             setattr(self, name, value)
 
+    def __repr__(self):
+        _repr = '<{klass} {id}>'.format(
+            klass=self.__name__,
+            id=self.id
+        )
+        if six.PY2:
+            return six.binary_type(_repr)
+        else:
+            return six.text_type(_repr)
+
 
 @register_message('text')
 class TextMessage(BaseMessage):

@@ -12,6 +12,22 @@ class BaseField(object):
     def to_xml(self):
         raise NotImplementedError()
 
+    def __str__(self):
+        if six.PY2:
+            return six.binary_type(self.to_xml())
+        else:
+            return six.text_type(self.to_xml())
+
+    def __repr__(self):
+        _repr = '<{klass} {name}>'.format(
+            klass=self.__name__,
+            name=self.name
+        )
+        if six.PY2:
+            return six.binary_type(_repr)
+        else:
+            return six.text_type(_repr)
+
 
 class StringField(BaseField):
     converter = six.text_type
