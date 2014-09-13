@@ -90,3 +90,63 @@ class FieldsTestCase(unittest.TestCase):
 
         field = VideoField('Video')
         self.assertEqual(expected, field.to_xml(value))
+
+    def test_music_field_to_xml(self):
+        from wechatpy.fields import MusicField
+
+        value = {
+            'thumb_media_id': '123456',
+            'title': 'test',
+            'description': 'test',
+            'music_url': '',
+            'hq_music_url': ''
+        }
+        expected = """<Music>
+        <ThumbMediaId>![CDATA[{thumb_media_id}]]</ThumbMediaId>
+        <Title>![CDATA[{title}]]</Title>
+        <Description>![CDATA[{description}]]</Description>
+        <MusicUrl>![CDATA[{music_url}]]</MusicUrl>
+        <HQMusicUrl>![CDATA[{hq_music_url}]]</HQMusicUrl>
+        </Music>""".format(
+            thumb_media_id=value['thumb_media_id'],
+            title=value['title'],
+            description=value['description'],
+            music_url=value['music_url'],
+            hq_music_url=value['hq_music_url']
+        )
+
+        field = MusicField('Music')
+        self.assertEqual(expected, field.to_xml(value))
+
+    def test_article_field_to_xml(self):
+        from wechatpy.fields import ArticleField
+
+        articles = [
+            {
+                'title': 'test 1',
+                'description': 'test 1',
+                'image': 'http://www.qq.com/1.png',
+                'url': 'http://www.qq.com/1'
+            },
+            {
+                'title': 'test 2',
+                'description': 'test 2',
+                'image': 'http://www.qq.com/2.png',
+                'url': 'http://www.qq.com/2'
+            },
+            {
+                'title': 'test 3',
+                'description': 'test 3',
+                'image': 'http://www.qq.com/3.png',
+                'url': 'http://www.qq.com/3'
+            },
+        ]
+        article_count = len(articles)
+
+        field = ArticleField('Article')
+        self.assertIn(
+            '<ArticleCount>{article_count}</ArticleCount>'.format(
+                article_count=article_count
+            ),
+            field.to_xml(articles)
+        )
