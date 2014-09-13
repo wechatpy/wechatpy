@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from _compat import unittest
+import unittest
 
 
 class FieldsTestCase(unittest.TestCase):
@@ -144,9 +144,7 @@ class FieldsTestCase(unittest.TestCase):
         article_count = len(articles)
 
         field = ArticleField('Article')
-        self.assertIn(
-            '<ArticleCount>{article_count}</ArticleCount>'.format(
-                article_count=article_count
-            ),
-            field.to_xml(articles)
+        expected = '<ArticleCount>{article_count}</ArticleCount>'.format(
+            article_count=article_count
         )
+        assert expected in field.to_xml(articles)
