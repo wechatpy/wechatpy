@@ -43,3 +43,51 @@ class FieldsTestCase(unittest.TestCase):
 
         field = FloatField(name)
         self.assertEqual(expected, field.to_xml(value))
+
+    def test_image_field_to_xml(self):
+        from wechatpy.fields import ImageField
+
+        value = '123456'
+        expected = """<Image>
+        <MediaId>![CDATA[{value}]]</MediaId>
+        </Image>""".format(
+            value=value
+        )
+
+        field = ImageField('Image')
+        self.assertEqual(expected, field.to_xml(value))
+
+    def test_voice_field_to_xml(self):
+        from wechatpy.fields import VoiceField
+
+        value = '123456'
+        expected = """<Voice>
+        <MediaId>![CDATA[{value}]]</MediaId>
+        </Voice>""".format(
+            value=value
+        )
+
+        field = VoiceField('Voice')
+        self.assertEqual(expected, field.to_xml(value))
+
+    def test_video_field_to_xml(self):
+        from wechatpy.fields import VideoField
+
+        value = {
+            'media_id': '123456',
+            'title': 'test',
+            'description': 'test'
+        }
+        expected = """<Video>
+        <MediaId>![CDATA[{media_id}]]</MediaId>
+        <Title>![CDATA[{title}]]</Title>
+        <Description>![CDATA[{description}]]</Description>
+        </Video>
+        """.format(
+            media_id=value['media_id'],
+            title=value['title'],
+            description=value['description']
+        )
+
+        field = VideoField('Video')
+        self.assertEqual(expected, field.to_xml(value))
