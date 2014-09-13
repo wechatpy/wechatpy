@@ -23,7 +23,7 @@ setup(
     url='https://github.com/messense/wechatpy',
     packages=find_packages(),
     keywords='WeChat, wexin, SDK',
-    decription='wechatpy: WeChat SDK for Python',
+    description='wechatpy: WeChat SDK for Python',
     long_description=long_description,
     install_requires=requirements,
     include_package_data=True,
