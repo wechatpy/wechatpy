@@ -42,7 +42,7 @@ class IntegerField(BaseField):
     converter = int
 
     def to_xml(self, value):
-        value = self.converter(value) if value else self.default
+        value = self.converter(value) if value is not None else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 
@@ -51,7 +51,7 @@ class FloatField(BaseField):
     converter = float
 
     def to_xml(self, value):
-        value = self.converter(value) if value else self.default
+        value = self.converter(value) if value is not None else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 
