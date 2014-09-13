@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import copy
+from xml.etree import ElementTree
 import six
 
 from .fields import BaseField, StringField, IntegerField, FloatField
@@ -107,6 +108,21 @@ class LinkMessage(BaseMessage):
 class EventMessage(BaseMessage):
     type = StringField('Event')
     key = StringField('EventKey')
-    latitude = FloatField('Latitude')
-    longitude = FloatField('Longitude')
-    precision = FloatField('Precision')
+    latitude = FloatField('Latitude', 0.0)
+    longitude = FloatField('Longitude', 0.0)
+    precision = FloatField('Precision', 0.0)
+
+
+class UnknownMessage(BaseMessage):
+    pass
+
+
+def parse_message(xml):
+    if not xml:
+        return
+    to_text = six.text_type
+    parser = ElementTree.fromstring(xml)
+    message = dict((child.tag, to_text(child.text)) for child in parser)
+    message_type = message['MsgType'].lower()
+    message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)
+    return message_class(message)

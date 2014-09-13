@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+import time
 import copy
 import six
 
@@ -48,13 +49,24 @@ class ReplyMetaClass(type):
 class BaseReply(six.with_metaclass(ReplyMetaClass)):
     source = StringField('FromUserName')
     target = StringField('ToUserName')
-    time = IntegerField('CreateTime')
+    time = IntegerField('CreateTime', int(time.time()))
     type = 'unknown'
 
-    def __init__(self, reply):
+    def __init__(self, reply=None):
+        reply = reply or {}
         for name, field in self._fields.items():
             value = reply.get(field.name, field.default)
             setattr(self, name, value)
+
+    def render(self):
+        tpl = '<xml>\n{data}\n</xml>'
+        nodes = []
+        for name, field in self._fields.items():
+            value = getattr(self, name, field.default)
+            node_xml = field.to_xml(value)
+            nodes.append(node_xml)
+        data = '\n'.join(nodes)
+        return tpl.format(data=data)
 
 
 @register_reply('text')
@@ -91,3 +103,20 @@ class MusicReply(BaseReply):
 class ArticleReply(BaseReply):
     type = 'news'
     articles = ArticleField('Articles')
+
+
+def create_reply(reply, message=None):
+    if isinstance(reply, BaseReply):
+        return reply.render()
+    elif isinstance(reply, six.string_types):
+        _reply = TextReply()
+        _reply.content = reply
+        return _reply.render()
+    elif isinstance(reply, (tuple, list)):
+        if len(reply) > 10:
+            raise AttributeError("Can't add more than 10 articles"
+                                 " in an ArticlesReply")
+        _reply = ArticleReply()
+        _reply.article = reply
+        return _reply.render()
+    return None

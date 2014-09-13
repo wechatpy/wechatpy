@@ -26,7 +26,7 @@ class IntegerField(BaseField):
     converter = int
 
     def to_xml(self, value):
-        value = self.converter(value)
+        value = self.converter(value) if value else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 
@@ -35,7 +35,7 @@ class FloatField(BaseField):
     converter = float
 
     def to_xml(self, value):
-        value = self.converter(value)
+        value = self.converter(value) if value else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 
@@ -58,12 +58,12 @@ class VoiceField(StringField):
 
 class VideoField(StringField):
 
-    def to_xml(self, media_id, title=None, description=None):
-        media_id = self.converter(media_id)
-        if title:
-            title = self.converter(title)
-        if description:
-            description = self.converter(description)
+    def to_xml(self, value):
+        media_id = self.converter(value['media_id'])
+        if 'title' in value:
+            title = self.converter(value['title'])
+        if 'description' in value:
+            description = self.converter(value['description'])
         tpl = """<Video>
         <MediaId>![CDATA[{media_id}]]</MediaId>
         <Title>![CDATA[{title}]]</Title>
@@ -79,17 +79,16 @@ class VideoField(StringField):
 
 class MusicField(StringField):
 
-    def to_xml(self, thumb_media_id, title=None, description=None,
-               music_url=None, hq_music_url=None):
-        thumb_media_id = self.converter(thumb_media_id)
-        if title:
-            title = self.converter(title)
-        if description:
-            description = self.converter(description)
-        if music_url:
-            music_url = self.converter(music_url)
-        if hq_music_url:
-            hq_music_url = self.converter(hq_music_url)
+    def to_xml(self, value):
+        thumb_media_id = self.converter(value['thumb_media_id'])
+        if 'title' in value:
+            title = self.converter(value['title'])
+        if 'description' in value:
+            description = self.converter(value['description'])
+        if 'music_url' in value:
+            music_url = self.converter(value['music_url'])
+        if 'hq_music_url' in value:
+            hq_music_url = self.converter(value['hq_music_url'])
         tpl = """<Music>
         <ThumbMediaId>![CDATA[{thumb_media_id}]]</ThumbMediaId>
         <Title>![CDATA[{title}]]</Title>
