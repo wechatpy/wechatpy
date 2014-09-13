@@ -60,7 +60,9 @@ class ImageField(StringField):
 
     def to_xml(self, value):
         value = self.converter(value)
-        tpl = '<Image>\n<MediaId>![CDATA[{value}]]</MediaId>\n</Image>'
+        tpl = """<Image>
+        <MediaId>![CDATA[{value}]]</MediaId>
+        </Image>"""
         return tpl.format(value=value)
 
 
@@ -68,7 +70,9 @@ class VoiceField(StringField):
 
     def to_xml(self, value):
         value = self.converter(value)
-        tpl = '<Voice>\n<MediaId>![CDATA[{value}]]</MediaId>\n</Voice>'
+        tpl = """<Voice>
+        <MediaId>![CDATA[{value}]]</MediaId>
+        </Voice>"""
         return tpl.format(value=value)
 
 
@@ -84,8 +88,7 @@ class VideoField(StringField):
         <MediaId>![CDATA[{media_id}]]</MediaId>
         <Title>![CDATA[{title}]]</Title>
         <Description>![CDATA[{description}]]</Description>
-        </Video>
-        """
+        </Video>"""
         return tpl.format(
             media_id=media_id,
             title=title,
@@ -136,8 +139,7 @@ class ArticleField(StringField):
             <Description>![CDATA[{description}]]</Description>
             <PicUrl>![CDATA[{image}]]</PicUrl>
             <Url>![CDATA[{url}]]</Url>
-            </item>
-            """
+            </item>"""
             item = item_tpl.format(
                 title=title,
                 description=description,
@@ -147,8 +149,7 @@ class ArticleField(StringField):
             items.append(item)
         items_str = '\n'.join(items)
         tpl = """<ArticleCount>{article_count}</ArticleCount>
-        <Articles>{items}</Articles>
-        """
+        <Articles>{items}</Articles>"""
         return tpl.format(
             article_count=article_count,
             items=items_str

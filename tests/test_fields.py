@@ -82,8 +82,7 @@ class FieldsTestCase(unittest.TestCase):
         <MediaId>![CDATA[{media_id}]]</MediaId>
         <Title>![CDATA[{title}]]</Title>
         <Description>![CDATA[{description}]]</Description>
-        </Video>
-        """.format(
+        </Video>""".format(
             media_id=value['media_id'],
             title=value['title'],
             description=value['description']
