@@ -55,7 +55,7 @@ class CreateReplyTestCase(unittest.TestCase):
 
     def test_create_reply_should_return_none(self):
         reply = create_reply(None)
-        self.assertIsNone(reply)
+        self.assertTrue(reply is None)
 
     def test_create_reply_with_message(self):
         from wechatpy.messages import TextMessage

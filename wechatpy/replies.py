@@ -72,12 +72,16 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
         if kwargs:
             # unknown arguments
             args = ', '.join(kwargs.keys())
-            raise AttributeError('Unknown argument(s): {}'.format(args))
+            raise AttributeError('Unknown argument(s): {args}'.format(
+                args=args
+            ))
 
     def render(self):
         tpl = '<xml>\n{data}\n</xml>'
         nodes = []
-        msg_type = '<MsgType><![CDATA[{}]]></MsgType>'.format(self.type)
+        msg_type = '<MsgType><![CDATA[{msg_type}]]></MsgType>'.format(
+            msg_type=self.type
+        )
         nodes.append(msg_type)
         for name, field in self._fields.items():
             value = getattr(self, name, field.default)
