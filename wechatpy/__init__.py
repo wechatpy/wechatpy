@@ -4,5 +4,5 @@ from .messages import parse_message  # NOQA
 from .replies import create_reply  # NOQA
 
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __author__ = 'messense'
