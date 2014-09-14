@@ -70,6 +70,8 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
     def render(self):
         tpl = '<xml>\n{data}\n</xml>'
         nodes = []
+        msg_type = '<MsgType><![CDATA[{}]]></MsgType>'.format(self.type)
+        nodes.append(msg_type)
         for name, field in self._fields.items():
             value = getattr(self, name, field.default)
             node_xml = field.to_xml(value)

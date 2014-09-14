@@ -10,7 +10,7 @@ class FieldsTestCase(unittest.TestCase):
 
         name = 'Content'
         value = 'test'
-        expected = '<{name}>![CDATA[{value}]]</{name}>'.format(
+        expected = '<{name}><![CDATA[{value}]]></{name}>'.format(
             name=name,
             value=value
         )
@@ -49,7 +49,7 @@ class FieldsTestCase(unittest.TestCase):
 
         value = '123456'
         expected = """<Image>
-        <MediaId>![CDATA[{value}]]</MediaId>
+        <MediaId><![CDATA[{value}]]></MediaId>
         </Image>""".format(
             value=value
         )
@@ -62,7 +62,7 @@ class FieldsTestCase(unittest.TestCase):
 
         value = '123456'
         expected = """<Voice>
-        <MediaId>![CDATA[{value}]]</MediaId>
+        <MediaId><![CDATA[{value}]]></MediaId>
         </Voice>""".format(
             value=value
         )
@@ -79,9 +79,9 @@ class FieldsTestCase(unittest.TestCase):
             'description': 'test'
         }
         expected = """<Video>
-        <MediaId>![CDATA[{media_id}]]</MediaId>
-        <Title>![CDATA[{title}]]</Title>
-        <Description>![CDATA[{description}]]</Description>
+        <MediaId><![CDATA[{media_id}]]></MediaId>
+        <Title><![CDATA[{title}]]></Title>
+        <Description><![CDATA[{description}]]></Description>
         </Video>""".format(
             media_id=value['media_id'],
             title=value['title'],
@@ -102,11 +102,11 @@ class FieldsTestCase(unittest.TestCase):
             'hq_music_url': ''
         }
         expected = """<Music>
-        <ThumbMediaId>![CDATA[{thumb_media_id}]]</ThumbMediaId>
-        <Title>![CDATA[{title}]]</Title>
-        <Description>![CDATA[{description}]]</Description>
-        <MusicUrl>![CDATA[{music_url}]]</MusicUrl>
-        <HQMusicUrl>![CDATA[{hq_music_url}]]</HQMusicUrl>
+        <ThumbMediaId><![CDATA[{thumb_media_id}]]></ThumbMediaId>
+        <Title><![CDATA[{title}]]></Title>
+        <Description><![CDATA[{description}]]></Description>
+        <MusicUrl><![CDATA[{music_url}]]></MusicUrl>
+        <HQMusicUrl><![CDATA[{hq_music_url}]]></HQMusicUrl>
         </Music>""".format(
             thumb_media_id=value['thumb_media_id'],
             title=value['title'],

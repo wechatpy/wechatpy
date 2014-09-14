@@ -34,7 +34,7 @@ class StringField(BaseField):
 
     def to_xml(self, value):
         value = self.converter(value)
-        tpl = '<{name}>![CDATA[{value}]]</{name}>'
+        tpl = '<{name}><![CDATA[{value}]]></{name}>'
         return tpl.format(name=self.name, value=value)
 
 
@@ -61,7 +61,7 @@ class ImageField(StringField):
     def to_xml(self, value):
         value = self.converter(value)
         tpl = """<Image>
-        <MediaId>![CDATA[{value}]]</MediaId>
+        <MediaId><![CDATA[{value}]]></MediaId>
         </Image>"""
         return tpl.format(value=value)
 
@@ -71,7 +71,7 @@ class VoiceField(StringField):
     def to_xml(self, value):
         value = self.converter(value)
         tpl = """<Voice>
-        <MediaId>![CDATA[{value}]]</MediaId>
+        <MediaId><![CDATA[{value}]]></MediaId>
         </Voice>"""
         return tpl.format(value=value)
 
@@ -85,9 +85,9 @@ class VideoField(StringField):
         if 'description' in value:
             description = self.converter(value['description'])
         tpl = """<Video>
-        <MediaId>![CDATA[{media_id}]]</MediaId>
-        <Title>![CDATA[{title}]]</Title>
-        <Description>![CDATA[{description}]]</Description>
+        <MediaId><![CDATA[{media_id}]]></MediaId>
+        <Title><![CDATA[{title}]]></Title>
+        <Description><![CDATA[{description}]]></Description>
         </Video>"""
         return tpl.format(
             media_id=media_id,
@@ -109,11 +109,11 @@ class MusicField(StringField):
         if 'hq_music_url' in value:
             hq_music_url = self.converter(value['hq_music_url'])
         tpl = """<Music>
-        <ThumbMediaId>![CDATA[{thumb_media_id}]]</ThumbMediaId>
-        <Title>![CDATA[{title}]]</Title>
-        <Description>![CDATA[{description}]]</Description>
-        <MusicUrl>![CDATA[{music_url}]]</MusicUrl>
-        <HQMusicUrl>![CDATA[{hq_music_url}]]</HQMusicUrl>
+        <ThumbMediaId><![CDATA[{thumb_media_id}]]></ThumbMediaId>
+        <Title><![CDATA[{title}]]></Title>
+        <Description><![CDATA[{description}]]></Description>
+        <MusicUrl><![CDATA[{music_url}]]></MusicUrl>
+        <HQMusicUrl><![CDATA[{hq_music_url}]]></HQMusicUrl>
         </Music>"""
         return tpl.format(
             thumb_media_id=thumb_media_id,
@@ -135,10 +135,10 @@ class ArticleField(StringField):
             image = self.converter(article.get('image', ''))
             url = self.converter(article.get('url', ''))
             item_tpl = """<item>
-            <Title>![CDATA[{title}]]</Title>
-            <Description>![CDATA[{description}]]</Description>
-            <PicUrl>![CDATA[{image}]]</PicUrl>
-            <Url>![CDATA[{url}]]</Url>
+            <Title><![CDATA[{title}]]></Title>
+            <Description><![CDATA[{description}]]></Description>
+            <PicUrl><![CDATA[{image}]]></PicUrl>
+            <Url><![CDATA[{url}]]></Url>
             </item>"""
             item = item_tpl.format(
                 title=title,
