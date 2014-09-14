@@ -36,7 +36,7 @@ class ReplyTestCase(unittest.TestCase):
         self.assertTrue('<FromUserName><![CDATA[user1]]></FromUserName>' in r)
         self.assertTrue('<MsgType><![CDATA[text]]></MsgType>' in r)
         self.assertTrue('<Content><![CDATA[test]]></Content>' in r)
-        create_time = '<CreateTime>{}</CreateTime>'.format(timestamp)
+        create_time = '<CreateTime>{time}</CreateTime>'.format(time=timestamp)
         self.assertTrue(create_time in r)
 
 
