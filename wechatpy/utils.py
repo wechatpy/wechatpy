@@ -18,6 +18,6 @@ def check_signature(token, signature, timestamp, nonce):
     tmparr = [token, timestamp, nonce]
     tmparr.sort()
     tmpstr = ''.join(tmparr)
-    tmpstr = six.binary_type(tmpstr)
+    tmpstr = six.text_type(tmpstr).encode('utf-8')
     digest = hashlib.sha1(tmpstr).hexdigest()
     return digest == signature
