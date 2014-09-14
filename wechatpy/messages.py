@@ -116,11 +116,13 @@ class LinkMessage(BaseMessage):
 
 @register_message('event')
 class EventMessage(BaseMessage):
-    type = StringField('Event')
+    type = 'event'
+    event = StringField('Event')
     key = StringField('EventKey')
     latitude = FloatField('Latitude', 0.0)
     longitude = FloatField('Longitude', 0.0)
     precision = FloatField('Precision', 0.0)
+    ticket = StringField('Ticket')
 
 
 class UnknownMessage(BaseMessage):
@@ -131,7 +133,7 @@ def parse_message(xml):
     if not xml:
         return
     to_text = six.text_type
-    parser = ElementTree.fromstring(xml)
+    parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
     message = dict((child.tag, to_text(child.text)) for child in parser)
     message_type = message['MsgType'].lower()
     message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)
