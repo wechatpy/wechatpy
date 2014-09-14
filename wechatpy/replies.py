@@ -5,6 +5,7 @@ import six
 
 from .fields import BaseField, StringField, IntegerField, ImageField
 from .fields import VoiceField, VideoField, MusicField, ArticleField
+from .messages import BaseMessage
 from .utils import ObjectDict
 
 
@@ -53,6 +54,12 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
     type = 'unknown'
 
     def __init__(self, **kwargs):
+        message = kwargs.pop('message', None)
+        if message and isinstance(message, BaseMessage):
+            if 'source' not in kwargs:
+                kwargs['source'] = message.target
+            if 'target' not in kwargs:
+                kwargs['target'] = message.source
         for name, field in self._fields.items():
             if name == 'time' and 'time' not in kwargs:
                 # set CreateTime to current timestamp if time not present
@@ -132,18 +139,23 @@ class ArticleReply(BaseReply):
     articles = ArticleField('Articles')
 
 
-def create_reply(reply, message=None):
+def create_reply(reply, message=None, render=True):
+    r = None
     if isinstance(reply, BaseReply):
-        return reply.render()
+        r = reply
     elif isinstance(reply, six.string_types):
-        _reply = TextReply()
-        _reply.content = reply
-        return _reply.render()
+        r = TextReply(
+            message=message,
+            content=reply
+        )
     elif isinstance(reply, (tuple, list)):
         if len(reply) > 10:
             raise AttributeError("Can't add more than 10 articles"
                                  " in an ArticlesReply")
-        _reply = ArticleReply()
-        _reply.article = reply
-        return _reply.render()
-    return None
+        r = ArticleReply(
+            message=message,
+            articles=reply
+        )
+    if r and render:
+        return r.render()
+    return r
