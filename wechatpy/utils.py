@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import hashlib
+import six
 
 
 class ObjectDict(dict):
@@ -17,5 +18,6 @@ def check_signature(token, signature, timestamp, nonce):
     tmparr = [token, timestamp, nonce]
     tmparr.sort()
     tmpstr = ''.join(tmparr)
+    tmpstr = six.binary_type(tmpstr)
     digest = hashlib.sha1(tmpstr).hexdigest()
     return digest == signature
