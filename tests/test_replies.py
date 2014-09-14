@@ -14,4 +14,4 @@ class ReplyTestCase(unittest.TestCase):
 
         self.assertEqual('user1', reply.source)
         self.assertEqual('user2', reply.target)
-        self.assertLessEqual(timestamp, reply.time)
+        self.assertTrue(timestamp <= reply.time)
