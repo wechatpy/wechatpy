@@ -61,7 +61,7 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
 
     def __repr__(self):
         _repr = '<{klass} {id}>'.format(
-            klass=self.__name__,
+            klass=self.__class__.__name__,
             id=self.id
         )
         if six.PY2:

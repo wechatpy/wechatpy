@@ -58,10 +58,14 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
                 # set CreateTime to current timestamp if time not present
                 value = int(time.time())
             else:
-                value = kwargs.get(name, field.default)
+                value = kwargs.pop(name, field.default)
                 if value is not None:
                     value = field.converter(value)
             setattr(self, name, value)
+        if kwargs:
+            # unknown arguments
+            args = ', '.join(kwargs.keys())
+            raise AttributeError('Unknown argument(s): {}'.format(args))
 
     def render(self):
         tpl = '<xml>\n{data}\n</xml>'
@@ -81,7 +85,7 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
 
     def __repr__(self):
         _repr = '<{klass} {time}>'.format(
-            klass=self.__name__,
+            klass=self.__class__.__name__,
             time=self.time
         )
         if six.PY2:

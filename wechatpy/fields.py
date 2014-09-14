@@ -20,7 +20,7 @@ class BaseField(object):
 
     def __repr__(self):
         _repr = '<{klass} {name}>'.format(
-            klass=self.__name__,
+            klass=self.__class__.__name__,
             name=self.name
         )
         if six.PY2:
