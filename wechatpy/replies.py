@@ -52,10 +52,15 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
     time = IntegerField('CreateTime', int(time.time()))
     type = 'unknown'
 
-    def __init__(self, reply=None):
-        reply = reply or {}
+    def __init__(self, **kwargs):
         for name, field in self._fields.items():
-            value = reply.get(field.name, field.default)
+            if name == 'time' and 'time' not in kwargs:
+                # set CreateTime to current timestamp if time not present
+                value = int(time.time())
+            else:
+                value = kwargs.get(name, field.default)
+                if value is not None:
+                    value = field.converter(value)
             setattr(self, name, value)
 
     def render(self):
