@@ -14,6 +14,18 @@ class WeChatException(Exception):
         self.errcode = errcode
         self.errmsg = errmsg
 
+    def __str__(self):
+        if six.PY2:
+            return six.binary_type('Error code: {code}, message: {msg}'.format(
+                code=self.errcode,
+                msg=self.errmsg
+            ))
+        else:
+            return six.text_type('Error code: {code}, message: {msg}'.format(
+                code=self.errcode,
+                msg=self.errmsg
+            ))
+
 
 class WeChatClient(object):
 
@@ -100,9 +112,14 @@ class WeChatClient(object):
     @property
     def access_token(self):
         if self._access_token:
+            if not self.expires_at:
+                # user provided access_token, just return it
+                return self._access_token
+
             timestamp = time.time()
             if self.expires_at - timestamp > 60:
                 return self._access_token
+
         result = self.fetch_access_token()
         self._access_token = result['access_token']
         self.expires_at = int(time.time()) + result['expires_in']
