@@ -123,6 +123,7 @@ class WeChatClient(object):
         result = self.fetch_access_token()
         self._access_token = result['access_token']
         self.expires_at = int(time.time()) + result['expires_in']
+        return self._access_token
 
     def send_text_message(self, user_id, content):
         return self._post(
@@ -225,10 +226,21 @@ class WeChatClient(object):
         )
 
     def get_menu(self):
-        return self._get('menu/get')
+        try:
+            return self._get('menu/get')
+        except WeChatException as e:
+            if e.errcode == 46003:
+                # menu not exist
+                return None
+            else:
+                raise e
 
     def delete_menu(self):
         return self._get('menu/delete')
+
+    def update_menu(self, menu_data):
+        self.delete_menu()
+        return self.create_menu(menu_data)
 
     def upload_media(self, media_type, media_file):
         return self._post(
