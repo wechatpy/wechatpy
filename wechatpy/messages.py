@@ -21,9 +21,19 @@ class MessageMetaClass(type):
     """Metaclass for all messages"""
     def __new__(cls, name, bases, attrs):
         super_new = super(MessageMetaClass, cls).__new__
+        # six.with_metaclass() inserts an extra class called 'NewBase' in the
+        # inheritance tree: BaseMessage -> NewBase -> object.
+        # But the initialization
+        # should be executed only once for a given message class
+
+        # attrs will never be empty for classes declared in the standard way
+        # (ie. with the `class` keyword). This is quite robust.
+        if name == 'NewBase' and attrs == {}:
+            return super_new(cls, name, bases, attrs)
         # Ensure initialization is only performed for subclasses of
         # BaseMessage excluding BaseMessage class itself
-        parents = [b for b in bases if isinstance(b, MessageMetaClass)]
+        parents = [b for b in bases if isinstance(b, MessageMetaClass) and
+                   not (b.__name__ == 'NewBase' and b.__mro__ == (b, object))]
         if not parents:
             return super_new(cls, name, bases, attrs)
         # Create the class
