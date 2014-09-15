@@ -71,27 +71,31 @@ class WeChatClient(object):
     def _get(self, url, **kwargs):
         return self._request(
             method='get',
-            url=url,
+            url_or_endpoint=url,
             **kwargs
         )
 
     def _post(self, url, **kwargs):
         return self._request(
             method='post',
-            url=url,
+            url_or_endpoint=url,
             **kwargs
         )
 
     def fetch_access_token(self):
         """ Fetch access token"""
-        return self._get(
-            'token',
+        res = requests.get(
+            url='https://api.weixin.qq.com/cgi-bin/token',
             params={
                 'grant_type': 'client_credential',
                 'appid': self.appid,
                 'secret': self.secret
             }
         )
+        result = res.json()
+        if 'errcode' in result and result['errcode'] != 0:
+            raise WeChatException(result['errcode'], result['errmsg'])
+        return result
 
     @property
     def access_token(self):
