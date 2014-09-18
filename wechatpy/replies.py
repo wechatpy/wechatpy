@@ -150,7 +150,15 @@ class MusicReply(BaseReply):
 @register_reply('news')
 class ArticleReply(BaseReply):
     type = 'news'
-    articles = ArticleField('Articles')
+    articles = ArticleField('Articles', [])
+
+    def add_article(self, article):
+        if not self.articles or not isinstance(self.articles, list):
+            self.articles = []
+        if len(self.articles) == 10:
+            raise AttributeError("Can't add more than 10 articles"
+                                 " in an ArticlesReply")
+        self.articles.append(article)
 
 
 def create_reply(reply, message=None, render=True):
