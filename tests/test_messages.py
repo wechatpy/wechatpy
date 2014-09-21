@@ -95,25 +95,6 @@ class MessagesTestCase(unittest.TestCase):
         self.assertEqual('test', msg.description)
         self.assertEqual('http://www.qq.com', msg.url)
 
-    def test_event_message(self):
-        from wechatpy.messages import EventMessage
-
-        msg = EventMessage({
-            'Event': 'click',
-            'EventKey': 'test',
-            'Latitude': 100.0,
-            'Longitude': 100.0,
-            'Precision': 100.0,
-            'Ticket': 'test',
-        })
-
-        self.assertEqual('click', msg.event)
-        self.assertEqual('test', msg.key)
-        self.assertEqual(100.0, msg.latitude)
-        self.assertEqual(100.0, msg.longitude)
-        self.assertEqual(100.0, msg.precision)
-        self.assertEqual('test', msg.ticket)
-
 
 class ParseMessageTestCase(unittest.TestCase):
 

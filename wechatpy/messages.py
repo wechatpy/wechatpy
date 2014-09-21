@@ -8,18 +8,26 @@ from .utils import ObjectDict
 
 
 MESSAGE_TYPES = {}
+EVENT_TYPES = {}
 
 
-def register_message(type):
+def register_message(msg_type):
     def register(cls):
-        MESSAGE_TYPES[type] = cls
+        MESSAGE_TYPES[msg_type] = cls
+        return cls
+    return register
+
+
+def register_event(event_type):
+    def register(cls):
+        EVENT_TYPES[event_type] = cls
         return cls
     return register
 
 
 class MessageMetaClass(type):
     """Metaclass for all messages"""
-    def __new__(cls, name, bases, attrs):
+    def __new__(cls, name, bases, attrs):  # NOQA
         super_new = super(MessageMetaClass, cls).__new__
         # six.with_metaclass() inserts an extra class called 'NewBase' in the
         # inheritance tree: BaseMessage -> NewBase -> object.
@@ -52,6 +60,12 @@ class MessageMetaClass(type):
             for obj_name, obj in parent.__dict__.items():
                 if isinstance(obj, BaseField):
                     new_class._fields[obj_name] = copy.deepcopy(obj)
+
+            if hasattr(parent, '_fields') and isinstance(parent._fields, dict):
+                for field_name, field in parent._fields.items():
+                    if isinstance(field, BaseField):
+                        new_class._fields[field_name] = copy.deepcopy(field)
+
         return new_class
 
 
@@ -124,15 +138,47 @@ class LinkMessage(BaseMessage):
     url = StringField('Url')
 
 
-@register_message('event')
-class EventMessage(BaseMessage):
+class BaseEvent(BaseMessage):
     type = 'event'
     event = StringField('Event')
-    key = StringField('EventKey')
+
+
+@register_event('subscribe')
+class SubscribeEvent(BaseEvent):
+    event = 'subscribe'
+
+
+@register_event('unsubscribe')
+class UnsubscribeEventMessage(BaseEvent):
+    event = 'unsubscribe'
+
+
+@register_event('subscribe_scan')
+@register_event('scan')
+class ScanEvent(BaseEvent):
+    event = 'scan'
+    scene_id = StringField('EventKey')
+    ticket = StringField('Ticket')
+
+
+@register_event('location')
+class LocationEvent(BaseEvent):
+    event = 'location'
     latitude = FloatField('Latitude', 0.0)
     longitude = FloatField('Longitude', 0.0)
     precision = FloatField('Precision', 0.0)
-    ticket = StringField('Ticket')
+
+
+@register_event('click')
+class ClickEvent(BaseEvent):
+    event = 'click'
+    key = StringField('EventKey')
+
+
+@register_event('view')
+class ViewEvent(BaseEvent):
+    event = 'view'
+    url = StringField('EventKey')
 
 
 class UnknownMessage(BaseMessage):
@@ -146,5 +192,13 @@ def parse_message(xml):
     parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
     message = dict((child.tag, to_text(child.text)) for child in parser)
     message_type = message['MsgType'].lower()
-    message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)
+    if message_type == 'event':
+        event_type = message['Event'].lower()
+        if event_type == 'subscribe' and 'EventKey' in message:
+            # Scan to subscribe with scene id event
+            event_type = 'subscribe_scan'
+            message['EventKey'] = message['EventKey'].replace('qrscene_', '')
+        message_class = EVENT_TYPES.get(event_type, UnknownMessage)
+    else:
+        message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)
     return message_class(message)
