@@ -61,3 +61,29 @@ class ReplyTestCase(unittest.TestCase):
         reply.media_id = '123456'
         self.assertEqual('123456', reply.voice)
         self.assertEqual('123456', reply.media_id)
+
+    def test_video_reply_properties(self):
+        from wechatpy.replies import VideoReply
+
+        reply = VideoReply()
+        reply.media_id = '123456'
+        reply.title = 'test'
+
+        self.assertEqual('123456', reply.media_id)
+        self.assertEqual('test', reply.title)
+
+    def test_music_reply_properties(self):
+        from wechatpy.replies import MusicReply
+
+        reply = MusicReply()
+        reply.thumb_media_id = '123456'
+        reply.title = 'test'
+        reply.description = 'test'
+        reply.music_url = 'http://www.qq.com'
+        reply.hq_music_url = None
+
+        self.assertEqual('123456', reply.thumb_media_id)
+        self.assertEqual('test', reply.title)
+        self.assertEqual('test', reply.description)
+        self.assertEqual('http://www.qq.com', reply.music_url)
+        self.assertIsNone(reply.hq_music_url)

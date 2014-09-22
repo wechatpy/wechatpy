@@ -144,97 +144,97 @@ class VoiceReply(BaseReply):
 @register_reply('video')
 class VideoReply(BaseReply):
     type = 'video'
-    video = VideoField('Video')
+    video = VideoField('Video', {})
 
     @property
     def media_id(self):
         if not isinstance(self.video, dict):
-            self.video = ObjectDict()
-        return self.video.media_id
+            self.video = {}
+        return self.video.get('media_id', None)
 
     @media_id.setter
     def media_id(self, value):
         if not isinstance(self.video, dict):
-            self.video = ObjectDict()
-        self.video.media_id = value
+            self.video = {}
+        self.video['media_id'] = value
 
     @property
     def title(self):
         if not isinstance(self.video, dict):
-            self.video = ObjectDict()
-        return self.video.title
+            self.video = {}
+        return self.video.get('title', None)
 
     @title.setter
     def title(self, value):
         if not isinstance(self.video, dict):
             self.video = ObjectDict()
-        self.video.title = value
+        self.video['title'] = value
 
 
 @register_reply('music')
 class MusicReply(BaseReply):
     type = 'music'
-    music = MusicField('Music')
+    music = MusicField('Music', {})
 
     @property
     def thumb_media_id(self):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        return self.music.thumb_media_id
+            self.music = {}
+        return self.music.get('thumb_media_id', None)
 
     @thumb_media_id.setter
     def thumb_media_id(self, value):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        self.music.thumb_media_id = value
+            self.music = {}
+        self.music['thumb_media_id'] = value
 
     @property
     def title(self):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        return self.music.title
+            self.music = {}
+        return self.music.get('title', None)
 
     @title.setter
     def title(self, value):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        self.music.title = value
+            self.music = {}
+        self.music['title'] = value
 
     @property
     def description(self):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        return self.music.description
+            self.music = {}
+        return self.music.get('description', None)
 
     @description.setter
     def description(self, value):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        self.music.description = value
+            self.music = {}
+        self.music['description'] = value
 
     @property
     def music_url(self):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        return self.music.music_url
+            self.music = {}
+        return self.music.get('music_url', None)
 
     @music_url.setter
     def music_url(self, value):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        self.music.music_url = value
+            self.music = {}
+        self.music['music_url'] = value
 
     @property
     def hq_music_url(self):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        return self.music.hq_music_url
+            self.music = {}
+        return self.music.get('hq_music_url', None)
 
     @hq_music_url.setter
     def hq_music_url(self, value):
         if not isinstance(self.music, dict):
-            self.music = ObjectDict()
-        self.music.hq_music_url = value
+            self.music = {}
+        self.music['hq_music_url'] = value
 
 
 @register_reply('news')
