@@ -13,6 +13,7 @@ from Crypto.Cipher import AES
 
 from ..utils import to_binary, to_text
 from ..exceptions import InvalidSignatureException
+from .exceptions import InvalidCorpIdException
 
 
 def get_sha1(token, timestamp, nonce, encrypt):
@@ -76,7 +77,7 @@ class PrpCrypt(object):
         xml_content = content[4:xml_length + 4]
         from_corp_id = content[xml_length + 4:]
         if from_corp_id != corp_id:
-            raise Exception
+            raise InvalidCorpIdException()
         return xml_content
 
 
@@ -91,16 +92,28 @@ class WeChatCrypt(object):
     def check_signature(self, signature, timestamp, nonce, echo_str):
         _signature = get_sha1(self.token, timestamp, nonce, echo_str)
         if _signature != signature:
-            raise InvalidSignatureException('Invalid signature')
+            raise InvalidSignatureException()
         pc = PrpCrypt(self.key)
         return pc.decrypt(echo_str, self.corp_id)
 
     def encrypt_message(self, msg, nonce, timestamp=None):
+        xml = """<xml>
+        <Encrypt><![CDATA[{encrypt}]]></Encrypt>
+        <MsgSignature><![CDATA[{signature}]]></MsgSignature>
+        <TimeStamp>{timestamp}</TimeStamp>
+        <Nonce><![CDATA[{nonce}]]></Nonce>
+        </xml>"""
+
         timestamp = timestamp or to_binary(int(time.time()))
         pc = PrpCrypt(self.key)
         encrypt = pc.encrypt(msg, self.corp_id)
         signature = get_sha1(self.token, timestamp, nonce, encrypt)
-        # TODO: generate xml
+        return xml.format(
+            encrypt=encrypt,
+            signature=signature,
+            timestamp=timestamp,
+            nonce=nonce
+        )
 
     def decrypt_message(self, msg, signature, timestamp, nonce):
         if isinstance(msg, six.string_types):
@@ -111,7 +124,7 @@ class WeChatCrypt(object):
         encrypt = msg['Encrypt']
         _signature = get_sha1(self.token, timestamp, nonce, encrypt)
         if _signature != signature:
-            raise InvalidSignatureException('Invalid signature')
+            raise InvalidSignatureException()
         pc = PrpCrypt(self.key)
         xml = pc.decrypt(encrypt, self.corp_id)
         parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
