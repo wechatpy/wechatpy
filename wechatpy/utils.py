@@ -21,3 +21,19 @@ def check_signature(token, signature, timestamp, nonce):
     tmpstr = six.text_type(tmpstr).encode('utf-8')
     digest = hashlib.sha1(tmpstr).hexdigest()
     return digest == signature
+
+
+def to_text(value, encoding='utf-8'):
+    if isinstance(value, six.text_type):
+        return value
+    if isinstance(value, six.binary_type):
+        return value.decode(encoding)
+    return six.text_type(value)
+
+
+def to_binary(value, encoding='utf-8'):
+    if isinstance(value, six.binary_type):
+        return value
+    if isinstance(value, six.text_type):
+        return value.encode(encoding)
+    return six.binary_type(value)

@@ -9,14 +9,8 @@ class BaseField(object):
         self.name = name
         self.default = default
 
-    def to_xml(self):
+    def to_xml(self, value):
         raise NotImplementedError()
-
-    def __str__(self):
-        if six.PY2:
-            return six.binary_type(self.to_xml())
-        else:
-            return six.text_type(self.to_xml())
 
     def __repr__(self):
         _repr = '<{klass} {name}>'.format(
