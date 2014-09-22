@@ -26,7 +26,11 @@ class BaseField(object):
 
 
 class StringField(BaseField):
-    converter = six.text_type
+
+    def __to_text(self, value):
+        return to_text(value)
+
+    converter = __to_text
 
     def to_xml(self, value):
         value = self.converter(value)
