@@ -1,6 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 import six
 
+from .utils import to_text, to_binary
+
 
 class BaseField(object):
     converter = None
@@ -18,9 +20,9 @@ class BaseField(object):
             name=self.name
         )
         if six.PY2:
-            return six.binary_type(_repr)
+            return to_binary(_repr)
         else:
-            return six.text_type(_repr)
+            return to_text(_repr)
 
 
 class StringField(BaseField):

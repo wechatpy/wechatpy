@@ -6,7 +6,7 @@ import six
 from .fields import BaseField, StringField, IntegerField, ImageField
 from .fields import VoiceField, VideoField, MusicField, ArticleField
 from .messages import BaseMessage
-from .utils import ObjectDict
+from .utils import ObjectDict, to_text, to_binary
 
 
 REPLY_TYPES = {}
@@ -76,7 +76,7 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
                 value = int(time.time())
             else:
                 value = kwargs.pop(name, field.default)
-                if value is not None:
+                if value is not None and six.callable(field.converter):
                     value = field.converter(value)
             setattr(self, name, value)
         if kwargs:
@@ -102,9 +102,9 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
 
     def __str__(self):
         if six.PY2:
-            return six.binary_type(self.render())
+            return to_binary(self.render())
         else:
-            return six.text_type(self.render())
+            return to_text(self.render())
 
     def __repr__(self):
         _repr = '<{klass} {time}>'.format(
@@ -112,9 +112,9 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
             time=self.time
         )
         if six.PY2:
-            return six.binary_type(_repr)
+            return to_binary(_repr)
         else:
-            return six.text_type(_repr)
+            return to_text(_repr)
 
 
 @register_reply('text')

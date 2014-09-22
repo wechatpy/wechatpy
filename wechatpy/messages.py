@@ -3,7 +3,7 @@ import copy
 import six
 
 from .fields import BaseField, StringField, IntegerField
-from .utils import ObjectDict
+from .utils import ObjectDict, to_text, to_binary
 
 
 MESSAGE_TYPES = {}
@@ -70,7 +70,7 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
     def __init__(self, message):
         for name, field in self._fields.items():
             value = message.get(field.name, field.default)
-            if value and field.converter:
+            if value and six.callable(field.converter):
                 value = field.converter(value)
             setattr(self, name, value)
 
@@ -80,9 +80,9 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
             id=self.id
         )
         if six.PY2:
-            return six.binary_type(_repr)
+            return to_binary(_repr)
         else:
-            return six.text_type(_repr)
+            return to_text(_repr)
 
 
 @register_message('text')

@@ -7,6 +7,8 @@ try:
 except ImportError:
     import json
 
+from .utils import to_text, to_binary
+
 
 class WeChatException(Exception):
 
@@ -16,12 +18,12 @@ class WeChatException(Exception):
 
     def __str__(self):
         if six.PY2:
-            return six.binary_type('Error code: {code}, message: {msg}'.format(
+            return to_binary('Error code: {code}, message: {msg}'.format(
                 code=self.errcode,
                 msg=self.errmsg
             ))
         else:
-            return six.text_type('Error code: {code}, message: {msg}'.format(
+            return to_text('Error code: {code}, message: {msg}'.format(
                 code=self.errcode,
                 msg=self.errmsg
             ))
@@ -263,7 +265,7 @@ class WeChatClient(object):
         )
 
     def create_group(self, name):
-        name = six.text_type(name)
+        name = to_text(name)
         return self._post(
             'groups/create',
             data={'group': {'name': name}}
@@ -279,7 +281,7 @@ class WeChatClient(object):
         )
 
     def update_group(self, group_id, name):
-        name = six.text_type(name)
+        name = to_text(name)
         return self._post(
             'groups/update',
             data={

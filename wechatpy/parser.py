@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from xml.etree import ElementTree
-import six
 
 from .messages import MESSAGE_TYPES, UnknownMessage
 from .events import EVENT_TYPES
+from .utils import to_text
 
 
 def parse_message(xml):
     if not xml:
         return
-    to_text = six.text_type
     parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
     message = dict((child.tag, to_text(child.text)) for child in parser)
     message_type = message['MsgType'].lower()
