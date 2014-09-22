@@ -125,6 +125,76 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual('123123', msg.scene_id)
         self.assertEqual('TICKET', msg.ticket)
 
+    def test_parse_scan_event(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[SCAN]]></Event>
+        <EventKey><![CDATA[123123]]></EventKey>
+        <Ticket><![CDATA[TICKET]]></Ticket>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertEqual('event', msg.type)
+        self.assertEqual('scan', msg.event)
+        self.assertEqual('123123', msg.scene_id)
+        self.assertEqual('TICKET', msg.ticket)
+
+    def test_parse_location_event(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[fromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[LOCATION]]></Event>
+        <Latitude>23.137466</Latitude>
+        <Longitude>113.352425</Longitude>
+        <Precision>119.385040</Precision>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertEqual('event', msg.type)
+        self.assertEqual('location', msg.event)
+        self.assertEqual(23.137466, msg.latitude)
+        self.assertEqual(113.352425, msg.longitude)
+        self.assertEqual(119.385040, msg.precision)
+
+    def test_parse_click_event(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[CLICK]]></Event>
+        <EventKey><![CDATA[EVENTKEY]]></EventKey>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertEqual('event', msg.type)
+        self.assertEqual('click', msg.event)
+        self.assertEqual('EVENTKEY', msg.key)
+
+    def test_parse_view_event(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[VIEW]]></Event>
+        <EventKey><![CDATA[www.qq.com]]></EventKey>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertEqual('event', msg.type)
+        self.assertEqual('view', msg.event)
+        self.assertEqual('www.qq.com', msg.url)
+
     def test_parse_unknown_message(self):
         from wechatpy.messages import UnknownMessage
 
