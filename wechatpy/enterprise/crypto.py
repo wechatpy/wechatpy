@@ -12,10 +12,7 @@ import six
 from Crypto.Cipher import AES
 
 from ..utils import to_binary, to_text
-
-
-class InvalidSignatureException(Exception):
-    pass
+from ..exceptions import InvalidSignatureException
 
 
 def get_sha1(token, timestamp, nonce, encrypt):

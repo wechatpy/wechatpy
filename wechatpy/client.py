@@ -1,32 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 import time
-import six
 import requests
 try:
     import simplejson as json
 except ImportError:
     import json
 
-from .utils import to_text, to_binary
-
-
-class WeChatException(Exception):
-
-    def __init__(self, errcode, errmsg):
-        self.errcode = errcode
-        self.errmsg = errmsg
-
-    def __str__(self):
-        if six.PY2:
-            return to_binary('Error code: {code}, message: {msg}'.format(
-                code=self.errcode,
-                msg=self.errmsg
-            ))
-        else:
-            return to_text('Error code: {code}, message: {msg}'.format(
-                code=self.errcode,
-                msg=self.errmsg
-            ))
+from .utils import to_text
+from .exceptions import WeChatClientException
 
 
 class WeChatClient(object):
@@ -78,7 +59,10 @@ class WeChatClient(object):
                     **kwargs
                 )
             else:
-                raise WeChatException(result['errcode'], result['errmsg'])
+                raise WeChatClientException(
+                    result['errcode'],
+                    result['errmsg']
+                )
 
         return result
 
@@ -108,7 +92,7 @@ class WeChatClient(object):
         )
         result = res.json()
         if 'errcode' in result and result['errcode'] != 0:
-            raise WeChatException(result['errcode'], result['errmsg'])
+            raise WeChatClientException(result['errcode'], result['errmsg'])
         return result
 
     @property
@@ -230,7 +214,7 @@ class WeChatClient(object):
     def get_menu(self):
         try:
             return self._get('menu/get')
-        except WeChatException as e:
+        except WeChatClientException as e:
             if e.errcode == 46003:
                 # menu not exist
                 return None

@@ -21,8 +21,14 @@ class UtilityTestCase(unittest.TestCase):
         self.assertTrue(check_signature(token, signature, timestamp, nonce))
 
     def test_check_signature_should_fail(self):
+        from wechatpy.exceptions import InvalidSignatureException
+
         token = 'test'
         signature = 'f21891de399b4e33a1a93c9a7b8a8fffb5a443fe'
         timestamp = '1410685589'
         nonce = 'test'
-        self.assertFalse(check_signature(token, signature, timestamp, nonce))
+        self.assertRaises(
+            InvalidSignatureException,
+            check_signature,
+            token, signature, timestamp, nonce
+        )
