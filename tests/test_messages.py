@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import unittest
 import time
 
-from wechatpy.messages import parse_message
+from wechatpy import parse_message
 
 
 class MessagesTestCase(unittest.TestCase):

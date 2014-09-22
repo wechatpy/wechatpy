@@ -1,26 +1,17 @@
 from __future__ import absolute_import, unicode_literals
 import copy
-from xml.etree import ElementTree
 import six
 
-from .fields import BaseField, StringField, IntegerField, FloatField
+from .fields import BaseField, StringField, IntegerField
 from .utils import ObjectDict
 
 
 MESSAGE_TYPES = {}
-EVENT_TYPES = {}
 
 
 def register_message(msg_type):
     def register(cls):
         MESSAGE_TYPES[msg_type] = cls
-        return cls
-    return register
-
-
-def register_event(event_type):
-    def register(cls):
-        EVENT_TYPES[event_type] = cls
         return cls
     return register
 
@@ -138,67 +129,5 @@ class LinkMessage(BaseMessage):
     url = StringField('Url')
 
 
-class BaseEvent(BaseMessage):
-    type = 'event'
-    event = StringField('Event')
-
-
-@register_event('subscribe')
-class SubscribeEvent(BaseEvent):
-    event = 'subscribe'
-
-
-@register_event('unsubscribe')
-class UnsubscribeEventMessage(BaseEvent):
-    event = 'unsubscribe'
-
-
-@register_event('subscribe_scan')
-@register_event('scan')
-class ScanEvent(BaseEvent):
-    event = 'scan'
-    scene_id = StringField('EventKey')
-    ticket = StringField('Ticket')
-
-
-@register_event('location')
-class LocationEvent(BaseEvent):
-    event = 'location'
-    latitude = FloatField('Latitude', 0.0)
-    longitude = FloatField('Longitude', 0.0)
-    precision = FloatField('Precision', 0.0)
-
-
-@register_event('click')
-class ClickEvent(BaseEvent):
-    event = 'click'
-    key = StringField('EventKey')
-
-
-@register_event('view')
-class ViewEvent(BaseEvent):
-    event = 'view'
-    url = StringField('EventKey')
-
-
 class UnknownMessage(BaseMessage):
     pass
-
-
-def parse_message(xml):
-    if not xml:
-        return
-    to_text = six.text_type
-    parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
-    message = dict((child.tag, to_text(child.text)) for child in parser)
-    message_type = message['MsgType'].lower()
-    if message_type == 'event':
-        event_type = message['Event'].lower()
-        if event_type == 'subscribe' and 'EventKey' in message:
-            # Scan to subscribe with scene id event
-            event_type = 'subscribe_scan'
-            message['EventKey'] = message['EventKey'].replace('qrscene_', '')
-        message_class = EVENT_TYPES.get(event_type, UnknownMessage)
-    else:
-        message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)
-    return message_class(message)

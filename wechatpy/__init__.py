@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
-from .messages import parse_message  # NOQA
+from .parser import parse_message  # NOQA
 from .replies import create_reply  # NOQA
 from .client import WeChatClient, WeChatException  # NOQA
 
