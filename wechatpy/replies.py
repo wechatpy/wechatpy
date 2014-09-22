@@ -118,17 +118,57 @@ class ImageReply(BaseReply):
     type = 'image'
     image = ImageField('Image')
 
+    @property
+    def media_id(self):
+        return self.image
+
+    @media_id.setter
+    def media_id(self, value):
+        self.image = value
+
 
 @register_reply('voice')
 class VoiceReply(BaseReply):
     type = 'voice'
     voice = VoiceField('Voice')
 
+    @property
+    def media_id(self):
+        return self.voice
+
+    @media_id.setter
+    def media_id(self, value):
+        self.voice = value
+
 
 @register_reply('video')
 class VideoReply(BaseReply):
     type = 'video'
     video = VideoField('Video')
+
+    @property
+    def media_id(self):
+        if not isinstance(self.video, dict):
+            self.video = ObjectDict()
+        return self.video.media_id
+
+    @media_id.setter
+    def media_id(self, value):
+        if not isinstance(self.video, dict):
+            self.video = ObjectDict()
+        self.video.media_id = value
+
+    @property
+    def title(self):
+        if not isinstance(self.video, dict):
+            self.video = ObjectDict()
+        return self.video.title
+
+    @title.setter
+    def title(self, value):
+        if not isinstance(self.video, dict):
+            self.video = ObjectDict()
+        self.video.title = value
 
 
 @register_reply('music')
