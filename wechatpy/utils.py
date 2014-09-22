@@ -20,9 +20,7 @@ def check_signature(token, signature, timestamp, nonce):
     tmpstr = ''.join(tmparr)
     tmpstr = six.text_type(tmpstr).encode('utf-8')
     digest = hashlib.sha1(tmpstr).hexdigest()
-    if digest == signature:
-        return True
-    else:
+    if digest != signature:
         from .exceptions import InvalidSignatureException
 
         raise InvalidSignatureException()
