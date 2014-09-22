@@ -167,7 +167,7 @@ class VideoReply(BaseReply):
     @title.setter
     def title(self, value):
         if not isinstance(self.video, dict):
-            self.video = ObjectDict()
+            self.video = {}
         self.video['title'] = value
 
 
