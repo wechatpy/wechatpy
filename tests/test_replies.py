@@ -86,4 +86,4 @@ class ReplyTestCase(unittest.TestCase):
         self.assertEqual('test', reply.title)
         self.assertEqual('test', reply.description)
         self.assertEqual('http://www.qq.com', reply.music_url)
-        self.assertIsNone(reply.hq_music_url)
+        self.assertTrue(reply.hq_music_url is None)
