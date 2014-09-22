@@ -106,16 +106,6 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
         else:
             return to_text(self.render())
 
-    def __repr__(self):
-        _repr = '<{klass} {time}>'.format(
-            klass=self.__class__.__name__,
-            time=self.time
-        )
-        if six.PY2:
-            return to_binary(_repr)
-        else:
-            return to_text(_repr)
-
 
 @register_reply('text')
 class TextReply(BaseReply):

@@ -15,9 +15,9 @@ class BaseField(object):
         raise NotImplementedError()
 
     def __repr__(self):
-        _repr = '<{klass} {name}>'.format(
+        _repr = '{klass}({name})'.format(
             klass=self.__class__.__name__,
-            name=self.name
+            name=repr(self.name)
         )
         if six.PY2:
             return to_binary(_repr)

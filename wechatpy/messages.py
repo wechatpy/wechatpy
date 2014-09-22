@@ -68,6 +68,7 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
     time = IntegerField('CreateTime', 0)
 
     def __init__(self, message):
+        self._message = message
         for name, field in self._fields.items():
             value = message.get(field.name, field.default)
             if value and six.callable(field.converter):
@@ -75,9 +76,9 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
             setattr(self, name, value)
 
     def __repr__(self):
-        _repr = '<{klass} {id}>'.format(
+        _repr = "{klass}({msg})".format(
             klass=self.__class__.__name__,
-            id=self.id
+            msg=repr(self._message)
         )
         if six.PY2:
             return to_binary(_repr)
