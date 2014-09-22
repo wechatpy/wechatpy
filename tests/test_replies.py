@@ -39,6 +39,18 @@ class ReplyTestCase(unittest.TestCase):
         create_time = '<CreateTime>{time}</CreateTime>'.format(time=timestamp)
         self.assertTrue(create_time in r)
 
+    def test_reply_properties(self):
+        from wechatpy.replies import ImageReply
+
+        reply = ImageReply(image='7890')
+
+        self.assertEqual('7890', reply.image)
+        self.assertEqual('7890', reply.media_id)
+
+        reply.media_id = '123456'
+        self.assertEqual('123456', reply.image)
+        self.assertEqual('123456', reply.media_id)
+
 
 class CreateReplyTestCase(unittest.TestCase):
 

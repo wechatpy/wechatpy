@@ -176,6 +176,66 @@ class MusicReply(BaseReply):
     type = 'music'
     music = MusicField('Music')
 
+    @property
+    def thumb_media_id(self):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        return self.music.thumb_media_id
+
+    @thumb_media_id.setter
+    def thumb_media_id(self, value):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        self.music.thumb_media_id = value
+
+    @property
+    def title(self):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        return self.music.title
+
+    @title.setter
+    def title(self, value):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        self.music.title = value
+
+    @property
+    def description(self):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        return self.music.description
+
+    @description.setter
+    def description(self, value):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        self.music.description = value
+
+    @property
+    def music_url(self):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        return self.music.music_url
+
+    @music_url.setter
+    def music_url(self, value):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        self.music.music_url = value
+
+    @property
+    def hq_music_url(self):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        return self.music.hq_music_url
+
+    @hq_music_url.setter
+    def hq_music_url(self, value):
+        if not isinstance(self.music, dict):
+            self.music = ObjectDict()
+        self.music.hq_music_url = value
+
 
 @register_reply('news')
 class ArticleReply(BaseReply):
