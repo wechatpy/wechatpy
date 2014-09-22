@@ -93,7 +93,7 @@ class ParseMessageTestCase(unittest.TestCase):
         msg = parse_message(xml)
         self.assertEqual('link', msg.type)
 
-    def test_parse_event_message(self):
+    def test_parse_subscribe_event(self):
         xml = """<xml>
         <ToUserName><![CDATA[toUser]]></ToUserName>
         <FromUserName><![CDATA[FromUser]]></FromUserName>
@@ -106,6 +106,24 @@ class ParseMessageTestCase(unittest.TestCase):
 
         self.assertEqual('event', msg.type)
         self.assertEqual('subscribe', msg.event)
+
+    def test_parse_subscribe_scan_event(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe]]></Event>
+        <EventKey><![CDATA[qrscene_123123]]></EventKey>
+        <Ticket><![CDATA[TICKET]]></Ticket>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertEqual('event', msg.type)
+        self.assertEqual('subscribe_scan', msg.event)
+        self.assertEqual('123123', msg.scene_id)
+        self.assertEqual('TICKET', msg.ticket)
 
     def test_parse_unknown_message(self):
         from wechatpy.messages import UnknownMessage

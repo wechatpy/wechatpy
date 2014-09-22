@@ -16,7 +16,7 @@ def register_event(event_type):
 
 class BaseEvent(BaseMessage):
     type = 'event'
-    event = StringField('Event')
+    event = ''
 
 
 @register_event('subscribe')
@@ -30,6 +30,12 @@ class UnsubscribeEventMessage(BaseEvent):
 
 
 @register_event('subscribe_scan')
+class SubscribeScanEvent(BaseEvent):
+    event = 'subscribe_scan'
+    scene_id = StringField('EventKey')
+    ticket = StringField('Ticket')
+
+
 @register_event('scan')
 class ScanEvent(BaseEvent):
     event = 'scan'
