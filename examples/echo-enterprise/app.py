@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from flask import Flask, request, abort
+from flask import Flask, request, abort, make_response
 from wechatpy.enterprise.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.enterprise.exceptions import InvalidCorpIdException
@@ -44,7 +44,9 @@ def wechat():
             abort(403)
         msg = parse_message(msg)
         reply = create_reply(msg.content, msg).render()
-        return crypto.encrypt_message(reply, nonce)
+        res = make_response(crypto.encrypt_message(reply, nonce, timestamp))
+        res.headers['Content-Type'] = 'application/xml'
+        return res
 
 
 if __name__ == '__main__':
