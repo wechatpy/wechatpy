@@ -3,8 +3,6 @@ from __future__ import with_statement
 import os
 from setuptools import setup, find_packages
 
-import wechatpy
-
 readme = 'README.md'
 if os.path.exists('README.rst'):
     readme = 'README.rst'
@@ -16,8 +14,8 @@ with open('requirements.txt') as f:
 
 setup(
     name='wechatpy',
-    version=wechatpy.__version__,
-    author=wechatpy.__author__,
+    version='0.0.8',
+    author='messense',
     author_email='messense@icloud.com',
     url='https://github.com/messense/wechatpy',
     packages=find_packages(),
