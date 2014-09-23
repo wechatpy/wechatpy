@@ -54,6 +54,12 @@ class ReplyMetaClass(type):
             for obj_name, obj in parent.__dict__.items():
                 if isinstance(obj, BaseField):
                     new_class._fields[obj_name] = copy.deepcopy(obj)
+
+            if hasattr(parent, '_fields') and isinstance(parent._fields, dict):
+                for field_name, field in parent._fields.items():
+                    if isinstance(field, BaseField):
+                        new_class._fields[field_name] = copy.deepcopy(field)
+
         return new_class
 
 
