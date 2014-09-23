@@ -62,7 +62,9 @@ class PrpCrypto(object):
     def encrypt(self, text, corp_id):
         tmp_list = []
         tmp_list.append(self.get_random_string())
-        tmp_list.append(struct.pack('I', socket.htonl(len(text))))
+        length = struct.pack('I', socket.htonl(len(text)))
+        length = to_text(length)
+        tmp_list.append(length)
         tmp_list.append(text)
         tmp_list.append(corp_id)
 
