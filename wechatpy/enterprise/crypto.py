@@ -44,7 +44,7 @@ class PKCS7Encoder(object):
         return decrypted[:-padding]
 
 
-class PrpCrypt(object):
+class PrpCrypto(object):
 
     def __init__(self, key):
         self.key = key
@@ -81,7 +81,7 @@ class PrpCrypt(object):
         return xml_content
 
 
-class WeChatCrypt(object):
+class WeChatCrypto(object):
 
     def __init__(self, token, encoding_aes_key, corp_id):
         self.key = base64.b64decode(encoding_aes_key + '=')
@@ -93,7 +93,7 @@ class WeChatCrypt(object):
         _signature = get_sha1(self.token, timestamp, nonce, echo_str)
         if _signature != signature:
             raise InvalidSignatureException()
-        pc = PrpCrypt(self.key)
+        pc = PrpCrypto(self.key)
         return pc.decrypt(echo_str, self.corp_id)
 
     def encrypt_message(self, msg, nonce, timestamp=None):
@@ -105,7 +105,7 @@ class WeChatCrypt(object):
         </xml>"""
 
         timestamp = timestamp or to_binary(int(time.time()))
-        pc = PrpCrypt(self.key)
+        pc = PrpCrypto(self.key)
         encrypt = pc.encrypt(msg, self.corp_id)
         signature = get_sha1(self.token, timestamp, nonce, encrypt)
         return xml.format(
@@ -125,7 +125,7 @@ class WeChatCrypt(object):
         _signature = get_sha1(self.token, timestamp, nonce, encrypt)
         if _signature != signature:
             raise InvalidSignatureException()
-        pc = PrpCrypt(self.key)
+        pc = PrpCrypto(self.key)
         xml = pc.decrypt(encrypt, self.corp_id)
         parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
         message = dict((child.tag, to_text(child.text)) for child in parser)
