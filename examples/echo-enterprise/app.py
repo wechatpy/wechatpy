@@ -33,10 +33,15 @@ def wechat():
         return echo_str
     else:
         try:
-            msg = crypto.decrypt_message(request.data)
+            msg = crypto.decrypt_message(
+                request.data,
+                signature,
+                timestamp,
+                nonce
+            )
         except (InvalidSignatureException, InvalidCorpIdException):
             abort(403)
-        print msg
+        print(msg)
 
 
 if __name__ == '__main__':
