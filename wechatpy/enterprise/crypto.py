@@ -60,8 +60,8 @@ class PrpCrypto(object):
         return ''.join(rand_list)
 
     def encrypt(self, text, corp_id):
-        text = '{random}{pack}{text}{corp_id}'.format(
-            random=self.get_random_string(),
+        text = '{rand}{pack}{text}{corp_id}'.format(
+            rand=self.get_random_string(),
             pack=struct.pack('I', socket.htonl(len(text))),
             text=text,
             corp_id=corp_id
