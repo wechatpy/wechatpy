@@ -111,11 +111,11 @@ class WeChatCrypto(object):
         from ..replies import BaseReply
 
         xml = """<xml>
-        <Encrypt><![CDATA[{encrypt}]]></Encrypt>
-        <MsgSignature><![CDATA[{signature}]]></MsgSignature>
-        <TimeStamp>{timestamp}</TimeStamp>
-        <Nonce><![CDATA[{nonce}]]></Nonce>
-        </xml>"""
+<Encrypt><![CDATA[{encrypt}]]></Encrypt>
+<MsgSignature><![CDATA[{signature}]]></MsgSignature>
+<TimeStamp>{timestamp}</TimeStamp>
+<Nonce><![CDATA[{nonce}]]></Nonce>
+</xml>"""
         if isinstance(msg, BaseReply):
             msg = msg.render()
         timestamp = timestamp or to_binary(int(time.time()))
