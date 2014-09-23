@@ -106,13 +106,16 @@ class WeChatCrypto(object):
         return pc.decrypt(echo_str, self.corp_id)
 
     def encrypt_message(self, msg, nonce, timestamp=None):
+        from ..replies import BaseReply
+
         xml = """<xml>
         <Encrypt><![CDATA[{encrypt}]]></Encrypt>
         <MsgSignature><![CDATA[{signature}]]></MsgSignature>
         <TimeStamp>{timestamp}</TimeStamp>
         <Nonce><![CDATA[{nonce}]]></Nonce>
         </xml>"""
-
+        if isinstance(msg, BaseReply):
+            msg = msg.render()
         timestamp = timestamp or to_binary(int(time.time()))
         pc = PrpCrypto(self.key)
         encrypt = pc.encrypt(msg, self.corp_id)

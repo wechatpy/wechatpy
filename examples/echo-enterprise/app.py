@@ -3,6 +3,7 @@ from flask import Flask, request, abort
 from wechatpy.enterprise.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.enterprise.exceptions import InvalidCorpIdException
+from wechatpy.enterprise import parse_message, create_reply
 
 
 TOKEN = '123456'
@@ -41,8 +42,9 @@ def wechat():
             )
         except (InvalidSignatureException, InvalidCorpIdException):
             abort(403)
-        print(msg)
-        return ''
+        msg = parse_message(msg)
+        reply = create_reply(msg.content, msg).render()
+        return crypto.encrypt_message(reply, nonce)
 
 
 if __name__ == '__main__':
