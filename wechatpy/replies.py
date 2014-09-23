@@ -251,7 +251,7 @@ class ArticleReply(BaseReply):
         self.articles.append(article)
 
 
-def create_reply(reply, message=None, render=True):
+def create_reply(reply, message=None, render=False):
     r = None
     if isinstance(reply, BaseReply):
         r = reply
