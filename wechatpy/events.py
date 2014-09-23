@@ -25,7 +25,7 @@ class SubscribeEvent(BaseEvent):
 
 
 @register_event('unsubscribe')
-class UnsubscribeEventMessage(BaseEvent):
+class UnsubscribeEvent(BaseEvent):
     event = 'unsubscribe'
 
 
