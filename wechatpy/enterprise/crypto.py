@@ -61,14 +61,13 @@ class PrpCrypto(object):
 
     def encrypt(self, text, corp_id):
         tmp_list = []
-        tmp_list.append(self.get_random_string())
+        tmp_list.append(to_binary(self.get_random_string()))
         length = struct.pack('I', socket.htonl(len(text)))
-        length = to_text(length)
         tmp_list.append(length)
-        tmp_list.append(text)
-        tmp_list.append(corp_id)
+        tmp_list.append(to_binary(text))
+        tmp_list.append(to_binary(corp_id))
 
-        text = ''.join(tmp_list)
+        text = b''.join(tmp_list)
         text = PKCS7Encoder.encode(text)
 
         cryptor = AES.new(self.key, self.mode, self.key[:16])
