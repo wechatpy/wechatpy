@@ -122,12 +122,12 @@ class WeChatCrypto(object):
         pc = PrpCrypto(self.key)
         encrypt = pc.encrypt(msg, self.corp_id)
         signature = get_sha1(self.token, timestamp, nonce, encrypt)
-        return xml.format(
+        return to_text(xml.format(
             encrypt=encrypt,
             signature=signature,
             timestamp=timestamp,
             nonce=nonce
-        )
+        ))
 
     def decrypt_message(self, msg, signature, timestamp, nonce):
         if isinstance(msg, six.string_types):
