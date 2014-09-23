@@ -76,6 +76,8 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
                 kwargs['source'] = message.target
             if 'target' not in kwargs:
                 kwargs['target'] = message.source
+            if hasattr(message, 'agent') and 'agent' not in kwargs:
+                kwargs['agent'] = message.agent
         for name, field in self._fields.items():
             if name == 'time' and 'time' not in kwargs:
                 # set CreateTime to current timestamp if time not present
