@@ -12,9 +12,9 @@ from .utils import ObjectDict, to_text, to_binary
 REPLY_TYPES = {}
 
 
-def register_reply(type):
+def register_reply(reply_type):
     def register(cls):
-        REPLY_TYPES[type] = cls
+        REPLY_TYPES[reply_type] = cls
         return cls
     return register
 
