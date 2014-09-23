@@ -17,7 +17,7 @@ class CreateReplyTestCase(unittest.TestCase):
 
     def test_create_reply_with_text_render(self):
         text = 'test'
-        reply = create_reply(text)
+        reply = create_reply(text, render=True)
         self.assertTrue(isinstance(reply, six.text_type))
 
     def test_create_reply_should_return_none(self):
