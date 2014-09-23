@@ -16,6 +16,15 @@ from ..exceptions import InvalidSignatureException
 from .exceptions import InvalidCorpIdException
 
 
+def _b(x):
+    if six.PY2:
+        return x
+    else:
+        import codecs
+
+        return codecs.latin_1_encode(x)[0]
+
+
 def get_sha1(token, timestamp, nonce, encrypt):
     sort_list = [token, timestamp, nonce, encrypt]
     sort_list.sort()
@@ -73,7 +82,7 @@ class PrpCrypto(object):
         text = to_binary(text)
         cryptor = AES.new(self.key, self.mode, self.key[:16])
         plain_text = cryptor.decrypt(base64.b64decode(text))
-        padding = ord(to_binary(plain_text[-1]))
+        padding = ord(_b(plain_text)[-1])
         content = plain_text[16:-padding]
         xml_length = socket.ntohl(struct.unpack('I', content[:4])[0])
         xml_content = content[4:xml_length + 4]
