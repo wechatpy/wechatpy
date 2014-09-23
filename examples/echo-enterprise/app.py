@@ -42,6 +42,7 @@ def wechat():
         except (InvalidSignatureException, InvalidCorpIdException):
             abort(403)
         print(msg)
+        return ''
 
 
 if __name__ == '__main__':
