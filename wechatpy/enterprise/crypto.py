@@ -65,10 +65,11 @@ class PrpCrypto(object):
         text = PKCS7Encoder.encode(text)
 
         cryptor = AES.new(self.key, self.mode, self.key[:16])
-        ciphertext = cryptor.encrypt(text)
+        ciphertext = to_binary(cryptor.encrypt(text))
         return base64.b64encode(ciphertext)
 
     def decrypt(self, text, corp_id):
+        text = to_binary(text)
         cryptor = AES.new(self.key, self.mode, self.key[:16])
         plain_text = cryptor.decrypt(base64.b64decode(text))
         padding = ord(plain_text[-1])
@@ -84,7 +85,8 @@ class PrpCrypto(object):
 class WeChatCrypto(object):
 
     def __init__(self, token, encoding_aes_key, corp_id):
-        self.key = base64.b64decode(encoding_aes_key + '=')
+        encoding_aes_key = to_binary(encoding_aes_key + '=')
+        self.key = base64.b64decode(encoding_aes_key)
         assert len(self.key) == 32
         self.token = token
         self.corp_id = corp_id
