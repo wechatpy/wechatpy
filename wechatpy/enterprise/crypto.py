@@ -39,7 +39,6 @@ class PKCS7Encoder(object):
 
     @classmethod
     def decode(cls, decrypted):
-        decrypted = to_binary(decrypted)
         padding = ord(decrypted[-1])
         if padding < 1 or padding > 32:
             padding = 0
@@ -74,8 +73,7 @@ class PrpCrypto(object):
         text = to_binary(text)
         cryptor = AES.new(self.key, self.mode, self.key[:16])
         plain_text = cryptor.decrypt(base64.b64decode(text))
-        plain_text = to_binary(plain_text)
-        padding = ord(plain_text[-1])
+        padding = ord(to_binary(plain_text[-1]))
         content = plain_text[16:-padding]
         xml_length = socket.ntohl(struct.unpack('I', content[:4])[0])
         xml_content = content[4:xml_length + 4]
