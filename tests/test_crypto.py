@@ -24,7 +24,6 @@ class CryptoTestCase(unittest.TestCase):
             nonce,
             echo_str
         )
-        print echo_str
 
     def test_check_signature_should_fail(self):
         from wechatpy.exceptions import InvalidSignatureException
