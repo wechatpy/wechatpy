@@ -16,15 +16,6 @@ from ..exceptions import InvalidSignatureException
 from .exceptions import InvalidCorpIdException
 
 
-def _b(x):
-    if six.PY2:
-        return x
-    else:
-        import codecs
-
-        return codecs.latin_1_encode(x)[0]
-
-
 def get_sha1(token, timestamp, nonce, encrypt):
     sort_list = [token, timestamp, nonce, encrypt]
     sort_list.sort()
@@ -48,7 +39,10 @@ class PKCS7Encoder(object):
 
     @classmethod
     def decode(cls, decrypted):
-        padding = ord(decrypted[-1])
+        if six.PY2:
+            padding = ord(decrypted[-1])
+        else:
+            padding = decrypted[-1]
         if padding < 1 or padding > 32:
             padding = 0
         return decrypted[:-padding]
@@ -82,11 +76,14 @@ class PrpCrypto(object):
         text = to_binary(text)
         cryptor = AES.new(self.key, self.mode, self.key[:16])
         plain_text = cryptor.decrypt(base64.b64decode(text))
-        padding = ord(_b(plain_text)[-1])
+        if six.PY2:
+            padding = ord(plain_text[-1])
+        else:
+            padding = plain_text[-1]
         content = plain_text[16:-padding]
         xml_length = socket.ntohl(struct.unpack('I', content[:4])[0])
-        xml_content = content[4:xml_length + 4]
-        from_corp_id = content[xml_length + 4:]
+        xml_content = to_text(content[4:xml_length + 4])
+        from_corp_id = to_text(content[xml_length + 4:])
         if from_corp_id != corp_id:
             raise InvalidCorpIdException()
         return xml_content
