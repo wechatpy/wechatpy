@@ -19,8 +19,9 @@ from .exceptions import InvalidCorpIdException
 def get_sha1(token, timestamp, nonce, encrypt):
     sort_list = [token, timestamp, nonce, encrypt]
     sort_list.sort()
+    sort_str = to_binary(''.join(sort_list))
     sha1 = hashlib.sha1()
-    sha1.update(''.join(sort_list))
+    sha1.update(sort_str)
     return sha1.hexdigest()
 
 
