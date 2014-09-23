@@ -43,7 +43,10 @@ def wechat():
         except (InvalidSignatureException, InvalidCorpIdException):
             abort(403)
         msg = parse_message(msg)
-        reply = create_reply(msg.content, msg).render()
+        if msg.type == 'text':
+            reply = create_reply(msg.content, msg).render()
+        else:
+            reply = create_reply('Can not handle this for now', msg).render()
         res = make_response(crypto.encrypt_message(reply, nonce, timestamp))
         res.headers['Content-Type'] = 'application/xml'
         return res
