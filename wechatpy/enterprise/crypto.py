@@ -121,7 +121,7 @@ class WeChatCrypto(object):
             msg = msg.render()
         timestamp = timestamp or to_binary(int(time.time()))
         pc = PrpCrypto(self.key)
-        encrypt = pc.encrypt(msg, self.corp_id)
+        encrypt = to_text(pc.encrypt(msg, self.corp_id))
         signature = get_sha1(self.token, timestamp, nonce, encrypt)
         return to_text(xml.format(
             encrypt=encrypt,
