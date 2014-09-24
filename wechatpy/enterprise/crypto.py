@@ -60,11 +60,12 @@ class PrpCrypto(object):
         return ''.join(rand_list)
 
     def encrypt(self, text, corp_id):
+        text = to_binary(text)
         tmp_list = []
         tmp_list.append(to_binary(self.get_random_string()))
         length = struct.pack('I', socket.htonl(len(text)))
         tmp_list.append(length)
-        tmp_list.append(to_binary(text))
+        tmp_list.append(text)
         tmp_list.append(to_binary(corp_id))
 
         text = b''.join(tmp_list)
