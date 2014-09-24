@@ -17,7 +17,7 @@ from .exceptions import InvalidCorpIdException
 
 
 def get_sha1(token, timestamp, nonce, encrypt):
-    sort_list = [token, timestamp, nonce, encrypt]
+    sort_list = [token, timestamp, nonce, to_text(encrypt)]
     sort_list.sort()
     sort_str = to_binary(''.join(sort_list))
     sha1 = hashlib.sha1()
@@ -34,7 +34,7 @@ class PKCS7Encoder(object):
         padding_count = cls.block_size - length % cls.block_size
         if padding_count == 0:
             padding_count = cls.block_size
-        padding = chr(padding_count)
+        padding = to_binary(chr(padding_count))
         return text + padding * padding_count
 
     @classmethod
@@ -55,7 +55,7 @@ class PrpCrypto(object):
         self.mode = AES.MODE_CBC
 
     def get_random_string(self):
-        rule = string.letters + string.digits
+        rule = string.ascii_letters + string.digits
         rand_list = random.sample(rule, 16)
         return ''.join(rand_list)
 
