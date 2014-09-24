@@ -75,3 +75,18 @@ class CryptoTestCase(unittest.TestCase):
         _crypto.PrpCrypto = origin_crypto
 
         self.assertEqual(expected, encrypted)
+
+    def test_decrypt_message(self):
+        xml = """<xml><ToUserName><![CDATA[wx49f0ab532d5d035a]]></ToUserName>
+<Encrypt><![CDATA[RgqEoJj5A4EMYlLvWO1F86ioRjZfaex/gePD0gOXTxpsq5Yj4GNglrBb8I2BAJVODGajiFnXBu7mCPatfjsu6IHCrsTyeDXzF6Bv283dGymzxh6ydJRvZsryDyZbLTE7rhnus50qGPMfp2wASFlzEgMW9z1ef/RD8XzaFYgm7iTdaXpXaG4+BiYyolBug/gYNx410cvkKR2/nPwBiT+P4hIiOAQqGp/TywZBtDh1yCF2KOd0gpiMZ5jSw3e29mTvmUHzkVQiMS6td7vXUaWOMZnYZlF3So2SjHnwh4jYFxdgpkHHqIrH/54SNdshoQgWYEvccTKe7FS709/5t6NMxuGhcUGAPOQipvWTT4dShyqio7mlsl5noTrb++x6En749zCpQVhDpbV6GDnTbcX2e8K9QaNWHp91eBdCRxthuL0=]]></Encrypt>
+<AgentID><![CDATA[1]]></AgentID>
+</xml>"""
+
+        signature = '74d92dfeb87ba7c714f89d98870ae5eb62dff26d'
+        timestamp = '1411525903'
+        nonce = '461056294'
+
+        crypto = WeChatCrypto(self.token, self.encoding_aes_key, self.corp_id)
+        msg = crypto.decrypt_message(xml, signature, timestamp, nonce)
+        self.assertEqual('test', msg['Content'])
+        self.assertEqual('messense', msg['FromUserName'])
