@@ -1,11 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 import time
 import requests
-try:
-    import simplejson as json
-except ImportError:
-    import json
 
+from ._compat import json
 from .utils import to_text
 from .exceptions import WeChatClientException
 
@@ -232,6 +229,7 @@ class WeChatClient(object):
         return self._post(
             url='http://file.api.weixin.qq.com/cgi-bin/media/upload',
             params={
+                'access_token': self.access_token,
                 'type': media_type
             },
             files={
