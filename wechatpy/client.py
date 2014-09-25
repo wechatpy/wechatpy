@@ -7,13 +7,11 @@ from .utils import to_text
 from .exceptions import WeChatClientException
 
 
-class WeChatClient(object):
+class BaseWeChatClient(object):
 
-    API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
+    API_BASE_URL = ''
 
-    def __init__(self, appid, secret, access_token=None):
-        self.appid = appid
-        self.secret = secret
+    def __init__(self, access_token=None):
         self._access_token = access_token
         self.expires_at = None
 
@@ -49,7 +47,10 @@ class WeChatClient(object):
                 # access_token expired, fetch a new one and retry request
                 _token = self.fetch_access_token()
                 self._access_token = _token['access_token']
-                self.expires_at = int(time.time()) + _token['expires_in']
+                expires_in = 7200
+                if 'expires_in' in _token:
+                    expires_in = _token['expires_in']
+                self.expires_at = int(time.time()) + expires_in
                 return self._request(
                     method=method,
                     url=url,
@@ -78,19 +79,7 @@ class WeChatClient(object):
         )
 
     def fetch_access_token(self):
-        """ Fetch access token"""
-        res = requests.get(
-            url='https://api.weixin.qq.com/cgi-bin/token',
-            params={
-                'grant_type': 'client_credential',
-                'appid': self.appid,
-                'secret': self.secret
-            }
-        )
-        result = res.json()
-        if 'errcode' in result and result['errcode'] != 0:
-            raise WeChatClientException(result['errcode'], result['errmsg'])
-        return result
+        raise NotImplementedError()
 
     @property
     def access_token(self):
@@ -105,8 +94,37 @@ class WeChatClient(object):
 
         result = self.fetch_access_token()
         self._access_token = result['access_token']
-        self.expires_at = int(time.time()) + result['expires_in']
+        expires_in = 7200
+        if 'expires_in' in result:
+            expires_in = result['expires_in']
+        self.expires_at = int(time.time()) + expires_in
         return self._access_token
+
+
+class WeChatClient(BaseWeChatClient):
+
+    API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
+
+    def __init__(self, appid, secret, access_token=None):
+        self.appid = appid
+        self.secret = secret
+        self._access_token = access_token
+        self.expires_at = None
+
+    def fetch_access_token(self):
+        """ Fetch access token"""
+        res = requests.get(
+            url='https://api.weixin.qq.com/cgi-bin/token',
+            params={
+                'grant_type': 'client_credential',
+                'appid': self.appid,
+                'secret': self.secret
+            }
+        )
+        result = res.json()
+        if 'errcode' in result and result['errcode'] != 0:
+            raise WeChatClientException(result['errcode'], result['errmsg'])
+        return result
 
     def send_text_message(self, user_id, content):
         return self._post(

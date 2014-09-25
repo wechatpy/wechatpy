@@ -1,80 +1,19 @@
 from __future__ import absolute_import, unicode_literals
-import time
 import requests
 
-from .._compat import json
 from ..exceptions import WeChatClientException
+from ..client import BaseWeChatClient
 
 
-class WeChatClient(object):
+class WeChatClient(BaseWeChatClient):
 
     API_BASE_URL = 'https://qyapi.weixin.qq.com/cgi-bin/'
 
     def __init__(self, corp_id, secret, access_token=None):
         self.corp_id = corp_id
         self.secret = secret
-        self.access_token = access_token
+        self._access_token = access_token
         self.expires_at = None
-
-    def _request(self, method, url_or_endpoint, **kwargs):
-        if not (url_or_endpoint.startswith('http://') or
-                url_or_endpoint.startswith('https://')):
-            url = '{base}{endpoint}'.format(
-                base=self.API_BASE_URL,
-                endpoint=url_or_endpoint
-            )
-        else:
-            url = url_or_endpoint
-
-        if 'params' not in kwargs:
-            kwargs['params'] = {}
-        if 'access_token' not in kwargs['params']:
-            kwargs['params']['access_token'] = self.access_token
-        if isinstance(kwargs.get('data', ''), dict):
-            body = json.dumps(kwargs['data'], ensure_ascii=False)
-            body = body.encode('utf-8')
-            kwargs['data'] = body
-
-        res = requests.request(
-            method=method,
-            url=url,
-            **kwargs
-        )
-        res.raise_for_status()
-        result = res.json()
-
-        if 'errcode' in result and result['errcode'] != 0:
-            if result['errcode'] == 42001:
-                # access_token expired, fetch a new one and retry request
-                _token = self.fetch_access_token()
-                self._access_token = _token['access_token']
-                self.expires_at = int(time.time()) + _token['expires_in']
-                return self._request(
-                    method=method,
-                    url=url,
-                    **kwargs
-                )
-            else:
-                raise WeChatClientException(
-                    result['errcode'],
-                    result['errmsg']
-                )
-
-        return result
-
-    def _get(self, url, **kwargs):
-        return self._request(
-            method='get',
-            url_or_endpoint=url,
-            **kwargs
-        )
-
-    def _post(self, url, **kwargs):
-        return self._request(
-            method='post',
-            url_or_endpoint=url,
-            **kwargs
-        )
 
     def fetch_access_token(self):
         """ Fetch access token"""
@@ -89,22 +28,6 @@ class WeChatClient(object):
         if 'errcode' in result and result['errcode'] != 0:
             raise WeChatClientException(result['errcode'], result['errmsg'])
         return result
-
-    @property
-    def access_token(self):
-        if self._access_token:
-            if not self.expires_at:
-                # user provided access_token, just return it
-                return self._access_token
-
-            timestamp = time.time()
-            if self.expires_at - timestamp > 60:
-                return self._access_token
-
-        result = self.fetch_access_token()
-        self._access_token = result['access_token']
-        self.expires_at = int(time.time()) + 7200
-        return self._access_token
 
     def create_department(self, name, parent_id=1):
         return self._post(
@@ -167,24 +90,20 @@ class WeChatClient(object):
         user_data = {
             'userid': user_id
         }
-        if name:
-            user_data['name'] = name
-        if gender is not None:
-            user_data['gender'] = gender
-        if department:
-            user_data['department'] = department
-        if position:
-            user_data['position'] = position
-        if mobile:
-            user_data['mobile'] = mobile
-        if tel:
-            user_data['tel'] = tel
-        if email:
-            user_data['email'] = email
-        if weixin_id:
-            user_data['weixinid'] = weixin_id
-        if enable is not None:
-            user_data['enable'] = 1 if enable else 0
+        need_update = {
+            'name': name,
+            'gender': gender,
+            'department': department,
+            'position': position,
+            'mobile': mobile,
+            'tel': tel,
+            'email': email,
+            'weixinid': weixin_id,
+            'enable': enable
+        }
+        for key, value in need_update.items():
+            if value is not None:
+                user_data[key] = value
 
         return self._post(
             'user/update',
