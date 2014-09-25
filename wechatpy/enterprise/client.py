@@ -161,3 +161,200 @@ class WeChatClient(object):
                 'userid': user_id
             }
         )
+
+    def create_menu(self, agent_id, menu_data):
+        return self._post(
+            'menu/create',
+            params={
+                'agentid': agent_id
+            },
+            data=menu_data
+        )
+
+    def get_menu(self, agent_id):
+        try:
+            return self._get(
+                'menu/get',
+                params={
+                    'agentid': agent_id
+                }
+            )
+        except WeChatClientException as e:
+            if e.errcode == 46003:
+                # menu not exist
+                return None
+            else:
+                raise e
+
+    def delete_menu(self, agent_id):
+        return self._get(
+            'menu/delete',
+            params={
+                'agentid': agent_id
+            }
+        )
+
+    def get_user_info(self, agent_id, code):
+        return self._get(
+            'user/getuserinfo',
+            params={
+                'agentid': agent_id,
+                'code': code
+            }
+        )
+
+    def _send_message(self, agent_id, user_ids, party_ids='',
+                      tag_ids='', msg=None):
+        msg = msg or {}
+        if isinstance(user_ids, (tuple, list)):
+            user_ids = '|'.join(user_ids)
+        if isinstance(party_ids, (tuple, list)):
+            party_ids = '|'.join(party_ids)
+        if isinstance(tag_ids, (tuple, list)):
+            tag_ids = '|'.join(tag_ids)
+
+        data = {
+            'touser': user_ids,
+            'toparty': party_ids,
+            'totag': tag_ids,
+            'agentid': agent_id
+        }
+        data.update(msg)
+        return self._post(
+            'message/send',
+            data=data
+        )
+
+    def send_text_message(self, agent_id, user_ids, content,
+                          party_ids='', tag_ids='', safe=0):
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'text',
+                'text': {'content': content},
+                'safe': safe
+            }
+        )
+
+    def send_image_message(self, agent_id, user_ids, media_id,
+                           party_ids='', tag_ids='', safe=0):
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'image',
+                'image': {
+                    'media_id': media_id
+                },
+                'safe': safe
+            }
+        )
+
+    def send_voice_message(self, agent_id, user_ids, media_id,
+                           party_ids='', tag_ids='', safe=0):
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'voice',
+                'voice': {
+                    'media_id': media_id
+                },
+                'safe': safe
+            }
+        )
+
+    def send_video_message(self, agent_id, user_ids, media_id, title=None,
+                           description=None, party_ids='', tag_ids='',
+                           safe=0):
+        video_data = {
+            'media_id': media_id
+        }
+        if title:
+            video_data['title'] = title
+        if description:
+            video_data['description'] = description
+
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'video',
+                'video': video_data,
+                'safe': safe
+            }
+        )
+
+    def send_file_message(self, agent_id, user_ids, media_id,
+                          party_ids='', tag_ids='', safe=0):
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'file',
+                'file': {
+                    'media_id': media_id
+                },
+                'safe': safe
+            }
+        )
+
+    def send_article_message(self, agent_id, user_ids, articles,
+                             party_ids='', tag_ids=''):
+        articles_data = []
+        for article in articles:
+            articles_data.append({
+                'title': article['title'],
+                'description': article['description'],
+                'url': article['url'],
+                'picurl': article['image']
+            })
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'news',
+                'news': {
+                    'articles': articles_data
+                }
+            }
+        )
+
+    def send_mp_article_message(self, agent_id, user_ids, articles,
+                                party_ids='', tag_ids='', safe=0):
+        articles_data = []
+        for article in articles:
+            articles_data.append({
+                'thumb_media_id': article['thumb_media_id'],
+                'author': article['author'],
+                'content': article['content'],
+                'content_source_url': article['content_source_url'],
+                'digest': article['digest'],
+                'show_cover_pic': article['show_cover_pic']
+            })
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'mpnews',
+                'mpnews': {
+                    'articles': articles_data
+                },
+                'safe': safe
+            }
+        )
