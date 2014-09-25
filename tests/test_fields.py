@@ -119,7 +119,7 @@ class FieldsTestCase(unittest.TestCase):
         self.assertEqual(expected, field.to_xml(value))
 
     def test_article_field_to_xml(self):
-        from wechatpy.fields import ArticleField
+        from wechatpy.fields import ArticlesField
 
         articles = [
             {
@@ -143,7 +143,7 @@ class FieldsTestCase(unittest.TestCase):
         ]
         article_count = len(articles)
 
-        field = ArticleField('Article')
+        field = ArticlesField('Article')
         expected = '<ArticleCount>{article_count}</ArticleCount>'.format(
             article_count=article_count
         )

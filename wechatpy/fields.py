@@ -124,7 +124,7 @@ class MusicField(StringField):
         )
 
 
-class ArticleField(StringField):
+class ArticlesField(StringField):
 
     def to_xml(self, articles):
         article_count = len(articles)

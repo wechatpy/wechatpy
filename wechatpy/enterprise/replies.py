@@ -35,7 +35,7 @@ class VideoReply(replies.VideoReply):
 
 
 @register_reply('news')
-class ArticleReply(replies.ArticleReply):
+class ArticlesReply(replies.ArticlesReply):
     agent = IntegerField('AgentID', 0)
 
 
@@ -52,7 +52,7 @@ def create_reply(reply, message=None, render=False):
         if len(reply) > 10:
             raise AttributeError("Can't add more than 10 articles"
                                  " in an ArticlesReply")
-        r = ArticleReply(
+        r = ArticlesReply(
             message=message,
             articles=reply
         )

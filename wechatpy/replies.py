@@ -4,7 +4,7 @@ import copy
 import six
 
 from .fields import BaseField, StringField, IntegerField, ImageField
-from .fields import VoiceField, VideoField, MusicField, ArticleField
+from .fields import VoiceField, VideoField, MusicField, ArticlesField
 from .messages import BaseMessage
 from .utils import ObjectDict, to_text, to_binary
 
@@ -246,9 +246,9 @@ class MusicReply(BaseReply):
 
 
 @register_reply('news')
-class ArticleReply(BaseReply):
+class ArticlesReply(BaseReply):
     type = 'news'
-    articles = ArticleField('Articles', [])
+    articles = ArticlesField('Articles', [])
 
     def add_article(self, article):
         if not self.articles or not isinstance(self.articles, list):
@@ -272,7 +272,7 @@ def create_reply(reply, message=None, render=False):
         if len(reply) > 10:
             raise AttributeError("Can't add more than 10 articles"
                                  " in an ArticlesReply")
-        r = ArticleReply(
+        r = ArticlesReply(
             message=message,
             articles=reply
         )
