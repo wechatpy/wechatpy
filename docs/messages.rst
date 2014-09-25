@@ -76,6 +76,7 @@ location_x   地理位置纬度
 location_y   地理位置经度
 scale        地图缩放大小
 label        地理位置信息
+location     (纬度, 经度) 元组
 ============ =================================
 
 LinkMessage 链接消息

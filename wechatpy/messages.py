@@ -121,6 +121,10 @@ class LocationMessage(BaseMessage):
     scale = StringField('Scale')
     label = StringField('Label')
 
+    @property
+    def location(self):
+        return self.location_x, self.location_y
+
 
 @register_message('link')
 class LinkMessage(BaseMessage):
