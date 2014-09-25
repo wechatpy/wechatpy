@@ -10,7 +10,7 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - pip install coverage
+  - pip install coverage httmock
 
 script: nosetests -v --with-coverage --cover-package=wechatpy
 
