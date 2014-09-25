@@ -1,10 +1,18 @@
 from __future__ import absolute_import, unicode_literals
+import six
+
 from .messages import MESSAGE_TYPES
 from .events import EVENT_TYPES
 from ..messages import UnknownMessage
+from ..utils import to_text
 
 
 def parse_message(message):
+    if isinstance(message, six.string_types):
+        from xml.etree import ElementTree
+
+        parser = ElementTree.fromstring(to_text(message).encode('utf-8'))
+        message = dict((child.tag, to_text(child.text)) for child in parser)
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()
