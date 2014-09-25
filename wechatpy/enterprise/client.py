@@ -135,6 +135,140 @@ class WeChatClient(object):
     def get_departments(self):
         return self._get('department/list')
 
+    def create_user(self, user_id, name, department=None, position=None,
+                    mobile=None, gender=0, tel=None, email=None,
+                    weixin_id=None):
+        user_data = {
+            'userid': user_id,
+            'name': name,
+            'gender': gender
+        }
+        if department:
+            user_data['department'] = department
+        if position:
+            user_data['position'] = position
+        if mobile:
+            user_data['mobile'] = mobile
+        if tel:
+            user_data['tel'] = tel
+        if email:
+            user_data['email'] = email
+        if weixin_id:
+            user_data['weixinid'] = weixin_id
+
+        return self._post(
+            'user/create',
+            data=user_data
+        )
+
+    def update_user(self, user_id, name=None, department=None, position=None,
+                    mobile=None, gender=None, tel=None, email=None,
+                    weixin_id=None, enable=None):
+        user_data = {
+            'userid': user_id
+        }
+        if name:
+            user_data['name'] = name
+        if gender is not None:
+            user_data['gender'] = gender
+        if department:
+            user_data['department'] = department
+        if position:
+            user_data['position'] = position
+        if mobile:
+            user_data['mobile'] = mobile
+        if tel:
+            user_data['tel'] = tel
+        if email:
+            user_data['email'] = email
+        if weixin_id:
+            user_data['weixinid'] = weixin_id
+        if enable is not None:
+            user_data['enable'] = 1 if enable else 0
+
+        return self._post(
+            'user/update',
+            data=user_data
+        )
+
+    def delete_user(self, user_id):
+        return self._get(
+            'user/delete',
+            params={
+                'userid': user_id
+            }
+        )
+
+    def get_user(self, user_id):
+        return self._get(
+            'user/get',
+            params={
+                'userid': user_id
+            }
+        )
+
+    def get_department_users(self, department, status=0, fetch_child=0):
+        fetch_child = 1 if fetch_child else 0
+        return self._get(
+            'user/simplelist',
+            params={
+                'department_id': department,
+                'status': status,
+                'fetch_child': fetch_child
+            }
+        )
+
+    def create_tag(self, name):
+        return self._post(
+            'tag/create',
+            data={
+                'tagname': name
+            }
+        )
+
+    def update_tag(self, tag_id, name):
+        return self._post(
+            'tag/update',
+            data={
+                'tagid': tag_id,
+                'tagname': name
+            }
+        )
+
+    def delete_tag(self, tag_id):
+        return self._get(
+            'tag/delete',
+            params={
+                'tagid': tag_id
+            }
+        )
+
+    def get_tag_users(self, tag_id):
+        return self._get(
+            'tag/get',
+            params={
+                'tagid': tag_id
+            }
+        )
+
+    def add_tag_users(self, tag_id, user_ids):
+        return self._post(
+            'tag/addtagusers',
+            data={
+                'tagid': tag_id,
+                'userlist': user_ids
+            }
+        )
+
+    def delete_tag_users(self, tag_id, user_ids):
+        return self._post(
+            'tag/deltagusers',
+            data={
+                'tagid': tag_id,
+                'userlist': user_ids
+            }
+        )
+
     def upload_media(self, media_type, media_file):
         return self._post(
             'media/upload',
