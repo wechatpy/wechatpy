@@ -6,8 +6,8 @@
         \ \____________\ \_______\ \_______\ \__\ \__\ \__\ \__\   \ \__\ \ \__\ __/  / /    
          \|____________|\|_______|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|__||\___/ /     
                                                                                 \|___|/      
-                                                                                                                                                                              
-                                                                                                                                                                              
+
+[![PyPy Version](http://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.python.org/pypi/wechatpy)
 [![Build Status](https://travis-ci.org/messense/wechatpy.svg?branch=master)](https://travis-ci.org/messense/wechatpy)
 [![Coverage Status](https://coveralls.io/repos/messense/wechatpy/badge.png?branch=master)](https://coveralls.io/r/messense/wechatpy?branch=master)
 
