@@ -1,0 +1,3 @@
+[submodule "examples/wechat-bot"]
+	path = examples/wechat-bot
+	url = https://github.com/messense/wechat-bot.git
