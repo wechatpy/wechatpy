@@ -10,6 +10,7 @@
 [![PyPy Version](http://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.python.org/pypi/wechatpy)
 [![Build Status](https://travis-ci.org/messense/wechatpy.svg?branch=master)](https://travis-ci.org/messense/wechatpy)
 [![Coverage Status](https://coveralls.io/repos/messense/wechatpy/badge.png?branch=master)](https://coveralls.io/r/messense/wechatpy?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/messense/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/messense/wechatpy/?branch=master)
 
 微信(WeChat) 公众平台第三方 Python SDK，实现了普通公众平台和企业号公众平台的解析消息、生成回复和主动调用等 API。
 
