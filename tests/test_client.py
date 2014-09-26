@@ -27,7 +27,7 @@ def wechat_api_mock(url, request):
     try:
         with open(res_file) as f:
             content = json.loads(f.read())
-    except (IOError, OSError):
+    except (IOError, ValueError):
         pass
     return response(200, content, headers, request=request)
 
@@ -59,3 +59,62 @@ class WeChatClientTestCase(unittest.TestCase):
             group = self.client.create_group('test')
             self.assertEqual(1, group['group']['id'])
             self.assertEqual('test', group['group']['name'])
+
+    def test_send_text_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.send_text_message(1, 'test')
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_image_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.send_image_message(1, '123456')
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_voice_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.send_voice_message(1, '123456')
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_video_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.send_video_message(
+                1, '123456', 'test', 'test'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_music_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.send_music_message(
+                1, 'http://www.qq.com', 'http://www.qq.com',
+                '123456', 'test', 'test'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_articles_message(self):
+        with HTTMock(wechat_api_mock):
+            articles = [{
+                'title': 'test',
+                'description': 'test',
+                'url': 'http://www.qq.com',
+                'image': 'http://www.qq.com'
+            }]
+            result = self.client.send_articles_message(1, articles)
+            self.assertEqual(0, result['errcode'])
+
+    def test_create_menu(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.create_menu({
+                'button': [
+                    {
+                        'type': 'click',
+                        'name': 'test',
+                        'key': 'test'
+                    }
+                ]
+            })
+            self.assertEqual(0, result['errcode'])
+
+    def test_get_menu(self):
+        with HTTMock(wechat_api_mock):
+            menu = self.client.get_menu()
+            self.assertIn('menu', menu)

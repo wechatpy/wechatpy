@@ -1,0 +1,12 @@
+{
+    "menu": {
+        "button": [
+            {
+                "type": "click",
+                "name": "test",
+                "key": "test",
+                "sub_button": []
+            }
+        ]
+    }
+}

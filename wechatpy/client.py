@@ -200,7 +200,7 @@ class WeChatClient(BaseWeChatClient):
             }
         )
 
-    def send_article_message(self, user_id, articles):
+    def send_articles_message(self, user_id, articles):
         articles_data = []
         for article in articles:
             articles_data.append({

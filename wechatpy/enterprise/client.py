@@ -363,8 +363,8 @@ class WeChatClient(BaseWeChatClient):
             }
         )
 
-    def send_article_message(self, agent_id, user_ids, articles,
-                             party_ids='', tag_ids=''):
+    def send_articles_message(self, agent_id, user_ids, articles,
+                              party_ids='', tag_ids=''):
         articles_data = []
         for article in articles:
             articles_data.append({
@@ -386,8 +386,8 @@ class WeChatClient(BaseWeChatClient):
             }
         )
 
-    def send_mp_article_message(self, agent_id, user_ids, articles,
-                                party_ids='', tag_ids='', safe=0):
+    def send_mp_articles_message(self, agent_id, user_ids, articles,
+                                 party_ids='', tag_ids='', safe=0):
         articles_data = []
         for article in articles:
             articles_data.append({
