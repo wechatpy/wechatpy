@@ -265,6 +265,19 @@ class WeChatClient(BaseWeChatClient):
             }
         )
 
+    def upload_video(self, media_id, title, description):
+        return self._post(
+            url='https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo',
+            params={
+                'access_token': self.access_token
+            },
+            data={
+                'media_id': media_id,
+                'title': title,
+                'description': description
+            }
+        )
+
     def create_group(self, name):
         name = to_text(name)
         return self._post(
