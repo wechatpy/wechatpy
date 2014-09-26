@@ -336,7 +336,8 @@ class WeChatClient(BaseWeChatClient):
             }
         )
 
-    def get_qrcode_url(self, ticket):
+    @classmethod
+    def get_qrcode_url(cls, ticket):
         url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}'
         if isinstance(ticket, dict):
             ticket = ticket['ticket']
