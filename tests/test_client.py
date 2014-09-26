@@ -117,4 +117,4 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_get_menu(self):
         with HTTMock(wechat_api_mock):
             menu = self.client.get_menu()
-            self.assertIn('menu', menu)
+            self.assertTrue('menu' in menu)
