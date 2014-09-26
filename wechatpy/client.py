@@ -352,3 +352,30 @@ class WeChatClient(BaseWeChatClient):
                 'long_url': long_url
             }
         )
+
+    def upload_articles(self, articles):
+        articles_data = []
+        for article in articles:
+            articles_data.append({
+                'thumb_media_id': article['thumb_media_id'],
+                'title': article['title'],
+                'content': article['content'],
+                'author': article.get('author', ''),
+                'content_source_url': article.get('content_source_url', ''),
+                'digest': article.get('digest', ''),
+                'show_cover_pic': article.get('show_cover_pic', 0)
+            })
+        return self._post(
+            'media/uploadnews',
+            data={
+                'articles': articles_data
+            }
+        )
+
+    def delete_mass_message(self, msg_id):
+        return self._post(
+            'message/mass/delete',
+            data={
+                'msg_id': msg_id
+            }
+        )

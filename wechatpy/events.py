@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
-from .fields import StringField, FloatField
+from .fields import StringField, FloatField, IntegerField
 from .messages import BaseMessage
 
 
@@ -61,3 +61,13 @@ class ClickEvent(BaseEvent):
 class ViewEvent(BaseEvent):
     event = 'view'
     url = StringField('EventKey')
+
+
+@register_event('masssendjobfinish')
+class MassSendJobFinishEvent(BaseEvent):
+    event = 'masssendjobfinish'
+    status = StringField('Status')
+    total_count = IntegerField('TotalCount', 0)
+    filter_count = IntegerField('FilterCount', 0)
+    sent_count = IntegerField('SentCount', 0)
+    error_count = IntegerField('ErrorCount', 0)
