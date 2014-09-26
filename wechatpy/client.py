@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 import time
 import requests
+import six
 
 from ._compat import json
 from .utils import to_text
@@ -334,6 +335,13 @@ class WeChatClient(BaseWeChatClient):
                 'ticket': ticket
             }
         )
+
+    def get_qrcode_url(self, ticket):
+        url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}'
+        if isinstance(ticket, dict):
+            ticket = ticket['ticket']
+        ticket = six.moves.urllib.parse.quote(ticket)
+        return url.format(ticket=ticket)
 
     def short_url(self, long_url):
         return self._post(
