@@ -17,8 +17,7 @@ class BaseWeChatClient(object):
         self.expires_at = None
 
     def _request(self, method, url_or_endpoint, **kwargs):
-        if not (url_or_endpoint.startswith('http://') or
-                url_or_endpoint.startswith('https://')):
+        if not url_or_endpoint.startswith(('http://', 'https://')):
             url = '{base}{endpoint}'.format(
                 base=self.API_BASE_URL,
                 endpoint=url_or_endpoint
