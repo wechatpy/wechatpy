@@ -11,7 +11,7 @@ import six
 # pycrypto
 from Crypto.Cipher import AES
 
-from ..utils import to_binary, to_text
+from ..utils import to_binary, to_text, XMLDict
 from .._compat import byte2int
 from ..exceptions import InvalidSignatureException
 from .exceptions import InvalidCorpIdException
@@ -130,7 +130,7 @@ class WeChatCrypto(object):
             from xml.etree import ElementTree
 
             parser = ElementTree.fromstring(to_text(msg).encode('utf-8'))
-            msg = dict((child.tag, to_text(child.text)) for child in parser)
+            msg = XMLDict(parser)
         encrypt = msg['Encrypt']
         _signature = get_sha1(self.token, timestamp, nonce, encrypt)
         if _signature != signature:

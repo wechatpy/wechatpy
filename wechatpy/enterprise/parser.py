@@ -4,7 +4,7 @@ import six
 from .messages import MESSAGE_TYPES
 from .events import EVENT_TYPES
 from ..messages import UnknownMessage
-from ..utils import to_text
+from ..utils import to_text, XMLDict
 
 
 def parse_message(message):
@@ -12,7 +12,7 @@ def parse_message(message):
         from xml.etree import ElementTree
 
         parser = ElementTree.fromstring(to_text(message).encode('utf-8'))
-        message = dict((child.tag, to_text(child.text)) for child in parser)
+        message = XMLDict(parser)
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()

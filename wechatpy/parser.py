@@ -3,14 +3,14 @@ from xml.etree import ElementTree
 
 from .messages import MESSAGE_TYPES, UnknownMessage
 from .events import EVENT_TYPES
-from .utils import to_text
+from .utils import to_text, XMLDict
 
 
 def parse_message(xml):
     if not xml:
         return
     parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
-    message = dict((child.tag, to_text(child.text)) for child in parser)
+    message = XMLDict(parser)
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()
