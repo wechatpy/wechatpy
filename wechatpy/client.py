@@ -394,3 +394,80 @@ class WeChatClient(BaseWeChatClient):
                 'msg_id': msg_id
             }
         )
+
+    def _send_mass_message(self, group_or_users, msg_type, msg):
+        data = {
+            'msgtype': msg_type
+        }
+        if isinstance(group_or_users, (tuple, list)):
+            # send by user ids
+            data['touser'] = group_or_users
+        else:
+            data['filter'] = {'group_id': group_or_users}
+
+        data.update(msg)
+        return self._post(
+            'message/mass/sendall',
+            data=data
+        )
+
+    def send_mass_text_message(self, group_or_users, content):
+        return self._send_mass_message(
+            group_or_users,
+            'text',
+            {
+                'text': {
+                    'content': content
+                }
+            }
+        )
+
+    def send_mass_image_message(self, group_or_users, media_id):
+        return self._send_mass_message(
+            group_or_users,
+            'image',
+            {
+                'image': {
+                    'media_id': media_id
+                }
+            }
+        )
+
+    def send_mass_voice_message(self, group_or_users, media_id):
+        return self._send_mass_message(
+            group_or_users,
+            'voice',
+            {
+                'voice': {
+                    'media_id': media_id
+                }
+            }
+        )
+
+    def send_mass_video_message(self, group_or_users, media_id,
+                                title=None, description=None):
+        video_data = {
+            'media_id': media_id
+        }
+        if title:
+            video_data['title'] = title
+        if description:
+            video_data['description'] = description
+        return self._send_mass_message(
+            group_or_users,
+            'video',
+            {
+                'video': video_data
+            }
+        )
+
+    def send_mass_article_message(self, group_or_users, media_id):
+        return self._send_mass_message(
+            group_or_users,
+            'mpnews',
+            {
+                'mpnews': {
+                    'media_id': media_id
+                }
+            }
+        )
