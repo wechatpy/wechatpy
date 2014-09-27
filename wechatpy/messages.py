@@ -71,6 +71,8 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
         self._message = message
         for name, field in self._fields.items():
             value = message.get(field.name, field.default)
+            if isinstance(value, dict):
+                value = ObjectDict(value)
             if value and six.callable(field.converter):
                 value = field.converter(value)
             setattr(self, name, value)
