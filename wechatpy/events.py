@@ -71,3 +71,9 @@ class MassSendJobFinishEvent(BaseEvent):
     filter_count = IntegerField('FilterCount', 0)
     sent_count = IntegerField('SentCount', 0)
     error_count = IntegerField('ErrorCount', 0)
+
+
+@register_event('templatesendjobfinish')
+class TemplateSendJobFinishEvent(BaseEvent):
+    event = 'templatesendjobfinish'
+    status = StringField('Status')

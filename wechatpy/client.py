@@ -471,3 +471,16 @@ class WeChatClient(BaseWeChatClient):
                 }
             }
         )
+
+    def send_template_message(self, user_id, template_id, url,
+                              top_color, data):
+        return self._post(
+            'message/template/send',
+            data={
+                'touser': user_id,
+                'template_id': template_id,
+                'url': url,
+                'topcolor': top_color,
+                'data': data
+            }
+        )
