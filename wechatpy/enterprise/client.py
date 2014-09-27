@@ -1,5 +1,4 @@
 from __future__ import absolute_import, unicode_literals
-import requests
 
 from ..exceptions import WeChatClientException
 from ..client import BaseWeChatClient
@@ -17,17 +16,13 @@ class WeChatClient(BaseWeChatClient):
 
     def fetch_access_token(self):
         """ Fetch access token"""
-        res = requests.get(
+        return self._fetch_access_token(
             url='https://qyapi.weixin.qq.com/cgi-bin/gettoken',
             params={
                 'corpid': self.corp_id,
                 'corpsecret': self.secret
             }
         )
-        result = res.json()
-        if 'errcode' in result and result['errcode'] != 0:
-            raise WeChatClientException(result['errcode'], result['errmsg'])
-        return result
 
     def create_department(self, name, parent_id=1):
         return self._post(
