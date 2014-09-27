@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import time
+import datetime
 import requests
 import six
 
@@ -483,4 +484,23 @@ class WeChatClient(BaseWeChatClient):
                 'topcolor': top_color,
                 'data': data
             }
+        )
+
+    def get_customservice_record(self, start_time, end_time, page_index,
+                                 page_size=10, user_id=None):
+        if isinstance(start_time, datetime.datetime):
+            start_time = time.mktime(start_time.timetuple())
+        if isinstance(end_time, datetime.datetime):
+            end_time = time.mktime(end_time.timetuple())
+        record_data = {
+            'starttime': int(start_time),
+            'endtime': int(end_time),
+            'pageindex': page_index,
+            'pagesize': page_size
+        }
+        if user_id:
+            record_data['openid'] = user_id
+        return self._post(
+            'customservice/getrecord',
+            data=record_data
         )

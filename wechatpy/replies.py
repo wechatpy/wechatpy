@@ -259,6 +259,11 @@ class ArticlesReply(BaseReply):
         self.articles.append(article)
 
 
+@register_reply('transfer_customer_service')
+class TransferCustomerServiceReply(BaseReply):
+    type = 'transfer_customer_service'
+
+
 def create_reply(reply, message=None, render=False):
     r = None
     if isinstance(reply, BaseReply):
