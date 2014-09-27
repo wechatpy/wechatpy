@@ -15,6 +15,7 @@ install:
 script: nosetests -v --with-coverage --cover-package=wechatpy
 
 after_success:
-  - pip install coveralls scrutinizer-ocular
+  - pip install coveralls
+  - pip install https://github.com/messense/ocular.py/archive/master.zip
   - coveralls
   - ocular
