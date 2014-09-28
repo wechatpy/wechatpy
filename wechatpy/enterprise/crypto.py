@@ -61,7 +61,7 @@ class PrpCrypto(object):
         text = to_binary(text)
         tmp_list = []
         tmp_list.append(to_binary(self.get_random_string()))
-        length = struct.pack('I', socket.htonl(len(text)))
+        length = struct.pack(b'I', socket.htonl(len(text)))
         tmp_list.append(length)
         tmp_list.append(text)
         tmp_list.append(to_binary(corp_id))
@@ -79,7 +79,7 @@ class PrpCrypto(object):
         plain_text = cryptor.decrypt(base64.b64decode(text))
         padding = byte2int(plain_text, -1)
         content = plain_text[16:-padding]
-        xml_length = socket.ntohl(struct.unpack('I', content[:4])[0])
+        xml_length = socket.ntohl(struct.unpack(b'I', content[:4])[0])
         xml_content = to_text(content[4:xml_length + 4])
         from_corp_id = to_text(content[xml_length + 4:])
         if from_corp_id != corp_id:
