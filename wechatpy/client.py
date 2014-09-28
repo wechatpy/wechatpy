@@ -6,7 +6,7 @@ import six
 
 from ._compat import json
 from .utils import to_text
-from .exceptions import WeChatClientException
+from .exceptions import WeChatClientException, APILimitedException
 
 
 class BaseWeChatClient(object):
@@ -44,7 +44,9 @@ class BaseWeChatClient(object):
         result = res.json()
 
         if 'errcode' in result and result['errcode'] != 0:
-            if result['errcode'] == 42001:
+            errcode = result['errcode']
+            errmsg = result['errmsg']
+            if errcode == 42001:
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
                 return self._request(
@@ -52,11 +54,11 @@ class BaseWeChatClient(object):
                     url=url,
                     **kwargs
                 )
+            elif errcode == 45009:
+                # api freq out of limit
+                raise APILimitedException(errcode, errmsg)
             else:
-                raise WeChatClientException(
-                    result['errcode'],
-                    result['errmsg']
-                )
+                raise WeChatClientException(errcode, errmsg)
 
         return result
 
