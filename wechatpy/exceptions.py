@@ -36,4 +36,4 @@ class InvalidSignatureException(WeChatException):
 class APILimitedException(WeChatException):
 
     def __init__(self, errcode=45009, errmsg='api freq out of limit'):
-        super(WeChatException, self).__init__(errcode, errmsg)
+        super(APILimitedException, self).__init__(errcode, errmsg)
