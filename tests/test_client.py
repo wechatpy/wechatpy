@@ -118,3 +118,21 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             menu = self.client.get_menu()
             self.assertTrue('menu' in menu)
+
+    def test_delete_menu(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.delete_menu()
+            self.assertEqual(0, result['errcode'])
+
+    def test_update_menu(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.update_menu({
+                'button': [
+                    {
+                        'type': 'click',
+                        'name': 'test',
+                        'key': 'test'
+                    }
+                ]
+            })
+            self.assertEqual(0, result['errcode'])
