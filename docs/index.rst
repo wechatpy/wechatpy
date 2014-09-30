@@ -13,3 +13,4 @@ wechatpy 是一个微信 (WeChat) 公众平台的第三方 Python SDK, 实现了
 
    install
    messages
+   events
