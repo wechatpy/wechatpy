@@ -178,6 +178,18 @@ class VideoReply(BaseReply):
             self.video = {}
         self.video['title'] = value
 
+    @property
+    def description(self):
+        if not isinstance(self.video, dict):
+            self.video = {}
+        return self.video.get('description', None)
+
+    @description.setter
+    def description(self, value):
+        if not isinstance(self.video, dict):
+            self.video = {}
+        self.video['description'] = value
+
 
 @register_reply('music')
 class MusicReply(BaseReply):
