@@ -184,3 +184,30 @@ class LocationSelectEvent(BaseEvent):
     @property
     def poiname(self):
         return self.location_info['Poiname']
+
+
+@register_event('card_pass_check')
+class CardPassCheckEvent(BaseEvent):
+    event = 'card_pass_check'
+    card_id = StringField('CardId')
+
+
+@register_event('card_not_pass_check')
+class CardNotPassCheckEvent(BaseEvent):
+    event = 'card_not_pass_check'
+    card_id = StringField('CardId')
+
+
+@register_event('user_get_card')
+class UserGetCardEvent(BaseEvent):
+    event = 'user_get_card'
+    card_id = StringField('CardId')
+    is_given_by_friend = IntegerField('IsGiveByFriend')
+    code = StringField('UserCardCode')
+
+
+@register_event('user_del_card')
+class UserDeleteCardEvent(BaseEvent):
+    event = 'user_del_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
