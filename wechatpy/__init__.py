@@ -6,5 +6,5 @@ from .client import WeChatClient  # NOQA
 from .exceptions import WeChatException  # NOQA
 
 
-__version__ = '0.4.4'
+__version__ = '0.5.1'
 __author__ = 'messense'
