@@ -95,3 +95,17 @@ class XMLDict(dict):
                 # finally, if there are no child tags and no attributes,
                 # extract the text
                 self.update({element.tag: to_text(element.text)})
+
+
+class WeChatCardSigner(object):
+
+    def __init__(self):
+        self._data = []
+
+    def add_data(self, data):
+        self._data.append(to_binary(data))
+
+    def get_signature(self):
+        self._data.sort()
+        str_to_sign = ''.join(self._data)
+        return hashlib.sha1(str_to_sign).hexdigest()
