@@ -118,11 +118,14 @@ class PicSysPhotoEvent(BaseEvent):
 
     @property
     def count(self):
-        return self.pictures_info['Count']
+        return int(self.pictures_info['Count'])
 
     @property
     def pictures(self):
-        return self.pictures_info['PicList']
+        items = self.pictures_info['PicList']['item']
+        if self.count > 1:
+            return items
+        return [items]
 
 
 @register_event('pic_photo_or_album')
@@ -133,11 +136,14 @@ class PicPhotoOrAlbumEvent(BaseEvent):
 
     @property
     def count(self):
-        return self.pictures_info['Count']
+        return int(self.pictures_info['Count'])
 
     @property
     def pictures(self):
-        return self.pictures_info['PicList']
+        items = self.pictures_info['PicList']['item']
+        if self.count > 1:
+            return items
+        return [items]
 
 
 @register_event('pic_weixin')
@@ -148,11 +154,14 @@ class PicWeChatEvent(BaseEvent):
 
     @property
     def count(self):
-        return self.pictures_info['Count']
+        return int(self.pictures_info['Count'])
 
     @property
     def pictures(self):
-        return self.pictures_info['PicList']
+        items = self.pictures_info['PicList']['item']
+        if self.count > 1:
+            return items
+        return [items]
 
 
 @register_event('location_select')

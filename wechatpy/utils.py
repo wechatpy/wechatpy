@@ -28,6 +28,8 @@ def check_signature(token, signature, timestamp, nonce):
 
 
 def to_text(value, encoding='utf-8'):
+    if not value:
+        return ''
     if isinstance(value, six.text_type):
         return value
     if isinstance(value, six.binary_type):
@@ -36,6 +38,8 @@ def to_text(value, encoding='utf-8'):
 
 
 def to_binary(value, encoding='utf-8'):
+    if not value:
+        return b''
     if isinstance(value, six.binary_type):
         return value
     if isinstance(value, six.text_type):
