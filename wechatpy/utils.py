@@ -19,7 +19,7 @@ def check_signature(token, signature, timestamp, nonce):
     tmparr = [token, timestamp, nonce]
     tmparr.sort()
     tmpstr = ''.join(tmparr)
-    tmpstr = six.text_type(tmpstr).encode('utf-8')
+    tmpstr = to_binary(tmpstr)
     digest = hashlib.sha1(tmpstr).hexdigest()
     if digest != signature:
         from .exceptions import InvalidSignatureException
@@ -111,5 +111,5 @@ class WeChatCardSigner(object):
 
     def get_signature(self):
         self._data.sort()
-        str_to_sign = ''.join(self._data)
+        str_to_sign = b''.join(self._data)
         return hashlib.sha1(str_to_sign).hexdigest()
