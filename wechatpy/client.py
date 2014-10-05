@@ -829,20 +829,28 @@ class WeChatClient(BaseWeChatClient):
     def create_card(self, card_data):
         """
         创建卡券
+
+        :param card_data: 卡券信息
+        :return: 创建的卡券 ID
         """
-        return self._post(
+        result = self._post(
             'card/create',
             data=card_data
         )
+        return result['card_id']
 
     def batch_add_locations(self, location_data):
         """
         批量导入门店信息
+
+        :param location_data: 门店信息
+        :return: 门店 ID 列表，插入失败的门店元素值为 -1
         """
-        return self._post(
+        result = self._post(
             'card/location/batchadd',
             data=location_data
         )
+        return result['location_id_list']
 
     def batch_get_locations(self, offset=0, count=0):
         """
@@ -859,17 +867,23 @@ class WeChatClient(BaseWeChatClient):
     def get_card_colors(self):
         """
         获得卡券的最新颜色列表，用于创建卡券
+        :return: 颜色列表
         """
-        return self._get('card/getcolors')
+        result = self._get('card/getcolors')
+        return result['colors']
 
     def create_card_qrcode(self, qrcode_data):
         """
         创建卡券二维码
+
+        :param qrcode_data: 二维码信息
+        :return: 二维码 ticket，可使用 :func:show_qrcode 换取二维码文件
         """
-        return self._post(
+        result = self._post(
             'card/qrcode/create',
             data=qrcode_data
         )
+        return result['ticket']
 
     def consume_card_code(self, code, card_id=None):
         """
@@ -889,12 +903,13 @@ class WeChatClient(BaseWeChatClient):
         """
         解码加密的 code
         """
-        return self._post(
+        result = self._post(
             'card/code/decrypt',
             data={
                 'encrypt_code': encrypt_code
             }
         )
+        return result['code']
 
     def delete_card(self, card_id):
         """
@@ -934,12 +949,13 @@ class WeChatClient(BaseWeChatClient):
         """
         查询卡券详情
         """
-        return self._post(
+        result = self._post(
             'card/get',
             data={
                 'card_id': card_id
             }
         )
+        return result['card']
 
     def update_card_code(self, card_id, old_code, new_code):
         """
@@ -1087,4 +1103,26 @@ class WeChatClient(BaseWeChatClient):
         return self._post(
             'card/luckymoney/updateuserbalance',
             data=card_data
+        )
+
+    def get_card_redirect_url(self, url, encrypt_code, card_id):
+        """
+        获取卡券跳转外链
+        """
+        from wechatpy.utils import WeChatCardSigner
+
+        code = self.decrypt_card_code(encrypt_code)
+
+        signer = WeChatCardSigner()
+        signer.add_data(self.secret)
+        signer.add_data(code)
+        signer.add_data(card_id)
+        signature = signer.get_signature()
+
+        r = '{url}?encrypt_code={code}&card_id={card_id}&signature={signature}'
+        return r.format(
+            url=url,
+            code=encrypt_code,
+            card_id=card_id,
+            signature=signature
         )

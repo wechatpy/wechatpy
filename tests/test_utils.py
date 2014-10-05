@@ -32,3 +32,14 @@ class UtilityTestCase(unittest.TestCase):
             check_signature,
             token, signature, timestamp, nonce
         )
+
+    def test_wechat_card_signer(self):
+        from wechatpy.utils import WeChatCardSigner
+
+        signer = WeChatCardSigner()
+        signer.add_data('789')
+        signer.add_data('456')
+        signer.add_data('123')
+        signature = signer.get_signature()
+
+        self.assertEqual('f7c3bc1d808e04732adf679965ccc34ca7ae3441', signature)
