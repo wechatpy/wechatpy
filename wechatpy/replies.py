@@ -40,7 +40,7 @@ class ReplyMetaClass(type):
             return super_new(cls, name, bases, attrs)
         # Create the class
         module = attrs.pop('__module__')
-        new_class = super_new(cls, name, bases, {'__module__': module})
+        new_class = super_new(cls, name, bases, {b'__module__': module})
         setattr(new_class, '_fields', ObjectDict())
 
         # Add all attributes to the class
