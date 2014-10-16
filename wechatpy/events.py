@@ -2,7 +2,6 @@ from __future__ import absolute_import, unicode_literals
 
 from .fields import StringField, FloatField, IntegerField, BaseField
 from .messages import BaseMessage
-from .utils import ObjectDict
 
 
 EVENT_TYPES = {}
@@ -84,7 +83,7 @@ class TemplateSendJobFinishEvent(BaseEvent):
 class ScanCodePushEvent(BaseEvent):
     event = 'scancode_push'
     key = StringField('EventKey')
-    scan_code_info = BaseField('ScanCodeInfo', ObjectDict())
+    scan_code_info = BaseField('ScanCodeInfo', {})
 
     @property
     def scan_type(self):
@@ -99,7 +98,7 @@ class ScanCodePushEvent(BaseEvent):
 class ScanCodeWaitMsgEvent(BaseEvent):
     event = 'scancode_waitmsg'
     key = StringField('EventKey')
-    scan_code_info = BaseField('ScanCodeInfo', ObjectDict())
+    scan_code_info = BaseField('ScanCodeInfo', {})
 
     @property
     def scan_type(self):
@@ -114,7 +113,7 @@ class ScanCodeWaitMsgEvent(BaseEvent):
 class PicSysPhotoEvent(BaseEvent):
     event = 'pic_sysphoto'
     key = StringField('EventKey')
-    pictures_info = BaseField('SendPicsInfo', ObjectDict())
+    pictures_info = BaseField('SendPicsInfo', {})
 
     @property
     def count(self):
@@ -132,7 +131,7 @@ class PicSysPhotoEvent(BaseEvent):
 class PicPhotoOrAlbumEvent(BaseEvent):
     event = 'pic_photo_or_album'
     key = StringField('EventKey')
-    pictures_info = BaseField('SendPicsInfo', ObjectDict())
+    pictures_info = BaseField('SendPicsInfo', {})
 
     @property
     def count(self):
@@ -150,7 +149,7 @@ class PicPhotoOrAlbumEvent(BaseEvent):
 class PicWeChatEvent(BaseEvent):
     event = 'pic_weixin'
     key = StringField('EventKey')
-    pictures_info = BaseField('SendPicsInfo', ObjectDict())
+    pictures_info = BaseField('SendPicsInfo', {})
 
     @property
     def count(self):
@@ -168,7 +167,7 @@ class PicWeChatEvent(BaseEvent):
 class LocationSelectEvent(BaseEvent):
     event = 'location_select'
     key = StringField('EventKey')
-    location_info = BaseField('SendLocationInfo', ObjectDict())
+    location_info = BaseField('SendLocationInfo', {})
 
     @property
     def location_x(self):

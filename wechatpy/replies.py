@@ -5,8 +5,9 @@ import six
 
 from .fields import BaseField, StringField, IntegerField, ImageField
 from .fields import VoiceField, VideoField, MusicField, ArticlesField
+from .fields import FieldDescriptor
 from .messages import BaseMessage
-from .utils import ObjectDict, to_text, to_binary
+from .utils import to_text, to_binary
 
 
 REPLY_TYPES = {}
@@ -22,45 +23,23 @@ def register_reply(reply_type):
 class ReplyMetaClass(type):
     """Metaclass for all repies"""
     def __new__(cls, name, bases, attrs):
-        super_new = super(ReplyMetaClass, cls).__new__
-        # six.with_metaclass() inserts an extra class called 'NewBase' in the
-        # inheritance tree: BaseReply -> NewBase -> object. But the
-        # initialization should be executed only once for a given model class.
+        for b in bases:
+            if not hasattr(b, '_fields'):
+                continue
 
-        # attrs will never be empty for classes declared in the standard way
-        # (ie. with the `class` keyword). This is quite robust.
-        if name == 'NewBase' and attrs == {}:
-            return super_new(cls, name, bases, attrs)
+            for k, v in b.__dict__.items():
+                if k in attrs:
+                    continue
+                if isinstance(v, FieldDescriptor):
+                    attrs[k] = copy.deepcopy(v.field)
 
-        # Ensure initialization is only performed for subclasses of
-        # BaseReply excluding BaseReply class itself
-        parents = [b for b in bases if isinstance(b, ReplyMetaClass) and
-                   not (b.__name__ == 'NewBase' and b.__mro__ == (b, object))]
-        if not parents:
-            return super_new(cls, name, bases, attrs)
-        # Create the class
-        module = attrs.pop('__module__')
-        new_class = super_new(cls, name, bases, {b'__module__': module})
-        setattr(new_class, '_fields', ObjectDict())
+        cls = super(ReplyMetaClass, cls).__new__(cls, name, bases, attrs)
+        cls._fields = {}
 
-        # Add all attributes to the class
-        for obj_name, obj in attrs.items():
-            if isinstance(obj, BaseField):
-                new_class._fields[obj_name] = obj
-            else:
-                setattr(new_class, obj_name, obj)
-        # Add the fields inherited from parent classes
-        for parent in parents:
-            for obj_name, obj in parent.__dict__.items():
-                if isinstance(obj, BaseField):
-                    new_class._fields[obj_name] = copy.deepcopy(obj)
-
-            if hasattr(parent, '_fields') and isinstance(parent._fields, dict):
-                for field_name, field in parent._fields.items():
-                    if isinstance(field, BaseField):
-                        new_class._fields[field_name] = copy.deepcopy(field)
-
-        return new_class
+        for name, field in cls.__dict__.items():
+            if isinstance(field, BaseField):
+                field.add_to_class(cls, name)
+        return cls
 
 
 class BaseReply(six.with_metaclass(ReplyMetaClass)):
@@ -70,6 +49,7 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
     type = 'unknown'
 
     def __init__(self, **kwargs):
+        self._data = {}
         message = kwargs.pop('message', None)
         if message and isinstance(message, BaseMessage):
             if 'source' not in kwargs:
@@ -78,21 +58,16 @@ class BaseReply(six.with_metaclass(ReplyMetaClass)):
                 kwargs['target'] = message.source
             if hasattr(message, 'agent') and 'agent' not in kwargs:
                 kwargs['agent'] = message.agent
-        for name, field in self._fields.items():
-            if name == 'time' and 'time' not in kwargs:
-                # set CreateTime to current timestamp if time not present
-                value = int(time.time())
+        if 'time' not in kwargs:
+            kwargs['time'] = int(time.time())
+        for name, value in kwargs.items():
+            field = self._fields.get(name)
+            if field:
+                self._data[field.name] = value
             else:
-                value = kwargs.pop(name, field.default)
-                if value is not None and six.callable(field.converter):
-                    value = field.converter(value)
-            setattr(self, name, value)
-        if kwargs:
-            # unknown arguments
-            args = ', '.join(kwargs.keys())
-            raise AttributeError('Unknown argument(s): {args}'.format(
-                args=args
-            ))
+                raise AttributeError('Unknown argument: {arg}'.format(
+                    arg=name
+                ))
 
     def render(self):
         tpl = '<xml>\n{data}\n</xml>'
@@ -156,39 +131,33 @@ class VideoReply(BaseReply):
 
     @property
     def media_id(self):
-        if not isinstance(self.video, dict):
-            self.video = {}
         return self.video.get('media_id', None)
 
     @media_id.setter
     def media_id(self, value):
-        if not isinstance(self.video, dict):
-            self.video = {}
-        self.video['media_id'] = value
+        video = self.video
+        video['media_id'] = value
+        self.video = video
 
     @property
     def title(self):
-        if not isinstance(self.video, dict):
-            self.video = {}
         return self.video.get('title', None)
 
     @title.setter
     def title(self, value):
-        if not isinstance(self.video, dict):
-            self.video = {}
-        self.video['title'] = value
+        video = self.video
+        video['title'] = value
+        self.video = video
 
     @property
     def description(self):
-        if not isinstance(self.video, dict):
-            self.video = {}
         return self.video.get('description', None)
 
     @description.setter
     def description(self, value):
-        if not isinstance(self.video, dict):
-            self.video = {}
-        self.video['description'] = value
+        video = self.video
+        video['description']
+        self.video = video
 
 
 @register_reply('music')
@@ -198,63 +167,53 @@ class MusicReply(BaseReply):
 
     @property
     def thumb_media_id(self):
-        if not isinstance(self.music, dict):
-            self.music = {}
         return self.music.get('thumb_media_id', None)
 
     @thumb_media_id.setter
     def thumb_media_id(self, value):
-        if not isinstance(self.music, dict):
-            self.music = {}
-        self.music['thumb_media_id'] = value
+        music = self.music
+        music['thumb_media_id'] = value
+        self.music = music
 
     @property
     def title(self):
-        if not isinstance(self.music, dict):
-            self.music = {}
         return self.music.get('title', None)
 
     @title.setter
     def title(self, value):
-        if not isinstance(self.music, dict):
-            self.music = {}
-        self.music['title'] = value
+        music = self.music
+        music['title'] = value
+        self.music = music
 
     @property
     def description(self):
-        if not isinstance(self.music, dict):
-            self.music = {}
         return self.music.get('description', None)
 
     @description.setter
     def description(self, value):
-        if not isinstance(self.music, dict):
-            self.music = {}
-        self.music['description'] = value
+        music = self.music
+        music['description'] = value
+        self.music = music
 
     @property
     def music_url(self):
-        if not isinstance(self.music, dict):
-            self.music = {}
         return self.music.get('music_url', None)
 
     @music_url.setter
     def music_url(self, value):
-        if not isinstance(self.music, dict):
-            self.music = {}
-        self.music['music_url'] = value
+        music = self.music
+        music['music_url'] = value
+        self.music = music
 
     @property
     def hq_music_url(self):
-        if not isinstance(self.music, dict):
-            self.music = {}
         return self.music.get('hq_music_url', None)
 
     @hq_music_url.setter
     def hq_music_url(self, value):
-        if not isinstance(self.music, dict):
-            self.music = {}
-        self.music['hq_music_url'] = value
+        music = self.music
+        music['hq_music_url'] = value
+        self.music = music
 
 
 @register_reply('news')
@@ -263,12 +222,12 @@ class ArticlesReply(BaseReply):
     articles = ArticlesField('Articles', [])
 
     def add_article(self, article):
-        if not self.articles or not isinstance(self.articles, list):
-            self.articles = []
         if len(self.articles) == 10:
             raise AttributeError("Can't add more than 10 articles"
                                  " in an ArticlesReply")
-        self.articles.append(article)
+        articles = self.articles
+        articles.append(article)
+        self.articles = articles
 
 
 @register_reply('transfer_customer_service')

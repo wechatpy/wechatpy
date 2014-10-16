@@ -1,7 +1,31 @@
 from __future__ import absolute_import, unicode_literals
 import six
 
-from .utils import to_text, to_binary
+from .utils import to_text, to_binary, ObjectDict
+
+
+class FieldDescriptor(object):
+
+    def __init__(self, field):
+        self.field = field
+        self.attr_name = field.name
+
+    def __get__(self, instance, instance_type=None):
+        if instance is not None:
+            value = instance._data.get(self.attr_name)
+            if value is None:
+                instance._data[self.attr_name] = self.field.default
+                value = self.field.default
+            if isinstance(value, dict):
+                value = ObjectDict(value)
+            if value and not isinstance(value, dict) and \
+                    six.callable(self.field.converter):
+                value = self.field.converter(value)
+            return value
+        return self.field
+
+    def __set__(self, instance, value):
+        instance._data[self.attr_name] = value
 
 
 class BaseField(object):
@@ -23,6 +47,11 @@ class BaseField(object):
             return to_binary(_repr)
         else:
             return to_text(_repr)
+
+    def add_to_class(self, klass, name):
+        self.klass = klass
+        klass._fields[name] = self
+        setattr(klass, name, FieldDescriptor(self))
 
 
 class StringField(BaseField):
