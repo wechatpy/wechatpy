@@ -37,3 +37,9 @@ class APILimitedException(WeChatException):
 
     def __init__(self, errcode=45009, errmsg='api freq out of limit'):
         super(APILimitedException, self).__init__(errcode, errmsg)
+
+
+class InvalidAppIdException(WeChatException):
+
+    def __init__(self, errcode=-40005, errmsg='Invalid AppId'):
+        super(InvalidAppIdException, self).__init__(errcode, errmsg)
