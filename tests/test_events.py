@@ -155,5 +155,5 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, LocationSelectEvent))
         self.assertEqual(('23', '113'), event.location)
         self.assertEqual('15', event.scale)
-        self.assertEqual('', event.poiname)
+        self.assertIsNone(event.poiname)
         self.assertEqual('广州市海珠区客村艺苑路 106号', event.label)

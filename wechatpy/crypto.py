@@ -11,7 +11,7 @@ import six
 # pycrypto
 from Crypto.Cipher import AES
 
-from .utils import to_text, to_binary, XMLDict
+from .utils import to_text, to_binary
 from ._compat import byte2int
 from .exceptions import InvalidAppIdException, InvalidSignatureException
 
@@ -150,18 +150,17 @@ class BaseWeChatCrypto(object):
                          nonce,
                          crypto_class=None):
         if isinstance(msg, six.string_types):
-            from xml.etree import ElementTree
+            import xmltodict
 
-            parser = ElementTree.fromstring(to_text(msg).encode('utf-8'))
-            msg = XMLDict(parser)
+            msg = xmltodict.parse(to_text(msg))['xml']
+
         encrypt = msg['Encrypt']
         _signature = get_sha1(self.token, timestamp, nonce, encrypt)
         if _signature != signature:
             raise InvalidSignatureException()
         pc = crypto_class(self.key)
         xml = pc.decrypt(encrypt, self._id)
-        parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
-        message = dict((child.tag, to_text(child.text)) for child in parser)
+        message = xmltodict.parse(to_text(xml))['xml']
         return message
 
 

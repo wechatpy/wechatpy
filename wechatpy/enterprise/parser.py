@@ -4,15 +4,14 @@ import six
 from .messages import MESSAGE_TYPES
 from .events import EVENT_TYPES
 from ..messages import UnknownMessage
-from ..utils import to_text, XMLDict
+from ..utils import to_text
 
 
 def parse_message(message):
     if isinstance(message, six.string_types):
-        from xml.etree import ElementTree
+        import xmltodict
 
-        parser = ElementTree.fromstring(to_text(message).encode('utf-8'))
-        message = XMLDict(parser)
+        message = xmltodict.parse(to_text(message))['xml']
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()
