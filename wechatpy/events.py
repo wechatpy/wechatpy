@@ -79,9 +79,7 @@ class TemplateSendJobFinishEvent(BaseEvent):
     status = StringField('Status')
 
 
-@register_event('scancode_push')
-class ScanCodePushEvent(BaseEvent):
-    event = 'scancode_push'
+class BaseScanCodeEvent(BaseEvent):
     key = StringField('EventKey')
     scan_code_info = BaseField('ScanCodeInfo', {})
 
@@ -92,75 +90,47 @@ class ScanCodePushEvent(BaseEvent):
     @property
     def scan_result(self):
         return self.scan_code_info['ScanResult']
+
+
+@register_event('scancode_push')
+class ScanCodePushEvent(BaseScanCodeEvent):
+    event = 'scancode_push'
 
 
 @register_event('scancode_waitmsg')
-class ScanCodeWaitMsgEvent(BaseEvent):
+class ScanCodeWaitMsgEvent(BaseScanCodeEvent):
     event = 'scancode_waitmsg'
+
+
+class BasePictureEvent(BaseEvent):
     key = StringField('EventKey')
-    scan_code_info = BaseField('ScanCodeInfo', {})
+    pictures_info = BaseField('SendPicsInfo', {})
 
     @property
-    def scan_type(self):
-        return self.scan_code_info['ScanType']
+    def count(self):
+        return int(self.pictures_info['Count'])
 
     @property
-    def scan_result(self):
-        return self.scan_code_info['ScanResult']
+    def pictures(self):
+        items = self.pictures_info['PicList']['item']
+        if self.count > 1:
+            return items
+        return [items]
 
 
 @register_event('pic_sysphoto')
-class PicSysPhotoEvent(BaseEvent):
+class PicSysPhotoEvent(BasePictureEvent):
     event = 'pic_sysphoto'
-    key = StringField('EventKey')
-    pictures_info = BaseField('SendPicsInfo', {})
-
-    @property
-    def count(self):
-        return int(self.pictures_info['Count'])
-
-    @property
-    def pictures(self):
-        items = self.pictures_info['PicList']['item']
-        if self.count > 1:
-            return items
-        return [items]
 
 
 @register_event('pic_photo_or_album')
-class PicPhotoOrAlbumEvent(BaseEvent):
+class PicPhotoOrAlbumEvent(BasePictureEvent):
     event = 'pic_photo_or_album'
-    key = StringField('EventKey')
-    pictures_info = BaseField('SendPicsInfo', {})
-
-    @property
-    def count(self):
-        return int(self.pictures_info['Count'])
-
-    @property
-    def pictures(self):
-        items = self.pictures_info['PicList']['item']
-        if self.count > 1:
-            return items
-        return [items]
 
 
 @register_event('pic_weixin')
-class PicWeChatEvent(BaseEvent):
+class PicWeChatEvent(BasePictureEvent):
     event = 'pic_weixin'
-    key = StringField('EventKey')
-    pictures_info = BaseField('SendPicsInfo', {})
-
-    @property
-    def count(self):
-        return int(self.pictures_info['Count'])
-
-    @property
-    def pictures(self):
-        items = self.pictures_info['PicList']['item']
-        if self.count > 1:
-            return items
-        return [items]
 
 
 @register_event('location_select')

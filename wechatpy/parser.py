@@ -1,16 +1,15 @@
 from __future__ import absolute_import, unicode_literals
-from xml.etree import ElementTree
+import xmltodict
 
 from .messages import MESSAGE_TYPES, UnknownMessage
 from .events import EVENT_TYPES
-from .utils import to_text, XMLDict
+from .utils import to_text
 
 
 def parse_message(xml):
     if not xml:
         return
-    parser = ElementTree.fromstring(to_text(xml).encode('utf-8'))
-    message = XMLDict(parser)
+    message = xmltodict.parse(to_text(xml))['xml']
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()

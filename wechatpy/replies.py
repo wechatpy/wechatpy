@@ -1,12 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 import time
-import copy
 import six
 
-from .fields import BaseField, StringField, IntegerField, ImageField
+from .fields import StringField, IntegerField, ImageField
 from .fields import VoiceField, VideoField, MusicField, ArticlesField
-from .fields import FieldDescriptor
-from .messages import BaseMessage
+from .messages import BaseMessage, MessageMetaClass
 from .utils import to_text, to_binary
 
 
@@ -20,29 +18,7 @@ def register_reply(reply_type):
     return register
 
 
-class ReplyMetaClass(type):
-    """Metaclass for all repies"""
-    def __new__(cls, name, bases, attrs):
-        for b in bases:
-            if not hasattr(b, '_fields'):
-                continue
-
-            for k, v in b.__dict__.items():
-                if k in attrs:
-                    continue
-                if isinstance(v, FieldDescriptor):
-                    attrs[k] = copy.deepcopy(v.field)
-
-        cls = super(ReplyMetaClass, cls).__new__(cls, name, bases, attrs)
-        cls._fields = {}
-
-        for name, field in cls.__dict__.items():
-            if isinstance(field, BaseField):
-                field.add_to_class(cls, name)
-        return cls
-
-
-class BaseReply(six.with_metaclass(ReplyMetaClass)):
+class BaseReply(six.with_metaclass(MessageMetaClass)):
     source = StringField('FromUserName')
     target = StringField('ToUserName')
     time = IntegerField('CreateTime', int(time.time()))
