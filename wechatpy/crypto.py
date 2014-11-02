@@ -159,9 +159,7 @@ class BaseWeChatCrypto(object):
         if _signature != signature:
             raise InvalidSignatureException()
         pc = crypto_class(self.key)
-        xml = pc.decrypt(encrypt, self._id)
-        message = xmltodict.parse(to_text(xml))['xml']
-        return message
+        return pc.decrypt(encrypt, self._id)
 
 
 class WeChatCrypto(BaseWeChatCrypto):

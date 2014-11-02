@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-import six
+import xmltodict
 
 from .messages import MESSAGE_TYPES
 from .events import EVENT_TYPES
@@ -7,11 +7,10 @@ from ..messages import UnknownMessage
 from ..utils import to_text
 
 
-def parse_message(message):
-    if isinstance(message, six.string_types):
-        import xmltodict
-
-        message = xmltodict.parse(to_text(message))['xml']
+def parse_message(xml):
+    if not xml:
+        return
+    message = xmltodict.parse(to_text(xml))['xml']
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()
