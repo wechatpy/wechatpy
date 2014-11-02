@@ -2,6 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 import unittest
 
+import xmltodict
+
 from wechatpy.enterprise import crypto as _crypto
 from wechatpy.enterprise.crypto import WeChatCrypto
 
@@ -88,5 +90,6 @@ class CryptoTestCase(unittest.TestCase):
 
         crypto = WeChatCrypto(self.token, self.encoding_aes_key, self.corp_id)
         msg = crypto.decrypt_message(xml, signature, timestamp, nonce)
-        self.assertEqual('test', msg['Content'])
-        self.assertEqual('messense', msg['FromUserName'])
+        msg_dict = xmltodict.parse(msg)['xml']
+        self.assertEqual('test', msg_dict['Content'])
+        self.assertEqual('messense', msg_dict['FromUserName'])
