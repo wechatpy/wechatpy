@@ -1,16 +1,23 @@
 from __future__ import absolute_import, unicode_literals
-from flask import Flask, request, abort
+import os
+from flask import Flask, request, abort, render_template
 from wechatpy.enterprise.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.enterprise.exceptions import InvalidCorpIdException
 from wechatpy.enterprise import parse_message, create_reply
 
 
-TOKEN = '123456'
-EncodingAESKey = ''
-CorpId = ''
+TOKEN = os.getenv('WECHAT_TOKEN', '123456')
+EncodingAESKey = os.getenv('WECHAT_ENCODING_AES_KEY', '')
+CorpId = os.getenv('WECHAT_CORP_ID', '')
 
 app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    host = request.url_root
+    return render_template('index.html', host=host)
 
 
 @app.route('/wechat', methods=['GET', 'POST'])
