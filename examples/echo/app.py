@@ -1,13 +1,20 @@
 from __future__ import absolute_import, unicode_literals
-from flask import Flask, request, abort
+import os
+from flask import Flask, request, abort, render_template
 from wechatpy import parse_message, create_reply
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 
-
-TOKEN = '123456'
+# set token or get from environments
+TOKEN = os.getenv('WECHAT_TOKEN', '123456')
 
 app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    host = request.url_root
+    return render_template('index.html', host=host)
 
 
 @app.route('/wechat', methods=['GET', 'POST'])
