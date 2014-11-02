@@ -99,13 +99,20 @@
    </style>
  </head>
  <body>
-  <div class="wrapper">
-   <p>这是 <a href="https://coding.net" target="_blank">Coding</a> 演示平台 <a href="https://coding.net/u/messense/p/wechatpy/git" target="_blank">wechatpy</a> 示例项目运行效果页面。</p>
-   <p>
-       微信企业号回调地址：{{ host }}wechat
-   </p>
-   <span id="forkongithub"><a href="https://coding.net/u/messense/p/wechatpy/git">Fork me on Coding</a></span>
-   <iframe id="iframepage" name="iframepage" frameborder="0" scrolling="no" width="100%" height="1300" class="iframe.demo" src="https://coding.net/demo.html" />
-  </div>
+    <div class="wrapper">
+        <h1>wechatpy</h1>
+        <p>这是 <a href="https://coding.net" target="_blank">Coding</a> 演示平台 <a href="https://coding.net/u/messense/p/wechatpy/git" target="_blank">wechatpy</a> 示例项目运行效果页面。</p>
+        <p>微信企业号回调地址：{{ host }}wechat</p>
+        <p>请在微信企业号平台应用中心使用上述地址开启回调模式。</p>
+        <div>
+            <h2>演示平台环境变量设置</h2>
+            <ul>
+                <li><strong>WECHAT_TOKEN</strong>: 微信企业号回调 token</li>
+                <li><strong>WECHAT_ENCODING_AES_KEY</strong>: 微信企业号 encoding_aes_key</li>
+                <li><strong>WECHAT_CORP_ID</strong>: 微信企业号 ID</li>
+            </ul>
+        </div>
+        <span id="forkongithub"><a href="https://coding.net/u/messense/p/wechatpy/git">Fork me on Coding</a></span>
+    </div>
  </body>
 </html>
