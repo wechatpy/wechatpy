@@ -64,7 +64,7 @@ tox
 ```
 
 wechatpy 希望支持的 Python 版本有 2.6, 2.7, 3.2, 3.3, 3.4, pypy 和 pypy3.
-如果您的本地 Python 环境没有安装全面，请尽可能测试全面您以及安装的 Python 版本。
+如果您的本地 Python 环境没有安装全面，请尽可能测试全面您已经安装的 Python 版本。
 如您本地安装了 Python 2.7 和 Python 3.4，则运行：
 
 ```bash
@@ -72,7 +72,8 @@ tox -e py27,py34
 ```
 
 如果出现测试失败，请检查您的修改过的代码或者检查测试用例的代码是否需要更新。
-您可以使用 `nosetests --pdb` 在测试失败的时候自动进入 pdb 进行调试。
+
+> Tips: 您可以使用 `nosetests --pdb` 在测试失败的时候自动进入 pdb 进行调试。
 
 ## Pull Requests
 
@@ -83,6 +84,8 @@ tox -e py27,py34
 [Scrutinizer CI](https://scrutinizer-ci.com/g/messense/wechatpy/?branch=master) 会给出代码质量分析报告。
 
 如果出现测试失败的情况，请您在 [Travis CI](https://travis-ci.org/messense/wechatpy) 的构建日志中查找原因，修复后提交代码。
+
+> Tips: 如果您的修改不是针对代码的，不需要进行自动化测试，可以在 Git commit message 结尾加上 `[ci skip]`.
 
 在所有环节完成之后，wechatpy 项目成员会尽快 review 您的 Pull Requests，予以合并或和您进行进一步的讨论。
 
