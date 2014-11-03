@@ -31,6 +31,10 @@
 
 使用示例参见 [examples](examples/)
 
+## 贡献代码
+
+请阅读 [贡献代码指南](CONTRIBUTING.md)
+
 ##License
 
 The MIT License (MIT)
