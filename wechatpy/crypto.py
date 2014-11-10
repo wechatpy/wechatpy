@@ -4,25 +4,21 @@ import string
 import random
 import struct
 import socket
-import hashlib
 import base64
 
 import six
 # pycrypto
 from Crypto.Cipher import AES
 
-from .utils import to_text, to_binary
+from .utils import to_text, to_binary, WeChatSigner
 from ._compat import byte2int
 from .exceptions import InvalidAppIdException, InvalidSignatureException
 
 
-def get_sha1(token, timestamp, nonce, encrypt):
-    sort_list = [token, timestamp, nonce, to_text(encrypt)]
-    sort_list.sort()
-    sort_str = to_binary(''.join(sort_list))
-    sha1 = hashlib.sha1()
-    sha1.update(sort_str)
-    return sha1.hexdigest()
+def _get_signature(token, timestamp, nonce, encrypt):
+    signer = WeChatSigner()
+    signer.add_data(token, timestamp, nonce, encrypt)
+    return signer.signature
 
 
 class PKCS7Encoder(object):
@@ -111,7 +107,7 @@ class BaseWeChatCrypto(object):
                          nonce,
                          echo_str,
                          crypto_class=None):
-        _signature = get_sha1(self.token, timestamp, nonce, echo_str)
+        _signature = _get_signature(self.token, timestamp, nonce, echo_str)
         if _signature != signature:
             raise InvalidSignatureException()
         pc = crypto_class(self.key)
@@ -135,7 +131,7 @@ class BaseWeChatCrypto(object):
         timestamp = timestamp or to_binary(int(time.time()))
         pc = crypto_class(self.key)
         encrypt = to_text(pc.encrypt(msg, self._id))
-        signature = get_sha1(self.token, timestamp, nonce, encrypt)
+        signature = _get_signature(self.token, timestamp, nonce, encrypt)
         return to_text(xml.format(
             encrypt=encrypt,
             signature=signature,
@@ -155,7 +151,7 @@ class BaseWeChatCrypto(object):
             msg = xmltodict.parse(to_text(msg))['xml']
 
         encrypt = msg['Encrypt']
-        _signature = get_sha1(self.token, timestamp, nonce, encrypt)
+        _signature = _get_signature(self.token, timestamp, nonce, encrypt)
         if _signature != signature:
             raise InvalidSignatureException()
         pc = crypto_class(self.key)
