@@ -546,6 +546,24 @@ class WeChatClient(BaseWeChatClient):
             params=params
         )
 
+    def update_user_remark(self, user_id, remark):
+        """
+        设置用户备注名
+        详情请参考
+        http://mp.weixin.qq.com/wiki/index.php?title=设置用户备注名接口
+
+        :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
+        :param remark: 备注名
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'user/info/updateremark',
+            data={
+                'openid': user_id,
+                'remark': remark
+            }
+        )
+
     def create_qrcode(self, qrcode_data):
         """
         创建二维码
