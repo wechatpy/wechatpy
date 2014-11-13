@@ -26,6 +26,15 @@ class ObjectDict(dict):
         self[key] = value
 
 
+class NotNoneDict(dict):
+    """A dictionary only store non none values"""
+
+    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
+        if value is None:
+            return
+        return dict_setitem(self, key, value)
+
+
 class WeChatSigner(object):
     """WeChat data signer"""
 
