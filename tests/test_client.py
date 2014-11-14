@@ -50,41 +50,41 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_upload_media(self):
         media_file = six.StringIO('nothing')
         with HTTMock(wechat_api_mock):
-            media = self.client.upload_media('image', media_file)
+            media = self.client.media.upload('image', media_file)
             self.assertEqual('image', media['type'])
             self.assertEqual('12345678', media['media_id'])
 
     def test_create_group(self):
         with HTTMock(wechat_api_mock):
-            group = self.client.create_group('test')
+            group = self.client.group.create('test')
             self.assertEqual(1, group['group']['id'])
             self.assertEqual('test', group['group']['name'])
 
     def test_send_text_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.send_text_message(1, 'test')
+            result = self.client.message.send_text(1, 'test')
             self.assertEqual(0, result['errcode'])
 
     def test_send_image_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.send_image_message(1, '123456')
+            result = self.client.message.send_image(1, '123456')
             self.assertEqual(0, result['errcode'])
 
     def test_send_voice_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.send_voice_message(1, '123456')
+            result = self.client.message.send_voice(1, '123456')
             self.assertEqual(0, result['errcode'])
 
     def test_send_video_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.send_video_message(
+            result = self.client.message.send_video(
                 1, '123456', 'test', 'test'
             )
             self.assertEqual(0, result['errcode'])
 
     def test_send_music_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.send_music_message(
+            result = self.client.message.send_music(
                 1, 'http://www.qq.com', 'http://www.qq.com',
                 '123456', 'test', 'test'
             )
@@ -98,12 +98,12 @@ class WeChatClientTestCase(unittest.TestCase):
                 'url': 'http://www.qq.com',
                 'image': 'http://www.qq.com'
             }]
-            result = self.client.send_articles_message(1, articles)
+            result = self.client.message.send_articles(1, articles)
             self.assertEqual(0, result['errcode'])
 
     def test_create_menu(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.create_menu({
+            result = self.client.menu.create({
                 'button': [
                     {
                         'type': 'click',
@@ -116,17 +116,17 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_get_menu(self):
         with HTTMock(wechat_api_mock):
-            menu = self.client.get_menu()
+            menu = self.client.menu.get()
             self.assertTrue('menu' in menu)
 
     def test_delete_menu(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.delete_menu()
+            result = self.client.menu.delete()
             self.assertEqual(0, result['errcode'])
 
     def test_update_menu(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.update_menu({
+            result = self.client.menu.update({
                 'button': [
                     {
                         'type': 'click',
