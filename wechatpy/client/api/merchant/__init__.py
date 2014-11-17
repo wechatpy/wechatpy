@@ -5,6 +5,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 from .category import MerchantCategory
 from .stock import MerchantStock
 from .express import MerchantExpress
+from .group import MerchantGroup
 
 
 class Merchant(BaseWeChatAPI):
@@ -16,6 +17,7 @@ class Merchant(BaseWeChatAPI):
         self.category = MerchantCategory(self._client)
         self.stock = MerchantStock(self._client)
         self.express = MerchantExpress(self._client)
+        self.group = MerchantGroup(self._client)
 
     def create(self, product_data):
         return self._post(
