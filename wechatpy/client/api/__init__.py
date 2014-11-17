@@ -9,3 +9,4 @@ from .media import WeChatMedia  # NOQA
 from .message import WeChatMessage  # NOQA
 from .qrcode import WeChatQRCode  # NOQA
 from .misc import WeChatMisc  # NOQA
+from .merchant import WeChatMerchant  # NOQA
