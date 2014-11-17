@@ -189,3 +189,12 @@ class UserDeleteCardEvent(BaseEvent):
     event = 'user_del_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
+
+
+@register_event('merchant_order')
+class MerchantOrderEvent(BaseEvent):
+    event = 'merchant_order'
+    order_id = StringField('OrderId')
+    order_status = IntegerField('OrderStatus')
+    product_id = StringField('ProductId')
+    sku_info = StringField('SkuInfo')

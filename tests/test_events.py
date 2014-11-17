@@ -157,3 +157,26 @@ class EventsTestCase(unittest.TestCase):
         self.assertEqual('15', event.scale)
         self.assertTrue(event.poiname is None)
         self.assertEqual('广州市海珠区客村艺苑路 106号', event.label)
+
+    def test_merchant_order_event(self):
+        from wechatpy.events import MerchantOrderEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[weixin_media1]]></ToUserName>
+        <FromUserName><![CDATA[oDF3iYyVlek46AyTBbMRVV8VZVlI]]></FromUserName>
+        <CreateTime>1398144192</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[merchant_order]]></Event>
+        <OrderId><![CDATA[test_order_id]]></OrderId>
+        <OrderStatus>2</OrderStatus>
+        <ProductId><![CDATA[test_product_id]]></ProductId>
+        <SkuInfo><![CDATA[10001:1000012;10002:100021]]></SkuInfo>
+        </xml>"""
+
+        event = parse_message(xml)
+
+        self.assertTrue(isinstance(event, MerchantOrderEvent))
+        self.assertEqual('test_order_id', event.order_id)
+        self.assertEqual(2, event.order_status)
+        self.assertEqual('test_product_id', event.product_id)
+        self.assertEqual('10001:1000012;10002:100021', event.sku_info)
