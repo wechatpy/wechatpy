@@ -8,6 +8,7 @@ from .express import MerchantExpress
 from .group import MerchantGroup
 from .shelf import MerchantShelf
 from .order import MerchantOrder
+from .common import MerchantCommon
 
 
 class Merchant(BaseWeChatAPI):
@@ -22,6 +23,7 @@ class Merchant(BaseWeChatAPI):
         self.group = MerchantGroup(self._client)
         self.shelf = MerchantShelf(self._client)
         self.order = MerchantOrder(self._client)
+        self.common = MerchantCommon(self._client)
 
     def create(self, product_data):
         return self._post(
