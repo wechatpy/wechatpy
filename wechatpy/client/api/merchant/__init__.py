@@ -11,10 +11,10 @@ from .order import MerchantOrder
 from .common import MerchantCommon
 
 
-class Merchant(BaseWeChatAPI):
+class WeChatMerchant(BaseWeChatAPI):
 
     def __init__(self, *args, **kwargs):
-        super(Merchant, self).__init__(*args, **kwargs)
+        super(WeChatMerchant, self).__init__(*args, **kwargs)
 
         # sub APIs
         self.category = MerchantCategory(self._client)
