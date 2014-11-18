@@ -62,3 +62,8 @@ class InvalidAppIdException(WeChatException):
 
     def __init__(self, errcode=-40005, errmsg='Invalid AppId'):
         super(InvalidAppIdException, self).__init__(errcode, errmsg)
+
+
+class WeChatOAuthException(WeChatException):
+    """WeChat OAuth API exception class"""
+    pass
