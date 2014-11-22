@@ -21,8 +21,15 @@ type    event
 event   事件的类型
 ======= =================================
 
+.. module:: wechatpy.events
+
 SubscribeEvent 关注事件
 -----------------------------
+
+.. autoclass:: SubscribeEvent
+   :members:
+
+SubscribeEvent 的属性:
 
 ======= =================================
 name    value
@@ -33,6 +40,11 @@ event   subscribe
 UnsubscribeEvent 取消关注事件
 -----------------------------------
 
+.. autoclass:: UnsubscribeEvent
+   :members:
+
+UnsubscribeEvent 的属性:
+
 ======= =================================
 name    value
 ======= =================================
@@ -41,6 +53,12 @@ event   unsubscribe
 
 SubscribeScanEvent 未关注用户扫描带参数二维码事件
 --------------------------------------------------
+
+.. autoclass:: SubscribeScanEvent
+   :members:
+
+
+SubscribeScanEvent 的属性:
 
 ========= ========================================
 name      value
@@ -53,6 +71,11 @@ ticket    带参数二维码 ticket
 ScanEvent 已关注用户扫描带参数二维码事件
 --------------------------------------------
 
+.. autoclass:: ScanEvent
+   :members:
+
+ScanEvent 的属性:
+
 ========= =================================
 name      value
 ========= =================================
@@ -63,6 +86,12 @@ ticket    带参数二维码 ticket
 
 LocationEvent 上报地理位置事件
 ----------------------------------
+
+.. autoclass:: LocationEvent
+   :members:
+
+
+LocationEvent 的属性:
 
 =========== =================================
 name        value
@@ -76,6 +105,11 @@ precision   地理位置精度
 ClickEvent 点击菜单拉取消息事件
 ----------------------------------
 
+.. autoclass:: ClickEvent
+   :members:
+
+ClickEvent 的属性:
+
 ======= =================================
 name    value
 ======= =================================
@@ -86,6 +120,11 @@ key     自定义菜单 key 值
 ViewEvent 点击菜单跳转链接事件
 ----------------------------------
 
+.. autoclass:: ViewEvent
+   :members:
+
+ViewEvent 的属性:
+
 ======= =================================
 name    value
 ======= =================================
@@ -95,6 +134,11 @@ url     跳转链接 url
 
 MassSendJobFinishEvent 群发消息发送任务完成事件
 -------------------------------------------------
+
+.. autoclass:: MassSendJobFinishEvent
+   :members:
+
+MassSendJobFinishEvent 的属性:
 
 ============= =================================
 name          value
@@ -110,6 +154,11 @@ error_count   发送失败的粉丝数
 TemplateSendJobFinishEvent 模板消息发送任务完成事件
 ------------------------------------------------------
 
+.. autoclass:: TemplateSendJobFinishEvent
+   :members:
+
+TemplateSendJobFinishEvent 的属性:
+
 ======= =================================
 name    value
 ======= =================================
@@ -119,6 +168,11 @@ status  模板消息发送状态
 
 ScanCodePushEvent 扫码推事件
 --------------------------------
+
+.. autoclass:: ScanCodePushEvent
+   :members:
+
+ScanCodePushEvent 的属性:
 
 =========== =================================
 name        value
@@ -132,6 +186,11 @@ scan_result 扫描结果
 ScanCodeWaitMsgEvent 扫码推事件且弹出“消息接收中”提示框
 -------------------------------------------------------
 
+.. autoclass:: ScanCodeWaitMsgEvent
+   :members:
+
+ScanCodeWaitMsgEvent 的属性:
+
 =========== =================================
 name        value
 =========== =================================
@@ -143,6 +202,11 @@ scan_result 扫描结果
 
 PicSysPhotoEvent 弹出系统拍照发图事件
 -----------------------------------------
+
+.. autoclass:: PicSysPhotoEvent
+   :members:
+
+PicSysPhotoEvent 的属性:
 
 =========== =================================
 name        value
@@ -156,6 +220,11 @@ pictures    图片列表
 PicPhotoOrAlbumEvent 弹出拍照或者相册发图事件
 ------------------------------------------------
 
+.. autoclass:: PicPhotoOrAlbumEvent
+   :members:
+
+PicPhotoOrAlbumEvent 的属性:
+
 =========== =================================
 name        value
 =========== =================================
@@ -168,6 +237,11 @@ pictures    图片列表
 PicWeChatEvent 弹出微信相册发图器事件
 ---------------------------------------
 
+.. autoclass:: PicWeChatEvent
+   :members:
+
+PicWeChatEvent 的属性:
+
 =========== =================================
 name        value
 =========== =================================
@@ -179,6 +253,11 @@ pictures    图片列表
 
 LocationSelectEvent 弹出地理位置选择器事件
 --------------------------------------------
+
+.. autoclass:: LocationSelectEvent
+   :members:
+
+LocationSelectEvent 的属性:
 
 =========== =================================
 name        value

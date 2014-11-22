@@ -18,8 +18,13 @@ time    消息的发送时间，UNIX 时间戳
 type    消息的类型
 ======= =================================
 
+.. module:: wechatpy.messages
+
 TextMessage 文本消息
 --------------------
+
+.. autoclass:: TextMessage
+   :members:
 
 TextMessage 的属性:
 
@@ -32,6 +37,8 @@ content 消息的内容
 
 ImageMessage 图片消息
 ---------------------
+.. autoclass:: ImageMessage
+   :members:
 
 ImageMessage 的属性:
 
@@ -45,6 +52,11 @@ image   图片的 URL 地址
 VoiceMessage 语音消息
 ---------------------
 
+.. autoclass:: VoiceMessage
+   :members:
+
+VoiceMessage 的属性:
+
 ============ ===================================
 name         value
 ============ ===================================
@@ -57,6 +69,11 @@ recognition  语音识别结果(启用了语音识别时才有)
 VideoMessage 视频消息
 ---------------------
 
+.. autoclass:: VideoMessage
+   :members:
+
+VideoMessage 的属性:
+
 ================= =================================
 name              value
 ================= =================================
@@ -67,6 +84,11 @@ thumb_media_id    视频缩略图文件 ID
 
 LocationMessage 地理位置消息
 ----------------------------
+
+.. autoclass:: LocationMessage
+   :members:
+
+LocationMessage 的属性:
 
 ============ =================================
 name         value
@@ -82,6 +104,10 @@ location     (纬度, 经度) 元组
 LinkMessage 链接消息
 --------------------
 
+.. autoclass:: LinkMessage
+   :members:
+
+LinkMessage 的属性:
 
 ============ =================================
 name         value
