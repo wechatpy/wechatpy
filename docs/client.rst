@@ -1,7 +1,66 @@
 ``wechatpy.WeChatClient`` - 微信 API 操作类
 ===========================================
 
+WeChatClient
+--------------
+
 .. module:: wechatpy.client
 
 .. autoclass:: WeChatClient
+   :members:
+
+.. module:: wechatpy.client.api
+
+WeChatUser 用户 API
+----------------------
+
+.. autoclass:: WeChatUser
+   :members:
+
+WeChatGroup 分组 API
+----------------------
+
+.. autoclass:: WeChatGroup
+   :members:
+
+WeChatMessage 主动消息 API
+-----------------------------
+
+.. autoclass:: WeChatMessage
+   :members:
+
+WeChatMenu 自定义菜单 API
+----------------------------
+
+.. autoclass:: WeChatMenu
+   :members:
+
+WeChatMedia 媒体文件 API
+---------------------------
+
+.. autoclass:: WeChatMedia
+   :members:
+
+WeChatQRCode 二维码 API
+---------------------------
+
+.. autoclass:: WeChatQRCode
+   :members:
+
+WeChatMisc 工具类 API
+--------------------------
+
+.. autoclass:: WeChatMisc
+   :members:
+
+WeChatCard 卡券 API
+-------------------------
+
+.. autoclass:: WeChatCard
+   :members:
+
+WeChatMerchant 小店 API
+--------------------------
+
+.. autoclass:: WeChatMerchant
    :members:
