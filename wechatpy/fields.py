@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    wechatpy.fields
+    ~~~~~~~~~~~~~~~~
+
+    This module defines some useful field types for parse WeChat messages
+
+    :copyright: (c) 2014 by messense.
+    :license: MIT, see LICENSE for more details.
+"""
 from __future__ import absolute_import, unicode_literals
 import six
 

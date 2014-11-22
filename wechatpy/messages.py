@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    wechatpy.messages
+    ~~~~~~~~~~~~~~~~~~
+
+    This module defines all the messages you can get from WeChat server
+
+    :copyright: (c) 2014 by messense.
+    :license: MIT, see LICENSE for more details.
+"""
 from __future__ import absolute_import, unicode_literals
 import copy
 import six
@@ -39,6 +49,7 @@ class MessageMetaClass(type):
 
 
 class BaseMessage(six.with_metaclass(MessageMetaClass)):
+    """Base class for all messages and events"""
     type = 'unknown'
     id = IntegerField('MsgId', 0)
     source = StringField('FromUserName')
@@ -61,18 +72,30 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
 
 @register_message('text')
 class TextMessage(BaseMessage):
+    """
+    文本消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    """
     type = 'text'
     content = StringField('Content')
 
 
 @register_message('image')
 class ImageMessage(BaseMessage):
+    """
+    图片消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    """
     type = 'image'
     image = StringField('PicUrl')
 
 
 @register_message('voice')
 class VoiceMessage(BaseMessage):
+    """
+    语音消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    """
     type = 'voice'
     media_id = StringField('MediaId')
     format = StringField('Format')
@@ -81,6 +104,10 @@ class VoiceMessage(BaseMessage):
 
 @register_message('video')
 class VideoMessage(BaseMessage):
+    """
+    视频消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    """
     type = 'video'
     media_id = StringField('MediaId')
     thumb_media_id = StringField('ThumbMediaId')
@@ -88,6 +115,10 @@ class VideoMessage(BaseMessage):
 
 @register_message('location')
 class LocationMessage(BaseMessage):
+    """
+    地理位置消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    """
     type = 'location'
     location_x = StringField('Location_X')
     location_y = StringField('Location_Y')
@@ -101,6 +132,10 @@ class LocationMessage(BaseMessage):
 
 @register_message('link')
 class LinkMessage(BaseMessage):
+    """
+    链接消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    """
     type = 'link'
     title = StringField('Title')
     description = StringField('Description')
@@ -108,4 +143,5 @@ class LinkMessage(BaseMessage):
 
 
 class UnknownMessage(BaseMessage):
+    """未知消息类型"""
     pass

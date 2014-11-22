@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+    wechatpy.replies
+    ~~~~~~~~~~~~~~~~~~
+    This module defines all kinds of replies you can send to WeChat
+
+    :copyright: (c) 2014 by messense.
+    :license: MIT, see LICENSE for more details.
+"""
 from __future__ import absolute_import, unicode_literals
 import time
 import six
@@ -19,6 +28,7 @@ def register_reply(reply_type):
 
 
 class BaseReply(six.with_metaclass(MessageMetaClass)):
+    """Base class for all replies"""
     source = StringField('FromUserName')
     target = StringField('ToUserName')
     time = IntegerField('CreateTime', int(time.time()))
@@ -46,6 +56,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
                 ))
 
     def render(self):
+        """Render reply from Python object to XML string"""
         tpl = '<xml>\n{data}\n</xml>'
         nodes = []
         msg_type = '<MsgType><![CDATA[{msg_type}]]></MsgType>'.format(
@@ -68,12 +79,20 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
 
 @register_reply('text')
 class TextReply(BaseReply):
+    """
+    文本回复
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    """
     type = 'text'
     content = StringField('Content')
 
 
 @register_reply('image')
 class ImageReply(BaseReply):
+    """
+    图片回复
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    """
     type = 'image'
     image = ImageField('Image')
 
@@ -88,6 +107,10 @@ class ImageReply(BaseReply):
 
 @register_reply('voice')
 class VoiceReply(BaseReply):
+    """
+    语音回复
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    """
     type = 'voice'
     voice = VoiceField('Voice')
 
@@ -102,6 +125,10 @@ class VoiceReply(BaseReply):
 
 @register_reply('video')
 class VideoReply(BaseReply):
+    """
+    视频回复
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    """
     type = 'video'
     video = VideoField('Video', {})
 
@@ -138,6 +165,10 @@ class VideoReply(BaseReply):
 
 @register_reply('music')
 class MusicReply(BaseReply):
+    """
+    音乐回复
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    """
     type = 'music'
     music = MusicField('Music', {})
 
@@ -194,6 +225,10 @@ class MusicReply(BaseReply):
 
 @register_reply('news')
 class ArticlesReply(BaseReply):
+    """
+    图文回复
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    """
     type = 'news'
     articles = ArticlesField('Articles', [])
 
@@ -208,10 +243,17 @@ class ArticlesReply(BaseReply):
 
 @register_reply('transfer_customer_service')
 class TransferCustomerServiceReply(BaseReply):
+    """
+    将消息转发到多客服
+    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=将消息转发到多客服
+    """
     type = 'transfer_customer_service'
 
 
 def create_reply(reply, message=None, render=False):
+    """
+    Create a reply quickly
+    """
     r = None
     if isinstance(reply, BaseReply):
         r = reply

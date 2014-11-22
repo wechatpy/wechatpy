@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    wechatpy.crypto
+    ~~~~~~~~~~~~~~~~
+
+    This module provides some crypto tools for WeChat and WeChat enterprise
+
+    :copyright: (c) 2014 by messense.
+    :license: MIT, see LICENSE for more details.
+"""
 from __future__ import absolute_import, unicode_literals
 import time
 import string

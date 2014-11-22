@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+    wechatpy.parser
+    ~~~~~~~~~~~~~~~~
+    This module provides functions for parsing WeChat messages
+
+    :copyright: (c) 2014 by messense.
+    :license: MIT, see LICENSE for more details.
+"""
 from __future__ import absolute_import, unicode_literals
 import xmltodict
 
@@ -7,6 +16,11 @@ from .utils import to_text
 
 
 def parse_message(xml):
+    """
+    Parse WeChat XML format messages
+    :param xml: XML format messages
+    :return: Parsed messages or events
+    """
     if not xml:
         return
     message = xmltodict.parse(to_text(xml))['xml']
