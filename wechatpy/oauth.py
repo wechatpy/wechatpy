@@ -78,7 +78,7 @@ class WeChatOAuth(object):
         """Generate authorize url
         :return: An url
         """
-        redirect_uri = six.moves._urllib.parse.quote(self.redirect_uri)
+        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
         url_list = [
             self.OAUTH_BASE_URL,
             'authorize?appid=',
