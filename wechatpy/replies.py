@@ -81,7 +81,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
 class TextReply(BaseReply):
     """
     文本回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    详情请参阅 http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
     type = 'text'
     content = StringField('Content')
@@ -91,7 +91,8 @@ class TextReply(BaseReply):
 class ImageReply(BaseReply):
     """
     图片回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
     type = 'image'
     image = ImageField('Image')
@@ -109,7 +110,8 @@ class ImageReply(BaseReply):
 class VoiceReply(BaseReply):
     """
     语音回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
     type = 'voice'
     voice = VoiceField('Voice')
@@ -127,7 +129,8 @@ class VoiceReply(BaseReply):
 class VideoReply(BaseReply):
     """
     视频回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
     type = 'video'
     video = VideoField('Video', {})
@@ -167,7 +170,8 @@ class VideoReply(BaseReply):
 class MusicReply(BaseReply):
     """
     音乐回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
     type = 'music'
     music = MusicField('Music', {})
@@ -227,7 +231,8 @@ class MusicReply(BaseReply):
 class ArticlesReply(BaseReply):
     """
     图文回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=发送被动响应消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
     type = 'news'
     articles = ArticlesField('Articles', [])
@@ -245,7 +250,8 @@ class ArticlesReply(BaseReply):
 class TransferCustomerServiceReply(BaseReply):
     """
     将消息转发到多客服
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=将消息转发到多客服
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/5/ae230189c9bd07a6b221f48619aeef35.html
     """
     type = 'transfer_customer_service'
 

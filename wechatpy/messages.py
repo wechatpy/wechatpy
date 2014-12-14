@@ -74,7 +74,8 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
 class TextMessage(BaseMessage):
     """
     文本消息
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'text'
     content = StringField('Content')
@@ -84,7 +85,8 @@ class TextMessage(BaseMessage):
 class ImageMessage(BaseMessage):
     """
     图片消息
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'image'
     image = StringField('PicUrl')
@@ -94,7 +96,8 @@ class ImageMessage(BaseMessage):
 class VoiceMessage(BaseMessage):
     """
     语音消息
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'voice'
     media_id = StringField('MediaId')
@@ -106,7 +109,8 @@ class VoiceMessage(BaseMessage):
 class VideoMessage(BaseMessage):
     """
     视频消息
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'video'
     media_id = StringField('MediaId')
@@ -117,7 +121,8 @@ class VideoMessage(BaseMessage):
 class LocationMessage(BaseMessage):
     """
     地理位置消息
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'location'
     location_x = StringField('Location_X')
@@ -134,7 +139,8 @@ class LocationMessage(BaseMessage):
 class LinkMessage(BaseMessage):
     """
     链接消息
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'link'
     title = StringField('Title')

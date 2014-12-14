@@ -11,7 +11,8 @@ class WeChatMisc(BaseWeChatAPI):
     def short_url(self, long_url):
         """
         将一条长链接转成短链接
-        详情请参考 http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
+        详情请参考
+        http://mp.weixin.qq.com/wiki/10/165c9b15eddcfbd8699ac12b0bd89ae6.html
 
         :param long_url: 长链接地址
         :return: 返回的 JSON 数据包
@@ -28,7 +29,8 @@ class WeChatMisc(BaseWeChatAPI):
                                  page_size=10, user_id=None):
         """
         获取客服聊天记录
-        详情请参考 http://mp.weixin.qq.com/wiki/index.php?title=获取客服聊天记录
+        详情请参考
+        http://mp.weixin.qq.com/wiki/19/7c129ec71ddfa60923ea9334557e8b23.html
 
         :param start_time: 查询开始时间，UNIX 时间戳
         :param end_time: 查询结束时间，UNIX 时间戳，每次查询不能跨日查询

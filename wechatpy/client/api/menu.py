@@ -10,7 +10,8 @@ class WeChatMenu(BaseWeChatAPI):
     def get(self):
         """
         查询自定义菜单。
-        详情请参考 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
+        详情请参考
+        http://mp.weixin.qq.com/wiki/16/ff9b7b85220e1396ffa16794a9d95adc.html
 
         :return: 返回的 JSON 数据包
         """
@@ -63,7 +64,8 @@ class WeChatMenu(BaseWeChatAPI):
                 ]
             })
 
-        详情请参考 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+        详情请参考
+        http://mp.weixin.qq.com/wiki/13/43de8269be54a0a6f64413e4dfa94f39.html
 
         :param menu_data: Python 字典
 
@@ -77,7 +79,8 @@ class WeChatMenu(BaseWeChatAPI):
     def delete(self):
         """
         删除自定义菜单。
-        详情请参考 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
+        详情请参考
+        http://mp.weixin.qq.com/wiki/16/8ed41ba931e4845844ad6d1eeb8060c8.html
 
         :return: 返回的 JSON 数据包
         """
