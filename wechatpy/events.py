@@ -38,7 +38,8 @@ class BaseEvent(BaseMessage):
 class SubscribeEvent(BaseEvent):
     """
     用户关注事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'subscribe'
 
@@ -47,7 +48,8 @@ class SubscribeEvent(BaseEvent):
 class UnsubscribeEvent(BaseEvent):
     """
     用户取消关注事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'unsubscribe'
 
@@ -56,7 +58,8 @@ class UnsubscribeEvent(BaseEvent):
 class SubscribeScanEvent(BaseEvent):
     """
     用户扫描二维码关注事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'subscribe_scan'
     scene_id = StringField('EventKey')
@@ -67,7 +70,8 @@ class SubscribeScanEvent(BaseEvent):
 class ScanEvent(BaseEvent):
     """
     用户扫描二维码事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'scan'
     scene_id = StringField('EventKey')
@@ -78,7 +82,8 @@ class ScanEvent(BaseEvent):
 class LocationEvent(BaseEvent):
     """
     上报地理位置事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'location'
     latitude = FloatField('Latitude', 0.0)
@@ -90,7 +95,8 @@ class LocationEvent(BaseEvent):
 class ClickEvent(BaseEvent):
     """
     点击菜单拉取消息事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'click'
     key = StringField('EventKey')
@@ -100,7 +106,8 @@ class ClickEvent(BaseEvent):
 class ViewEvent(BaseEvent):
     """
     点击菜单跳转链接事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'view'
     url = StringField('EventKey')
@@ -110,7 +117,8 @@ class ViewEvent(BaseEvent):
 class MassSendJobFinishEvent(BaseEvent):
     """
     群发消息任务完成事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
     """
     event = 'masssendjobfinish'
     status = StringField('Status')
@@ -124,7 +132,8 @@ class MassSendJobFinishEvent(BaseEvent):
 class TemplateSendJobFinishEvent(BaseEvent):
     """
     模板消息任务完成事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=模板消息接口
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html
     """
     event = 'templatesendjobfinish'
     status = StringField('Status')
@@ -147,7 +156,8 @@ class BaseScanCodeEvent(BaseEvent):
 class ScanCodePushEvent(BaseScanCodeEvent):
     """
     扫码推事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/981d772286d10d153a3dc4286c1ee5b5.html
     """
     event = 'scancode_push'
 
@@ -156,7 +166,8 @@ class ScanCodePushEvent(BaseScanCodeEvent):
 class ScanCodeWaitMsgEvent(BaseScanCodeEvent):
     """
     扫码推事件且弹出“消息接收中”提示框的事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/981d772286d10d153a3dc4286c1ee5b5.html
     """
     event = 'scancode_waitmsg'
 
@@ -181,7 +192,8 @@ class BasePictureEvent(BaseEvent):
 class PicSysPhotoEvent(BasePictureEvent):
     """
     弹出系统拍照发图的事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/981d772286d10d153a3dc4286c1ee5b5.html
     """
     event = 'pic_sysphoto'
 
@@ -190,7 +202,8 @@ class PicSysPhotoEvent(BasePictureEvent):
 class PicPhotoOrAlbumEvent(BasePictureEvent):
     """
     弹出拍照或者相册发图的事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/981d772286d10d153a3dc4286c1ee5b5.html
     """
     event = 'pic_photo_or_album'
 
@@ -199,7 +212,8 @@ class PicPhotoOrAlbumEvent(BasePictureEvent):
 class PicWeChatEvent(BasePictureEvent):
     """
     弹出微信相册发图器的事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/981d772286d10d153a3dc4286c1ee5b5.html
     """
     event = 'pic_weixin'
 
@@ -208,7 +222,8 @@ class PicWeChatEvent(BasePictureEvent):
 class LocationSelectEvent(BaseEvent):
     """
     弹出地理位置选择器的事件
-    详情请参阅 http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单事件推送
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/9/981d772286d10d153a3dc4286c1ee5b5.html
     """
     event = 'location_select'
     key = StringField('EventKey')
