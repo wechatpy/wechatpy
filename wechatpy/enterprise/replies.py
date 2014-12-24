@@ -43,6 +43,10 @@ def create_reply(reply, message=None, render=False):
     r = None
     if isinstance(reply, replies.BaseReply):
         r = reply
+        if message:
+            r.source = message.target
+            r.target = message.source
+            r.agent = message.agent
     elif isinstance(reply, six.string_types):
         r = TextReply(
             message=message,
