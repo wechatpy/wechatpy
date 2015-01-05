@@ -28,7 +28,7 @@ class FieldDescriptor(object):
                 value = self.field.default
             if isinstance(value, dict):
                 value = ObjectDict(value)
-            if value and not isinstance(value, dict) and \
+            if value and not isinstance(value, (dict, list, tuple)) and \
                     six.callable(self.field.converter):
                 value = self.field.converter(value)
             return value

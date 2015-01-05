@@ -14,6 +14,7 @@ class CreateReplyTestCase(unittest.TestCase):
         reply = create_reply(text, render=False)
         self.assertEqual('text', reply.type)
         self.assertEquals(text, reply.content)
+        reply.render()
 
     def test_create_reply_with_text_render(self):
         text = 'test'
@@ -35,12 +36,14 @@ class CreateReplyTestCase(unittest.TestCase):
 
         self.assertEqual('user1', reply.target)
         self.assertEqual('user2', reply.source)
+        reply.render()
 
     def test_create_reply_with_reply(self):
         _reply = TextReply(content='test')
         reply = create_reply(_reply, render=False)
 
         self.assertEqual(_reply, reply)
+        reply.render()
 
     def test_create_reply_with_articles(self):
         articles = [
@@ -65,6 +68,7 @@ class CreateReplyTestCase(unittest.TestCase):
         ]
         reply = create_reply(articles, render=False)
         self.assertEqual('news', reply.type)
+        reply.render()
 
     def test_create_reply_with_more_than_ten_articles(self):
         articles = [
