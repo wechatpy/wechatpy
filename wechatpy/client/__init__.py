@@ -29,6 +29,7 @@ class WeChatClient(BaseWeChatClient):
         self.message = api.WeChatMessage(self)
         self.misc = api.WeChatMisc(self)
         self.merchant = api.WeChatMerchant(self)
+        self.customservice = api.WeChatCustomService(self)
 
     def fetch_access_token(self):
         """

@@ -10,3 +10,4 @@ from .message import WeChatMessage  # NOQA
 from .qrcode import WeChatQRCode  # NOQA
 from .misc import WeChatMisc  # NOQA
 from .merchant import WeChatMerchant  # NOQA
+from .customservice import WeChatCustomService  # NOQA
