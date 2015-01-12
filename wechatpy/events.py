@@ -182,10 +182,12 @@ class BasePictureEvent(BaseEvent):
 
     @property
     def pictures(self):
-        items = self.pictures_info['PicList']['item']
-        if self.count > 1:
-            return items
-        return [items]
+        if self.pictures_info['PicList']:
+            items = self.pictures_info['PicList']['item']
+            if self.count > 1:
+                return items
+            return [items]
+        return []
 
 
 @register_event('pic_sysphoto')

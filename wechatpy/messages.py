@@ -89,6 +89,7 @@ class ImageMessage(BaseMessage):
     http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
     """
     type = 'image'
+    media_id = StringField('MediaId')
     image = StringField('PicUrl')
 
 
