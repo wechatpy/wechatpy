@@ -95,3 +95,16 @@ class WeChatUser(BaseWeChatAPI):
                 'code': code
             }
         )
+
+    def invite(self, user_id, tips=None):
+        """
+        邀请成员关注
+        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理成员
+        """
+        data = NotNoneDict()
+        data['userid'] = user_id
+        data['invite_tips'] = tips
+        return self._post(
+            'invite/send',
+            data=data
+        )
