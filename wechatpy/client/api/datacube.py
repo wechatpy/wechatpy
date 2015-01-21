@@ -55,3 +55,41 @@ class WeChatDataCube(BaseWeChatAPI):
             }
         )
         return res['list']
+
+    def get_interface_summary(self, begin_date, end_date):
+        """
+        获取接口分析数据
+        详情请参考
+        http://mp.weixin.qq.com/wiki/8/30ed81ae38cf4f977194bf1a5db73668.html
+
+        :param begin_date: 起始日期
+        :param end_date: 结束日期
+        :return: 统计数据列表
+        """
+        res = self._post(
+            'datacube/getinterfacesummary',
+            data={
+                'begin_date': self._to_date_str(begin_date),
+                'end_date': self._to_date_str(end_date)
+            }
+        )
+        return res['list']
+
+    def get_interface_summary_hour(self, begin_date, end_date):
+        """
+        获取接口分析分时数据
+        详情请参考
+        http://mp.weixin.qq.com/wiki/8/30ed81ae38cf4f977194bf1a5db73668.html
+
+        :param begin_date: 起始日期
+        :param end_date: 结束日期
+        :return: 统计数据列表
+        """
+        res = self._post(
+            'datacube/getinterfacesummaryhour',
+            data={
+                'begin_date': self._to_date_str(begin_date),
+                'end_date': self._to_date_str(end_date)
+            }
+        )
+        return res['list']
