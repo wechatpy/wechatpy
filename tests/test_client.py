@@ -136,3 +136,13 @@ class WeChatClientTestCase(unittest.TestCase):
                 ]
             })
             self.assertEqual(0, result['errcode'])
+
+    def test_short_url(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.misc.short_url('http://www.qq.com')
+            self.assertEqual('http://qq.com', result['short_url'])
+
+    def test_get_wechat_ips(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.misc.get_wechat_ips()
+            self.assertEqual(['127.0.0.1'], result)
