@@ -27,8 +27,7 @@ def parse_message(xml):
     message_type = message['MsgType'].lower()
     if message_type == 'event':
         event_type = message['Event'].lower()
-        if event_type == 'subscribe' and 'EventKey' in message and \
-                message['EventKey']:
+        if event_type == 'subscribe' and message.get('EventKey'):
             # Scan to subscribe with scene id event
             event_type = 'subscribe_scan'
             message['Event'] = event_type
