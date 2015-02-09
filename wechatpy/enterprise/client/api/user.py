@@ -120,3 +120,18 @@ class WeChatUser(BaseWeChatAPI):
                 'useridlist': user_ids
             }
         )
+
+    def list(self, department_id, fetch_child=False, status=0):
+        """
+        批量获取部门成员
+        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理成员
+        """
+        res = self._get(
+            'user/list',
+            params={
+                'department_id': department_id,
+                'fetch_child': 1 if fetch_child else 0,
+                'status': status
+            }
+        )
+        return res['userlist']
