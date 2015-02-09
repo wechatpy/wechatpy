@@ -21,6 +21,7 @@ class WeChatClient(BaseWeChatClient):
         self.message = api.WeChatMessage(self)
         self.tag = api.WeChatTag(self)
         self.media = api.WeChatMedia(self)
+        self.misc = api.WeChatMisc(self)
 
     def fetch_access_token(self):
         """ Fetch access token"""
