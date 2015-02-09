@@ -100,3 +100,14 @@ class WeChatCustomService(BaseWeChatAPI):
                 'media': media_file
             }
         )
+
+    def get_online_accounts(self):
+        """
+        获取在线客服接待信息
+        详情请参考
+        http://mp.weixin.qq.com/wiki/9/6fff6f191ef92c126b043ada035cc935.html
+
+        :return: 客服接待信息列表
+        """
+        res = self._get('customservice/getonlinekflist')
+        return res['kf_online_list']
