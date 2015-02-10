@@ -255,7 +255,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_datacube_get_user_cumulate(self):
         with HTTMock(wechat_api_mock):
             result = self.client.datacube.get_user_cumulate(
-                datetime(2014, 12, 06),
-                datetime(2014, 12, 07)
+                datetime(2014, 12, 6),
+                datetime(2014, 12, 7)
             )
             self.assertEqual(1, len(result))
