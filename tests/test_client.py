@@ -259,3 +259,19 @@ class WeChatClientTestCase(unittest.TestCase):
                 datetime(2014, 12, 7)
             )
             self.assertEqual(1, len(result))
+
+    def test_datacube_get_interface_summary(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_interface_summary(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_interface_summary_hour(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_interface_summary_hour(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
