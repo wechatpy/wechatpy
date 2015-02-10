@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import weakref
 
 from .base import BaseWeChatClient
 from . import api
@@ -19,18 +20,20 @@ class WeChatClient(BaseWeChatClient):
         self._access_token = access_token
         self.expires_at = None
 
+        weak_self = weakref.proxy(self)
+
         # APIs
-        self.menu = api.WeChatMenu(self)
-        self.user = api.WeChatUser(self)
-        self.group = api.WeChatGroup(self)
-        self.media = api.WeChatMedia(self)
-        self.card = api.WeChatCard(self)
-        self.qrcode = api.WeChatQRCode(self)
-        self.message = api.WeChatMessage(self)
-        self.misc = api.WeChatMisc(self)
-        self.merchant = api.WeChatMerchant(self)
-        self.customservice = api.WeChatCustomService(self)
-        self.datacube = api.WeChatDataCube(self)
+        self.menu = api.WeChatMenu(weak_self)
+        self.user = api.WeChatUser(weak_self)
+        self.group = api.WeChatGroup(weak_self)
+        self.media = api.WeChatMedia(weak_self)
+        self.card = api.WeChatCard(weak_self)
+        self.qrcode = api.WeChatQRCode(weak_self)
+        self.message = api.WeChatMessage(weak_self)
+        self.misc = api.WeChatMisc(weak_self)
+        self.merchant = api.WeChatMerchant(weak_self)
+        self.customservice = api.WeChatCustomService(weak_self)
+        self.datacube = api.WeChatDataCube(weak_self)
 
     def fetch_access_token(self):
         """
