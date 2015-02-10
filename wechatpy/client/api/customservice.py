@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 import hashlib
 
+from wechatpy.utils import to_binary
 from .base import BaseWeChatAPI
 
 
@@ -18,6 +19,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :param password: 客服账号登录密码
         :return: 返回的 JSON 数据包
         """
+        password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
             'customservice/kfaccount/add',
@@ -39,6 +41,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :param password: 客服账号登录密码
         :return: 返回的 JSON 数据包
         """
+        password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
             'customservice/kfaccount/update',
@@ -60,6 +63,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :param password: 客服账号登录密码
         :return: 返回的 JSON 数据包
         """
+        password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
             'customservice/kfaccount/del',
