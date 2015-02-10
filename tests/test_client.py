@@ -165,3 +165,33 @@ class WeChatClientTestCase(unittest.TestCase):
             remark = 'test'
             result = self.client.user.update_remark(openid, remark)
             self.assertEqual(0, result['errcode'])
+
+    def test_create_qrcode(self):
+        data = {
+            'expire_seconds': 1800,
+            'action_name': 'QR_SCENE',
+            'action_info': {
+                'scene': {'scene_id': 123}
+            }
+        }
+        with HTTMock(wechat_api_mock):
+            result = self.client.qrcode.create(data)
+            self.assertEqual(1800, result['expire_seconds'])
+
+    def test_get_qrcode_url_with_str_ticket(self):
+        ticket = '123'
+        url = self.client.qrcode.get_url(ticket)
+        self.assertEqual(
+            'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=123',
+            url
+        )
+
+    def test_get_qrcode_url_with_dict_ticket(self):
+        ticket = {
+            'ticket': '123',
+        }
+        url = self.client.qrcode.get_url(ticket)
+        self.assertEqual(
+            'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=123',
+            url
+        )
