@@ -275,3 +275,107 @@ class WeChatClientTestCase(unittest.TestCase):
                 '2014-12-07'
             )
             self.assertEqual(1, len(result))
+
+    def test_datacube_get_article_summary(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_article_summary(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_article_total(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_article_total(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_user_read(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_user_read(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_user_read_hour(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_user_read_hour(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_user_share(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_user_share(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(2, len(result))
+
+    def test_datacube_get_user_share_hour(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_user_share_hour(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg_hour(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg_hour(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg_week(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg_week(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg_month(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg_month(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg_dist(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg_dist(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg_dist_week(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg_dist_week(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_upstream_msg_dist_month(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_upstream_msg_dist_month(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))

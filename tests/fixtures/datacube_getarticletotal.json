@@ -1,0 +1,23 @@
+{
+    "list": [
+        {
+            "ref_date": "2014-12-08",
+            "msgid": "23423525",
+            "title": "test",
+            "details": [
+                {
+                    "stat_date": "2014-12-14", 
+                   "target_user": 261917, 
+                   "int_page_read_user": 23676, 
+                   "int_page_read_count": 25615, 
+                   "ori_page_read_user": 29, 
+                   "ori_page_read_count": 34, 
+                   "share_user": 122, 
+                   "share_count": 994, 
+                   "add_to_fav_user": 1, 
+                   "add_to_fav_count": 3
+                }
+            ]
+        }
+    ]
+}
