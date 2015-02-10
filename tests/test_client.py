@@ -195,3 +195,49 @@ class WeChatClientTestCase(unittest.TestCase):
             'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=123',
             url
         )
+
+    def test_customservice_add_account(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.add_account(
+                'test1@test',
+                'test1',
+                'test1'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_customservice_update_account(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.update_account(
+                'test1@test',
+                'test1',
+                'test1'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_customservice_delete_account(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.delete_account(
+                'test1@test',
+                'test1',
+                'test1'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_customservice_upload_headimg(self):
+        media_file = six.StringIO('nothing')
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.upload_headimg(
+                'test1@test',
+                media_file
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_customservice_get_accounts(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.get_accounts()
+            self.assertEqual(2, len(result))
+
+    def test_customservice_get_online_accounts(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.get_online_accounts()
+            self.assertEqual(2, len(result))
