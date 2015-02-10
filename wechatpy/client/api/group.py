@@ -25,20 +25,22 @@ class WeChatGroup(BaseWeChatAPI):
 
     def get(self, user_id=None):
         """
-        查询所有分组或查询用户所在分组
+        查询所有分组或查询用户所在分组 ID
         详情请参考
         http://mp.weixin.qq.com/wiki/13/be5272dc4930300ba561d927aead2569.html
 
         :param user_id: 用户 ID，提供时查询该用户所在分组，否则查询所有分组
-        :return: 返回的 JSON 数据包
+        :return: 所有分组列表或用户所在分组 ID
         """
         if user_id is None:
-            return self._get('groups/get')
+            res = self._get('groups/get')
+            return res['groups']
         else:
-            return self._post(
+            res = self._post(
                 'groups/getid',
                 data={'openid': user_id}
             )
+            return res['groupid']
 
     def update(self, group_id, name):
         """

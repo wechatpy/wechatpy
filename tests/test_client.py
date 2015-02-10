@@ -62,6 +62,26 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(1, group['group']['id'])
             self.assertEqual('test', group['group']['name'])
 
+    def test_group_get(self):
+        with HTTMock(wechat_api_mock):
+            groups = self.client.group.get()
+            self.assertEqual(5, len(groups))
+
+    def test_group_getid(self):
+        with HTTMock(wechat_api_mock):
+            group = self.client.group.get('123456')
+            self.assertEqual(102, group)
+
+    def test_group_update(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.group.update(102, 'test')
+            self.assertEqual(0, result['errcode'])
+
+    def test_group_move_user(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.group.move_user('test', 102)
+            self.assertEqual(0, result['errcode'])
+
     def test_send_text_message(self):
         with HTTMock(wechat_api_mock):
             result = self.client.message.send_text(1, 'test')
