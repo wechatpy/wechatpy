@@ -146,3 +146,22 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             result = self.client.misc.get_wechat_ips()
             self.assertEqual(['127.0.0.1'], result)
+
+    def test_get_user_info(self):
+        with HTTMock(wechat_api_mock):
+            openid = 'o6_bmjrPTlm6_2sgVt7hMZOPfL2M'
+            user = self.client.user.get(openid)
+            self.assertEqual('Band', user['nickname'])
+
+    def test_get_followers(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.user.get_followers()
+            self.assertEqual(2, result['total'])
+            self.assertEqual(2, result['count'])
+
+    def test_update_user_remark(self):
+        with HTTMock(wechat_api_mock):
+            openid = 'openid'
+            remark = 'test'
+            result = self.client.user.update_remark(openid, remark)
+            self.assertEqual(0, result['errcode'])
