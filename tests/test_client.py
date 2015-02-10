@@ -2,6 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 import os
 import unittest
+from datetime import datetime
+
 import six
 from httmock import urlmatch, HTTMock, response
 
@@ -241,3 +243,19 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             result = self.client.customservice.get_online_accounts()
             self.assertEqual(2, len(result))
+
+    def test_datacube_get_user_summary(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_user_summary(
+                '2014-12-06',
+                '2014-12-07'
+            )
+            self.assertEqual(1, len(result))
+
+    def test_datacube_get_user_cumulate(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.datacube.get_user_cumulate(
+                datetime(2014, 12, 06),
+                datetime(2014, 12, 07)
+            )
+            self.assertEqual(1, len(result))
