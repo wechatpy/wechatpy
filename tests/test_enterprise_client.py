@@ -1,0 +1,77 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+import os
+import unittest
+
+from httmock import urlmatch, HTTMock, response
+
+from wechatpy.enterprise import WeChatClient
+from wechatpy._compat import json
+
+
+_TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
+_FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures', 'enterprise')
+
+
+@urlmatch(netloc=r'(.*\.)?qyapi\.weixin\.qq\.com$')
+def wechat_api_mock(url, request):
+    path = url.path.replace('/cgi-bin/', '').replace('/', '_')
+    res_file = os.path.join(_FIXTURE_PATH, '%s.json' % path)
+    content = {
+        'errcode': 99999,
+        'errmsg': 'can not find fixture'
+    }
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    try:
+        with open(res_file) as f:
+            content = json.loads(f.read())
+    except (IOError, ValueError):
+        pass
+    return response(200, content, headers, request=request)
+
+
+class WeChatClientTestCase(unittest.TestCase):
+    corp_id = '123456'
+    secret = '123456'
+
+    def setUp(self):
+        self.client = WeChatClient(self.corp_id, self.secret)
+
+    def test_fetch_access_token(self):
+        with HTTMock(wechat_api_mock):
+            token = self.client.fetch_access_token()
+            self.assertEqual('1234567890', token['access_token'])
+            self.assertEqual(7200, token['expires_in'])
+            self.assertEqual('1234567890', self.client.access_token)
+
+    def test_get_wechat_ips(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.misc.get_wechat_ips()
+            self.assertEqual(['127.0.0.1'], res)
+
+    def test_department_create(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.department.create('Test')
+            self.assertEqual(2, res['id'])
+
+    def test_department_update(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.department.update(2, 'Test 1')
+            self.assertEqual(0, res['errcode'])
+
+    def test_department_delete(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.department.delete(2)
+            self.assertEqual(0, res['errcode'])
+
+    def test_department_get(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.department.get()
+            self.assertEqual(2, len(res))
+
+    def test_department_get_users(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.department.get_users(2)
+            self.assertEqual(1, len(res))
