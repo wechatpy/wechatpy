@@ -106,3 +106,8 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.tag.delete_users(1, [1, 2, 3])
             self.assertEqual(0, res['errcode'])
+
+    def test_tag_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.list()
+            self.assertEqual(2, len(res))
