@@ -75,3 +75,34 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.department.get_users(2)
             self.assertEqual(1, len(res))
+
+    def test_tag_create(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.create('test')
+            self.assertEqual('1', res['tagid'])
+
+    def test_tag_update(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.update(1, 'test')
+            self.assertEqual(0, res['errcode'])
+
+    def test_tag_delete(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.delete(1)
+            self.assertEqual(0, res['errcode'])
+
+    def test_tag_get_users(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.get_users(1)
+            self.assertEqual(1, len(res['userlist']))
+            self.assertEqual(1, len(res['partylist']))
+
+    def test_tag_add_users(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.add_users(1, [1, 2, 3])
+            self.assertEqual(0, res['errcode'])
+
+    def test_tag_delete_users(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.tag.delete_users(1, [1, 2, 3])
+            self.assertEqual(0, res['errcode'])
