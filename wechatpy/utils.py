@@ -38,8 +38,9 @@ class NotNoneDict(dict):
 class WeChatSigner(object):
     """WeChat data signer"""
 
-    def __init__(self):
+    def __init__(self, delimiter=b''):
         self._data = []
+        self._delimiter = to_binary(delimiter)
 
     def add_data(self, *args):
         """Add data to signer"""
@@ -50,7 +51,7 @@ class WeChatSigner(object):
     def signature(self):
         """Get data signature"""
         self._data.sort()
-        str_to_sign = b''.join(self._data)
+        str_to_sign = self._delimiter.join(self._data)
         return hashlib.sha1(str_to_sign).hexdigest()
 
 

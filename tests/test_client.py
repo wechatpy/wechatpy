@@ -399,3 +399,28 @@ class WeChatClientTestCase(unittest.TestCase):
                 '2014-12-07'
             )
             self.assertEqual(1, len(result))
+
+    def test_jsapi_get_ticket(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.jsapi.get_ticket()
+            self.assertEqual(
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
+                result['ticket']
+            )
+            self.assertEqual(7200, result['expires_in'])
+
+    def test_jsapi_get_jsapi_signature(self):
+        noncestr = 'Wm3WZYTPz0wzccnW'
+        ticket = 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg'  # NOQA
+        timestamp = 1414587457
+        url = 'http://mp.weixin.qq.com?params=value'
+        signature = self.client.jsapi.get_jsapi_signature(
+            noncestr,
+            ticket,
+            timestamp,
+            url
+        )
+        self.assertEqual(
+            '0f9de62fce790f9a083d5c99e95740ceb90c27ed',
+            signature
+        )
