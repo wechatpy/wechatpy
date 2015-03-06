@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.client.js
+    wechatpy.client.jsapi
     ~~~~~~~~~~~~~~~~~~~~
 
     This module provides some APIs for JS SDK
