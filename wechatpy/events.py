@@ -290,3 +290,22 @@ class MerchantOrderEvent(BaseEvent):
     order_status = IntegerField('OrderStatus')
     product_id = StringField('ProductId')
     sku_info = StringField('SkuInfo')
+
+
+@register_event('kf_create_session')
+class KfCreateSessionEvent(BaseEvent):
+    event = 'kf_create_session'
+    account = StringField('KfAccount')
+
+
+@register_event('kf_close_session')
+class KfCloseSessionEvent(BaseEvent):
+    event = 'kf_close_session'
+    account = StringField('KfAccount')
+
+
+@register_event('kf_switch_session')
+class KfSwitchSession(BaseEvent):
+    event = 'kf_switch_session'
+    from_account = StringField('FromKfAccount')
+    to_account = StringField('ToKfAccount')

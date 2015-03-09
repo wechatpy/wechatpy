@@ -264,6 +264,37 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.customservice.get_online_accounts()
             self.assertEqual(2, len(result))
 
+    def test_customservice_create_session(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.create_session(
+                'openid',
+                'test1@test'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_customservice_close_session(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.close_session(
+                'openid',
+                'test1@test'
+            )
+            self.assertEqual(0, result['errcode'])
+
+    def test_customservice_get_session(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.get_session('openid')
+            self.assertEqual('test1@test', result['kf_account'])
+
+    def test_customservice_get_session_list(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.get_session_list('test1@test')
+            self.assertEqual(2, len(result))
+
+    def test_customservice_get_wait_case(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.get_wait_case()
+            self.assertEqual(150, result['count'])
+
     def test_datacube_get_user_summary(self):
         with HTTMock(wechat_api_mock):
             result = self.client.datacube.get_user_summary(

@@ -180,3 +180,53 @@ class EventsTestCase(unittest.TestCase):
         self.assertEqual(2, event.order_status)
         self.assertEqual('test_product_id', event.product_id)
         self.assertEqual('10001:1000012;10002:100021', event.sku_info)
+
+    def test_kf_create_session_event(self):
+        from wechatpy.events import KfCreateSessionEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[touser]]></ToUserName>
+        <FromUserName><![CDATA[fromuser]]></FromUserName>
+        <CreateTime>1399197672</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[kf_create_session]]></Event>
+        <KfAccount><![CDATA[test1@test]]></KfAccount>
+        </xml>"""
+
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, KfCreateSessionEvent))
+        self.assertEqual('test1@test', event.account)
+
+    def test_kf_close_session_event(self):
+        from wechatpy.events import KfCloseSessionEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[touser]]></ToUserName>
+        <FromUserName><![CDATA[fromuser]]></FromUserName>
+        <CreateTime>1399197672</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[kf_close_session]]></Event>
+        <KfAccount><![CDATA[test1@test]]></KfAccount>
+        </xml>"""
+
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, KfCloseSessionEvent))
+        self.assertEqual('test1@test', event.account)
+
+    def test_kf_switch_session_event(self):
+        from wechatpy.events import KfSwitchSession
+
+        xml = """<xml>
+        <ToUserName><![CDATA[touser]]></ToUserName>
+        <FromUserName><![CDATA[fromuser]]></FromUserName>
+        <CreateTime>1399197672</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[kf_switch_session]]></Event>
+        <FromKfAccount><![CDATA[test1@test]]></FromKfAccount>
+        <ToKfAccount><![CDATA[test2@test]]></ToKfAccount>
+        </xml>"""
+
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, KfSwitchSession))
+        self.assertEqual('test1@test', event.from_account)
+        self.assertEqual('test2@test', event.to_account)

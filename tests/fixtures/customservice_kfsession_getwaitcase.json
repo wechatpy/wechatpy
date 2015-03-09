@@ -1,0 +1,15 @@
+{
+     "count": 150,
+     "waitcaselist": [
+         {
+             "openid": "OPENID", 
+             "kf_account" : "test1@test",
+             "createtime": 123456789
+         }, 
+         {
+             "openid": "OPENID", 
+             "kf_account" : "test2@test",
+             "createtime": 123456789
+         }
+     ]
+ }

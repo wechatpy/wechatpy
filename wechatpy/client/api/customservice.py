@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 import hashlib
 
-from wechatpy.utils import to_binary
+from wechatpy.utils import to_binary, NotNoneDict
 from .base import BaseWeChatAPI
 
 
@@ -115,3 +115,82 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         res = self._get('customservice/getonlinekflist')
         return res['kf_online_list']
+
+    def create_session(self, openid, account, text=None):
+        """
+        多客服创建会话
+        详情请参考
+        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+
+        :param openid: 客户 openid
+        :param account: 完整客服账号
+        :param text: 附加信息，可选
+        :return: 返回的 JSON 数据包
+        """
+        data = NotNoneDict()
+        data['openid'] = openid
+        data['kf_account'] = account
+        data['text'] = text
+        return self._post(
+            'customservice/kfsession/create',
+            data=data
+        )
+
+    def close_session(self, openid, account, text=None):
+        """
+        多客服关闭会话
+        详情请参考
+        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+
+        :param openid: 客户 openid
+        :param account: 完整客服账号
+        :param text: 附加信息，可选
+        :return: 返回的 JSON 数据包
+        """
+        data = NotNoneDict()
+        data['openid'] = openid
+        data['kf_account'] = account
+        data['text'] = text
+        return self._post(
+            'customservice/kfsession/close',
+            data=data
+        )
+
+    def get_session(self, openid):
+        """
+        获取客户的会话状态
+        详情请参考
+        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+
+        :param openid: 客户 openid
+        :return: 返回的 JSON 数据包
+        """
+        return self._get(
+            'customservice/kfsession/getsession',
+            params={'openid': openid}
+        )
+
+    def get_session_list(self, account):
+        """
+        获取客服的会话列表
+        详情请参考
+        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+
+        :param account: 完整客服账号
+        :return: 客服的会话列表
+        """
+        res = self._get(
+            'customservice/kfsession/getsessionlist',
+            params={'kf_account': account}
+        )
+        return res['sessionlist']
+
+    def get_wait_case(self):
+        """
+        获取未接入会话列表
+        详情请参考
+        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get('customservice/kfsession/getwaitcase')
