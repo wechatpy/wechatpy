@@ -9,9 +9,9 @@ class WeChatMedia(BaseWeChatAPI):
 
     def upload(self, media_type, media_file):
         """
-        上传多媒体文件。
+        上传临时素材
         详情请参考
-        http://mp.weixin.qq.com/wiki/10/78b15308b053286e2a66b33f0f0f5fb6.html
+        http://mp.weixin.qq.com/wiki/5/963fc70b80dc75483a271298a76a8d59.html
 
         :param media_type: 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）
         :param media_file: 要上传的文件，一个 File-object
@@ -31,7 +31,7 @@ class WeChatMedia(BaseWeChatAPI):
 
     def download(self, media_id):
         """
-        下载多媒体文件。
+        获取临时素材
         详情请参考
         http://mp.weixin.qq.com/wiki/10/78b15308b053286e2a66b33f0f0f5fb6.html
 
@@ -46,6 +46,22 @@ class WeChatMedia(BaseWeChatAPI):
                 'media_id': media_id
             }
         )
+
+    def get_url(self, media_id):
+        """
+        获取临时素材下载地址
+
+        :param media_id: 媒体文件 ID
+        :return: 临时素材下载地址
+        """
+        parts = (
+            'http://file.api.weixin.qq.com/cgi-bin/media/get',
+            '?access_token=',
+            self.access_token,
+            '&media_id=',
+            media_id
+        )
+        return ''.join(parts)
 
     def upload_video(self, media_id, title, description):
         """
