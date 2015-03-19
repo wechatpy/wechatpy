@@ -8,3 +8,4 @@ from .menu import WeChatMenu  # NOQA
 from .tag import WeChatTag  # NOQA
 from .user import WeChatUser  # NOQA
 from .misc import WeChatMisc  # NOQA
+from .agent import WeChatAgent  # NOQA
