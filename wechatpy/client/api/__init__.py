@@ -14,3 +14,4 @@ from .customservice import WeChatCustomService  # NOQA
 from .datacube import WeChatDataCube  # NOQA
 from .jsapi import WeChatJSAPI  # NOQA
 from .material import WeChatMaterial  # NOQA
+from .semantic import WeChatSemantic  # NOQA
