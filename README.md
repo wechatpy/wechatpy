@@ -27,6 +27,8 @@
 
     pip install -U wechatpy
 
+> Tips: Windows 用户请先安装 PyCrypto 的二进制包后再使用 pip 安装 wechatpy 。 PyCrypto Windows 的二进制包可以在[这里](http://www.voidspace.org.uk/python/pycrypto-2.6.1/)下载。
+
 ## 使用示例
 
 使用示例参见 [examples](examples/)
