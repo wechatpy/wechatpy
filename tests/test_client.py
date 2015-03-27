@@ -295,6 +295,15 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.customservice.get_wait_case()
             self.assertEqual(150, result['count'])
 
+    def test_customservice_get_records(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.customservice.get_records(
+                123456789,
+                987654321,
+                1
+            )
+            self.assertEqual(2, len(result))
+
     def test_datacube_get_user_summary(self):
         with HTTMock(wechat_api_mock):
             result = self.client.datacube.get_user_summary(
