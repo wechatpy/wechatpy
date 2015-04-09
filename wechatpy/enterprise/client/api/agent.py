@@ -57,3 +57,14 @@ class WeChatAgent(BaseWeChatAPI):
             'agent/set',
             data=agent_data
         )
+
+    def list(self):
+        """
+        获取应用概况列表
+        详情请参考
+        http://qydev.weixin.qq.com/wiki/index.php?title=获取应用概况列表
+
+        :return: 应用概况列表
+        """
+        res = self._get('agent/list')
+        return res['agentlist']
