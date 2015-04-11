@@ -16,9 +16,6 @@ class ReplyTestCase(unittest.TestCase):
         self.assertEqual('user2', reply.target)
         self.assertTrue(timestamp <= reply.time)
 
-    def test_reply_init_fail(self):
-        self.assertRaises(AttributeError, TextReply, go_to_hell='hehe')
-
     def test_reply_render(self):
         timestamp = int(time.time())
         reply = TextReply(
@@ -68,7 +65,13 @@ class ReplyTestCase(unittest.TestCase):
         reply = VideoReply()
         reply.media_id = '123456'
         reply.title = 'test'
+        self.assertEqual('123456', reply.media_id)
+        self.assertEqual('test', reply.title)
 
+        reply = VideoReply(
+            media_id='123456',
+            title='test'
+        )
         self.assertEqual('123456', reply.media_id)
         self.assertEqual('test', reply.title)
 
@@ -81,7 +84,19 @@ class ReplyTestCase(unittest.TestCase):
         reply.description = 'test'
         reply.music_url = 'http://www.qq.com'
         reply.hq_music_url = None
+        self.assertEqual('123456', reply.thumb_media_id)
+        self.assertEqual('test', reply.title)
+        self.assertEqual('test', reply.description)
+        self.assertEqual('http://www.qq.com', reply.music_url)
+        self.assertTrue(reply.hq_music_url is None)
 
+        reply = MusicReply(
+            thumb_media_id='123456',
+            title='test',
+            description='test',
+            music_url='http://www.qq.com',
+            hq_music_url=None
+        )
         self.assertEqual('123456', reply.thumb_media_id)
         self.assertEqual('test', reply.title)
         self.assertEqual('test', reply.description)
