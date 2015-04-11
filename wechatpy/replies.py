@@ -51,9 +51,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
             if field:
                 self._data[field.name] = value
             else:
-                raise AttributeError('Unknown argument: {arg}'.format(
-                    arg=name
-                ))
+                setattr(self, name, value)
 
     def render(self):
         """Render reply from Python object to XML string"""
@@ -137,7 +135,7 @@ class VideoReply(BaseReply):
 
     @property
     def media_id(self):
-        return self.video.get('media_id', None)
+        return self.video.get('media_id')
 
     @media_id.setter
     def media_id(self, value):
@@ -147,7 +145,7 @@ class VideoReply(BaseReply):
 
     @property
     def title(self):
-        return self.video.get('title', None)
+        return self.video.get('title')
 
     @title.setter
     def title(self, value):
@@ -157,7 +155,7 @@ class VideoReply(BaseReply):
 
     @property
     def description(self):
-        return self.video.get('description', None)
+        return self.video.get('description')
 
     @description.setter
     def description(self, value):
@@ -178,7 +176,7 @@ class MusicReply(BaseReply):
 
     @property
     def thumb_media_id(self):
-        return self.music.get('thumb_media_id', None)
+        return self.music.get('thumb_media_id')
 
     @thumb_media_id.setter
     def thumb_media_id(self, value):
@@ -188,7 +186,7 @@ class MusicReply(BaseReply):
 
     @property
     def title(self):
-        return self.music.get('title', None)
+        return self.music.get('title')
 
     @title.setter
     def title(self, value):
@@ -198,7 +196,7 @@ class MusicReply(BaseReply):
 
     @property
     def description(self):
-        return self.music.get('description', None)
+        return self.music.get('description')
 
     @description.setter
     def description(self, value):
@@ -208,7 +206,7 @@ class MusicReply(BaseReply):
 
     @property
     def music_url(self):
-        return self.music.get('music_url', None)
+        return self.music.get('music_url')
 
     @music_url.setter
     def music_url(self, value):
@@ -218,7 +216,7 @@ class MusicReply(BaseReply):
 
     @property
     def hq_music_url(self):
-        return self.music.get('hq_music_url', None)
+        return self.music.get('hq_music_url')
 
     @hq_music_url.setter
     def hq_music_url(self, value):
