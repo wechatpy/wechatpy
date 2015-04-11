@@ -106,6 +106,18 @@ class VoiceMessage(BaseMessage):
     recognition = StringField('Recognition')
 
 
+@register_message('shortvideo')
+class ShortVideoMessage(BaseMessage):
+    """
+    短视频消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    """
+    type = 'shortvideo'
+    media_id = StringField('MediaId')
+    thumb_media_id = StringField('ThumbMediaId')
+
+
 @register_message('video')
 class VideoMessage(BaseMessage):
     """
