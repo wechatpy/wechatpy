@@ -28,6 +28,11 @@ class VoiceMessage(messages.VoiceMessage):
     agent = IntegerField('AgentID', 0)
 
 
+@register_message('shortvideo')
+class ShortVideoMessage(messages.ShortVideoMessage):
+    agent = IntegerField('AgentID', 0)
+
+
 @register_message('video')
 class VideoMessage(messages.VideoMessage):
     agent = IntegerField('AgentID', 0)
