@@ -8,14 +8,19 @@ python:
   - "pypy"
   - "pypy3"
 
+env:
+  - CRYPTOPKG="cryptography>=0.8.2"
+  - CRYPTOPKG="pycrypto>=2.6.2"
+
 install:
   - pip install -r requirements.txt
   - pip install coverage httmock
+  - pip install $CRYPTOPKG
 
 script: nosetests -v --with-coverage --cover-package=wechatpy
 
 after_success:
   - pip install coveralls
-  - pip install https://github.com/messense/ocular.py/archive/master.zip
+  - pip install scrutinizer-ocular
   - coveralls
   - ocular

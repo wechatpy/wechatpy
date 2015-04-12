@@ -1,4 +1,3 @@
-six
-requests
-pycrypto
-xmltodict
+six>=1.8.0
+requests>=2.4.3
+xmltodict>=0.9.0
