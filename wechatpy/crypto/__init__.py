@@ -16,13 +16,7 @@ import six
 
 from ..utils import to_text, to_binary, WeChatSigner
 from ..exceptions import InvalidAppIdException, InvalidSignatureException
-try:
-    from .cryptography import BasePrpCrypto
-except ImportError:
-    try:
-        from .pycrypto import BasePrpCrypto
-    except ImportError:
-        raise Exception('You must install either cryptography or PyCrypto!')
+from .base import BasePrpCrypto
 
 
 def _get_signature(token, timestamp, nonce, encrypt):
