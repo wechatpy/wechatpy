@@ -40,6 +40,8 @@ class BaseWeChatClient(object):
         )
         res.raise_for_status()
         result = res.json()
+        if 'errcode' in result:
+            result['errcode'] = int(result['errcode'])
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']

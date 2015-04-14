@@ -1,0 +1,10 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "status": 1,
+    "type": "replace_user",
+    "total": 3,
+    "percentage": 33,
+    "remaintime": 1,
+    "result": [{},{}]
+}

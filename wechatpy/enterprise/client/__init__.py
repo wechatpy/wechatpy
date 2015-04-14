@@ -26,6 +26,7 @@ class WeChatClient(BaseWeChatClient):
         self.media = api.WeChatMedia(weak_self)
         self.misc = api.WeChatMisc(weak_self)
         self.agent = api.WeChatAgent(weak_self)
+        self.batch = api.WeChatBatch(weak_self)
 
     def fetch_access_token(self):
         """ Fetch access token"""

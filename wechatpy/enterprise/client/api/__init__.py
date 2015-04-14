@@ -9,3 +9,4 @@ from .tag import WeChatTag  # NOQA
 from .user import WeChatUser  # NOQA
 from .misc import WeChatMisc  # NOQA
 from .agent import WeChatAgent  # NOQA
+from .batch import WeChatBatch  # NOQA
