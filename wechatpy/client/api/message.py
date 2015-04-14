@@ -328,3 +328,13 @@ class WeChatMessage(BaseWeChatAPI):
                 'data': data
             }
         )
+
+    def get_autoreply_info(self):
+        """
+        获取自动回复规则
+        详情请参考
+        http://mp.weixin.qq.com/wiki/7/7b5789bb1262fb866d01b4b40b0efecb.html
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get('get_current_autoreply_info')

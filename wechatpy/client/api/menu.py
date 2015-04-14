@@ -94,3 +94,13 @@ class WeChatMenu(BaseWeChatAPI):
         """
         self.delete()
         return self.create(menu_data)
+
+    def get_menu_info(self):
+        """
+        获取自定义菜单配置
+        详情请参考
+        http://mp.weixin.qq.com/wiki/17/4dc4b0514fdad7a5fbbd477aa9aab5ed.html
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get('get_current_selfmenu_info')

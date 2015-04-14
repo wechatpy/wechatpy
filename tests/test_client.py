@@ -464,3 +464,13 @@ class WeChatClientTestCase(unittest.TestCase):
             '0f9de62fce790f9a083d5c99e95740ceb90c27ed',
             signature
         )
+
+    def test_menu_get_menu_info(self):
+        with HTTMock(wechat_api_mock):
+            menu_info = self.client.menu.get_menu_info()
+            self.assertEqual(1, menu_info['is_menu_open'])
+
+    def test_message_get_autoreply_info(self):
+        with HTTMock(wechat_api_mock):
+            autoreply = self.client.message.get_autoreply_info()
+            self.assertEqual(1, autoreply['is_autoreply_open'])
