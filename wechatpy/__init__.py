@@ -7,5 +7,5 @@ from .exceptions import WeChatException  # NOQA
 from .oauth import WeChatOAuth  # NOQA
 
 
-__version__ = '0.7.6'
+__version__ = '0.8.0'
 __author__ = 'messense'
