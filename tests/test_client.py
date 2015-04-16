@@ -84,7 +84,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_send_text_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_text(1, 'test')
+            result = self.client.message.send_text(1, 'test', account='test')
             self.assertEqual(0, result['errcode'])
 
     def test_send_image_message(self):

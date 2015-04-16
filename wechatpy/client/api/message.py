@@ -6,7 +6,16 @@ from .base import BaseWeChatAPI
 
 class WeChatMessage(BaseWeChatAPI):
 
-    def send_text(self, user_id, content):
+    def _send_custom_message(self, data, account=None):
+        data = data or {}
+        if account:
+            data['customservice'] = {'kf_account': account}
+        return self._post(
+            'message/custom/send',
+            data=data
+        )
+
+    def send_text(self, user_id, content, account=None):
         """
         发送文本消息
         详情请参考
@@ -14,18 +23,17 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param content: 消息正文
+        :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'message/custom/send',
-            data={
-                'touser': user_id,
-                'msgtype': 'text',
-                'text': {'content': content}
-            }
-        )
+        data = {
+            'touser': user_id,
+            'msgtype': 'text',
+            'text': {'content': content}
+        }
+        return self._send_custom_message(data, account=account)
 
-    def send_image(self, user_id, media_id):
+    def send_image(self, user_id, media_id, account=None):
         """
         发送图片消息
         详情请参考
@@ -33,20 +41,19 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param media_id: 图片的媒体ID。 可以通过 :func:`upload_media` 上传。
+        :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'message/custom/send',
-            data={
-                'touser': user_id,
-                'msgtype': 'image',
-                'image': {
-                    'media_id': media_id
-                }
+        data = {
+            'touser': user_id,
+            'msgtype': 'image',
+            'image': {
+                'media_id': media_id
             }
-        )
+        }
+        return self._send_custom_message(data, account=account)
 
-    def send_voice(self, user_id, media_id):
+    def send_voice(self, user_id, media_id, account=None):
         """
         发送语音消息
         详情请参考
@@ -54,20 +61,20 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param media_id: 发送的语音的媒体ID。 可以通过 :func:`upload_media` 上传。
+        :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'message/custom/send',
-            data={
-                'touser': user_id,
-                'msgtype': 'voice',
-                'voice': {
-                    'media_id': media_id
-                }
+        data = {
+            'touser': user_id,
+            'msgtype': 'voice',
+            'voice': {
+                'media_id': media_id
             }
-        )
+        }
+        return self._send_custom_message(data, account=account)
 
-    def send_video(self, user_id, media_id, title=None, description=None):
+    def send_video(self, user_id, media_id, title=None,
+                   description=None, account=None):
         """
         发送视频消息
         详情请参考
@@ -77,6 +84,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 发送的视频的媒体ID。 可以通过 :func:`upload_media` 上传。
         :param title: 视频消息的标题
         :param description: 视频消息的描述
+        :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
         video_data = {
@@ -87,17 +95,15 @@ class WeChatMessage(BaseWeChatAPI):
         if description:
             video_data['description'] = description
 
-        return self._post(
-            'message/custom/send',
-            data={
-                'touser': user_id,
-                'msgtype': 'video',
-                'video': video_data
-            }
-        )
+        data = {
+            'touser': user_id,
+            'msgtype': 'video',
+            'video': video_data
+        }
+        return self._send_custom_message(data, account=account)
 
     def send_music(self, user_id, url, hq_url, thumb_media_id,
-                   title=None, description=None):
+                   title=None, description=None, account=None):
         """
         发送音乐消息
         详情请参考
@@ -109,6 +115,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param thumb_media_id: 缩略图的媒体ID。 可以通过 :func:`upload_media` 上传。
         :param title: 音乐标题
         :param description: 音乐描述
+        :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
         music_data = {
@@ -121,16 +128,14 @@ class WeChatMessage(BaseWeChatAPI):
         if description:
             music_data['description'] = description
 
-        return self._post(
-            'message/custom/send',
-            data={
-                'touser': user_id,
-                'msgtype': 'music',
-                'music': music_data
-            }
-        )
+        data = {
+            'touser': user_id,
+            'msgtype': 'music',
+            'music': music_data
+        }
+        return self._send_custom_message(data, account=account)
 
-    def send_articles(self, user_id, articles):
+    def send_articles(self, user_id, articles, account=None):
         """
         发送图文消息
         详情请参考
@@ -138,6 +143,7 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param articles: 一个包含至多10个图文的数组
+        :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
         articles_data = []
@@ -148,16 +154,14 @@ class WeChatMessage(BaseWeChatAPI):
                 'url': article['url'],
                 'picurl': article['image']
             })
-        return self._post(
-            'message/custom/send',
-            data={
-                'touser': user_id,
-                'msgtype': 'news',
-                'news': {
-                    'articles': articles_data
-                }
+        data = {
+            'touser': user_id,
+            'msgtype': 'news',
+            'news': {
+                'articles': articles_data
             }
-        )
+        }
+        return self._send_custom_message(data, account=account)
 
     def delete_mass(self, msg_id):
         """
