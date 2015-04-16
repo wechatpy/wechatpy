@@ -159,7 +159,7 @@ class WeChatOAuth(object):
         openid = openid or self.open_id
         access_token = access_token or self.access_token
         res = self._get(
-            'sns/oauth2/auth',
+            'sns/auth',
             params={
                 'access_token': access_token,
                 'openid': openid
