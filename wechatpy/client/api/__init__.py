@@ -15,3 +15,4 @@ from wechatpy.client.api.datacube import WeChatDataCube  # NOQA
 from wechatpy.client.api.jsapi import WeChatJSAPI  # NOQA
 from wechatpy.client.api.material import WeChatMaterial  # NOQA
 from wechatpy.client.api.semantic import WeChatSemantic  # NOQA
+from wechatpy.client.api.shakearound import WeChatShakeAround  # NOQA

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 import os
 import unittest
 from datetime import datetime
@@ -18,6 +18,8 @@ _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')
 @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
 def wechat_api_mock(url, request):
     path = url.path.replace('/cgi-bin/', '').replace('/', '_')
+    if path.startswith('_'):
+        path = path[1:]
     res_file = os.path.join(_FIXTURE_PATH, '%s.json' % path)
     content = {
         'errcode': 99999,
@@ -29,8 +31,8 @@ def wechat_api_mock(url, request):
     try:
         with open(res_file) as f:
             content = json.loads(f.read())
-    except (IOError, ValueError):
-        pass
+    except (IOError, ValueError) as e:
+        print(e)
     return response(200, content, headers, request=request)
 
 
@@ -474,3 +476,98 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             autoreply = self.client.message.get_autoreply_info()
             self.assertEqual(1, autoreply['is_autoreply_open'])
+
+    def test_shakearound_apply_device_id(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.apply_device_id(1, 'test')
+            self.assertEqual(123, res['apply_id'])
+
+    def test_shakearound_update_device(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.update_device('1234', comment='test')
+            self.assertEqual(0, res['errcode'])
+
+    def test_shakearound_bind_device_location(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.bind_device_location(123, 1234)
+            self.assertEqual(0, res['errcode'])
+
+    def test_shakearound_search_device(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.search_device(apply_id=123)
+            self.assertEqual(151, res['total_count'])
+            self.assertEqual(2, len(res['devices']))
+
+    def test_shakearound_add_page(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.add_page(
+                'test',
+                'test',
+                'http://www.qq.com'
+            )
+            self.assertEqual(28840, res['page_id'])
+
+    def test_shakearound_update_page(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.update_page(
+                123,
+                'test',
+                'test',
+                'http://www.qq.com',
+                'http://www.qq.com'
+            )
+            self.assertEqual(28840, res['page_id'])
+
+    def test_shakearound_delete_page(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.delete_pages(123)
+            self.assertEqual(0, res['errcode'])
+
+    def test_shakearound_search_page(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.search_pages(123)
+            self.assertEqual(2, res['total_count'])
+            self.assertEqual(2, len(res['pages']))
+
+    def test_shakearound_add_material(self):
+        with HTTMock(wechat_api_mock):
+            media_file = six.StringIO('nothing')
+            res = self.client.shakearound.add_material(media_file)
+            self.assertEqual(
+                'http://shp.qpic.cn/wechat_shakearound_pic/0/1428377032e9dd2797018cad79186e03e8c5aec8dc/120',  # NOQA
+                res['pic_url']
+            )
+
+    def test_shakearound_bind_device_pages(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.bind_device_pages(
+                123,
+                1,
+                1,
+                1234
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_shakearound_get_shake_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.get_shake_info('123456')
+            self.assertEqual(14211, res['page_id'])
+            self.assertEqual('oVDmXjp7y8aG2AlBuRpMZTb1-cmA', res['openid'])
+
+    def test_shakearound_get_device_statistics(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.get_device_statistics(
+                '2015-04-01 00:00:00',
+                '2015-04-17 00:00:00',
+                1234
+            )
+            self.assertEqual(2, len(res))
+
+    def test_shakearound_get_page_statistics(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.get_page_statistics(
+                '2015-04-01 00:00:00',
+                '2015-04-17 00:00:00',
+                1234
+            )
+            self.assertEqual(2, len(res))
