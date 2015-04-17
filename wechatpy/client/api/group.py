@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from wechatpy.utils import to_text
-from .base import BaseWeChatAPI
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatGroup(BaseWeChatAPI):

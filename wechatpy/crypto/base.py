@@ -6,14 +6,14 @@ import struct
 import socket
 import base64
 
-from ..utils import to_text, to_binary
-from .._compat import byte2int
-from .pkcs7 import PKCS7Encoder
+from wechatpy.utils import to_text, to_binary
+from wechatpy._compat import byte2int
+from wechatpy.crypto.pkcs7 import PKCS7Encoder
 try:
-    from .cryptography import WeChatCipher
+    from wechatpy.crypto.cryptography import WeChatCipher
 except ImportError:
     try:
-        from .pycrypto import WeChatCipher
+        from wechatpy.crypto.pycrypto import WeChatCipher
     except ImportError:
         raise Exception('You must install either cryptography or PyCrypto!')
 

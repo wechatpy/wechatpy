@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from ..utils import to_binary
-from .._compat import byte2int
+from wechatpy.utils import to_binary
+from wechatpy._compat import byte2int
 
 
 class PKCS7Encoder(object):

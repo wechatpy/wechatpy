@@ -4,7 +4,7 @@ import datetime
 
 import six
 
-from .base import BaseWeChatAPI
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatDataCube(BaseWeChatAPI):

@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from ..fields import IntegerField
-from .. import messages
+
+from wechatpy.fields import IntegerField
+from wechatpy import messages
 
 
 MESSAGE_TYPES = {}

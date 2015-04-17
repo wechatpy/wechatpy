@@ -11,10 +11,17 @@ from __future__ import absolute_import, unicode_literals
 import time
 import six
 
-from .fields import StringField, IntegerField, ImageField
-from .fields import VoiceField, VideoField, MusicField, ArticlesField
-from .messages import BaseMessage, MessageMetaClass
-from .utils import to_text, to_binary
+from wechatpy.fields import(
+    StringField,
+    IntegerField,
+    ImageField,
+    VoiceField,
+    VideoField,
+    MusicField,
+    ArticlesField
+)
+from wechatpy.messages import BaseMessage, MessageMetaClass
+from wechatpy.utils import to_text, to_binary
 
 
 REPLY_TYPES = {}

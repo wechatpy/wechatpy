@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import absolute_import, unicode_literals
-from ..fields import IntegerField, BaseField
-from .. import events
+
+from wechatpy.fields import IntegerField, BaseField
+from wechatpy import events
 
 
 EVENT_TYPES = {}

@@ -12,8 +12,8 @@ from __future__ import absolute_import, unicode_literals
 import six
 import requests
 
-from ._compat import json
-from .exceptions import WeChatOAuthException
+from wechatpy._compat import json
+from wechatpy.exceptions import WeChatOAuthException
 
 
 class WeChatOAuth(object):

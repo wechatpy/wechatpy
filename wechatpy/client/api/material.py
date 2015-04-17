@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import requests
 
 from wechatpy._compat import json
-from .base import BaseWeChatAPI
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMaterial(BaseWeChatAPI):

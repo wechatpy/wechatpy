@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import requests
 import six
 
-from .base import BaseWeChatAPI
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatQRCode(BaseWeChatAPI):

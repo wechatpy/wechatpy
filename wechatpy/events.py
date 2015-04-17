@@ -10,8 +10,8 @@
 """
 from __future__ import absolute_import, unicode_literals
 
-from .fields import StringField, FloatField, IntegerField, BaseField
-from .messages import BaseMessage
+from wechatpy.fields import StringField, FloatField, IntegerField, BaseField
+from wechatpy.messages import BaseMessage
 
 
 EVENT_TYPES = {}

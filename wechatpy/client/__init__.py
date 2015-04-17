@@ -2,8 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 import weakref
 
-from .base import BaseWeChatClient
-from . import api
+from wechatpy.client.base import BaseWeChatClient
+from wechatpy.client import api
 
 
 class WeChatClient(BaseWeChatClient):

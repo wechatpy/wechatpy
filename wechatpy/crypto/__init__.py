@@ -14,9 +14,12 @@ import base64
 
 import six
 
-from ..utils import to_text, to_binary, WeChatSigner
-from ..exceptions import InvalidAppIdException, InvalidSignatureException
-from .base import BasePrpCrypto
+from wechatpy.utils import to_text, to_binary, WeChatSigner
+from wechatpy.exceptions import (
+    InvalidAppIdException,
+    InvalidSignatureException
+)
+from wechatpy.crypto.base import BasePrpCrypto
 
 
 def _get_signature(token, timestamp, nonce, encrypt):
@@ -60,7 +63,7 @@ class BaseWeChatCrypto(object):
                          nonce,
                          timestamp=None,
                          crypto_class=None):
-        from ..replies import BaseReply
+        from wechatpy.replies import BaseReply
 
         xml = """<xml>
 <Encrypt><![CDATA[{encrypt}]]></Encrypt>

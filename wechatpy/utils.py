@@ -67,7 +67,7 @@ def check_signature(token, signature, timestamp, nonce):
     signer = WeChatSigner()
     signer.add_data(token, timestamp, nonce)
     if signer.signature != signature:
-        from .exceptions import InvalidSignatureException
+        from wechatpy.exceptions import InvalidSignatureException
 
         raise InvalidSignatureException()
 

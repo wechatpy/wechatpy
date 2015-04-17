@@ -11,7 +11,7 @@
 from __future__ import absolute_import, unicode_literals
 import six
 
-from .utils import to_binary, to_text
+from wechatpy.utils import to_binary, to_text
 
 
 class WeChatException(Exception):

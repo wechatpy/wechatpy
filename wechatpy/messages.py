@@ -12,8 +12,13 @@ from __future__ import absolute_import, unicode_literals
 import copy
 import six
 
-from .fields import BaseField, StringField, IntegerField, FieldDescriptor
-from .utils import to_text, to_binary
+from wechatpy.fields import (
+    BaseField,
+    StringField,
+    IntegerField,
+    FieldDescriptor
+)
+from wechatpy.utils import to_text, to_binary
 
 
 MESSAGE_TYPES = {}

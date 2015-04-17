@@ -3,8 +3,8 @@ from __future__ import absolute_import, unicode_literals
 import time
 import requests
 
-from .._compat import json
-from ..exceptions import WeChatClientException, APILimitedException
+from wechatpy._compat import json
+from wechatpy.exceptions import WeChatClientException, APILimitedException
 
 
 class BaseWeChatClient(object):
