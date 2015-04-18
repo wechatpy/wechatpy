@@ -214,7 +214,7 @@ class EventsTestCase(unittest.TestCase):
         self.assertEqual('test1@test', event.account)
 
     def test_kf_switch_session_event(self):
-        from wechatpy.events import KfSwitchSession
+        from wechatpy.events import KfSwitchSessionEvent
 
         xml = """<xml>
         <ToUserName><![CDATA[touser]]></ToUserName>
@@ -227,6 +227,6 @@ class EventsTestCase(unittest.TestCase):
         </xml>"""
 
         event = parse_message(xml)
-        self.assertTrue(isinstance(event, KfSwitchSession))
+        self.assertTrue(isinstance(event, KfSwitchSessionEvent))
         self.assertEqual('test1@test', event.from_account)
         self.assertEqual('test2@test', event.to_account)

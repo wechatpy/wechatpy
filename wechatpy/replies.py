@@ -18,7 +18,9 @@ from wechatpy.fields import(
     VoiceField,
     VideoField,
     MusicField,
-    ArticlesField
+    ArticlesField,
+    Base64EncodeField,
+    HardwareField,
 )
 from wechatpy.messages import BaseMessage, MessageMetaClass
 from wechatpy.utils import to_text, to_binary
@@ -167,7 +169,7 @@ class VideoReply(BaseReply):
     @description.setter
     def description(self, value):
         video = self.video
-        video['description']
+        video['description'] = value
         self.video = video
 
 
@@ -259,6 +261,40 @@ class TransferCustomerServiceReply(BaseReply):
     http://mp.weixin.qq.com/wiki/5/ae230189c9bd07a6b221f48619aeef35.html
     """
     type = 'transfer_customer_service'
+
+
+@register_reply('device_text')
+class DeviceTextReply(BaseReply):
+    type = 'device_text'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64EncodeField('Content')
+
+
+@register_reply('device_event')
+class DeviceEventReply(BaseReply):
+    type = 'device_event'
+    event = StringField('Event')
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64EncodeField('Content')
+
+
+@register_reply('device_status')
+class DeviceStatusReply(BaseReply):
+    type = 'device_status'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    status = StringField('DeviceStatus')
+
+
+@register_reply('hardware')
+class HardwareReply(BaseReply):
+    type = 'hardware'
+    func_flag = IntegerField('FuncFlag', 0)
+    hardware = HardwareField('HardWare')
 
 
 def create_reply(reply, message=None, render=False):

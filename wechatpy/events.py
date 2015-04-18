@@ -10,7 +10,13 @@
 """
 from __future__ import absolute_import, unicode_literals
 
-from wechatpy.fields import StringField, FloatField, IntegerField, BaseField
+from wechatpy.fields import (
+    StringField,
+    FloatField,
+    IntegerField,
+    BaseField,
+    Base64DecodeField
+)
 from wechatpy.messages import BaseMessage
 
 
@@ -305,7 +311,54 @@ class KfCloseSessionEvent(BaseEvent):
 
 
 @register_event('kf_switch_session')
-class KfSwitchSession(BaseEvent):
+class KfSwitchSessionEvent(BaseEvent):
     event = 'kf_switch_session'
     from_account = StringField('FromKfAccount')
     to_account = StringField('ToKfAccount')
+
+
+@register_event('device_text')
+class DeviceTextEvent(BaseEvent):
+    event = 'device_text'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64DecodeField('Content')
+
+
+@register_event('device_bind')
+class DeviceBindEvent(BaseEvent):
+    event = 'bind'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64DecodeField('Content')
+    open_id = StringField('OpenID')
+
+
+@register_event('device_unbind')
+class DeviceUnbindEvent(BaseEvent):
+    event = 'unbind'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64DecodeField('Content')
+    open_id = StringField('OpenID')
+
+
+@register_event('device_subscribe_status')
+class DeviceSubscribeStatusEvent(BaseEvent):
+    event = 'subscribe_status'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    open_id = StringField('OpenID')
+    op_type = IntegerField('OpType')
+
+
+@register_event('device_unsubscribe_status')
+class DeviceUnsubscribeStatusEvent(BaseEvent):
+    event = 'subscribe_status'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    open_id = StringField('OpenID')
+    op_type = IntegerField('OpType')

@@ -25,8 +25,11 @@ def parse_message(xml):
         return
     message = xmltodict.parse(to_text(xml))['xml']
     message_type = message['MsgType'].lower()
-    if message_type == 'event':
+    if message_type in ('event', 'device_event'):
         event_type = message['Event'].lower()
+        # special event type for device_event
+        if message_type == 'device_event':
+            event_type = 'device_{event}'.format(event=event_type)
         if event_type == 'subscribe' and message.get('EventKey'):
             # Scan to subscribe with scene id event
             event_type = 'subscribe_scan'

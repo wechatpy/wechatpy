@@ -9,6 +9,7 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import base64
 import six
 
 from wechatpy.utils import to_text, to_binary, ObjectDict
@@ -192,4 +193,35 @@ class ArticlesField(StringField):
         return tpl.format(
             article_count=article_count,
             items=items_str
+        )
+
+
+class Base64EncodeField(StringField):
+
+    def __base64_encode(self, text):
+        return to_text(base64.b64encode(to_binary(text)))
+
+    converter = __base64_encode
+
+
+class Base64DecodeField(StringField):
+
+    def __base64_decode(self, text):
+        return to_text(base64.b64decode(to_binary(text)))
+
+    converter = __base64_decode
+
+
+class HardwareField(StringField):
+
+    def to_xml(self, value=None):
+        value = value or {'view': 'myrank', 'action': 'ranklist'}
+        tpl = """<{name}>
+        <MessageView><![CDATA[{view}]]></MessageView>
+        <MessageAction><![CDATA[{action}]]></MessageAction>
+        </{name}>"""
+        return tpl.format(
+            name=self.name,
+            view=value.get('view'),
+            action=value.get('action')
         )
