@@ -111,3 +111,16 @@ WeChatSemantic 语义理解 API
 
 .. autoclass:: WeChatSemantic
    :members:
+
+
+WeChatShakeAround 摇一摇周边 API
+---------------------------------
+
+.. autoclass:: WeChatShakeAround
+   :members:
+
+WeChatDevice 设备功能 API
+---------------------------
+
+.. autoclass:: WeChatDevice
+   :members:
