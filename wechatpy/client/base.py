@@ -41,6 +41,12 @@ class BaseWeChatClient(object):
         )
         res.raise_for_status()
         result = res.json()
+        return self._handle_result(result, method, url, **kwargs)
+
+    def _handle_result(self, result, method=None, url=None, **kwargs):
+        if 'base_resp' in result:
+            # Different response in device APIs. Fuck tencent!
+            result = result['base_resp']
         if 'errcode' in result:
             result['errcode'] = int(result['errcode'])
 
@@ -50,9 +56,10 @@ class BaseWeChatClient(object):
             if errcode == 42001:
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
+                kwargs['params']['access_token'] = self._access_token
                 return self._request(
                     method=method,
-                    url=url,
+                    url_or_endpoint=url,
                     **kwargs
                 )
             elif errcode == 45009:
