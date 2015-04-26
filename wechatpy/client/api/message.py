@@ -328,6 +328,22 @@ class WeChatMessage(BaseWeChatAPI):
             is_to_all
         )
 
+    def get_mass(self, msg_id):
+        """
+        查询群发消息发送状态
+        详情请参考
+        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+
+        :param msg_id: 群发消息后返回的消息id
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'message/mass/get',
+            data={
+                'msg_id': msg_id
+            }
+        )
+
     def send_template(self, user_id, template_id, url, top_color, data):
         """
         发送模板消息

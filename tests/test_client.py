@@ -125,6 +125,11 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.message.send_articles(1, articles)
             self.assertEqual(0, result['errcode'])
 
+    def test_get_mass_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.get_mass(201053012)
+            self.assertEqual('SEND_SUCCESS', result['msg_status'])
+
     def test_create_menu(self):
         with HTTMock(wechat_api_mock):
             result = self.client.menu.create({
