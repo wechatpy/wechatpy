@@ -161,3 +161,13 @@ class WeChatMaterial(BaseWeChatAPI):
                 'count': count
             }
         )
+
+    def get_count(self):
+        """
+        获取素材总数
+        详情请参考
+        http://mp.weixin.qq.com/wiki/16/8cc64f8c189674b421bee3ed403993b8.html
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get('material/get_materialcount')

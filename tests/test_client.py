@@ -576,3 +576,11 @@ class WeChatClientTestCase(unittest.TestCase):
                 1234
             )
             self.assertEqual(2, len(res))
+
+    def test_material_get_count(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.material.get_count()
+            self.assertEqual(1, res['voice_count'])
+            self.assertEqual(2, res['video_count'])
+            self.assertEqual(3, res['image_count'])
+            self.assertEqual(4, res['news_count'])
