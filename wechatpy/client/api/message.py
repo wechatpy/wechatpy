@@ -179,7 +179,8 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def _send_mass_message(self, group_or_users, msg_type, msg):
+    def _send_mass_message(self, group_or_users, msg_type, msg,
+                           is_to_all=False):
         data = {
             'msgtype': msg_type
         }
@@ -187,7 +188,11 @@ class WeChatMessage(BaseWeChatAPI):
             # send by user ids
             data['touser'] = group_or_users
         else:
-            data['filter'] = {'group_id': group_or_users}
+            # send by group id
+            data['filter'] = {
+                'group_id': group_or_users,
+                'is_to_all': is_to_all,
+            }
 
         data.update(msg)
         return self._post(
@@ -195,7 +200,7 @@ class WeChatMessage(BaseWeChatAPI):
             data=data
         )
 
-    def send_mass_text(self, group_or_users, content):
+    def send_mass_text(self, group_or_users, content, is_to_all=False):
         """
         群发文本消息
         详情请参考
@@ -203,6 +208,8 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
         :param content: 消息正文
+        :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
+                          选择false可根据group_id发送给指定群组的用户
 
         :return: 返回的 JSON 数据包
         """
@@ -213,10 +220,11 @@ class WeChatMessage(BaseWeChatAPI):
                 'text': {
                     'content': content
                 }
-            }
+            },
+            is_to_all
         )
 
-    def send_mass_image(self, group_or_users, media_id):
+    def send_mass_image(self, group_or_users, media_id, is_to_all=False):
         """
         群发图片消息
         详情请参考
@@ -224,6 +232,8 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
         :param media_id: 图片的媒体 ID。 可以通过 :func:`upload_media` 上传。
+        :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
+                          选择false可根据group_id发送给指定群组的用户
 
         :return: 返回的 JSON 数据包
         """
@@ -234,10 +244,11 @@ class WeChatMessage(BaseWeChatAPI):
                 'image': {
                     'media_id': media_id
                 }
-            }
+            },
+            is_to_all
         )
 
-    def send_mass_voice(self, group_or_users, media_id):
+    def send_mass_voice(self, group_or_users, media_id, is_to_all=False):
         """
         群发语音消息
         详情请参考
@@ -245,6 +256,8 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
         :param media_id: 语音的媒体 ID。可以通过 :func:`upload_media` 上传。
+        :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
+                          选择false可根据group_id发送给指定群组的用户
 
         :return: 返回的 JSON 数据包
         """
@@ -255,11 +268,12 @@ class WeChatMessage(BaseWeChatAPI):
                 'voice': {
                     'media_id': media_id
                 }
-            }
+            },
+            is_to_all
         )
 
-    def send_mass_video(self, group_or_users, media_id,
-                        title=None, description=None):
+    def send_mass_video(self, group_or_users, media_id, title=None,
+                        description=None, is_to_all=False):
         """
         群发视频消息
         详情请参考
@@ -269,6 +283,8 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 视频的媒体 ID。可以通过 :func:`upload_video` 上传。
         :param title: 视频标题
         :param description: 视频描述
+        :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
+                          选择false可根据group_id发送给指定群组的用户
 
         :return: 返回的 JSON 数据包
         """
@@ -284,10 +300,11 @@ class WeChatMessage(BaseWeChatAPI):
             'video',
             {
                 'video': video_data
-            }
+            },
+            is_to_all
         )
 
-    def send_mass_article(self, group_or_users, media_id):
+    def send_mass_article(self, group_or_users, media_id, is_to_all=False):
         """
         群发图文消息
         详情请参考
@@ -295,6 +312,8 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
         :param media_id: 图文的媒体 ID。可以通过 :func:`upload_articles` 上传。
+        :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
+                          选择false可根据group_id发送给指定群组的用户
 
         :return: 返回的 JSON 数据包
         """
@@ -305,7 +324,8 @@ class WeChatMessage(BaseWeChatAPI):
                 'mpnews': {
                     'media_id': media_id
                 }
-            }
+            },
+            is_to_all
         )
 
     def send_template(self, user_id, template_id, url, top_color, data):
