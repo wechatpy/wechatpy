@@ -180,27 +180,34 @@ class WeChatMessage(BaseWeChatAPI):
         )
 
     def _send_mass_message(self, group_or_users, msg_type, msg,
-                           is_to_all=False):
+                           is_to_all=False, preview=False):
         data = {
             'msgtype': msg_type
         }
-        if isinstance(group_or_users, (tuple, list)):
-            # send by user ids
-            data['touser'] = group_or_users
+        if not preview:
+            if isinstance(group_or_users, (tuple, list)):
+                # send by user ids
+                data['touser'] = group_or_users
+                endpoint = 'message/mass/send'
+            else:
+                # send by group id
+                data['filter'] = {
+                    'group_id': group_or_users,
+                    'is_to_all': is_to_all,
+                }
+                endpoint = 'message/mass/sendall'
         else:
-            # send by group id
-            data['filter'] = {
-                'group_id': group_or_users,
-                'is_to_all': is_to_all,
-            }
+            data['touser'] = group_or_users
+            endpoint = 'message/mass/preview'
 
         data.update(msg)
         return self._post(
-            'message/mass/sendall',
+            endpoint,
             data=data
         )
 
-    def send_mass_text(self, group_or_users, content, is_to_all=False):
+    def send_mass_text(self, group_or_users, content,
+                       is_to_all=False, preview=False):
         """
         群发文本消息
         详情请参考
@@ -210,6 +217,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param content: 消息正文
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
 
         :return: 返回的 JSON 数据包
         """
@@ -221,10 +229,12 @@ class WeChatMessage(BaseWeChatAPI):
                     'content': content
                 }
             },
-            is_to_all
+            is_to_all,
+            preview
         )
 
-    def send_mass_image(self, group_or_users, media_id, is_to_all=False):
+    def send_mass_image(self, group_or_users, media_id,
+                        is_to_all=False, preview=False):
         """
         群发图片消息
         详情请参考
@@ -234,6 +244,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 图片的媒体 ID。 可以通过 :func:`upload_media` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
 
         :return: 返回的 JSON 数据包
         """
@@ -245,10 +256,12 @@ class WeChatMessage(BaseWeChatAPI):
                     'media_id': media_id
                 }
             },
-            is_to_all
+            is_to_all,
+            preview
         )
 
-    def send_mass_voice(self, group_or_users, media_id, is_to_all=False):
+    def send_mass_voice(self, group_or_users, media_id,
+                        is_to_all=False, preview=False):
         """
         群发语音消息
         详情请参考
@@ -258,6 +271,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 语音的媒体 ID。可以通过 :func:`upload_media` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
 
         :return: 返回的 JSON 数据包
         """
@@ -269,11 +283,12 @@ class WeChatMessage(BaseWeChatAPI):
                     'media_id': media_id
                 }
             },
-            is_to_all
+            is_to_all,
+            preview
         )
 
     def send_mass_video(self, group_or_users, media_id, title=None,
-                        description=None, is_to_all=False):
+                        description=None, is_to_all=False, preview=False):
         """
         群发视频消息
         详情请参考
@@ -285,6 +300,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param description: 视频描述
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
 
         :return: 返回的 JSON 数据包
         """
@@ -301,10 +317,12 @@ class WeChatMessage(BaseWeChatAPI):
             {
                 'video': video_data
             },
-            is_to_all
+            is_to_all,
+            preview
         )
 
-    def send_mass_article(self, group_or_users, media_id, is_to_all=False):
+    def send_mass_article(self, group_or_users, media_id,
+                          is_to_all=False, preview=False):
         """
         群发图文消息
         详情请参考
@@ -314,6 +332,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 图文的媒体 ID。可以通过 :func:`upload_articles` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
 
         :return: 返回的 JSON 数据包
         """
@@ -325,7 +344,8 @@ class WeChatMessage(BaseWeChatAPI):
                     'media_id': media_id
                 }
             },
-            is_to_all
+            is_to_all,
+            preview
         )
 
     def get_mass(self, msg_id):
