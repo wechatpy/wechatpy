@@ -39,7 +39,7 @@ class WeChatDepartment(BaseWeChatAPI):
         department_data = NotNoneDict()
         department_data['id'] = id
         department_data['name'] = name
-        department_data['parent_id'] = parent_id
+        department_data['parentid'] = parent_id
         department_data['order'] = order
         return self._post(
             'department/update',
