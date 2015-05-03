@@ -103,7 +103,7 @@ def to_binary(value, encoding='utf-8'):
 
 
 def timezone(zone):
-    """Try get timezone using pytz or python-dateutil
+    """Try to get timezone using pytz or python-dateutil
 
     :param zone: timezone str
     :return: timezone tzinfo or None
