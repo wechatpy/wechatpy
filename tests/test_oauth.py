@@ -52,6 +52,13 @@ class WeChatOAuthTestCase(unittest.TestCase):
             authorize_url
         )
 
+    def test_get_qrconnect_url(self):
+        url = self.oauth.qrconnect_url
+        self.assertEqual(
+            'https://open.weixin.qq.com/connect/qrconnect?appid=123456&redirect_uri=http%3A//localhost&response_type=code&scope=snsapi_login#wechat_redirect',  # NOQA
+            url
+        )
+
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
             res = self.oauth.fetch_access_token('123456')

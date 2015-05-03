@@ -20,7 +20,7 @@ class WeChatOAuth(object):
     """ 微信公众平台 OAuth 网页授权 """
 
     API_BASE_URL = 'https://api.weixin.qq.com/'
-    OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/oauth2/'
+    OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
     def __init__(self, app_id, secret, redirect_uri,
                  scope='snsapi_base', state=''):
@@ -82,12 +82,32 @@ class WeChatOAuth(object):
         redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
         url_list = [
             self.OAUTH_BASE_URL,
-            'authorize?appid=',
+            'oauth2/authorize?appid=',
             self.app_id,
             '&redirect_uri=',
             redirect_uri,
             '&response_type=code&scope=',
             self.scope
+        ]
+        if self.state:
+            url_list.extend(['&state=', self.state])
+        url_list.append('#wechat_redirect')
+        return ''.join(url_list)
+
+    @property
+    def qrconnect_url(self):
+        """Generate qrconnect url
+        :return: An url
+        """
+        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
+        url_list = [
+            self.OAUTH_BASE_URL,
+            'qrconnect?appid=',
+            self.app_id,
+            '&redirect_uri=',
+            redirect_uri,
+            '&response_type=code&scope=',
+            'snsapi_login'  # scope
         ]
         if self.state:
             url_list.extend(['&state=', self.state])
