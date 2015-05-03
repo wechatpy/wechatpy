@@ -57,6 +57,7 @@ class WeChatOAuth(object):
             **kwargs
         )
         res.raise_for_status()
+        res.encoding = 'UTF-8'
         result = res.json()
 
         if 'errcode' in result and result['errcode'] != 0:
