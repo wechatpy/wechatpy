@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 import unittest
 import time
+from datetime import datetime
 
 
 class MessagesTestCase(unittest.TestCase):
@@ -22,6 +23,7 @@ class MessagesTestCase(unittest.TestCase):
         self.assertEqual('user1', msg.source)
         self.assertEqual('user2', msg.target)
         self.assertEqual(timestamp, msg.time)
+        self.assertTrue(isinstance(msg.create_time, datetime))
 
     def test_text_message(self):
         from wechatpy.messages import TextMessage

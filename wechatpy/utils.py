@@ -100,3 +100,21 @@ def to_binary(value, encoding='utf-8'):
     if isinstance(value, six.text_type):
         return value.encode(encoding)
     return six.binary_type(value)
+
+
+def timezone(zone):
+    """Try get timezone using pytz or python-dateutil
+
+    :param zone: timezone str
+    :return: timezone tzinfo or None
+    """
+    try:
+        import pytz
+        return pytz.timezone(zone)
+    except ImportError:
+        pass
+    try:
+        from dateutil.tz import gettz
+        return gettz(zone)
+    except ImportError:
+        return None
