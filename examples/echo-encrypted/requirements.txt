@@ -1,3 +1,4 @@
 Flask
 wechatpy
 gunicorn
+cryptography
