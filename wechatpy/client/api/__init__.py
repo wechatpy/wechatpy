@@ -17,3 +17,4 @@ from wechatpy.client.api.material import WeChatMaterial  # NOQA
 from wechatpy.client.api.semantic import WeChatSemantic  # NOQA
 from wechatpy.client.api.shakearound import WeChatShakeAround  # NOQA
 from wechatpy.client.api.device import WeChatDevice  # NOQA
+from wechatpy.client.api.template import WeChatTemplate  # NOQA

@@ -39,6 +39,7 @@ class WeChatClient(BaseWeChatClient):
         self.semantic = api.WeChatSemantic(weak_self)
         self.shakearound = api.WeChatShakeAround(weak_self)
         self.device = api.WeChatDevice(weak_self)
+        self.template = api.WeChatTemplate(weak_self)
 
     def fetch_access_token(self):
         """

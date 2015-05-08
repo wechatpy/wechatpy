@@ -124,3 +124,10 @@ WeChatDevice 设备功能 API
 
 .. autoclass:: WeChatDevice
    :members:
+
+
+WeChatTemplate 模板消息相关接口
+---------------------------------
+
+.. autoclass:: WeChatTemplate
+   :members:
