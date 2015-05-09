@@ -4,8 +4,8 @@ import time
 from datetime import datetime
 
 import six
+from optionaldict import optionaldict
 
-from wechatpy.utils import NotNoneDict
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -34,7 +34,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param comment: 可选，备注，不超过15个汉字或30个英文字母
         :return: 申请的设备信息
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['quantity'] = quantity
         data['apply_reason'] = reason
         data['poi_id'] = poi_id
@@ -59,7 +59,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param comment: 设备的备注信息，不超过15个汉字或30个英文字母。
         :return: 返回的 JSON 数据包
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['comment'] = comment
         data['device_identifier'] = {
             'device_id': device_id,
@@ -86,7 +86,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param minor: minor
         :return: 返回的 JSON 数据包
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['poi_id'] = poi_id
         data['device_identifier'] = {
             'device_id': device_id,
@@ -112,7 +112,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param count: 待查询的设备个数
         :return: 设备列表
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['begin'] = begin
         data['count'] = count
         data['apply_id'] = apply_id
@@ -137,7 +137,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param comment: 可选，页面的备注信息，不超过15个字
         :return: 页面信息
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['title'] = title
         data['description'] = description
         data['icon_url'] = icon_url
@@ -164,7 +164,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param comment: 可选，页面的备注信息，不超过15个字
         :return: 页面信息
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['page_id'] = page_id
         data['title'] = title
         data['description'] = description

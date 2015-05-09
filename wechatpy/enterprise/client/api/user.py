@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from optionaldict import optionaldict
+
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.utils import NotNoneDict
 
 
 class WeChatUser(BaseWeChatAPI):
@@ -13,7 +14,7 @@ class WeChatUser(BaseWeChatAPI):
         创建成员
         详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理成员
         """
-        user_data = NotNoneDict()
+        user_data = optionaldict()
         user_data['userid'] = user_id
         user_data['name'] = name
         user_data['gender'] = gender
@@ -37,7 +38,7 @@ class WeChatUser(BaseWeChatAPI):
         更新成员
         详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理成员
         """
-        user_data = NotNoneDict()
+        user_data = optionaldict()
         user_data['userid'] = user_id
         user_data['name'] = name
         user_data['gender'] = gender
@@ -101,7 +102,7 @@ class WeChatUser(BaseWeChatAPI):
         邀请成员关注
         详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理成员
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['userid'] = user_id
         data['invite_tips'] = tips
         return self._post(

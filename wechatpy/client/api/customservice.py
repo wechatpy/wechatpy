@@ -4,7 +4,8 @@ import hashlib
 import time
 import datetime
 
-from wechatpy.utils import to_binary, NotNoneDict
+from optionaldict import optionaldict
+from wechatpy.utils import to_binary
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -129,10 +130,11 @@ class WeChatCustomService(BaseWeChatAPI):
         :param text: 附加信息，可选
         :return: 返回的 JSON 数据包
         """
-        data = NotNoneDict()
-        data['openid'] = openid
-        data['kf_account'] = account
-        data['text'] = text
+        data = optionaldict(
+            openid=openid,
+            kf_account=account,
+            text=text
+        )
         return self._post(
             'customservice/kfsession/create',
             data=data
@@ -149,10 +151,11 @@ class WeChatCustomService(BaseWeChatAPI):
         :param text: 附加信息，可选
         :return: 返回的 JSON 数据包
         """
-        data = NotNoneDict()
-        data['openid'] = openid
-        data['kf_account'] = account
-        data['text'] = text
+        data = optionaldict(
+            openid=openid,
+            kf_account=account,
+            text=text
+        )
         return self._post(
             'customservice/kfsession/close',
             data=data

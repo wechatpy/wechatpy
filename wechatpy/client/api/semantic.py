@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from wechatpy.utils import NotNoneDict
+from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -32,7 +32,7 @@ class WeChatSemantic(BaseWeChatAPI):
         if isinstance(category, (tuple, list)):
             category = ','.join(category)
 
-        data = NotNoneDict()
+        data = optionaldict()
         data['query'] = query
         data['category'] = category
         data['uid'] = uid

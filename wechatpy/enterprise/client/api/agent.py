@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from optionaldict import optionaldict
+
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.utils import NotNoneDict
 
 
 class WeChatAgent(BaseWeChatAPI):
@@ -44,7 +45,7 @@ class WeChatAgent(BaseWeChatAPI):
         :param is_report_enter: 是否上报用户进入应用事件
         :return: 返回的 JSON 数据包
         """
-        agent_data = NotNoneDict()
+        agent_data = optionaldict()
         agent_data['agentid'] = agent_id
         agent_data['name'] = name
         agent_data['description'] = description

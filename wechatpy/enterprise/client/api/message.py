@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from wechatpy.utils import NotNoneDict
+from optionaldict import optionaldict
+
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -76,7 +77,7 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send_video(self, agent_id, user_ids, media_id, title=None,
                    description=None, party_ids='', tag_ids='', safe=0):
-        video_data = NotNoneDict()
+        video_data = optionaldict()
         video_data['media_id'] = media_id
         video_data['title'] = title
         video_data['description'] = description

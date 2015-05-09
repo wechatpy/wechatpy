@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from optionaldict import optionaldict
+
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.utils import NotNoneDict, to_text
+from wechatpy.utils import to_text
 
 
 class WeChatBatch(BaseWeChatAPI):
@@ -22,7 +24,7 @@ class WeChatBatch(BaseWeChatAPI):
         :param invite_tips: 可选，推送到微信上的提示语
         :return: 返回的 JSON 数据包
         """
-        data = NotNoneDict()
+        data = optionaldict()
         data['callback'] = {
             'url': url,
             'token': token,
