@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 import time
 import copy
-import weakref
 
 import six
 import requests
@@ -23,7 +22,7 @@ class _ClientMetaClass(type):
                 if k in attrs:
                     continue
                 if isinstance(v, APIDescriptor):
-                    attrs[k] = copy.deepcopy(v.api)
+                    attrs[k] = copy.deepcopy(v)
 
         cls = super(_ClientMetaClass, cls).__new__(cls, name, bases, attrs)
         cls._api_endpoints = {}
@@ -41,13 +40,6 @@ class BaseWeChatClient(six.with_metaclass(_ClientMetaClass)):
     def __init__(self, access_token=None):
         self._access_token = access_token
         self.expires_at = None
-
-        weak_self = weakref.proxy(self)
-        for name, api in self._api_endpoints.items():
-            if not isinstance(api, BaseWeChatAPI):
-                continue
-            api._client = weak_self
-            setattr(self, name, api)
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):

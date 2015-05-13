@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import weakref
 
 
 class APIDescriptor(object):
@@ -8,6 +9,9 @@ class APIDescriptor(object):
         self.api = api
 
     def __get__(self, instance, instance_type=None):
+        if instance is not None:
+            if self.api._client is None:
+                self.api._client = weakref.proxy(instance)
         return self.api
 
 
@@ -32,3 +36,4 @@ class BaseWeChatAPI(object):
 
     def add_to_class(self, klass, name):
         klass._api_endpoints[name] = self
+        setattr(klass, name, APIDescriptor(self))
