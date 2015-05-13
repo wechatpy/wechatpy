@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-import weakref
 
 from wechatpy.client.base import BaseWeChatClient
 from wechatpy.client import api
@@ -14,32 +13,28 @@ class WeChatClient(BaseWeChatClient):
 
     API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
 
+    menu = api.WeChatMenu()
+    user = api.WeChatUser()
+    group = api.WeChatGroup()
+    media = api.WeChatMedia()
+    card = api.WeChatCard()
+    qrcode = api.WeChatQRCode()
+    message = api.WeChatMessage()
+    misc = api.WeChatMisc()
+    merchant = api.WeChatMerchant()
+    customservice = api.WeChatCustomService()
+    datacube = api.WeChatDataCube()
+    jsapi = api.WeChatJSAPI()
+    material = api.WeChatMaterial()
+    semantic = api.WeChatSemantic()
+    shakearound = api.WeChatShakeAround()
+    device = api.WeChatDevice()
+    template = api.WeChatTemplate()
+
     def __init__(self, appid, secret, access_token=None):
+        super(WeChatClient, self).__init__(access_token)
         self.appid = appid
         self.secret = secret
-        self._access_token = access_token
-        self.expires_at = None
-
-        weak_self = weakref.proxy(self)
-
-        # APIs
-        self.menu = api.WeChatMenu(weak_self)
-        self.user = api.WeChatUser(weak_self)
-        self.group = api.WeChatGroup(weak_self)
-        self.media = api.WeChatMedia(weak_self)
-        self.card = api.WeChatCard(weak_self)
-        self.qrcode = api.WeChatQRCode(weak_self)
-        self.message = api.WeChatMessage(weak_self)
-        self.misc = api.WeChatMisc(weak_self)
-        self.merchant = api.WeChatMerchant(weak_self)
-        self.customservice = api.WeChatCustomService(weak_self)
-        self.datacube = api.WeChatDataCube(weak_self)
-        self.jsapi = api.WeChatJSAPI(weak_self)
-        self.material = api.WeChatMaterial(weak_self)
-        self.semantic = api.WeChatSemantic(weak_self)
-        self.shakearound = api.WeChatShakeAround(weak_self)
-        self.device = api.WeChatDevice(weak_self)
-        self.template = api.WeChatTemplate(weak_self)
 
     def fetch_access_token(self):
         """

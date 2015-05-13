@@ -2,15 +2,18 @@
 from __future__ import absolute_import, unicode_literals
 
 
+class APIDescriptor(object):
+
+    def __init__(self, api):
+        self.api = api
+
+    def __get__(self, instance, instance_type=None):
+        return self.api
+
+
 class BaseWeChatAPI(object):
     """ WeChat API base class """
-
-    def __init__(self, client):
-        """
-        Init with WeChatClient object
-
-        :param client: An instance of WeChatClient
-        """
+    def __init__(self, client=None):
         self._client = client
 
     def _get(self, url, **kwargs):
@@ -26,3 +29,6 @@ class BaseWeChatAPI(object):
     @property
     def access_token(self):
         return self._client.access_token
+
+    def add_to_class(self, klass, name):
+        klass._api_endpoints[name] = self

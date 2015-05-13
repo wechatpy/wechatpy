@@ -1,19 +1,53 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import time
+import copy
+import weakref
+
+import six
 import requests
 
 from wechatpy._compat import json
 from wechatpy.exceptions import WeChatClientException, APILimitedException
+from wechatpy.client.api.base import APIDescriptor, BaseWeChatAPI
 
 
-class BaseWeChatClient(object):
+class _ClientMetaClass(type):
+
+    def __new__(cls, name, bases, attrs):
+        for b in bases:
+            if not hasattr(b, '_api_endpoints'):
+                continue
+
+            for k, v in b.__dict__.items():
+                if k in attrs:
+                    continue
+                if isinstance(v, APIDescriptor):
+                    attrs[k] = copy.deepcopy(v.api)
+
+        cls = super(_ClientMetaClass, cls).__new__(cls, name, bases, attrs)
+        cls._api_endpoints = {}
+
+        for name, api in cls.__dict__.items():
+            if isinstance(api, BaseWeChatAPI):
+                api.add_to_class(cls, name)
+        return cls
+
+
+class BaseWeChatClient(six.with_metaclass(_ClientMetaClass)):
 
     API_BASE_URL = ''
 
     def __init__(self, access_token=None):
         self._access_token = access_token
         self.expires_at = None
+
+        weak_self = weakref.proxy(self)
+        for name, api in self._api_endpoints.items():
+            if not isinstance(api, BaseWeChatAPI):
+                continue
+            api._client = weak_self
+            setattr(self, name, api)
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
