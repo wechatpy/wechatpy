@@ -102,3 +102,13 @@ class ReplyTestCase(unittest.TestCase):
         self.assertEqual('test', reply.description)
         self.assertEqual('http://www.qq.com', reply.music_url)
         self.assertTrue(reply.hq_music_url is None)
+
+    def test_multi_article_reply(self):
+        from wechatpy.replies import ArticlesReply
+
+        article = {'title': 'test', 'url': 'http://www.qq.com'}
+
+        r1 = ArticlesReply()
+        r1.add_article(article)
+        r2 = ArticlesReply()
+        self.assertTrue(r1.render() != r2.render())

@@ -10,6 +10,8 @@
 """
 from __future__ import absolute_import, unicode_literals
 import base64
+import copy
+
 import six
 
 from wechatpy.utils import to_text, to_binary, ObjectDict
@@ -25,8 +27,8 @@ class FieldDescriptor(object):
         if instance is not None:
             value = instance._data.get(self.attr_name)
             if value is None:
-                instance._data[self.attr_name] = self.field.default
-                value = self.field.default
+                value = copy.deepcopy(self.field.default)
+                instance._data[self.attr_name] = value
             if isinstance(value, dict):
                 value = ObjectDict(value)
             if value and not isinstance(value, (dict, list, tuple)) and \
