@@ -14,7 +14,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='wechatpy',
-    version='0.8.5',
+    version='0.8.6',
     author='messense',
     author_email='messense@icloud.com',
     url='https://github.com/messense/wechatpy',
@@ -35,7 +35,6 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: CPython',
