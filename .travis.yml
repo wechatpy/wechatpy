@@ -20,7 +20,6 @@ install:
 script: nosetests -v --with-coverage --cover-package=wechatpy
 
 after_success:
-  - pip install coveralls scrutinizer-ocular codecov
-  - coveralls
+  - pip install scrutinizer-ocular codecov
   - ocular
   - codecov

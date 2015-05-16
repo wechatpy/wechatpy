@@ -9,7 +9,7 @@
 
 [![Latest Version](https://pypip.in/version/wechatpy/badge.svg)](https://pypi.python.org/pypi/wechatpy/)
 [![Build Status](https://travis-ci.org/messense/wechatpy.svg?branch=master)](https://travis-ci.org/messense/wechatpy)
-[![Coverage Status](https://coveralls.io/repos/messense/wechatpy/badge.png?branch=master)](https://coveralls.io/r/messense/wechatpy?branch=master)
+[![codecov.io](http://codecov.io/github/messense/wechatpy/coverage.svg?branch=master)](http://codecov.io/github/messense/wechatpy?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/messense/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/messense/wechatpy/?branch=master)
 [![Supported Python versions](https://pypip.in/py_versions/wechatpy/badge.svg)](https://pypi.python.org/pypi/wechatpy/)
 [![Supported Python implementations](https://pypip.in/implementation/wechatpy/badge.svg)](https://pypi.python.org/pypi/wechatpy/)
