@@ -16,7 +16,7 @@
 
 微信(WeChat) 公众平台第三方 Python SDK，实现了普通公众平台和企业号公众平台的解析消息、生成回复和主动调用等 API。
 
-阅读文档：[http://wechatpy.readthedocs.org/en/latest/](http://wechatpy.readthedocs.org/en/latest/)
+阅读文档：[http://wechatpy.readthedocs.org/zh_CN/latest/](http://wechatpy.readthedocs.org/zh_CN/latest/)
 
 ## 安装
 
@@ -50,7 +50,7 @@ pip install pycrypto>=2.6.1
 
 ## 捐赠
 
-如果您觉得 ``wechatpy`` 对您有帮助，欢迎请作者一杯咖啡。
+如果您觉得 ``wechatpy`` 对您有帮助，欢迎请作者一杯咖啡。（支付宝扫码）
 ![捐赠 wechatpy](assets/alipay.png)
 
 ##License
