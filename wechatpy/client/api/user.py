@@ -60,3 +60,19 @@ class WeChatUser(BaseWeChatAPI):
                 'remark': remark
             }
         )
+
+    def get_group_id(self, user_id):
+        """
+        获取用户所在分组 ID
+
+        详情请参考
+        http://mp.weixin.qq.com/wiki/0/56d992c605a97245eb7e617854b169fc.html
+
+        :param user_id: 用户 ID
+        :return: 用户所在分组 ID
+        """
+        res = self._post(
+            'groups/getid',
+            data={'openid': user_id}
+        )
+        return res['groupid']
