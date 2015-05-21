@@ -25,6 +25,10 @@ class BaseWeChatClient(object):
         else:
             url = url_or_endpoint
 
+        # 群发消息上传视频接口地址 HTTPS 证书错误，暂时忽略证书验证
+        if url.startswith('https://file.api.weixin.qq.com'):
+            kwargs['verify'] = False
+
         if 'params' not in kwargs:
             kwargs['params'] = {}
         if 'access_token' not in kwargs['params']:
