@@ -3,39 +3,25 @@ from __future__ import absolute_import, unicode_literals
 import time
 import copy
 
-import six
 import requests
 
 from wechatpy._compat import json
 from wechatpy.exceptions import WeChatClientException, APILimitedException
-from wechatpy.client.api.base import APIDescriptor, BaseWeChatAPI
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
-class _ClientMetaClass(type):
-
-    def __new__(cls, name, bases, attrs):
-        for b in bases:
-            if not hasattr(b, '_api_endpoints'):
-                continue
-
-            for k, v in b.__dict__.items():
-                if k in attrs:
-                    continue
-                if isinstance(v, APIDescriptor):
-                    attrs[k] = copy.deepcopy(v)
-
-        cls = super(_ClientMetaClass, cls).__new__(cls, name, bases, attrs)
-        cls._api_endpoints = {}
-
-        for name, api in cls.__dict__.items():
-            if isinstance(api, BaseWeChatAPI):
-                api.add_to_class(cls, name)
-        return cls
-
-
-class BaseWeChatClient(six.with_metaclass(_ClientMetaClass)):
+class BaseWeChatClient(object):
 
     API_BASE_URL = ''
+
+    def __new__(cls, *args, **kwargs):
+        self = super(BaseWeChatClient, cls).__new__(cls)
+        for name, api in self.__class__.__dict__.items():
+            if isinstance(api, BaseWeChatAPI):
+                api = copy.deepcopy(api)
+                api._client = self
+                setattr(self, name, api)
+        return self
 
     def __init__(self, access_token=None):
         self._access_token = access_token
