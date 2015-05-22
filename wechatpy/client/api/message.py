@@ -313,9 +313,9 @@ class WeChatMessage(BaseWeChatAPI):
             video_data['description'] = description
         return self._send_mass_message(
             group_or_users,
-            'video',
+            'mpvideo',
             {
-                'video': video_data
+                'mpvideo': video_data
             },
             is_to_all,
             preview
