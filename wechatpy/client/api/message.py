@@ -18,6 +18,7 @@ class WeChatMessage(BaseWeChatAPI):
     def send_text(self, user_id, content, account=None):
         """
         发送文本消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
@@ -36,6 +37,7 @@ class WeChatMessage(BaseWeChatAPI):
     def send_image(self, user_id, media_id, account=None):
         """
         发送图片消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
@@ -56,6 +58,7 @@ class WeChatMessage(BaseWeChatAPI):
     def send_voice(self, user_id, media_id, account=None):
         """
         发送语音消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
@@ -77,6 +80,7 @@ class WeChatMessage(BaseWeChatAPI):
                    description=None, account=None):
         """
         发送视频消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
@@ -106,6 +110,7 @@ class WeChatMessage(BaseWeChatAPI):
                    title=None, description=None, account=None):
         """
         发送音乐消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
@@ -138,6 +143,7 @@ class WeChatMessage(BaseWeChatAPI):
     def send_articles(self, user_id, articles, account=None):
         """
         发送图文消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
@@ -163,9 +169,33 @@ class WeChatMessage(BaseWeChatAPI):
         }
         return self._send_custom_message(data, account=account)
 
+    def send_card(self, user_id, card_id, card_ext, account=None):
+        """
+        发送卡券消息
+
+        详情请参参考
+        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+
+        :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
+        :param card_id: 卡券 ID
+        :param card_ext: 卡券扩展信息
+        :param account: 可选，客服账号
+        :return: 返回的 JSON 数据包
+        """
+        data = {
+            'touser': user_id,
+            'msgtype': 'wxcard',
+            'wxcard': {
+                'card_id': card_id,
+                'card_ext': card_ext
+            }
+        }
+        return self._send_custom_message(data, account=account)
+
     def delete_mass(self, msg_id):
         """
         删除群发消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -210,6 +240,7 @@ class WeChatMessage(BaseWeChatAPI):
                        is_to_all=False, preview=False):
         """
         群发文本消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -237,6 +268,7 @@ class WeChatMessage(BaseWeChatAPI):
                         is_to_all=False, preview=False):
         """
         群发图片消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -264,6 +296,7 @@ class WeChatMessage(BaseWeChatAPI):
                         is_to_all=False, preview=False):
         """
         群发语音消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -291,6 +324,7 @@ class WeChatMessage(BaseWeChatAPI):
                         description=None, is_to_all=False, preview=False):
         """
         群发视频消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -325,6 +359,7 @@ class WeChatMessage(BaseWeChatAPI):
                           is_to_all=False, preview=False):
         """
         群发图文消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -351,6 +386,7 @@ class WeChatMessage(BaseWeChatAPI):
     def get_mass(self, msg_id):
         """
         查询群发消息发送状态
+
         详情请参考
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
@@ -367,6 +403,7 @@ class WeChatMessage(BaseWeChatAPI):
     def send_template(self, user_id, template_id, url, top_color, data):
         """
         发送模板消息
+
         详情请参考
         http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html
 
@@ -392,9 +429,38 @@ class WeChatMessage(BaseWeChatAPI):
     def get_autoreply_info(self):
         """
         获取自动回复规则
+
         详情请参考
         http://mp.weixin.qq.com/wiki/7/7b5789bb1262fb866d01b4b40b0efecb.html
 
         :return: 返回的 JSON 数据包
         """
         return self._get('get_current_autoreply_info')
+
+    def send_mass_card(self, group_or_users, card_id,
+                       is_to_all=False, preview=False):
+        """
+        群发卡券消息
+
+        详情请参考
+        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+
+        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+        :param card_id: 卡券 ID
+        :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
+                          选择false可根据group_id发送给指定群组的用户
+        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._send_mass_message(
+            group_or_users,
+            'wxcard',
+            {
+                'wxcard': {
+                    'card_id': card_id
+                }
+            },
+            is_to_all,
+            preview
+        )
