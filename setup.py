@@ -6,8 +6,8 @@ from setuptools import setup, find_packages
 readme = 'README.md'
 if os.path.exists('README.rst'):
     readme = 'README.rst'
-with open(readme) as f:
-    long_description = f.read()
+with open(readme, 'rb') as f:
+    long_description = f.read().decode('utf-8')
 
 with open('requirements.txt') as f:
     requirements = [l for l in f.read().splitlines() if l]
