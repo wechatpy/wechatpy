@@ -31,7 +31,8 @@ class BaseWeChatClient(object):
 
         if 'params' not in kwargs:
             kwargs['params'] = {}
-        if 'access_token' not in kwargs['params']:
+        if isinstance(kwargs['params'], dict) and \
+                'access_token' not in kwargs['params']:
             kwargs['params']['access_token'] = self.access_token
         if isinstance(kwargs.get('data', ''), dict):
             body = json.dumps(kwargs['data'], ensure_ascii=False)

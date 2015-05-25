@@ -4,6 +4,7 @@ import hashlib
 import time
 import datetime
 
+from six.moves.urllib.parse import quote
 from optionaldict import optionaldict
 from wechatpy.utils import to_binary
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -64,11 +65,14 @@ class WeChatCustomService(BaseWeChatAPI):
         :param account: 完整客服账号，格式为：账号前缀@公众号微信号
         :return: 返回的 JSON 数据包
         """
+        params_data = [
+            'access_token={0}'.format(quote(self.access_token)),
+            'kf_account={0}'.format(quote(account, safe='/@')),
+        ]
+        params = '&'.join(params_data)
         return self._get(
             'https://api.weixin.qq.com/customservice/kfaccount/del',
-            params={
-                'kf_account': account,
-            }
+            params=params
         )
 
     def get_accounts(self):
