@@ -257,8 +257,6 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             result = self.client.customservice.delete_account(
                 'test1@test',
-                'test1',
-                'test1'
             )
             self.assertEqual(0, result['errcode'])
 
