@@ -79,7 +79,7 @@ class MessagesTestCase(unittest.TestCase):
 
         self.assertEqual('123', msg.location_x)
         self.assertEqual('456', msg.location_y)
-        self.assertEquals('1', msg.scale)
+        self.assertEqual('1', msg.scale)
         self.assertEqual('test', msg.label)
 
     def test_link_message(self):

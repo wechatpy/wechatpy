@@ -13,7 +13,7 @@ class CreateReplyTestCase(unittest.TestCase):
         text = 'test'
         reply = create_reply(text, render=False)
         self.assertEqual('text', reply.type)
-        self.assertEquals(text, reply.content)
+        self.assertEqual(text, reply.content)
         reply.render()
 
     def test_create_reply_with_text_render(self):
