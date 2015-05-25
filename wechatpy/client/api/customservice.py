@@ -55,25 +55,19 @@ class WeChatCustomService(BaseWeChatAPI):
             }
         )
 
-    def delete_account(self, account, nickname, password):
+    def delete_account(self, account):
         """
         删除客服账号
         详情请参考
         http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
 
         :param account: 完整客服账号，格式为：账号前缀@公众号微信号
-        :param nickname: 客服昵称，最长6个汉字或12个英文字符
-        :param password: 客服账号登录密码
         :return: 返回的 JSON 数据包
         """
-        password = to_binary(password)
-        password = hashlib.md5(password).hexdigest()
-        return self._post(
+        return self._get(
             'https://api.weixin.qq.com/customservice/kfaccount/del',
-            data={
+            params={
                 'kf_account': account,
-                'nickname': nickname,
-                'password': password
             }
         )
 
