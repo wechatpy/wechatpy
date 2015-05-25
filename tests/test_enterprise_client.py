@@ -25,8 +25,8 @@ def wechat_api_mock(url, request):
         'Content-Type': 'application/json'
     }
     try:
-        with open(res_file) as f:
-            content = json.loads(f.read())
+        with open(res_file, 'rb') as f:
+            content = json.loads(f.read().decode('utf-8'))
     except (IOError, ValueError):
         pass
     return response(200, content, headers, request=request)
