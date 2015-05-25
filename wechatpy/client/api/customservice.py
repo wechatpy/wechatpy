@@ -93,7 +93,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg',
+            'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg',
             params={
                 'kf_account': account
             },
