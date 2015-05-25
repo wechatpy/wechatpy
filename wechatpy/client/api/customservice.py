@@ -67,7 +67,7 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         params_data = [
             'access_token={0}'.format(quote(self.access_token)),
-            'kf_account={0}'.format(quote(account, safe='/@')),
+            'kf_account={0}'.format(quote(to_binary(account), safe=b'/@')),
         ]
         params = '&'.join(params_data)
         return self._get(
