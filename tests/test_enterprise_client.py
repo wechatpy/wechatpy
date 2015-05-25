@@ -19,7 +19,7 @@ def wechat_api_mock(url, request):
     res_file = os.path.join(_FIXTURE_PATH, '%s.json' % path)
     content = {
         'errcode': 99999,
-        'errmsg': 'can not find fixture'
+        'errmsg': 'can not find fixture %s' % res_file,
     }
     headers = {
         'Content-Type': 'application/json'
