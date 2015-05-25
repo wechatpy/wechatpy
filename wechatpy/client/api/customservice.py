@@ -25,7 +25,7 @@ class WeChatCustomService(BaseWeChatAPI):
         password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
-            'customservice/kfaccount/add',
+            'https://api.weixin.qq.com/customservice/kfaccount/add',
             data={
                 'kf_account': account,
                 'nickname': nickname,
@@ -47,7 +47,7 @@ class WeChatCustomService(BaseWeChatAPI):
         password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
-            'customservice/kfaccount/update',
+            'https://api.weixin.qq.com/customservice/kfaccount/update',
             data={
                 'kf_account': account,
                 'nickname': nickname,
@@ -69,7 +69,7 @@ class WeChatCustomService(BaseWeChatAPI):
         password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
-            'customservice/kfaccount/del',
+            'https://api.weixin.qq.com/customservice/kfaccount/del',
             data={
                 'kf_account': account,
                 'nickname': nickname,
@@ -99,7 +99,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'customservice/kfaccount/uploadheadimg',
+            'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg',
             params={
                 'kf_account': account
             },
@@ -136,7 +136,7 @@ class WeChatCustomService(BaseWeChatAPI):
             text=text
         )
         return self._post(
-            'customservice/kfsession/create',
+            'https://api.weixin.qq.com/customservice/kfsession/create',
             data=data
         )
 
@@ -157,7 +157,7 @@ class WeChatCustomService(BaseWeChatAPI):
             text=text
         )
         return self._post(
-            'customservice/kfsession/close',
+            'https://api.weixin.qq.com/customservice/kfsession/close',
             data=data
         )
 
@@ -171,7 +171,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get(
-            'customservice/kfsession/getsession',
+            'https://api.weixin.qq.com/customservice/kfsession/getsession',
             params={'openid': openid}
         )
 
@@ -185,7 +185,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 客服的会话列表
         """
         res = self._get(
-            'customservice/kfsession/getsessionlist',
+            'https://api.weixin.qq.com/customservice/kfsession/getsessionlist',
             params={'kf_account': account}
         )
         return res['sessionlist']
@@ -198,7 +198,9 @@ class WeChatCustomService(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._get('customservice/kfsession/getwaitcase')
+        return self._get(
+            'https://api.weixin.qq.com/customservice/kfsession/getwaitcase'
+        )
 
     def get_records(self, start_time, end_time, page_index,
                     page_size=10, user_id=None):
@@ -228,7 +230,7 @@ class WeChatCustomService(BaseWeChatAPI):
         if user_id:
             record_data['openid'] = user_id
         res = self._post(
-            'customservice/getrecord',
+            'https://api.weixin.qq.com/customservice/msgrecord/getrecord',
             data=record_data
         )
         return res['recordlist']
