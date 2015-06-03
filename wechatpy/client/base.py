@@ -82,19 +82,23 @@ class BaseWeChatClient(object):
 
         return result
 
-    def _get(self, url, **kwargs):
+    def get(self, url, **kwargs):
         return self._request(
             method='get',
             url_or_endpoint=url,
             **kwargs
         )
 
-    def _post(self, url, **kwargs):
+    _get = get
+
+    def post(self, url, **kwargs):
         return self._request(
             method='post',
             url_or_endpoint=url,
             **kwargs
         )
+
+    _post = post
 
     def _fetch_access_token(self, url, params):
         """ The real fetch access token """
