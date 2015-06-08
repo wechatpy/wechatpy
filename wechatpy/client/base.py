@@ -1,15 +1,27 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import time
+import copy
+
 import requests
 
 from wechatpy._compat import json
 from wechatpy.exceptions import WeChatClientException, APILimitedException
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class BaseWeChatClient(object):
 
     API_BASE_URL = ''
+
+    def __new__(cls, *args, **kwargs):
+        self = super(BaseWeChatClient, cls).__new__(cls)
+        for name, api in self.__class__.__dict__.items():
+            if isinstance(api, BaseWeChatAPI):
+                api = copy.deepcopy(api)
+                api._client = self
+                setattr(self, name, api)
+        return self
 
     def __init__(self, access_token=None):
         self._access_token = access_token
@@ -75,19 +87,23 @@ class BaseWeChatClient(object):
 
         return result
 
-    def _get(self, url, **kwargs):
+    def get(self, url, **kwargs):
         return self._request(
             method='get',
             url_or_endpoint=url,
             **kwargs
         )
 
-    def _post(self, url, **kwargs):
+    _get = get
+
+    def post(self, url, **kwargs):
         return self._request(
             method='post',
             url_or_endpoint=url,
             **kwargs
         )
+
+    _post = post
 
     def _fetch_access_token(self, url, params):
         """ The real fetch access token """
