@@ -230,3 +230,21 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, KfSwitchSessionEvent))
         self.assertEqual('test1@test', event.from_account)
         self.assertEqual('test2@test', event.to_account)
+
+    def test_(self):
+        from wechatpy.events import TemplateSendJobFinishEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[touser]]></ToUserName>
+        <FromUserName><![CDATA[fromuser]]></FromUserName>
+        <CreateTime>1395658920</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[TEMPLATESENDJOBFINISH]]></Event>
+        <MsgID>200163836</MsgID>
+        <Status><![CDATA[success]]></Status>
+        </xml>"""
+
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, TemplateSendJobFinishEvent))
+        self.assertEqual(200163836, event.id)
+        self.assertEqual('success', event.status)

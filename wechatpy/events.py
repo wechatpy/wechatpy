@@ -141,6 +141,7 @@ class TemplateSendJobFinishEvent(BaseEvent):
     详情请参阅
     http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html
     """
+    id = IntegerField('MsgID')
     event = 'templatesendjobfinish'
     status = StringField('Status')
 
