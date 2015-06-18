@@ -51,16 +51,12 @@ pip install pycrypto>=2.6.1
 
 请阅读 [贡献代码指南](CONTRIBUTING.md)
 
-## 捐赠
-
-如果您觉得 ``wechatpy`` 对您有帮助，欢迎请作者一杯咖啡。（支付宝扫码）
-![捐赠 wechatpy](assets/alipay.png)
 
 ##License
 
 The MIT License (MIT)
 
-Copyright (c) 2014 messense
+Copyright (c) 2014-2015 jxtech
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
