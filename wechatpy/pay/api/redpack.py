@@ -16,7 +16,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
         """
         发送现金红包
 
-        :param user_id: 接受收红包的用户在公众号下的 openid
+        :param user_id: 接收红包的用户在公众号下的 openid
         :param total_amount: 红包金额，单位分
         :param nick_name: 提供方名称
         :param act_name: 活动名称
@@ -34,7 +34,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
         if not mch_billno:
             now = datetime.now()
             mch_billno = '{0}{1}{2}'.format(
-                self._client.mch_id,
+                self.mch_id,
                 now.strftime('%Y%m%d%H%M%S'),
                 random.randint(1000, 10000)
             )
@@ -65,7 +65,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
 
         注意，此接口暂时好像无法工作，会提示“参数错误:amt_type必须设为合法的值”
 
-        :param user_id: 接受收红包的用户在公众号下的 openid
+        :param user_id: 接收红包的用户在公众号下的 openid
         :param total_amount: 红包金额，单位分
         :param nick_name: 提供方名称
         :param act_name: 活动名称

@@ -33,7 +33,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
         if not mch_billno:
             now = datetime.now()
             mch_billno = '{0}{1}{2}'.format(
-                self._client.mch_id,
+                self.mch_id,
                 now.strftime('%Y%m%d%H%M%S'),
                 random.randint(1000, 10000)
             )

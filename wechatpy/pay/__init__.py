@@ -19,6 +19,8 @@ class WeChatPay(object):
     """红包接口"""
     transfer = api.WeChatTransfer()
     """企业付款接口"""
+    coupon = api.WeChatCoupon()
+    """代金券接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
