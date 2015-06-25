@@ -53,3 +53,18 @@ class WeChatRedpack(BaseWeChatPayAPI):
             'logo_imgurl': logo_imgurl,
         }
         return self._post('mmpaymkttransfers/sendredpack', data=data)
+
+    def query(self, mch_billno, bill_type='MCHT'):
+        """
+        查询红包发放记录
+
+        :param mch_billno: 商户订单号
+        :param bill_type: 可选，订单类型，目前固定为 MCHT
+        :return: 返回的红包发放记录信息
+        """
+        data = {
+            'mch_billno': mch_billno,
+            'bill_type': bill_type,
+            'appid': self._client.appid,  # fuck Tencent
+        }
+        return self._post('mmpaymkttransfers/gethbinfo', data=data)
