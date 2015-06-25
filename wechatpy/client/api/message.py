@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import re
+import six
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMessage(BaseWeChatAPI):
+
+    OPENID_RE = re.compile(r'^[\w\-]{28}$', re.I)
 
     def _send_custom_message(self, data, account=None):
         data = data or {}
@@ -227,7 +231,15 @@ class WeChatMessage(BaseWeChatAPI):
                 }
                 endpoint = 'message/mass/sendall'
         else:
-            data['touser'] = group_or_users
+            if not isinstance(group_or_users, six.string_types):
+                raise ValueError('group_or_users should be string types')
+            # 预览接口
+            if self.OPENID_RE.match(group_or_users):
+                # 按照 openid 预览群发
+                data['touser'] = group_or_users
+            else:
+                # 按照微信号预览群发
+                data['towxname'] = group_or_users
             endpoint = 'message/mass/preview'
 
         data.update(msg)
