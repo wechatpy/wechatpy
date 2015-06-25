@@ -9,21 +9,21 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 class WeChatRedpack(BaseWeChatPayAPI):
 
-    def send(self, user_id, total_amount, nick_name, act_name,
-             wishing, remark, client_ip=None,
-             send_name=None, total_num=1, min_value=None,
+    def send(self, user_id, total_amount, send_name, act_name,
+             wishing, remark, total_num=1, client_ip=None,
+             nick_name=None, min_value=None,
              max_value=None, mch_billno=None, logo_imgurl=None):
         """
         发送现金红包
 
         :param user_id: 接收红包的用户在公众号下的 openid
         :param total_amount: 红包金额，单位分
-        :param nick_name: 提供方名称
+        :param send_name: 商户名称
+        :param nick_name: 可选，提供方名称，默认和商户名称相同
         :param act_name: 活动名称
         :param wishing: 红包祝福语
         :param remark: 备注
         :param client_ip: 可选，调用接口的机器 IP 地址
-        :param send_name: 可选，商户名称，默认和提供方名称相同
         :param total_num: 可选，红包发放总人数，默认为 1
         :param min_value: 可选，最小红包金额，单位分
         :param max_value: 可选，最大红包金额，单位分
@@ -42,8 +42,8 @@ class WeChatRedpack(BaseWeChatPayAPI):
             'wxappid': self.appid,
             're_openid': user_id,
             'total_amount': total_amount,
-            'nick_name': nick_name,
-            'send_name': send_name or nick_name,
+            'nick_name': nick_name or send_name,
+            'send_name': send_name,
             'act_name': act_name,
             'wishing': wishing,
             'remark': remark,
@@ -56,28 +56,31 @@ class WeChatRedpack(BaseWeChatPayAPI):
         }
         return self._post('mmpaymkttransfers/sendredpack', data=data)
 
-    def send_group(self, user_id, total_amount, nick_name, act_name,
-                   wishing, remark, client_ip=None,
-                   send_name=None, total_num=1, min_value=None,
-                   max_value=None, mch_billno=None, logo_imgurl=None):
+    def send_group(self, user_id, total_amount, send_name, act_name, wishing,
+                   remark, total_num, client_ip=None, amt_type="ALL_RAND",
+                   amt_list=None, mch_billno=None,
+                   logo_imgurl=None, watermark_imgurl=None,
+                   banner_imgurl=None):
         """
         发送裂变红包
 
-        注意，此接口暂时好像无法工作，会提示“参数错误:amt_type必须设为合法的值”
-
         :param user_id: 接收红包的用户在公众号下的 openid
         :param total_amount: 红包金额，单位分
-        :param nick_name: 提供方名称
+        :param send_name: 商户名称
         :param act_name: 活动名称
         :param wishing: 红包祝福语
         :param remark: 备注
+        :param total_num: 红包发放总人数
         :param client_ip: 可选，调用接口的机器 IP 地址
-        :param send_name: 可选，商户名称，默认和提供方名称相同
-        :param total_num: 可选，红包发放总人数，默认为 1
-        :param min_value: 可选，最小红包金额，单位分
-        :param max_value: 可选，最大红包金额，单位分
+        :param amt_type: 可选，红包金额设置方式
+                         ALL_RAND—全部随机,商户指定总金额和红包发放总人数，由微信支付随机计算出各红包金额
+                         ALL_SPECIFIED—全部自定义
+                         SEED_SPECIFIED—种子红包自定义，其他随机
+        :param amt_list: 可选，各红包具体金额，自定义金额时必须设置，单位分
         :param mch_billno: 可选，商户订单号，默认会自动生成
         :param logo_imgurl: 可选，商户 Logo 的 URL
+        :param watermark_imgurl: 可选，背景水印图片 URL
+        :param banner_imgurl: 红包详情页面的 banner 图片 URL
         :return: 返回的结果数据字典
         """
         if not mch_billno:
@@ -91,17 +94,18 @@ class WeChatRedpack(BaseWeChatPayAPI):
             'wxappid': self.appid,
             're_openid': user_id,
             'total_amount': total_amount,
-            'nick_name': nick_name,
-            'send_name': send_name or nick_name,
+            'send_name': send_name,
             'act_name': act_name,
             'wishing': wishing,
             'remark': remark,
-            'client_ip': client_ip or get_external_ip(),
             'total_num': total_num,
-            'min_value': min_value or total_amount,
-            'max_value': max_value or total_amount,
+            'client_ip': client_ip or get_external_ip(),
+            'amt_type': amt_type,
+            'amt_list': amt_list,
             'mch_billno': mch_billno,
             'logo_imgurl': logo_imgurl,
+            'watermark_imgurl': watermark_imgurl,
+            'banner_imgurl': banner_imgurl,
         }
         return self._post('mmpaymkttransfers/sendgroupredpack', data=data)
 
