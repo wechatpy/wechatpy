@@ -17,7 +17,7 @@ def format_url(params, api_key=None):
 
 def calculate_signature(params, api_key):
     url = format_url(params, api_key)
-    return hashlib.md5(url).hexdigest().upper()
+    return to_text(hashlib.md5(url).hexdigest().upper())
 
 
 def dict_to_xml(d, sign):
