@@ -25,6 +25,7 @@ class WeChatPay(object):
     """订单接口"""
     refund = api.WeChatRefund()
     """退款接口"""
+    tools = api.WeChatTools()
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
