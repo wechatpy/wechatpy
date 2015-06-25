@@ -38,6 +38,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
                 random.randint(1000, 10000)
             )
         data = {
+            'wxappid': self.appid,
             're_openid': user_id,
             'total_amount': total_amount,
             'nick_name': nick_name,
@@ -86,6 +87,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
                 random.randint(1000, 10000)
             )
         data = {
+            'wxappid': self.appid,
             're_openid': user_id,
             'total_amount': total_amount,
             'nick_name': nick_name,
@@ -113,6 +115,6 @@ class WeChatRedpack(BaseWeChatPayAPI):
         data = {
             'mch_billno': mch_billno,
             'bill_type': bill_type,
-            'appid': self._client.appid,  # fuck Tencent
+            'appid': self.appid,
         }
         return self._post('mmpaymkttransfers/gethbinfo', data=data)

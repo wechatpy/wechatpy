@@ -16,3 +16,7 @@ class BaseWeChatPayAPI(object):
         if getattr(self, 'API_BASE_URL', None):
             kwargs['api_base_url'] = self.API_BASE_URL
         return self._client.post(url, **kwargs)
+
+    @property
+    def appid(self):
+        return self._client.appid
