@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-import string
-import random
 import struct
 import socket
 import base64
 
-from wechatpy.utils import to_text, to_binary
+from wechatpy.utils import to_text, to_binary, random_string
 from wechatpy._compat import byte2int
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
 try:
@@ -24,9 +22,7 @@ class BasePrpCrypto(object):
         self.cipher = WeChatCipher(key)
 
     def get_random_string(self):
-        rule = string.ascii_letters + string.digits
-        rand_list = random.sample(rule, 16)
-        return ''.join(rand_list)
+        return random_string(16)
 
     def _encrypt(self, text, _id):
         text = to_binary(text)

@@ -9,6 +9,8 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import string
+import random
 import hashlib
 import six
 
@@ -109,3 +111,9 @@ def timezone(zone):
         return gettz(zone)
     except ImportError:
         return None
+
+
+def random_string(length=16):
+    rule = string.ascii_letters + string.digits
+    rand_list = random.sample(rule, length)
+    return ''.join(rand_list)
