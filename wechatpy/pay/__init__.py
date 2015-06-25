@@ -1,3 +1,4 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from wechatpy.pay.utils import calculate_signature  # NOQA
+from wechatpy.pay.utils import dict_to_xml  # NOQA
