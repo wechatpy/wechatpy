@@ -3,13 +3,14 @@ from __future__ import absolute_import, unicode_literals
 import random
 from datetime import datetime
 
+from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatRedpack(BaseWeChatPayAPI):
 
     def send(self, user_id, total_amount, nick_name, act_name,
-             wishing, remark, client_ip,
+             wishing, remark, client_ip=None,
              send_name=None, total_num=1, min_value=None,
              max_value=None, mch_billno=None, logo_imgurl=None):
         """
@@ -21,7 +22,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
         :param act_name: 活动名称
         :param wishing: 红包祝福语
         :param remark: 备注
-        :param client_ip: 调用接口的机器 IP 地址
+        :param client_ip: 可选，调用接口的机器 IP 地址
         :param send_name: 可选，商户名称，默认和提供方名称相同
         :param total_num: 可选，红包发放总人数，默认为 1
         :param min_value: 可选，最小红包金额，单位分
@@ -46,7 +47,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
             'act_name': act_name,
             'wishing': wishing,
             'remark': remark,
-            'client_ip': client_ip,
+            'client_ip': client_ip or get_external_ip(),
             'total_num': total_num,
             'min_value': min_value or total_amount,
             'max_value': max_value or total_amount,
@@ -56,7 +57,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
         return self._post('mmpaymkttransfers/sendredpack', data=data)
 
     def send_group(self, user_id, total_amount, nick_name, act_name,
-                   wishing, remark, client_ip,
+                   wishing, remark, client_ip=None,
                    send_name=None, total_num=1, min_value=None,
                    max_value=None, mch_billno=None, logo_imgurl=None):
         """
@@ -70,7 +71,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
         :param act_name: 活动名称
         :param wishing: 红包祝福语
         :param remark: 备注
-        :param client_ip: 调用接口的机器 IP 地址
+        :param client_ip: 可选，调用接口的机器 IP 地址
         :param send_name: 可选，商户名称，默认和提供方名称相同
         :param total_num: 可选，红包发放总人数，默认为 1
         :param min_value: 可选，最小红包金额，单位分
@@ -95,7 +96,7 @@ class WeChatRedpack(BaseWeChatPayAPI):
             'act_name': act_name,
             'wishing': wishing,
             'remark': remark,
-            'client_ip': client_ip,
+            'client_ip': client_ip or get_external_ip(),
             'total_num': total_num,
             'min_value': min_value or total_amount,
             'max_value': max_value or total_amount,

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import hashlib
+import socket
+
 import six
 
 from wechatpy.utils import to_binary, to_text
@@ -30,3 +32,15 @@ def dict_to_xml(d, sign):
             )
     xml.append('<sign><![CDATA[{0}]]></sign>\n</xml>'.format(to_text(sign)))
     return ''.join(xml)
+
+
+def get_external_ip():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        wechat_ip = socket.gethostbyname('api.mch.weixin.qq.com')
+        sock.connect((wechat_ip, 80))
+        addr, port = sock.getsockname()
+        sock.close()
+        return addr
+    except socket.error:
+        return '127.0.0.1'
