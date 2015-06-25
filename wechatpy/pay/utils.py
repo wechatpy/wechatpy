@@ -9,10 +9,9 @@ from wechatpy.utils import to_binary, to_text
 
 
 def format_url(params, api_key=None):
-    data = [b'{0}={1}'.format(to_binary(k), to_binary(params[k]))
-            for k in sorted(params)]
+    data = [to_binary('{0}={1}'.format(k, params[k])) for k in sorted(params)]
     if api_key:
-        data.append(b'key={0}'.format(to_binary(api_key)))
+        data.append(to_binary('key={0}'.format(api_key)))
     return b"&".join(data)
 
 
