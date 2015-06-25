@@ -23,6 +23,8 @@ class WeChatPay(object):
     """代金券接口"""
     order = api.WeChatOrder()
     """订单接口"""
+    refund = api.WeChatRefund()
+    """退款接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
