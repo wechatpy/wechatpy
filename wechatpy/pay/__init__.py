@@ -57,7 +57,9 @@ class WeChatPay(object):
 
         if isinstance(kwargs.get('data', ''), dict):
             data = optionaldict(kwargs['data'])
-            data.setdefault('mch_id', self.mch_id)
+            if 'mchid' not in data:
+                # Fuck Tencent
+                data.setdefault('mch_id', self.mch_id)
             data.setdefault('sub_mch_id', self.sub_mch_id)
             data.setdefault('nonce_str', random_string(32))
             sign = calculate_signature(data, self.api_key)
