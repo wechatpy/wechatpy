@@ -16,6 +16,9 @@ from wechatpy.pay import api
 
 class WeChatPay(object):
     redpack = api.WeChatRedpack()
+    """红包接口"""
+    transfer = api.WeChatTransfer()
+    """企业付款接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
