@@ -21,6 +21,8 @@ class WeChatPay(object):
     """企业付款接口"""
     coupon = api.WeChatCoupon()
     """代金券接口"""
+    order = api.WeChatOrder()
+    """订单接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
