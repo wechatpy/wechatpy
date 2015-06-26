@@ -9,7 +9,7 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 class WeChatOrder(BaseWeChatPayAPI):
 
     def create(self, trade_type, body, total_fee, notify_url, client_ip,
-               user_id=None, mch_billno=None, detail=None, attach=None,
+               user_id=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', time_start=None, time_expire=None,
                goods_tag=None, product_id=None, device_info=None):
         """
@@ -21,7 +21,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param notify_url: 接收微信支付异步通知回调地址
         :param client_ip: APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
         :param user_id: 可选，用户在商户appid下的唯一标识。trade_type=JSAPI，此参数必传
-        :param mch_billno: 可选，商户订单号，默认自动生成
+        :param out_trade_no: 可选，商户订单号，默认自动生成
         :param detail: 可选，商品详情
         :param attach: 可选，附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         :param fee_type: 可选，符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -34,8 +34,8 @@ class WeChatOrder(BaseWeChatPayAPI):
         """
         now = datetime.now()
         minutes_later = now + timedelta(minutes=30)
-        if not mch_billno:
-            mch_billno = '{0}{1}{2}'.format(
+        if not out_trade_no:
+            out_trade_no = '{0}{1}{2}'.format(
                 self.mch_id,
                 now.strftime('%Y%m%d%H%M%S'),
                 random.randint(1000, 10000)
@@ -46,7 +46,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'body': body,
             'detail': detail,
             'attach': attach,
-            'out_trade_no': mch_billno,
+            'out_trade_no': out_trade_no,
             'fee_type': fee_type,
             'total_fee': total_fee,
             'spbill_create_ip': client_ip,
@@ -60,30 +60,30 @@ class WeChatOrder(BaseWeChatPayAPI):
         }
         return self._post('pay/unifiedorder', data=data)
 
-    def query(self, transaction_id=None, mch_billno=None):
+    def query(self, transaction_id=None, out_trade_no=None):
         """
         查询订单
 
         :param transaction_id: 微信的订单号，优先使用
-        :param mch_billno: 商户系统内部的订单号，当没提供transaction_id时需要传这个。
+        :param out_trade_no: 商户系统内部的订单号，当没提供transaction_id时需要传这个。
         :return: 返回的结果数据
         """
         data = {
             'appid': self.appid,
             'transaction_id': transaction_id,
-            'out_trade_no': mch_billno,
+            'out_trade_no': out_trade_no,
         }
         return self._post('pay/orderquery', data=data)
 
-    def close(self, mch_billno):
+    def close(self, out_trade_no):
         """
         关闭订单
 
-        :param mch_billno: 商户系统内部的订单号
+        :param out_trade_no: 商户系统内部的订单号
         :return: 返回的结果数据
         """
         data = {
             'appid': self.appid,
-            'out_trade_no': mch_billno,
+            'out_trade_no': out_trade_no,
         }
         return self._post('pay/closeorder', data=data)

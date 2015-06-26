@@ -9,7 +9,7 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 class WeChatCoupon(BaseWeChatPayAPI):
 
     def send(self, user_id, stock_id, op_user_id=None, device_info=None,
-             mch_billno=None):
+             out_trade_no=None):
         """
         发放代金券
 
@@ -17,12 +17,12 @@ class WeChatCoupon(BaseWeChatPayAPI):
         :param stock_id: 代金券批次 ID
         :param op_user_id: 可选，操作员账号，默认为商户号
         :param device_info: 可选，微信支付分配的终端设备号
-        :param mch_billno: 可选，商户订单号，需保持唯一性，默认自动生成
+        :param out_trade_no: 可选，商户订单号，需保持唯一性，默认自动生成
         :return: 返回的结果信息
         """
-        if not mch_billno:
+        if not out_trade_no:
             now = datetime.now()
-            mch_billno = '{0}{1}{2}'.format(
+            out_trade_no = '{0}{1}{2}'.format(
                 self.mch_id,
                 now.strftime('%Y%m%d%H%M%S'),
                 random.randint(1000, 10000)
@@ -32,7 +32,7 @@ class WeChatCoupon(BaseWeChatPayAPI):
             'coupon_stock_id': stock_id,
             'openid': user_id,
             'openid_count': 1,
-            'partner_trade_no': mch_billno,
+            'partner_trade_no': out_trade_no,
             'op_user_id': op_user_id,
             'device_info': device_info,
             'version': '1.0',

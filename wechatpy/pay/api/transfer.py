@@ -11,7 +11,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
 
     def transfer(self, user_id, amount, desc, client_ip=None,
                  check_name='OPTION_CHECK', real_name=None,
-                 mch_billno=None, device_info=None):
+                 out_trade_no=None, device_info=None):
         """
         企业付款接口
 
@@ -26,13 +26,13 @@ class WeChatTransfer(BaseWeChatPayAPI):
                            默认为 OPTION_CHECK
         :param real_name: 可选，收款用户真实姓名，
                           如果check_name设置为FORCE_CHECK或OPTION_CHECK，则必填用户真实姓名
-        :param mch_billno: 可选，商户订单号，需保持唯一性，默认自动生成
+        :param out_trade_no: 可选，商户订单号，需保持唯一性，默认自动生成
         :param device_info: 可选，微信支付分配的终端设备号
         :return: 返回的结果信息
         """
-        if not mch_billno:
+        if not out_trade_no:
             now = datetime.now()
-            mch_billno = '{0}{1}{2}'.format(
+            out_trade_no = '{0}{1}{2}'.format(
                 self.mch_id,
                 now.strftime('%Y%m%d%H%M%S'),
                 random.randint(1000, 10000)
@@ -41,7 +41,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
             'mch_appid': self.appid,
             'mchid': self.mch_id,
             'device_info': device_info,
-            'partner_trade_no': mch_billno,
+            'partner_trade_no': out_trade_no,
             'openid': user_id,
             'check_name': check_name,
             're_user_name': real_name,
@@ -51,15 +51,15 @@ class WeChatTransfer(BaseWeChatPayAPI):
         }
         return self._post('mmpaymkttransfers/promotion/transfers', data=data)
 
-    def query(self, mch_billno):
+    def query(self, out_trade_no):
         """
         企业付款查询接口
 
-        :param mch_billno: 商户调用企业付款API时使用的商户订单号
+        :param out_trade_no: 商户调用企业付款API时使用的商户订单号
         :return: 返回的结果数据
         """
         data = {
             'appid': self.appid,
-            'partner_trade_no': mch_billno,
+            'partner_trade_no': out_trade_no,
         }
         return self._post('mmpaymkttransfers/gettransferinfo', data=data)
