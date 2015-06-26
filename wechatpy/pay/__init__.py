@@ -91,7 +91,12 @@ class WeChatPay(object):
 
     def _handle_result(self, res):
         xml = res.text
-        data = xmltodict.parse(xml)['xml']
+        try:
+            data = xmltodict.parse(xml)['xml']
+        except xmltodict.ParsingInterrupted:
+            # 解析 XML 失败
+            return xml
+
         return_code = data['return_code']
         return_msg = data.get('return_msg')
         result_code = data.get('result_code')
