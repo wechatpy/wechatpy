@@ -37,6 +37,17 @@ class WeChatException(Exception):
                 msg=self.errmsg
             ))
 
+    def __repr__(self):
+        _repr = '{klass}({code}, {msg}'.format(
+            klass=self.__class__.__name__,
+            code=self.errcode,
+            msg=self.errmsg
+        )
+        if six.PY2:
+            return to_binary(_repr)
+        else:
+            return to_text(_repr)
+
 
 class WeChatClientException(WeChatException):
     """WeChat API client exception class"""
