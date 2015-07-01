@@ -18,6 +18,7 @@ class WeChatClient(BaseWeChatClient):
     misc = api.WeChatMisc()
     agent = api.WeChatAgent()
     batch = api.WeChatBatch()
+    jsapi = api.WeChatJSAPI()
 
     def __init__(self, corp_id, secret, access_token=None, session=None):
         super(WeChatClient, self).__init__(access_token, session)
