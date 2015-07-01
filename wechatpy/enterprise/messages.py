@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from ..fields import IntegerField
-from .. import messages
+
+from wechatpy.fields import IntegerField
+from wechatpy import messages
 
 
 MESSAGE_TYPES = {}
@@ -25,6 +27,11 @@ class ImageMessage(messages.ImageMessage):
 
 @register_message('voice')
 class VoiceMessage(messages.VoiceMessage):
+    agent = IntegerField('AgentID', 0)
+
+
+@register_message('shortvideo')
+class ShortVideoMessage(messages.ShortVideoMessage):
     agent = IntegerField('AgentID', 0)
 
 

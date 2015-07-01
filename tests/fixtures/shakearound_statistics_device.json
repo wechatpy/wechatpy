@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "click_pv": 0,
+            "click_uv": 0,
+            "ftime": 1425052800,
+            "shake_pv": 0,
+            "shake_uv": 0
+        },
+        {
+            "click_pv": 0,
+            "click_uv": 0,
+            "ftime": 1425139200,
+            "shake_pv": 0,
+            "shake_uv": 0
+        }
+    ],
+    "errcode": 0,
+    "errmsg": "success."
+}

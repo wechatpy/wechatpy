@@ -1,11 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 
-from .parser import parse_message  # NOQA
-from .replies import create_reply  # NOQA
-from .client import WeChatClient  # NOQA
-from .exceptions import WeChatException  # NOQA
-from .oauth import WeChatOAuth  # NOQA
+from wechatpy.parser import parse_message  # NOQA
+from wechatpy.replies import create_reply  # NOQA
+from wechatpy.client import WeChatClient  # NOQA
+from wechatpy.exceptions import WeChatException  # NOQA
+from wechatpy.oauth import WeChatOAuth  # NOQA
+from wechatpy.pay import WeChatPay  # NOQA
 
 
-__version__ = '0.7.3'
+__version__ = '0.9.1'
 __author__ = 'messense'

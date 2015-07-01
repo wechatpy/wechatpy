@@ -11,7 +11,7 @@
 from __future__ import absolute_import, unicode_literals
 import six
 
-from .utils import to_binary, to_text
+from wechatpy.utils import to_binary, to_text
 
 
 class WeChatException(Exception):
@@ -67,3 +67,20 @@ class InvalidAppIdException(WeChatException):
 class WeChatOAuthException(WeChatException):
     """WeChat OAuth API exception class"""
     pass
+
+
+class WeChatPayException(WeChatException):
+    """WeChat Pay API exception class"""
+    def __init__(self, return_code, result_code=None, return_msg=None,
+                 errcode=None, errmsg=None):
+        """
+        :param return_code: 返回状态码
+        :param result_code: 业务结果
+        :param return_msg: 返回信息
+        :param errcode: 错误代码
+        :param errmsg: 错误代码描述
+        """
+        super(WeChatPayException, self).__init__(errcode, errmsg)
+        self.return_code = return_code
+        self.result_code = result_code
+        self.return_msg = return_msg

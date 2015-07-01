@@ -10,87 +10,22 @@
 """
 from __future__ import absolute_import, unicode_literals
 import time
-import string
-import random
-import struct
-import socket
 import base64
 
 import six
-# pycrypto
-from Crypto.Cipher import AES
 
-from .utils import to_text, to_binary, WeChatSigner
-from ._compat import byte2int
-from .exceptions import InvalidAppIdException, InvalidSignatureException
+from wechatpy.utils import to_text, to_binary, WeChatSigner
+from wechatpy.exceptions import (
+    InvalidAppIdException,
+    InvalidSignatureException
+)
+from wechatpy.crypto.base import BasePrpCrypto
 
 
 def _get_signature(token, timestamp, nonce, encrypt):
     signer = WeChatSigner()
     signer.add_data(token, timestamp, nonce, encrypt)
     return signer.signature
-
-
-class PKCS7Encoder(object):
-    block_size = 32
-
-    @classmethod
-    def encode(cls, text):
-        length = len(text)
-        padding_count = cls.block_size - length % cls.block_size
-        if padding_count == 0:
-            padding_count = cls.block_size
-        padding = to_binary(chr(padding_count))
-        return text + padding * padding_count
-
-    @classmethod
-    def decode(cls, decrypted):
-        padding = byte2int(decrypted, -1)
-        if padding < 1 or padding > 32:
-            padding = 0
-        return decrypted[:-padding]
-
-
-class BasePrpCrypto(object):
-
-    def __init__(self, key):
-        self.key = key
-        self.mode = AES.MODE_CBC
-
-    def get_random_string(self):
-        rule = string.ascii_letters + string.digits
-        rand_list = random.sample(rule, 16)
-        return ''.join(rand_list)
-
-    def _encrypt(self, text, _id):
-        text = to_binary(text)
-        tmp_list = []
-        tmp_list.append(to_binary(self.get_random_string()))
-        length = struct.pack(b'I', socket.htonl(len(text)))
-        tmp_list.append(length)
-        tmp_list.append(text)
-        tmp_list.append(to_binary(_id))
-
-        text = b''.join(tmp_list)
-        text = PKCS7Encoder.encode(text)
-
-        cryptor = AES.new(self.key, self.mode, self.key[:16])
-        ciphertext = to_binary(cryptor.encrypt(text))
-        return base64.b64encode(ciphertext)
-
-    def _decrypt(self, text, _id, exception=None):
-        text = to_binary(text)
-        cryptor = AES.new(self.key, self.mode, self.key[:16])
-        plain_text = cryptor.decrypt(base64.b64decode(text))
-        padding = byte2int(plain_text, -1)
-        content = plain_text[16:-padding]
-        xml_length = socket.ntohl(struct.unpack(b'I', content[:4])[0])
-        xml_content = to_text(content[4:xml_length + 4])
-        from_id = to_text(content[xml_length + 4:])
-        if from_id != _id:
-            exception = exception or Exception
-            raise exception()
-        return xml_content
 
 
 class PrpCrypto(BasePrpCrypto):
@@ -128,7 +63,7 @@ class BaseWeChatCrypto(object):
                          nonce,
                          timestamp=None,
                          crypto_class=None):
-        from .replies import BaseReply
+        from wechatpy.replies import BaseReply
 
         xml = """<xml>
 <Encrypt><![CDATA[{encrypt}]]></Encrypt>

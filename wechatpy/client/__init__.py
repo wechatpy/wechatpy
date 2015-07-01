@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from .base import BaseWeChatClient
-from . import api
+from wechatpy.client.base import BaseWeChatClient
+from wechatpy.client import api
 
 
 class WeChatClient(BaseWeChatClient):
@@ -13,22 +13,28 @@ class WeChatClient(BaseWeChatClient):
 
     API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
 
+    menu = api.WeChatMenu()
+    user = api.WeChatUser()
+    group = api.WeChatGroup()
+    media = api.WeChatMedia()
+    card = api.WeChatCard()
+    qrcode = api.WeChatQRCode()
+    message = api.WeChatMessage()
+    misc = api.WeChatMisc()
+    merchant = api.WeChatMerchant()
+    customservice = api.WeChatCustomService()
+    datacube = api.WeChatDataCube()
+    jsapi = api.WeChatJSAPI()
+    material = api.WeChatMaterial()
+    semantic = api.WeChatSemantic()
+    shakearound = api.WeChatShakeAround()
+    device = api.WeChatDevice()
+    template = api.WeChatTemplate()
+
     def __init__(self, appid, secret, access_token=None):
+        super(WeChatClient, self).__init__(access_token)
         self.appid = appid
         self.secret = secret
-        self._access_token = access_token
-        self.expires_at = None
-
-        # APIs
-        self.menu = api.WeChatMenu(self)
-        self.user = api.WeChatUser(self)
-        self.group = api.WeChatGroup(self)
-        self.media = api.WeChatMedia(self)
-        self.card = api.WeChatCard(self)
-        self.qrcode = api.WeChatQRCode(self)
-        self.message = api.WeChatMessage(self)
-        self.misc = api.WeChatMisc(self)
-        self.merchant = api.WeChatMerchant(self)
 
     def fetch_access_token(self):
         """

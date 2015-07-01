@@ -1,0 +1,12 @@
+{
+    "list": [
+        {
+            "ref_date": "2014-12-07",
+            "ref_hour": 0,
+            "callback_count": 1234,
+            "fail_count": 0,
+            "total_time_cost": 12345,
+            "max_time_count": 123
+        }
+    ]
+}

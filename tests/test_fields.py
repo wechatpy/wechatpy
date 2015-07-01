@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import base64
 import unittest
+
+from wechatpy.utils import to_text
 
 
 class FieldsTestCase(unittest.TestCase):
@@ -148,3 +151,21 @@ class FieldsTestCase(unittest.TestCase):
             article_count=article_count
         )
         assert expected in field.to_xml(articles)
+
+    def test_base64encode_field_to_xml(self):
+        from wechatpy.fields import Base64EncodeField
+
+        content = b'test'
+        field = Base64EncodeField('Content')
+        expected = '<Content><![CDATA[{content}]]></Content>'.format(
+            content=to_text(base64.b64encode(content))
+        )
+        self.assertEqual(expected, field.to_xml(content))
+
+    def test_base64decode_field_to_xml(self):
+        from wechatpy.fields import Base64DecodeField
+
+        content = to_text(base64.b64encode(b'test'))
+        field = Base64DecodeField('Content')
+        expected = '<Content><![CDATA[test]]></Content>'
+        self.assertEqual(expected, field.to_xml(content))

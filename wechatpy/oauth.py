@@ -12,15 +12,15 @@ from __future__ import absolute_import, unicode_literals
 import six
 import requests
 
-from ._compat import json
-from .exceptions import WeChatOAuthException
+from wechatpy._compat import json
+from wechatpy.exceptions import WeChatOAuthException
 
 
 class WeChatOAuth(object):
     """ 微信公众平台 OAuth 网页授权 """
 
     API_BASE_URL = 'https://api.weixin.qq.com/'
-    OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/oauth2/'
+    OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
     def __init__(self, app_id, secret, redirect_uri,
                  scope='snsapi_base', state=''):
@@ -57,6 +57,7 @@ class WeChatOAuth(object):
             **kwargs
         )
         res.raise_for_status()
+        res.encoding = 'UTF-8'
         result = res.json()
 
         if 'errcode' in result and result['errcode'] != 0:
@@ -81,12 +82,32 @@ class WeChatOAuth(object):
         redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
         url_list = [
             self.OAUTH_BASE_URL,
-            'authorize?appid=',
+            'oauth2/authorize?appid=',
             self.app_id,
             '&redirect_uri=',
             redirect_uri,
             '&response_type=code&scope=',
             self.scope
+        ]
+        if self.state:
+            url_list.extend(['&state=', self.state])
+        url_list.append('#wechat_redirect')
+        return ''.join(url_list)
+
+    @property
+    def qrconnect_url(self):
+        """Generate qrconnect url
+        :return: An url
+        """
+        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
+        url_list = [
+            self.OAUTH_BASE_URL,
+            'qrconnect?appid=',
+            self.app_id,
+            '&redirect_uri=',
+            redirect_uri,
+            '&response_type=code&scope=',
+            'snsapi_login'  # scope
         ]
         if self.state:
             url_list.extend(['&state=', self.state])
@@ -159,7 +180,7 @@ class WeChatOAuth(object):
         openid = openid or self.open_id
         access_token = access_token or self.access_token
         res = self._get(
-            'sns/oauth2/auth',
+            'sns/auth',
             params={
                 'access_token': access_token,
                 'openid': openid

@@ -55,3 +55,7 @@ class WeChatTag(BaseWeChatAPI):
                 'userlist': user_ids
             }
         )
+
+    def list(self):
+        res = self._get('tag/list')
+        return res['taglist']

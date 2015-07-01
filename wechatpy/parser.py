@@ -10,9 +10,9 @@
 from __future__ import absolute_import, unicode_literals
 import xmltodict
 
-from .messages import MESSAGE_TYPES, UnknownMessage
-from .events import EVENT_TYPES
-from .utils import to_text
+from wechatpy.messages import MESSAGE_TYPES, UnknownMessage
+from wechatpy.events import EVENT_TYPES
+from wechatpy.utils import to_text
 
 
 def parse_message(xml):
@@ -25,10 +25,12 @@ def parse_message(xml):
         return
     message = xmltodict.parse(to_text(xml))['xml']
     message_type = message['MsgType'].lower()
-    if message_type == 'event':
+    if message_type in ('event', 'device_event'):
         event_type = message['Event'].lower()
-        if event_type == 'subscribe' and 'EventKey' in message and \
-                message['EventKey']:
+        # special event type for device_event
+        if message_type == 'device_event':
+            event_type = 'device_{event}'.format(event=event_type)
+        if event_type == 'subscribe' and message.get('EventKey'):
             # Scan to subscribe with scene id event
             event_type = 'subscribe_scan'
             message['Event'] = event_type

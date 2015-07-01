@@ -2,13 +2,13 @@
 from __future__ import absolute_import, unicode_literals
 from wechatpy.client.api.base import BaseWeChatAPI
 
-from .category import MerchantCategory
-from .stock import MerchantStock
-from .express import MerchantExpress
-from .group import MerchantGroup
-from .shelf import MerchantShelf
-from .order import MerchantOrder
-from .common import MerchantCommon
+from wechatpy.client.api.merchant.category import MerchantCategory
+from wechatpy.client.api.merchant.stock import MerchantStock
+from wechatpy.client.api.merchant.express import MerchantExpress
+from wechatpy.client.api.merchant.group import MerchantGroup
+from wechatpy.client.api.merchant.shelf import MerchantShelf
+from wechatpy.client.api.merchant.order import MerchantOrder
+from wechatpy.client.api.merchant.common import MerchantCommon
 
 
 class WeChatMerchant(BaseWeChatAPI):

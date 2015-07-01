@@ -9,9 +9,12 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import base64
+import copy
+
 import six
 
-from .utils import to_text, to_binary, ObjectDict
+from wechatpy.utils import to_text, to_binary, ObjectDict
 
 
 class FieldDescriptor(object):
@@ -24,8 +27,8 @@ class FieldDescriptor(object):
         if instance is not None:
             value = instance._data.get(self.attr_name)
             if value is None:
-                instance._data[self.attr_name] = self.field.default
-                value = self.field.default
+                value = copy.deepcopy(self.field.default)
+                instance._data[self.attr_name] = value
             if isinstance(value, dict):
                 value = ObjectDict(value)
             if value and not isinstance(value, (dict, list, tuple)) and \
@@ -192,4 +195,35 @@ class ArticlesField(StringField):
         return tpl.format(
             article_count=article_count,
             items=items_str
+        )
+
+
+class Base64EncodeField(StringField):
+
+    def __base64_encode(self, text):
+        return to_text(base64.b64encode(to_binary(text)))
+
+    converter = __base64_encode
+
+
+class Base64DecodeField(StringField):
+
+    def __base64_decode(self, text):
+        return to_text(base64.b64decode(to_binary(text)))
+
+    converter = __base64_decode
+
+
+class HardwareField(StringField):
+
+    def to_xml(self, value=None):
+        value = value or {'view': 'myrank', 'action': 'ranklist'}
+        tpl = """<{name}>
+        <MessageView><![CDATA[{view}]]></MessageView>
+        <MessageAction><![CDATA[{action}]]></MessageAction>
+        </{name}>"""
+        return tpl.format(
+            name=self.name,
+            view=value.get('view'),
+            action=value.get('action')
         )

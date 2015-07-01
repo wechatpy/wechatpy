@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from optionaldict import optionaldict
+
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.utils import NotNoneDict
 
 
 class WeChatDepartment(BaseWeChatAPI):
 
-    def create(self, name, parent_id=1):
+    def create(self, name, parent_id=1, order=None, id=None):
         """
         创建部门
         详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理部门
@@ -15,12 +16,14 @@ class WeChatDepartment(BaseWeChatAPI):
         :param parent_id: 父亲部门 id ,根部门 id 为 1
         :return: 返回的 JSON 数据包
         """
+        department_data = optionaldict()
+        department_data['name'] = name
+        department_data['parentid'] = parent_id
+        department_data['order'] = order
+        department_data['id'] = id
         return self._post(
             'department/create',
-            data={
-                'name': name,
-                'parentid': parent_id
-            }
+            data=dict(department_data)
         )
 
     def update(self, id, name=None, parent_id=None, order=None):
@@ -34,10 +37,10 @@ class WeChatDepartment(BaseWeChatAPI):
         :param order: 在父部门中的次序，从 1 开始，数字越大排序越靠后
         :return: 返回的 JSON 数据包
         """
-        department_data = NotNoneDict()
+        department_data = optionaldict()
         department_data['id'] = id
         department_data['name'] = name
-        department_data['parent_id'] = parent_id
+        department_data['parentid'] = parent_id
         department_data['order'] = order
         return self._post(
             'department/update',

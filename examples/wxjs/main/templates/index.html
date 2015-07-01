@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="uth-8">
+</head>
+<body>
+	<div id="div"></div>
+<script type="text/javascript" src="./static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	(function(window, $){
+		var fInitWeixin = function(d){
+			wx.config({
+			    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			    appId: 'wxe82ac2393d60e1e3', // 必填，公众号的唯一标识
+			    timestamp: d.timestamp, // 必填，生成签名的时间戳
+			    nonceStr: d.noncestr, // 必填，生成签名的随机串
+			    signature: d.signature,// 必填，签名，见附录1
+			    jsApiList: ['onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
+		}
+		$.ajax({
+			type: 'post',
+			url: 'main/ajax/get_signature',
+			dataType: 'json',
+			data: {url: location.href},
+			success: function(d){
+				fInitWeixin(d)
+				fShare()
+			}
+		})
+		var fShare = function(){
+			wx.onMenuShareTimeline({
+			    title: '分享测试', // 分享标题
+			    link: 'www.qq.com', // 分享链接
+			    imgUrl: '', // 分享图标
+			    success: function () { 
+			        $.ajax({
+			        	type: 'get',
+			        	url: 'main/ajax/log',
+			        	dataType: 'json',
+			        	success: function(d){
+			        		$('#div').html('成功')
+			        	}
+			        })
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+		}
+	})(window, jQuery)
+</script>
+</body>
+</html>

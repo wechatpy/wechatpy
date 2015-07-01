@@ -10,10 +10,17 @@
 """
 from __future__ import absolute_import, unicode_literals
 import copy
+from datetime import datetime
+
 import six
 
-from .fields import BaseField, StringField, IntegerField, FieldDescriptor
-from .utils import to_text, to_binary
+from wechatpy.fields import (
+    BaseField,
+    StringField,
+    IntegerField,
+    FieldDescriptor
+)
+from wechatpy.utils import to_text, to_binary, timezone
 
 
 MESSAGE_TYPES = {}
@@ -69,6 +76,14 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
         else:
             return to_text(_repr)
 
+    @property
+    def create_time(self):
+        """消息创建时间 ``datetime.datetime`` 类型
+        """
+        tz = timezone('Asia/Shanghai')
+        created = datetime.fromtimestamp(self.time, tz)
+        return created
+
 
 @register_message('text')
 class TextMessage(BaseMessage):
@@ -104,6 +119,18 @@ class VoiceMessage(BaseMessage):
     media_id = StringField('MediaId')
     format = StringField('Format')
     recognition = StringField('Recognition')
+
+
+@register_message('shortvideo')
+class ShortVideoMessage(BaseMessage):
+    """
+    短视频消息
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    """
+    type = 'shortvideo'
+    media_id = StringField('MediaId')
+    thumb_media_id = StringField('ThumbMediaId')
 
 
 @register_message('video')

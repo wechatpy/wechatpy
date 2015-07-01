@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import requests
 import six
 
-from .base import BaseWeChatAPI
+from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatQRCode(BaseWeChatAPI):
@@ -31,6 +31,9 @@ class WeChatQRCode(BaseWeChatAPI):
         :param ticket: 二维码 ticket 。可以通过 :func:`create` 获取到
         :return: 返回的 Request 对象
         """
+        if isinstance(ticket, dict):
+            ticket = ticket['ticket']
+        ticket = six.moves.urllib.parse.quote(ticket)
         return requests.get(
             url='https://mp.weixin.qq.com/cgi-bin/showqrcode',
             params={

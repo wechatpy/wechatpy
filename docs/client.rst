@@ -76,3 +76,58 @@ WeChatMerchant 小店 API
 
 .. autoclass:: WeChatMerchant
    :members:
+
+
+WeChatCustomService 客服消息 API
+------------------------------------
+
+.. autoclass:: WeChatCustomService
+   :members:
+
+
+WeChatDataCube 数据分析 API
+-------------------------------
+
+.. autoclass:: WeChatDataCube
+   :members:
+
+
+WeChatJSAPI  JS-SDK API
+---------------------------
+
+.. autoclass:: WeChatJSAPI
+   :members:
+
+
+WeChatMaterial 素材 API
+--------------------------
+
+.. autoclass:: WeChatMaterial
+   :members:
+
+
+WeChatSemantic 语义理解 API
+-------------------------------
+
+.. autoclass:: WeChatSemantic
+   :members:
+
+
+WeChatShakeAround 摇一摇周边 API
+---------------------------------
+
+.. autoclass:: WeChatShakeAround
+   :members:
+
+WeChatDevice 设备功能 API
+---------------------------
+
+.. autoclass:: WeChatDevice
+   :members:
+
+
+WeChatTemplate 模板消息相关接口
+---------------------------------
+
+.. autoclass:: WeChatTemplate
+   :members:

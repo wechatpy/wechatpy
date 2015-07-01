@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from optionaldict import optionaldict
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.utils import NotNoneDict
 
 
 class MerchantOrder(BaseWeChatAPI):
@@ -16,10 +16,11 @@ class MerchantOrder(BaseWeChatAPI):
         return res['order']
 
     def get_by_filter(self, status=None, begin_time=None, end_time=None):
-        filter_dict = NotNoneDict()
-        filter_dict['status'] = status
-        filter_dict['begintime'] = begin_time
-        filter_dict['endtime'] = end_time
+        filter_dict = optionaldict(
+            status=status,
+            begintime=begin_time,
+            endtime=end_time
+        )
 
         res = self._post(
             'merchant/order/getbyfilter',

@@ -11,10 +11,19 @@ from __future__ import absolute_import, unicode_literals
 import time
 import six
 
-from .fields import StringField, IntegerField, ImageField
-from .fields import VoiceField, VideoField, MusicField, ArticlesField
-from .messages import BaseMessage, MessageMetaClass
-from .utils import to_text, to_binary
+from wechatpy.fields import(
+    StringField,
+    IntegerField,
+    ImageField,
+    VoiceField,
+    VideoField,
+    MusicField,
+    ArticlesField,
+    Base64EncodeField,
+    HardwareField,
+)
+from wechatpy.messages import BaseMessage, MessageMetaClass
+from wechatpy.utils import to_text, to_binary
 
 
 REPLY_TYPES = {}
@@ -51,9 +60,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
             if field:
                 self._data[field.name] = value
             else:
-                raise AttributeError('Unknown argument: {arg}'.format(
-                    arg=name
-                ))
+                setattr(self, name, value)
 
     def render(self):
         """Render reply from Python object to XML string"""
@@ -137,7 +144,7 @@ class VideoReply(BaseReply):
 
     @property
     def media_id(self):
-        return self.video.get('media_id', None)
+        return self.video.get('media_id')
 
     @media_id.setter
     def media_id(self, value):
@@ -147,7 +154,7 @@ class VideoReply(BaseReply):
 
     @property
     def title(self):
-        return self.video.get('title', None)
+        return self.video.get('title')
 
     @title.setter
     def title(self, value):
@@ -157,12 +164,12 @@ class VideoReply(BaseReply):
 
     @property
     def description(self):
-        return self.video.get('description', None)
+        return self.video.get('description')
 
     @description.setter
     def description(self, value):
         video = self.video
-        video['description']
+        video['description'] = value
         self.video = video
 
 
@@ -178,7 +185,7 @@ class MusicReply(BaseReply):
 
     @property
     def thumb_media_id(self):
-        return self.music.get('thumb_media_id', None)
+        return self.music.get('thumb_media_id')
 
     @thumb_media_id.setter
     def thumb_media_id(self, value):
@@ -188,7 +195,7 @@ class MusicReply(BaseReply):
 
     @property
     def title(self):
-        return self.music.get('title', None)
+        return self.music.get('title')
 
     @title.setter
     def title(self, value):
@@ -198,7 +205,7 @@ class MusicReply(BaseReply):
 
     @property
     def description(self):
-        return self.music.get('description', None)
+        return self.music.get('description')
 
     @description.setter
     def description(self, value):
@@ -208,7 +215,7 @@ class MusicReply(BaseReply):
 
     @property
     def music_url(self):
-        return self.music.get('music_url', None)
+        return self.music.get('music_url')
 
     @music_url.setter
     def music_url(self, value):
@@ -218,7 +225,7 @@ class MusicReply(BaseReply):
 
     @property
     def hq_music_url(self):
-        return self.music.get('hq_music_url', None)
+        return self.music.get('hq_music_url')
 
     @hq_music_url.setter
     def hq_music_url(self, value):
@@ -254,6 +261,40 @@ class TransferCustomerServiceReply(BaseReply):
     http://mp.weixin.qq.com/wiki/5/ae230189c9bd07a6b221f48619aeef35.html
     """
     type = 'transfer_customer_service'
+
+
+@register_reply('device_text')
+class DeviceTextReply(BaseReply):
+    type = 'device_text'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64EncodeField('Content')
+
+
+@register_reply('device_event')
+class DeviceEventReply(BaseReply):
+    type = 'device_event'
+    event = StringField('Event')
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    session_id = StringField('SessionID')
+    content = Base64EncodeField('Content')
+
+
+@register_reply('device_status')
+class DeviceStatusReply(BaseReply):
+    type = 'device_status'
+    device_type = StringField('DeviceType')
+    device_id = StringField('DeviceID')
+    status = StringField('DeviceStatus')
+
+
+@register_reply('hardware')
+class HardwareReply(BaseReply):
+    type = 'hardware'
+    func_flag = IntegerField('FuncFlag', 0)
+    hardware = HardwareField('HardWare')
 
 
 def create_reply(reply, message=None, render=False):

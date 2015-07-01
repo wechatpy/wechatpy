@@ -9,6 +9,8 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import string
+import random
 import hashlib
 import six
 
@@ -26,20 +28,12 @@ class ObjectDict(dict):
         self[key] = value
 
 
-class NotNoneDict(dict):
-    """A dictionary only store non none values"""
-
-    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
-        if value is None:
-            return
-        return dict_setitem(self, key, value)
-
-
 class WeChatSigner(object):
     """WeChat data signer"""
 
-    def __init__(self):
+    def __init__(self, delimiter=b''):
         self._data = []
+        self._delimiter = to_binary(delimiter)
 
     def add_data(self, *args):
         """Add data to signer"""
@@ -50,7 +44,7 @@ class WeChatSigner(object):
     def signature(self):
         """Get data signature"""
         self._data.sort()
-        str_to_sign = b''.join(self._data)
+        str_to_sign = self._delimiter.join(self._data)
         return hashlib.sha1(str_to_sign).hexdigest()
 
 
@@ -66,7 +60,7 @@ def check_signature(token, signature, timestamp, nonce):
     signer = WeChatSigner()
     signer.add_data(token, timestamp, nonce)
     if signer.signature != signature:
-        from .exceptions import InvalidSignatureException
+        from wechatpy.exceptions import InvalidSignatureException
 
         raise InvalidSignatureException()
 
@@ -99,3 +93,27 @@ def to_binary(value, encoding='utf-8'):
     if isinstance(value, six.text_type):
         return value.encode(encoding)
     return six.binary_type(value)
+
+
+def timezone(zone):
+    """Try to get timezone using pytz or python-dateutil
+
+    :param zone: timezone str
+    :return: timezone tzinfo or None
+    """
+    try:
+        import pytz
+        return pytz.timezone(zone)
+    except ImportError:
+        pass
+    try:
+        from dateutil.tz import gettz
+        return gettz(zone)
+    except ImportError:
+        return None
+
+
+def random_string(length=16):
+    rule = string.ascii_letters + string.digits
+    rand_list = random.sample(rule, length)
+    return ''.join(rand_list)
