@@ -12,6 +12,8 @@ class MemoryStorage(SessionStorage):
         return self._data.get(key)
 
     def set(self, key, value, ttl=None):
+        if value is None:
+            return
         self._data[key] = value
 
     def delete(self, key):

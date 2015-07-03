@@ -26,6 +26,8 @@ class RedisStorage(SessionStorage):
             return value
 
     def set(self, key, value, ttl=None):
+        if value is None:
+            return
         key = self.key_name(key)
         value = json.dumps(value)
         self.redis.set(key, value, ex=ttl)
