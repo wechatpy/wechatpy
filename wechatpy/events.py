@@ -363,3 +363,12 @@ class DeviceUnsubscribeStatusEvent(BaseEvent):
     device_id = StringField('DeviceID')
     open_id = StringField('OpenID')
     op_type = IntegerField('OpType')
+
+
+@register_event('poi_check_notify')
+class PoiCheckNotifyEvent(BaseEvent):
+    event = 'poi_check_notify'
+    poi_id = StringField('PoiId')
+    uniq_id = StringField('UniqId')
+    result = StringField('Result')
+    message = StringField('Msg')
