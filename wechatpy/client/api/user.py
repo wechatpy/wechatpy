@@ -76,3 +76,19 @@ class WeChatUser(BaseWeChatAPI):
             data={'openid': user_id}
         )
         return res['groupid']
+
+    def get_batch(self, user_list):
+        """
+        批量获取用户基本信息
+
+        详情请参考
+        http://mp.weixin.qq.com/wiki/14/bb5031008f1494a59c6f71fa0f319c66.html#.E6.89.B9.E9.87.8F.E8.8E.B7.E5.8F.96.E7.94.A8.E6.88.B7.E5.9F.BA.E6.9C.AC.E4.BF.A1.E6.81.AF
+
+        :param user_id: user_list
+        :return: 用户信息的 list
+        """
+        res = self._post(
+            'user/info/batchget',
+            data={'user_list': user_list}
+        )
+        return res['user_info_list']
