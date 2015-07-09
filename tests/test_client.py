@@ -214,6 +214,23 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.user.update_remark(openid, remark)
             self.assertEqual(0, result['errcode'])
 
+    def test_get_user_info_batch(self):
+        user_list = [
+            {
+                "openid": "otvxTs4dckWG7imySrJd6jSi0CWE",
+                "lang": "zh-CN"
+            },
+            {
+                "openid": "otvxTs_JZ6SEiP0imdhpi50fuSZg",
+                "lang": "zh-CN"
+            }
+        ]
+        with HTTMock(wechat_api_mock):
+            result = self.client.user.get_batch(user_list)
+            self.assertEqual(user_list[0]['openid'], result[0]['openid'])
+            self.assertEqual('iWithery', result[0]['nickname'])
+            self.assertEqual(user_list[1]['openid'], result[1]['openid'])
+
     def test_create_qrcode(self):
         data = {
             'expire_seconds': 1800,
