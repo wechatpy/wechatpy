@@ -16,11 +16,15 @@ class BaseWeChatClient(object):
 
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
-        for name, api in self.__class__.__dict__.items():
-            if isinstance(api, BaseWeChatAPI):
-                api = copy.deepcopy(api)
-                api._client = self
-                setattr(self, name, api)
+        classes = [cls]
+        classes.extend(cls.__mro__)
+        for _class in classes:
+            if issubclass(_class, BaseWeChatClient):
+                for name, api in _class.__dict__.items():
+                    if isinstance(api, BaseWeChatAPI):
+                        api = copy.deepcopy(api)
+                        api._client = self
+                        setattr(self, name, api)
         return self
 
     def __init__(self, access_token=None):
