@@ -111,6 +111,7 @@ class BaseWeChatClient(object):
             url=url,
             params=params
         )
+        res.raise_for_status()
         result = res.json()
         if 'errcode' in result and result['errcode'] != 0:
             raise WeChatClientException(result['errcode'], result['errmsg'])
