@@ -16,9 +16,7 @@ class BaseWeChatClient(object):
 
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
-        classes = [cls]
-        classes.extend(cls.__mro__)
-        for _class in classes:
+        for _class in cls.__mro__:
             if issubclass(_class, BaseWeChatClient):
                 for name, api in _class.__dict__.items():
                     if isinstance(api, BaseWeChatAPI):
