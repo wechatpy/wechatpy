@@ -398,3 +398,12 @@ class ShakearoundUserShakeEvent(BaseEvent):
                 'distance': float(beacon['Distance']),
             })
         return ret
+
+
+@register_event('poi_check_notify')
+class PoiCheckNotifyEvent(BaseEvent):
+    event = 'poi_check_notify'
+    poi_id = StringField('PoiId')
+    uniq_id = StringField('UniqId')
+    result = StringField('Result')
+    message = StringField('Msg')
