@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import time
 import copy
 
+import six
 import requests
 
 from wechatpy.session.memorystorage import MemoryStorage
@@ -29,6 +30,15 @@ class BaseWeChatClient(object):
     def __init__(self, access_token=None, session=None):
         self.expires_at = None
         self.session = session or MemoryStorage()
+
+        if isinstance(session, six.string_types):
+            from shove import Shove
+            from wechatpy.session.shovestorage import ShoveStorage
+
+            shove = Shove(session)
+            storage = ShoveStorage(shove)
+            self.session = storage
+
         self.session.set('access_token', access_token)
 
     def _request(self, method, url_or_endpoint, **kwargs):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from wechatpy.session import SessionStorage
+from wechatpy.utils import to_binary
 from wechatpy._compat import json
 
 
@@ -13,7 +14,7 @@ class MemcachedStorage(SessionStorage):
         self.prefix = prefix
 
     def key_name(self, key):
-        return '{0}:{1}'.format(self.prefix, key)
+        return to_binary('{0}:{1}'.format(self.prefix, key))
 
     def get(self, key):
         key = self.key_name(key)

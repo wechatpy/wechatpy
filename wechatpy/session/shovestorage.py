@@ -13,6 +13,7 @@ class ShoveStorage(SessionStorage):
         return '{0}:{1}'.format(self.prefix, key)
 
     def get(self, key):
+        key = self.key_name(key)
         try:
             return self.shove[key]
         except KeyError:

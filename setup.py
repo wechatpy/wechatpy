@@ -24,7 +24,7 @@ setup(
     long_description=long_description,
     install_requires=requirements,
     include_package_data=True,
-    tests_require=['nose', 'httmock'],
+    tests_require=['nose', 'httmock', 'redis', 'memcached', 'shove'],
     test_suite='nose.collector',
     classifiers=[
         'Development Status :: 4 - Beta',
