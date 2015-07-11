@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from wechatpy.session import SessionStorage
+from wechatpy.utils import to_text
 from wechatpy._compat import json
 
 
@@ -21,7 +22,7 @@ class RedisStorage(SessionStorage):
         if not value:
             return None
         try:
-            return json.loads(value)
+            return json.loads(to_text(value))
         except ValueError:
             return value
 

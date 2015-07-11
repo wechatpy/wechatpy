@@ -80,10 +80,10 @@ class WeChatSessionTestCase(unittest.TestCase):
         if platform.system() == 'Windows':
             return
 
-        from memcache import Client
+        from pymemcache.client import Client
         from wechatpy.session.memcachedstorage import MemcachedStorage
 
-        servers = ["127.0.0.1:11211"]
+        servers = ("127.0.0.1", 11211)
         memcached = Client(servers)
         session = MemcachedStorage(memcached)
         client = WeChatClient(self.app_id, self.secret, session=session)
@@ -93,10 +93,10 @@ class WeChatSessionTestCase(unittest.TestCase):
         if platform.system() == 'Windows':
             return
 
-        from memcache import Client
+        from pymemcache.client import Client
         from wechatpy.session.memcachedstorage import MemcachedStorage
 
-        servers = ["127.0.0.1:11211"]
+        servers = ("127.0.0.1", 11211)
         memcached = Client(servers)
         session = MemcachedStorage(memcached)
         client = WeChatClient(self.app_id, self.secret, session=session)
