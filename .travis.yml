@@ -8,6 +8,10 @@ python:
   - "pypy3"
   - "nightly"
 
+services:
+  - redis-server
+  - memcached
+
 env:
   - CRYPTOPKG="cryptography>=0.8.2"
   - CRYPTOPKG="pycrypto>=2.6.1"

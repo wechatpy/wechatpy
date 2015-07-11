@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals, print_function
 import os
+import platform
 import unittest
 
 from httmock import urlmatch, HTTMock, response
@@ -76,6 +77,9 @@ class WeChatSessionTestCase(unittest.TestCase):
             self.assertEqual('1234567890', client.access_token)
 
     def test_memcached_storage_init(self):
+        if platform.system() == 'Windows':
+            return
+
         from memcache import Client
         from wechatpy.session.memcachedstorage import MemcachedStorage
 
@@ -86,6 +90,9 @@ class WeChatSessionTestCase(unittest.TestCase):
         self.assertTrue(isinstance(client.session, MemcachedStorage))
 
     def test_memcached_storage_access_token(self):
+        if platform.system() == 'Windows':
+            return
+
         from memcache import Client
         from wechatpy.session.memcachedstorage import MemcachedStorage
 
