@@ -18,7 +18,7 @@ env:
 
 install:
   - pip install -r requirements.txt
-  - pip install coverage httmock
+  - pip install coverage httmock redis python-memcached shove
   - pip install $CRYPTOPKG
 
 script: nosetests -v --with-coverage --cover-package=wechatpy
