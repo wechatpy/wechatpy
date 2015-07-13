@@ -223,24 +223,16 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_material_get_mpnews(self):
         media_id = '2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu'
-        example_res = [{
-            "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0" +
-            "p7cNliYu9V5w7o8K0HuucGBZCzw4HmLa5C",
-            "title": "Title01",
-            "author": "zs",
-            "digest": "airticle01",
-            "content_source_url": "",
-            "show_cover_pic": 0
-        }, {
-            "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0" +
-            "p7cNliYu9V5w7oovsUPf3wG4t9N3tE",
-            "title": "Title02",
-            "author": "Author001",
-            "digest": "article02",
-            "content_source_url": "",
-            "show_cover_pic": 0
-        }]
         with HTTMock(wechat_api_mock):
             res = self.client.material.get_articles(1, media_id)
             self.assertEqual('mpnews', res['type'])
-            self.assertListEqual(example_res, res['mpnews']['articles'])
+            self.assertEqual(
+                '2-G6nrLmr5EC3MMb_-zK1dDdzmd0' +
+                'p7cNliYu9V5w7o8K0HuucGBZCzw4HmLa5C',
+                res['mpnews']['articles'][0]['thumb_media_id']
+            )
+            self.assertEqual(
+                '2-G6nrLmr5EC3MMb_-zK1dDdzmd0' +
+                'p7cNliYu9V5w7oovsUPf3wG4t9N3tE',
+                res['mpnews']['articles'][1]['thumb_media_id']
+            )
