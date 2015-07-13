@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import os
+import six
 import unittest
 
 from httmock import urlmatch, HTTMock, response
@@ -185,3 +186,10 @@ class WeChatClientTestCase(unittest.TestCase):
             '0f9de62fce790f9a083d5c99e95740ceb90c27ed',
             signature
         )
+
+    def test_upload_media(self):
+        media_file = six.StringIO('nothing')
+        with HTTMock(wechat_api_mock):
+            media = self.client.media.upload('image', media_file)
+            self.assertEqual('image', media['type'])
+            self.assertEqual('12345678', media['media_id'])
