@@ -236,15 +236,3 @@ class WeChatClientTestCase(unittest.TestCase):
                 'p7cNliYu9V5w7oovsUPf3wG4t9N3tE',
                 res['mpnews']['articles'][1]['thumb_media_id']
             )
-
-    def test_user_convert_to_openid(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.user.get_openid_by_user_id('03070', 1)
-            self.assertEqual('oDOGms-6yCnGrRovBj2yHij5JL6E', res['openid'])
-            self.assertEqual('wxf874e15f78cc84a7', res['appid'])
-
-    def test_user_convert_to_user_id(self):
-        openid = 'oDOGms-6yCnGrRovBj2yHij5JL6E'
-        with HTTMock(wechat_api_mock):
-            res = self.client.user.get_user_id_by_openid(openid)
-            self.assertEqual('zhangsan', res['userid'])
