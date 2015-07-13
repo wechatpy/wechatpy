@@ -18,8 +18,6 @@ env:
   - TOX_ENV=py34-pycrypto
   - TOX_ENV=pypy-cryptography
   - TOX_ENV=pypy-pycrypto
-  - TOX_ENV=pypy3-cryptography
-  - TOX_ENV=pypy3-pycrypto
 
 install:
   - pip install tox
