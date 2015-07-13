@@ -1,0 +1,23 @@
+{
+   "type": "mpnews", 
+   "mpnews": {
+       "articles": [
+           {
+               "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu9V5w7o8K0HuucGBZCzw4HmLa5C", 
+               "title": "Title01", 
+               "author": "zs", 
+               "digest": "airticle01", 
+               "content_source_url": "", 
+               "show_cover_pic": 0
+           }, 
+           {
+               "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu9V5w7oovsUPf3wG4t9N3tE", 
+               "title": "Title02", 
+               "author": "Author001", 
+               "digest": "article02", 
+               "content_source_url": "", 
+               "show_cover_pic": 0
+           }
+       ]
+   }
+}
