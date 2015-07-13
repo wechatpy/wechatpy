@@ -136,3 +136,35 @@ class WeChatUser(BaseWeChatAPI):
             }
         )
         return res['userlist']
+
+    def get_openid_by_user_id(self, user_id, agent_id=None):
+        """
+        userid 转换成 openid 接口
+        详情请参考
+        http://qydev.weixin.qq.com/wiki/index.php?title=Userid%E4%B8%8Eopenid%E4%BA%92%E6%8D%A2%E6%8E%A5%E5%8F%A3
+        """
+
+        data = {
+            'userid': user_id,
+        }
+        if agent_id:
+            data['agentid'] = agent_id
+
+        return self._post(
+            'user/convert_to_openid',
+            data=data
+        )
+
+    def get_user_id_by_openid(self, openid):
+        """
+        openid 转换成 user_id 接口
+        详情请参考
+        http://qydev.weixin.qq.com/wiki/index.php?title=Userid%E4%B8%8Eopenid%E4%BA%92%E6%8D%A2%E6%8E%A5%E5%8F%A3
+        """
+
+        return self._post(
+            'user/convert_to_userid',
+            data={
+                'openid': openid
+            }
+        )
