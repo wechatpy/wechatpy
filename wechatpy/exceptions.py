@@ -51,7 +51,12 @@ class WeChatException(Exception):
 
 class WeChatClientException(WeChatException):
     """WeChat API client exception class"""
-    pass
+    def __init__(self, errcode, errmsg, client=None,
+                 request=None, response=None):
+        super(WeChatClientException, self).__init__(errcode, errmsg)
+        self.client = client
+        self.request = request
+        self.response = response
 
 
 class InvalidSignatureException(WeChatException):
@@ -61,11 +66,9 @@ class InvalidSignatureException(WeChatException):
         super(InvalidSignatureException, self).__init__(errcode, errmsg)
 
 
-class APILimitedException(WeChatException):
+class APILimitedException(WeChatClientException):
     """WeChat API call limited exception class"""
-
-    def __init__(self, errcode=45009, errmsg='api freq out of limit'):
-        super(APILimitedException, self).__init__(errcode, errmsg)
+    pass
 
 
 class InvalidAppIdException(WeChatException):
@@ -75,15 +78,16 @@ class InvalidAppIdException(WeChatException):
         super(InvalidAppIdException, self).__init__(errcode, errmsg)
 
 
-class WeChatOAuthException(WeChatException):
+class WeChatOAuthException(WeChatClientException):
     """WeChat OAuth API exception class"""
     pass
 
 
-class WeChatPayException(WeChatException):
+class WeChatPayException(WeChatClientException):
     """WeChat Pay API exception class"""
     def __init__(self, return_code, result_code=None, return_msg=None,
-                 errcode=None, errmsg=None):
+                 errcode=None, errmsg=None, client=None,
+                 request=None, response=None):
         """
         :param return_code: 返回状态码
         :param result_code: 业务结果
@@ -91,7 +95,13 @@ class WeChatPayException(WeChatException):
         :param errcode: 错误代码
         :param errmsg: 错误代码描述
         """
-        super(WeChatPayException, self).__init__(errcode, errmsg)
+        super(WeChatPayException, self).__init__(
+            errcode,
+            errmsg,
+            client,
+            request,
+            response
+        )
         self.return_code = return_code
         self.result_code = result_code
         self.return_msg = return_msg

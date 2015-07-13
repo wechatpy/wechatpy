@@ -88,7 +88,16 @@ class WeChatPay(object):
             url=url,
             **kwargs
         )
-        res.raise_for_status()
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatPayException(
+                return_code=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
+
         return self._handle_result(res)
 
     def _handle_result(self, res):
@@ -111,7 +120,10 @@ class WeChatPay(object):
                 result_code,
                 return_msg,
                 errcode,
-                errmsg
+                errmsg,
+                client=self,
+                request=res.request,
+                response=res
             )
         return data
 

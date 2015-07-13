@@ -70,11 +70,21 @@ class BaseWeChatClient(object):
             url=url,
             **kwargs
         )
-        res.raise_for_status()
-        result = res.json()
-        return self._handle_result(result, method, url, **kwargs)
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
 
-    def _handle_result(self, result, method=None, url=None, **kwargs):
+        return self._handle_result(res, method, url, **kwargs)
+
+    def _handle_result(self, res, method=None, url=None, **kwargs):
+        result = res.json()
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
             result = result['base_resp']
@@ -97,9 +107,21 @@ class BaseWeChatClient(object):
                 )
             elif errcode == 45009:
                 # api freq out of limit
-                raise APILimitedException(errcode, errmsg)
+                raise APILimitedException(
+                    errcode,
+                    errmsg,
+                    client=self,
+                    request=res.request,
+                    response=res
+                )
             else:
-                raise WeChatClientException(errcode, errmsg)
+                raise WeChatClientException(
+                    errcode,
+                    errmsg,
+                    client=self,
+                    request=res.request,
+                    response=res
+                )
 
         return result
 
@@ -127,10 +149,25 @@ class BaseWeChatClient(object):
             url=url,
             params=params
         )
-        res.raise_for_status()
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
         result = res.json()
         if 'errcode' in result and result['errcode'] != 0:
-            raise WeChatClientException(result['errcode'], result['errmsg'])
+            raise WeChatClientException(
+                result['errcode'],
+                result['errmsg'],
+                client=self,
+                request=res.request,
+                response=res
+            )
 
         expires_in = 7200
         if 'expires_in' in result:
