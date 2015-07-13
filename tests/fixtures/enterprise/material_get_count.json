@@ -1,0 +1,10 @@
+{
+   "errcode": 0, 
+   "errmsg": "ok",
+   "total_count": 37, 
+   "image_count": 12, 
+   "voice_count": 10, 
+   "video_count": 3, 
+   "file_count": 3, 
+   "mpnews_count": 6
+}

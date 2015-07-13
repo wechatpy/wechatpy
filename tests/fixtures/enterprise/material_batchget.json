@@ -1,0 +1,23 @@
+{
+  "errcode":0,
+  "errmsg":"ok",
+  "type":"mpnews",
+   "total_count":20,
+   "item_count":3,
+   "itemlist": [
+      {
+        "media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu",
+        "articles": [
+         {
+         "title": "Title01",
+         "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu9V5w7o8K0",
+         "author": "zs",
+         "content_source_url": "",
+          "digest": "airticle01",
+          "show_cover_pic": "0"
+          }
+        ],
+        "update_time": "1380000000"
+       }
+   ]
+}

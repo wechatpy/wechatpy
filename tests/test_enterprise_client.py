@@ -193,3 +193,54 @@ class WeChatClientTestCase(unittest.TestCase):
             media = self.client.media.upload('image', media_file)
             self.assertEqual('image', media['type'])
             self.assertEqual('12345678', media['media_id'])
+
+    def test_material_get_count(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.material.get_count(1)
+            self.assertEqual(37, res['total_count'])
+            self.assertEqual(3, res['video_count'])
+            self.assertEqual(10, res['voice_count'])
+            self.assertEqual(12, res['image_count'])
+            self.assertEqual(3, res['file_count'])
+            self.assertEqual(6, res['mpnews_count'])
+
+    def test_material_batchget_mpnews(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.material.batchget(1, 'mpnews')
+            self.assertEqual('mpnews', res['type'])
+            self.assertEqual(20, res['total_count'])
+            self.assertEqual(3, res['item_count'])
+            self.assertEqual(
+                '2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu',
+                res['itemlist'][0]['media_id']
+            )
+
+    def test_material_delete(self):
+        media_id = '2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu'
+        with HTTMock(wechat_api_mock):
+            res = self.client.material.delete(1, media_id)
+            self.assertEqual('deleted', res['errmsg'])
+
+    def test_material_get_mpnews(self):
+        media_id = '2-G6nrLmr5EC3MMb_-zK1dDdzmd0p7cNliYu'
+        example_res = [{
+            "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0" +
+            "p7cNliYu9V5w7o8K0HuucGBZCzw4HmLa5C",
+            "title": "Title01",
+            "author": "zs",
+            "digest": "airticle01",
+            "content_source_url": "",
+            "show_cover_pic": 0
+        }, {
+            "thumb_media_id": "2-G6nrLmr5EC3MMb_-zK1dDdzmd0" +
+            "p7cNliYu9V5w7oovsUPf3wG4t9N3tE",
+            "title": "Title02",
+            "author": "Author001",
+            "digest": "article02",
+            "content_source_url": "",
+            "show_cover_pic": 0
+        }]
+        with HTTMock(wechat_api_mock):
+            res = self.client.material.get_articles(1, media_id)
+            self.assertEqual('mpnews', res['type'])
+            self.assertListEqual(example_res, res['mpnews']['articles'])
