@@ -8,18 +8,18 @@ services:
   - memcached
 
 env:
-  - TOX_ENV = py26-cryptography
-  - TOX_ENV = py26-pycrypto
-  - TOX_ENV = py27-cryptography
-  - TOX_ENV = py27-pycrypto
-  - TOX_ENV = py33-cryptography
-  - TOX_ENV = py33-pycrypto
-  - TOX_ENV = py34-cryptography
-  - TOX_ENV = py34-pycrypto
-  - TOX_ENV = pypy-cryptography
-  - TOX_ENV = pypy-pycrypto
-  - TOX_ENV = pypy3-cryptography
-  - TOX_ENV = pypy3-pycrypto
+  - TOX_ENV=py26-cryptography
+  - TOX_ENV=py26-pycrypto
+  - TOX_ENV=py27-cryptography
+  - TOX_ENV=py27-pycrypto
+  - TOX_ENV=py33-cryptography
+  - TOX_ENV=py33-pycrypto
+  - TOX_ENV=py34-cryptography
+  - TOX_ENV=py34-pycrypto
+  - TOX_ENV=pypy-cryptography
+  - TOX_ENV=pypy-pycrypto
+  - TOX_ENV=pypy3-cryptography
+  - TOX_ENV=pypy3-pycrypto
 
 install:
   - pip install tox
