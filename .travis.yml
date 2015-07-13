@@ -1,23 +1,29 @@
+sudo: false
 language: python
 python:
-  - "2.6"
   - "2.7"
-  - "3.3"
-  - "3.4"
-  - "pypy"
-  - "pypy3"
-  - "nightly"
+
+services:
+  - redis-server
+  - memcached
 
 env:
-  - CRYPTOPKG="cryptography>=0.8.2"
-  - CRYPTOPKG="pycrypto>=2.6.1"
+  - TOX_ENV=py26-cryptography
+  - TOX_ENV=py26-pycrypto
+  - TOX_ENV=py27-cryptography
+  - TOX_ENV=py27-pycrypto
+  - TOX_ENV=py33-cryptography
+  - TOX_ENV=py33-pycrypto
+  - TOX_ENV=py34-cryptography
+  - TOX_ENV=py34-pycrypto
+  - TOX_ENV=pypy-cryptography
+  - TOX_ENV=pypy-pycrypto
 
 install:
-  - pip install -r requirements.txt
-  - pip install coverage httmock
-  - pip install $CRYPTOPKG
+  - pip install tox
+  - pip install coverage
 
-script: nosetests -v --with-coverage --cover-package=wechatpy
+script: tox -e $TOX_ENV
 
 after_success:
   - pip install scrutinizer-ocular codecov

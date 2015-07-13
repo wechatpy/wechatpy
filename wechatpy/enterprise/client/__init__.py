@@ -21,11 +21,10 @@ class WeChatClient(BaseWeChatClient):
     jsapi = api.WeChatJSAPI()
     material = api.WeChatMaterial()
 
-    def __init__(self, corp_id, secret, access_token=None):
+    def __init__(self, corp_id, secret, access_token=None, session=None):
+        super(WeChatClient, self).__init__(access_token, session)
         self.corp_id = corp_id
         self.secret = secret
-        self._access_token = access_token
-        self.expires_at = None
 
     def fetch_access_token(self):
         """ Fetch access token"""

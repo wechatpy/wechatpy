@@ -30,9 +30,10 @@ class WeChatClient(BaseWeChatClient):
     shakearound = api.WeChatShakeAround()
     device = api.WeChatDevice()
     template = api.WeChatTemplate()
+    poi = api.WeChatPoi()
 
-    def __init__(self, appid, secret, access_token=None):
-        super(WeChatClient, self).__init__(access_token)
+    def __init__(self, appid, secret, access_token=None, session=None):
+        super(WeChatClient, self).__init__(access_token, session)
         self.appid = appid
         self.secret = secret
 

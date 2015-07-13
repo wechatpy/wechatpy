@@ -3,8 +3,10 @@ from __future__ import absolute_import, unicode_literals
 import time
 import copy
 
+import six
 import requests
 
+from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy._compat import json
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -16,16 +18,28 @@ class BaseWeChatClient(object):
 
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
-        for name, api in self.__class__.__dict__.items():
-            if isinstance(api, BaseWeChatAPI):
-                api = copy.deepcopy(api)
-                api._client = self
-                setattr(self, name, api)
+        for _class in cls.__mro__:
+            if issubclass(_class, BaseWeChatClient):
+                for name, api in _class.__dict__.items():
+                    if isinstance(api, BaseWeChatAPI):
+                        api = copy.deepcopy(api)
+                        api._client = self
+                        setattr(self, name, api)
         return self
 
-    def __init__(self, access_token=None):
-        self._access_token = access_token
+    def __init__(self, access_token=None, session=None):
         self.expires_at = None
+        self.session = session or MemoryStorage()
+
+        if isinstance(session, six.string_types):
+            from shove import Shove
+            from wechatpy.session.shovestorage import ShoveStorage
+
+            shove = Shove(session)
+            storage = ShoveStorage(shove)
+            self.session = storage
+
+        self.session.set('access_token', access_token)
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -73,7 +87,9 @@ class BaseWeChatClient(object):
             if errcode == 42001:
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
-                kwargs['params']['access_token'] = self._access_token
+                kwargs['params']['access_token'] = self.session.get(
+                    'access_token'
+                )
                 return self._request(
                     method=method,
                     url_or_endpoint=url,
@@ -111,14 +127,15 @@ class BaseWeChatClient(object):
             url=url,
             params=params
         )
+        res.raise_for_status()
         result = res.json()
         if 'errcode' in result and result['errcode'] != 0:
             raise WeChatClientException(result['errcode'], result['errmsg'])
 
-        self._access_token = result['access_token']
         expires_in = 7200
         if 'expires_in' in result:
             expires_in = result['expires_in']
+        self.session.set('access_token', result['access_token'], expires_in)
         self.expires_at = int(time.time()) + expires_in
         return result
 
@@ -128,14 +145,15 @@ class BaseWeChatClient(object):
     @property
     def access_token(self):
         """ WeChat access token """
-        if self._access_token:
+        access_token = self.session.get('access_token')
+        if access_token:
             if not self.expires_at:
                 # user provided access_token, just return it
-                return self._access_token
+                return access_token
 
             timestamp = time.time()
             if self.expires_at - timestamp > 60:
-                return self._access_token
+                return access_token
 
         self.fetch_access_token()
-        return self._access_token
+        return self.session.get('access_token')

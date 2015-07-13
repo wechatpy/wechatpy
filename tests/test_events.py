@@ -231,7 +231,7 @@ class EventsTestCase(unittest.TestCase):
         self.assertEqual('test1@test', event.from_account)
         self.assertEqual('test2@test', event.to_account)
 
-    def test_(self):
+    def test_template_send_job_finish_event(self):
         from wechatpy.events import TemplateSendJobFinishEvent
 
         xml = """<xml>
@@ -248,3 +248,45 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, TemplateSendJobFinishEvent))
         self.assertEqual(200163836, event.id)
         self.assertEqual('success', event.status)
+
+    def test_shakearound_user_shake_event(self):
+        from wechatpy.events import ShakearoundUserShakeEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[fromUser]]></FromUserName>
+        <CreateTime>1433332012</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[ShakearoundUserShake]]></Event>
+        <ChosenBeacon>
+            <Uuid><![CDATA[uuid]]></Uuid>
+            <Major>major</Major>
+            <Minor>minor</Minor>
+            <Distance>0.057</Distance>
+        </ChosenBeacon>
+        <AroundBeacons>
+            <AroundBeacon>
+                <Uuid><![CDATA[uuid]]></Uuid>
+                <Major>major</Major>
+                <Minor>minor</Minor>
+                <Distance>166.816</Distance>
+            </AroundBeacon>
+            <AroundBeacon>
+                <Uuid><![CDATA[uuid]]></Uuid>
+                <Major>major</Major>
+                <Minor>minor</Minor>
+                <Distance>15.013</Distance>
+            </AroundBeacon>
+        </AroundBeacons>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, ShakearoundUserShakeEvent))
+
+        chosen_beacon = {
+            'uuid': 'uuid',
+            'major': 'major',
+            'minor': 'minor',
+            'distance': 0.057,
+        }
+        self.assertEqual(chosen_beacon, event.chosen_beacon)
+        self.assertEqual(2, len(event.around_beacons))

@@ -20,3 +20,7 @@ class BaseWeChatAPI(object):
     @property
     def access_token(self):
         return self._client.access_token
+
+    @property
+    def session(self):
+        return self._client.session

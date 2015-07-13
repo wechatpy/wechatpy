@@ -363,3 +363,47 @@ class DeviceUnsubscribeStatusEvent(BaseEvent):
     device_id = StringField('DeviceID')
     open_id = StringField('OpenID')
     op_type = IntegerField('OpType')
+
+
+@register_event('shakearoundusershake')
+class ShakearoundUserShakeEvent(BaseEvent):
+    event = 'shakearound_user_shake'
+    _chosen_beacon = BaseField('ChosenBeacon', {})
+    _around_beacons = BaseField('AroundBeacons', {})
+
+    @property
+    def chosen_beacon(self):
+        beacon = self._chosen_beacon
+        if not beacon:
+            return {}
+        return {
+            'uuid': beacon['Uuid'],
+            'major': beacon['Major'],
+            'minor': beacon['Minor'],
+            'distance': float(beacon['Distance']),
+        }
+
+    @property
+    def around_beacons(self):
+        beacons = self._around_beacons
+        if not beacons:
+            return []
+
+        ret = []
+        for beacon in beacons['AroundBeacon']:
+            ret.append({
+                'uuid': beacon['Uuid'],
+                'major': beacon['Major'],
+                'minor': beacon['Minor'],
+                'distance': float(beacon['Distance']),
+            })
+        return ret
+
+
+@register_event('poi_check_notify')
+class PoiCheckNotifyEvent(BaseEvent):
+    event = 'poi_check_notify'
+    poi_id = StringField('PoiId')
+    uniq_id = StringField('UniqId')
+    result = StringField('Result')
+    message = StringField('Msg')
