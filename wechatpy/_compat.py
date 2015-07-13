@@ -9,7 +9,9 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import sys
 import six
+import six.moves.urllib.parse as urlparse
 try:
     """ Use simplejson if we can, fallback to json otherwise. """
     import simplejson as json
@@ -28,3 +30,14 @@ def byte2int(s, index=0):
     if six.PY2:
         return ord(s[index])
     return s[index]
+
+
+def get_querystring(uri):
+    parts = urlparse.urlsplit(uri)
+    if sys.version_info[:2] == (2, 6):
+        query = parts.path
+        if query.startswith('?'):
+            query = query[1:]
+    else:
+        query = parts.query
+    return urlparse.parse_qs(query)
