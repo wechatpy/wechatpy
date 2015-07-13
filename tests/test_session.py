@@ -112,6 +112,15 @@ class WeChatSessionTestCase(unittest.TestCase):
         uri = 'memory://'
         client = WeChatClient(self.app_id, self.secret, session=uri)
         self.assertTrue(isinstance(client.session, ShoveStorage))
+        self.assertEqual('wechatpy', client.session.prefix)
+
+    def test_shove_storage_init_with_prefix(self):
+        from wechatpy.session.shovestorage import ShoveStorage
+
+        uri = 'memory://?prefix=custom_prefix'
+        client = WeChatClient(self.app_id, self.secret, session=uri)
+        self.assertTrue(isinstance(client.session, ShoveStorage))
+        self.assertEqual('custom_prefix', client.session.prefix)
 
     def test_shove_storage_access_token(self):
         uri = 'memory://'

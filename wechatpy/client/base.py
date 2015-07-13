@@ -5,6 +5,7 @@ import copy
 
 import six
 import requests
+import six.moves.urllib.parse as urlparse
 
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy._compat import json
@@ -35,8 +36,12 @@ class BaseWeChatClient(object):
             from shove import Shove
             from wechatpy.session.shovestorage import ShoveStorage
 
+            parts = urlparse.urlsplit(session)
+            querystring = urlparse.parse_qs(parts.query)
+            prefix = querystring.get('prefix', ['wechatpy'])[0]
+
             shove = Shove(session)
-            storage = ShoveStorage(shove)
+            storage = ShoveStorage(shove, prefix)
             self.session = storage
 
         self.session.set('access_token', access_token)
