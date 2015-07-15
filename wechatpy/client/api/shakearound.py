@@ -124,7 +124,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         )
         return res['data']
 
-    def add_page(self, title, description, icon_url, comment=None):
+    def add_page(self, title, description, icon_url, page_url, comment=None):
         """
         新增页面
         详情请参考
@@ -134,6 +134,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param description: 在摇一摇页面展示的副标题，不超过7个字
         :param icon_url: 在摇一摇页面展示的图片。图片需先上传至微信侧服务器，
                         用“素材管理-上传图片素材”接口上传图片，返回的图片URL再配置在此处
+        :param page_url: 跳转链接
         :param comment: 可选，页面的备注信息，不超过15个字
         :return: 页面信息
         """
@@ -142,6 +143,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         data['description'] = description
         data['icon_url'] = icon_url
         data['comment'] = comment
+        data['page_url'] = page_url
         res = self._post(
             'shakearound/page/add',
             data=data
