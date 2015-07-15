@@ -542,6 +542,7 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.shakearound.add_page(
                 'test',
                 'test',
+                'http://www.qq.com',
                 'http://www.qq.com'
             )
             self.assertEqual(28840, res['page_id'])
