@@ -6,6 +6,7 @@ import unittest
 from httmock import urlmatch, HTTMock, response
 
 from wechatpy import WeChatOAuth
+from wechatpy.exceptions import WeChatClientException
 from wechatpy._compat import json
 
 
@@ -80,3 +81,14 @@ class WeChatOAuthTestCase(unittest.TestCase):
             self.oauth.fetch_access_token('123456')
             res = self.oauth.check_access_token()
             self.assertEqual(True, res)
+
+    def test_reraise_requests_exception(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
+        def _wechat_api_mock(url, request):
+            return {'status_code': 404, 'content': '404 not found'}
+
+        try:
+            with HTTMock(_wechat_api_mock):
+                self.oauth.fetch_access_token('123456')
+        except WeChatClientException as e:
+            self.assertEqual(404, e.response.status_code)

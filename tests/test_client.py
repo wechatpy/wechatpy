@@ -8,6 +8,7 @@ import six
 from httmock import urlmatch, HTTMock, response
 
 from wechatpy import WeChatClient
+from wechatpy.exceptions import WeChatClientException
 from wechatpy._compat import json
 
 
@@ -619,3 +620,14 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(2, res['video_count'])
             self.assertEqual(3, res['image_count'])
             self.assertEqual(4, res['news_count'])
+
+    def test_reraise_requests_exception(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
+        def _wechat_api_mock(url, request):
+            return {'status_code': 404, 'content': '404 not found'}
+
+        try:
+            with HTTMock(_wechat_api_mock):
+                self.client.material.get_count()
+        except WeChatClientException as e:
+            self.assertEqual(404, e.response.status_code)
