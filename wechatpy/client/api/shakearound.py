@@ -337,3 +337,20 @@ class WeChatShakeAround(BaseWeChatAPI):
             }
         )
         return res['data']
+
+    def get_apply_status(self, apply_id):
+        """
+        查询设备ID申请审核状态
+        详情请参考
+        http://mp.weixin.qq.com/wiki/15/b9e012f917e3484b7ed02771156411f3.html
+
+        :param apply_id: 批次ID，申请设备ID时所返回的批次ID
+        :return: 批次状态信息
+        """
+        res = self._post(
+            'shakearound/device/applystatus',
+            data={
+                'apply_id': apply_id,
+            }
+        )
+        return res['data']
