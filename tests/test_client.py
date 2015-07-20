@@ -621,6 +621,13 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(3, res['image_count'])
             self.assertEqual(4, res['news_count'])
 
+    def test_shakearound_get_apply_status(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.get_apply_status(
+                1234
+            )
+            self.assertEqual(4, len(res))
+
     def test_reraise_requests_exception(self):
         @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
         def _wechat_api_mock(url, request):
