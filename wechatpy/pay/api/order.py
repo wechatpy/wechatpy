@@ -26,14 +26,18 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param attach: 可选，附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         :param fee_type: 可选，符合ISO 4217标准的三位字母代码，默认人民币：CNY
         :param time_start: 可选，订单生成时间，默认为当前时间
-        :param time_expire: 可选，订单失效时间，默认为订单生成时间后 30 分钟
+        :param time_expire: 可选，订单失效时间，默认为订单生成时间后两小时
         :param goods_tag: 可选，商品标记，代金券或立减优惠功能的参数
         :param product_id: 可选，trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义
         :param device_info: 可选，终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
         :return: 返回的结果数据
         """
         now = datetime.now()
-        minutes_later = now + timedelta(minutes=30)
+        hours_later = now + timedelta(hours=2)
+        if time_start is None:
+            time_start = now
+        if time_expire is None:
+            time_expire = hours_later
         if not out_trade_no:
             out_trade_no = '{0}{1}{2}'.format(
                 self.mch_id,
@@ -50,8 +54,8 @@ class WeChatOrder(BaseWeChatPayAPI):
             'fee_type': fee_type,
             'total_fee': total_fee,
             'spbill_create_ip': client_ip,
-            'time_start': now.strftime('%Y%m%d%H%M%S'),
-            'time_expire': minutes_later.strftime('%Y%m%d%H%M%S'),
+            'time_start': time_start.strftime('%Y%m%d%H%M%S'),
+            'time_expire': time_expire.strftime('%Y%m%d%H%M%S'),
             'goods_tag': goods_tag,
             'notify_url': notify_url,
             'trade_type': trade_type,
