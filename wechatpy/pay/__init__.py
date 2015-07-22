@@ -101,6 +101,7 @@ class WeChatPay(object):
         return self._handle_result(res)
 
     def _handle_result(self, res):
+        res.encoding = 'utf-8'
         xml = res.text
         try:
             data = xmltodict.parse(xml)['xml']
