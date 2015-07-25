@@ -220,19 +220,23 @@ class WeChatShakeAround(BaseWeChatAPI):
             }
         )
 
-    def add_material(self, media_file):
+    def add_material(self, media_file, media_type='icon'):
         """
         上传图片素材
         详情请参考
         http://mp.weixin.qq.com/wiki/5/e997428269ff189d8f9a4b9e177be2d9.html
 
         :param media_file: 要上传的文件，一个 File-object
+        :param media_type: 摇一摇素材类型, 取值为 icon或者 license, 默认 icon.
         :return: 上传的素材信息
         """
         res = self._post(
             'shakearound/material/add',
             files={
                 'media': media_file
+            },
+            data={
+                'type': media_type
             }
         )
         return res['data']

@@ -573,7 +573,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_shakearound_add_material(self):
         with HTTMock(wechat_api_mock):
             media_file = six.StringIO('nothing')
-            res = self.client.shakearound.add_material(media_file)
+            res = self.client.shakearound.add_material(media_file, 'icon')
             self.assertEqual(
                 'http://shp.qpic.cn/wechat_shakearound_pic/0/1428377032e9dd2797018cad79186e03e8c5aec8dc/120',  # NOQA
                 res['pic_url']
