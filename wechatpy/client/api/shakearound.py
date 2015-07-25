@@ -235,7 +235,7 @@ class WeChatShakeAround(BaseWeChatAPI):
             files={
                 'media': media_file
             },
-            data={
+            params={
                 'type': media_type
             }
         )
