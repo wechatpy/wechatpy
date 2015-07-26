@@ -107,7 +107,7 @@ class WeChatWiFi(BaseWeChatAPI):
         )
         return res['data']['qrcode_url']
 
-    def set_homepage(self, shop_id, template_id, struct=None, url=None):
+    def set_homepage(self, shop_id, template_id, url=None):
         """
         设置商家主页
 
@@ -116,16 +116,15 @@ class WeChatWiFi(BaseWeChatAPI):
 
         :param shop_id: 门店 ID
         :param template_id: 模板ID，0-默认模板，1-自定义url
-        :param struct: 模板结构，当template_id为0时可以不填
         :param url: 自定义链接，当template_id为1时必填
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            shop_id=shop_id,
-            template_id=template_id,
-            struct=struct,
-            url=url
-        )
+        data = {
+            'shop_id': shop_id,
+            'template_id': template_id,
+        }
+        if url:
+            data['struct'] = {'url': url}
         return self._post('homepage/set', data=data)
 
     def get_homepage(self, shop_id):
