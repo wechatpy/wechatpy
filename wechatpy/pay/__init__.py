@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-import copy
+import sys
+import inspect
 
 import requests
 import xmltodict
@@ -12,6 +13,10 @@ from wechatpy.pay.utils import calculate_signature
 from wechatpy.pay.utils import dict_to_xml
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
+
+
+def _is_api_endpoint(obj):
+    return isinstance(obj, BaseWeChatPayAPI)
 
 
 class WeChatPay(object):
@@ -33,10 +38,21 @@ class WeChatPay(object):
 
     def __new__(cls, *args, **kwargs):
         self = super(WeChatPay, cls).__new__(cls)
-        for name, _api in self.__class__.__dict__.items():
-            if isinstance(_api, BaseWeChatPayAPI):
-                _api = copy.deepcopy(_api)
-                _api._client = self
+        if sys.version_info[:2] == (2, 6):
+            import copy
+            # Python 2.6 inspect.gemembers bug workaround
+            # http://bugs.python.org/issue1785
+            for name, _api in self.__class__.__dict__.items():
+                if isinstance(_api, BaseWeChatPayAPI):
+                    _api = copy.deepcopy(_api)
+                    _api._client = self
+                    setattr(self, name, _api)
+        else:
+            api_endpoints = inspect.getmembers(self, _is_api_endpoint)
+            for endpoint in api_endpoints:
+                name = endpoint[0]
+                api_cls = type(endpoint[1])
+                _api = api_cls(self)
                 setattr(self, name, _api)
         return self
 
