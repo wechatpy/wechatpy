@@ -1,6 +1,14 @@
 Changelog
 ================
 
+Version 1.0.1
+---------------------
++ 修复微信支付接口中文乱码问题
++ 微信支付订单查询接口 ``client_ip`` 参数可选，并修复了一些问题
++ 增加微信连 Wi-Fi 接口
++ 摇一摇周边接口增加 ``get_apply_status`` 接口
++ 摇一摇周边 ``add_material`` 接口增加 ``media_type`` 可选参数
+
 Version 1.0.0
 ---------------------
 + 增加 Session 机制，目前只用来存储 access_token 等，支持 Redis, Memcached, 内存和 Shove 等存储 backend.
