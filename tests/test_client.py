@@ -54,6 +54,13 @@ class WeChatClientTestCase(unittest.TestCase):
             self.client.fetch_access_token()
             assert self.client.access_token != client2.access_token
 
+    def test_subclass_client_ok(self):
+        class TestClient(WeChatClient):
+            pass
+
+        client = TestClient('12345', '123456', '123456789')
+        self.assertEqual(client, client.user._client)
+
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
             token = self.client.fetch_access_token()

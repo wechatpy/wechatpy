@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import time
-import copy
+import inspect
 
 import six
 import requests
@@ -12,19 +12,22 @@ from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
+def _is_api_endpoint(obj):
+    return isinstance(obj, BaseWeChatAPI)
+
+
 class BaseWeChatClient(object):
 
     API_BASE_URL = ''
 
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
-        for _class in cls.__mro__:
-            if issubclass(_class, BaseWeChatClient):
-                for name, api in _class.__dict__.items():
-                    if isinstance(api, BaseWeChatAPI):
-                        api = copy.deepcopy(api)
-                        api._client = self
-                        setattr(self, name, api)
+        api_endpoints = inspect.getmembers(self, _is_api_endpoint)
+        for endpoint in api_endpoints:
+            name = endpoint[0]
+            api_cls = type(endpoint[1])
+            api = api_cls(self)
+            setattr(self, name, api)
         return self
 
     def __init__(self, access_token=None, session=None):
