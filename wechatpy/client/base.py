@@ -36,9 +36,8 @@ class BaseWeChatClient(object):
                             setattr(self, name, api)
         else:
             api_endpoints = inspect.getmembers(self, _is_api_endpoint)
-            for endpoint in api_endpoints:
-                name = endpoint[0]
-                api_cls = type(endpoint[1])
+            for name, api in api_endpoints:
+                api_cls = type(api)
                 api = api_cls(self)
                 setattr(self, name, api)
         return self

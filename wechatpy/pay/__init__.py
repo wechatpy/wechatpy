@@ -49,9 +49,8 @@ class WeChatPay(object):
                     setattr(self, name, _api)
         else:
             api_endpoints = inspect.getmembers(self, _is_api_endpoint)
-            for endpoint in api_endpoints:
-                name = endpoint[0]
-                api_cls = type(endpoint[1])
+            for name, _api in api_endpoints:
+                api_cls = type(_api)
                 _api = api_cls(self)
                 setattr(self, name, _api)
         return self
