@@ -102,7 +102,7 @@ class BaseWeChatClient(object):
         return self._handle_result(res, method, url, **kwargs)
 
     def _handle_result(self, res, method=None, url=None, **kwargs):
-    	res.encoding = 'utf-8'
+        res.encoding = 'utf-8'
         result = res.json()
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
