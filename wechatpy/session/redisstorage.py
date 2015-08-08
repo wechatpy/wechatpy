@@ -16,15 +16,12 @@ class RedisStorage(SessionStorage):
     def key_name(self, key):
         return '{0}:{1}'.format(self.prefix, key)
 
-    def get(self, key):
+    def get(self, key, default=None):
         key = self.key_name(key)
         value = self.redis.get(key)
-        if not value:
-            return None
-        try:
-            return json.loads(to_text(value))
-        except ValueError:
-            return value
+        if value is None:
+            return default
+        return json.loads(to_text(value))
 
     def set(self, key, value, ttl=None):
         if value is None:

@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 class SessionStorage(object):
 
-    def get(self, key):
+    def get(self, key, default=None):
         raise NotImplementedError()
 
     def set(self, key, value, ttl=None):

@@ -12,12 +12,12 @@ class ShoveStorage(SessionStorage):
     def key_name(self, key):
         return '{0}:{1}'.format(self.prefix, key)
 
-    def get(self, key):
+    def get(self, key, default=None):
         key = self.key_name(key)
         try:
             return self.shove[key]
         except KeyError:
-            return None
+            return default
 
     def set(self, key, value, ttl=None):
         if value is None:
