@@ -1,6 +1,12 @@
 Changelog
 ================
 
+Version 1.0.2
+---------------------
++ ``WeChatClient`` 初始化性能提升（Python 2.7+）
++ ``WeChatClient`` 数据乱码问题解决
++ Session storage ``get`` 方法增加可选默认值参数
+
 Version 1.0.1
 ---------------------
 + 修复微信支付接口中文乱码问题
