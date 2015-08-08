@@ -113,3 +113,22 @@ class WeChatMedia(BaseWeChatAPI):
                 'articles': articles_data
             }
         )
+
+    def upload_mass_image(self, media_file):
+        """
+        上传群发消息内的图片
+        详情请参考
+        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+
+        :param media_file: 要上传的文件，一个 File-object
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            url='https://api.weixin.qq.com/cgi-bin/media/uploadimg',
+            params={
+                'access_token': self.access_token
+            },
+            files={
+                'media': media_file
+            }
+        )
