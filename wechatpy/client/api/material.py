@@ -81,10 +81,13 @@ class WeChatMaterial(BaseWeChatAPI):
             params={
                 'access_token': self.access_token
             },
-            data={
+            data=json.dumps({
                 'media_id': media_id
-            }
+            })
         )
+        # 返回有中文会乱码
+        res.encoding = 'utf-8'
+        
         content_type = res.headers['Content-Type'].lower()
         if content_type in ('application/json',
                             'application/javascript',
