@@ -121,9 +121,9 @@ class WeChatMedia(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
 
         :param media_file: 要上传的文件，一个 File-object
-        :return: 返回的 JSON 数据包
+        :return: 上传成功时返回图片 URL
         """
-        return self._post(
+        res = self._post(
             url='https://api.weixin.qq.com/cgi-bin/media/uploadimg',
             params={
                 'access_token': self.access_token
@@ -132,3 +132,4 @@ class WeChatMedia(BaseWeChatAPI):
                 'media': media_file
             }
         )
+        return res['url']

@@ -690,3 +690,12 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.wifi.list_statistics('2015-05-01', '2015-05-02')
             self.assertEqual(2, len(res))
+
+    def test_upload_mass_image(self):
+        media_file = six.StringIO('nothing')
+        with HTTMock(wechat_api_mock):
+            res = self.client.media.upload_mass_image(media_file)
+        self.assertEqual(
+            'http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0',  # NOQA
+            res
+        )
