@@ -568,7 +568,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_shakearound_delete_page(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.delete_pages(123)
+            res = self.client.shakearound.delete_page(123)
             self.assertEqual(0, res['errcode'])
 
     def test_shakearound_search_page(self):
