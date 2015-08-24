@@ -179,7 +179,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         )
         return res['data']
 
-    def search_pages(self, page_ids, begin=0, count=10):
+    def search_pages(self, page_ids=[], begin=0, count=10):
         """
         查询页面列表
         详情请参考
@@ -190,33 +190,39 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param count: 待查询的页面个数
         :return: 页面查询结果信息
         """
-        if not isinstance(page_ids, (tuple, list)):
-            page_ids = [page_ids]
-        res = self._post(
-            'shakearound/page/search',
-            data={
-                'page_ids': page_ids,
+        if not page_ids:
+            data = {
+                'type': 2,
                 'begin': begin,
                 'count': count
             }
+        else:
+            if not isinstance(page_ids, (tuple, list)):
+                page_ids = [page_ids]
+            data = {
+                'type': 1,
+                'page_ids': page_ids
+            }
+
+        res = self._post(
+            'shakearound/page/search',
+            data=data
         )
         return res['data']
 
-    def delete_pages(self, page_ids):
+    def delete_page(self, page_id):
         """
         删除页面
         详情请参考
         http://mp.weixin.qq.com/wiki/5/6626199ea8757c752046d8e46cf13251.html
 
-        :param page_ids: 指定页面的id列表
+        :param page_id: 指定页面的id列表
         :return: 返回的 JSON 数据包
         """
-        if not isinstance(page_ids, (tuple, list)):
-            page_ids = [page_ids]
         return self._post(
             'shakearound/page/delete',
             data={
-                'page_ids': page_ids
+                'page_id': page_id
             }
         )
 
@@ -235,7 +241,7 @@ class WeChatShakeAround(BaseWeChatAPI):
             files={
                 'media': media_file
             },
-            data={
+            params={
                 'type': media_type
             }
         )
