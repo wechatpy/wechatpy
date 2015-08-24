@@ -179,7 +179,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         )
         return res['data']
 
-    def search_pages(self, page_ids=[], begin=0, count=10):
+    def search_pages(self, page_ids=None, begin=0, count=10):
         """
         查询页面列表
         详情请参考
