@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-import requests
-
 from wechatpy._compat import json
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -76,26 +74,15 @@ class WeChatMaterial(BaseWeChatAPI):
         :param media_id: 素材的 media_id
         :return: 图文素材返回图文列表，其它类型为素材的内容
         """
-        res = requests.post(
+        res = self._post(
             url='https://api.weixin.qq.com/cgi-bin/material/get_material',
-            params={
-                'access_token': self.access_token
-            },
-            data=json.dumps({
+            data={
                 'media_id': media_id
-            })
+            }
         )
-        # 返回有中文会乱码
-        res.encoding = 'utf-8'
-        
-        content_type = res.headers['Content-Type'].lower()
-        if content_type in ('application/json',
-                            'application/javascript',
-                            'application/x-javascript',
-                            'text/javascript',
-                            'text/json'):
-            # news item return
-            return res.json().get('news_item', [])
+        if isinstance(res, dict):
+            # 图文素材
+            return res.get('news_item', [])
         return res
 
     def delete(self, media_id):
