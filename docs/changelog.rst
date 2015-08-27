@@ -1,6 +1,12 @@
 Changelog
 ================
 
+Version 1.0.4
+---------------------
++ 摇一摇周边接口 bug 修复
++ 更新自动重试的 error codes
++ ``WeChatClient._request`` 方法在解析 JSON 失败时返回原始 Response 对象
+
 Version 1.0.3
 ---------------------
 + 群发消息增加上传图片接口
