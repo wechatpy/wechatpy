@@ -124,7 +124,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         )
         return res['data']
 
-    def add_page(self, title, description, icon_url, comment=None):
+    def add_page(self, title, description, icon_url, page_url, comment=None):
         """
         新增页面
         详情请参考
@@ -134,6 +134,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param description: 在摇一摇页面展示的副标题，不超过7个字
         :param icon_url: 在摇一摇页面展示的图片。图片需先上传至微信侧服务器，
                         用“素材管理-上传图片素材”接口上传图片，返回的图片URL再配置在此处
+        :param page_url: 跳转链接
         :param comment: 可选，页面的备注信息，不超过15个字
         :return: 页面信息
         """
@@ -141,6 +142,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         data['title'] = title
         data['description'] = description
         data['icon_url'] = icon_url
+        data['page_url'] = page_url
         data['comment'] = comment
         res = self._post(
             'shakearound/page/add',
@@ -177,7 +179,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         )
         return res['data']
 
-    def search_pages(self, page_ids, begin=0, count=10):
+    def search_pages(self, page_ids=None, begin=0, count=10):
         """
         查询页面列表
         详情请参考
@@ -188,49 +190,59 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param count: 待查询的页面个数
         :return: 页面查询结果信息
         """
-        if not isinstance(page_ids, (tuple, list)):
-            page_ids = [page_ids]
-        res = self._post(
-            'shakearound/page/search',
-            data={
-                'page_ids': page_ids,
+        if not page_ids:
+            data = {
+                'type': 2,
                 'begin': begin,
                 'count': count
             }
+        else:
+            if not isinstance(page_ids, (tuple, list)):
+                page_ids = [page_ids]
+            data = {
+                'type': 1,
+                'page_ids': page_ids
+            }
+
+        res = self._post(
+            'shakearound/page/search',
+            data=data
         )
         return res['data']
 
-    def delete_pages(self, page_ids):
+    def delete_page(self, page_id):
         """
         删除页面
         详情请参考
         http://mp.weixin.qq.com/wiki/5/6626199ea8757c752046d8e46cf13251.html
 
-        :param page_ids: 指定页面的id列表
+        :param page_id: 指定页面的id列表
         :return: 返回的 JSON 数据包
         """
-        if not isinstance(page_ids, (tuple, list)):
-            page_ids = [page_ids]
         return self._post(
             'shakearound/page/delete',
             data={
-                'page_ids': page_ids
+                'page_id': page_id
             }
         )
 
-    def add_material(self, media_file):
+    def add_material(self, media_file, media_type='icon'):
         """
         上传图片素材
         详情请参考
         http://mp.weixin.qq.com/wiki/5/e997428269ff189d8f9a4b9e177be2d9.html
 
         :param media_file: 要上传的文件，一个 File-object
+        :param media_type: 摇一摇素材类型, 取值为 icon或者 license, 默认 icon.
         :return: 上传的素材信息
         """
         res = self._post(
             'shakearound/material/add',
             files={
                 'media': media_file
+            },
+            params={
+                'type': media_type
             }
         )
         return res['data']
@@ -332,6 +344,23 @@ class WeChatShakeAround(BaseWeChatAPI):
                 'page_id': page_id,
                 'begin_date': self._to_timestamp(begin_date),
                 'end_date': self._to_timestamp(end_date),
+            }
+        )
+        return res['data']
+
+    def get_apply_status(self, apply_id):
+        """
+        查询设备ID申请审核状态
+        详情请参考
+        http://mp.weixin.qq.com/wiki/15/b9e012f917e3484b7ed02771156411f3.html
+
+        :param apply_id: 批次ID，申请设备ID时所返回的批次ID
+        :return: 批次状态信息
+        """
+        res = self._post(
+            'shakearound/device/applystatus',
+            data={
+                'apply_id': apply_id,
             }
         )
         return res['data']

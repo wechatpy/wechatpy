@@ -5,7 +5,7 @@ import six
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
-class WeChatOauth(BaseWeChatAPI):
+class WeChatOAuth(BaseWeChatAPI):
 
     OAUTH_BASE_URl = 'https://open.weixin.qq.com/connect/oauth2/authorize'
 

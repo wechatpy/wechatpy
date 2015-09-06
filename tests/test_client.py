@@ -8,6 +8,7 @@ import six
 from httmock import urlmatch, HTTMock, response
 
 from wechatpy import WeChatClient
+from wechatpy.exceptions import WeChatClientException
 from wechatpy._compat import json
 
 
@@ -52,6 +53,13 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             self.client.fetch_access_token()
             assert self.client.access_token != client2.access_token
+
+    def test_subclass_client_ok(self):
+        class TestClient(WeChatClient):
+            pass
+
+        client = TestClient('12345', '123456', '123456789')
+        self.assertEqual(client, client.user._client)
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
@@ -542,6 +550,7 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.shakearound.add_page(
                 'test',
                 'test',
+                'http://www.qq.com',
                 'http://www.qq.com'
             )
             self.assertEqual(28840, res['page_id'])
@@ -559,7 +568,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_shakearound_delete_page(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.delete_pages(123)
+            res = self.client.shakearound.delete_page(123)
             self.assertEqual(0, res['errcode'])
 
     def test_shakearound_search_page(self):
@@ -571,7 +580,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_shakearound_add_material(self):
         with HTTMock(wechat_api_mock):
             media_file = six.StringIO('nothing')
-            res = self.client.shakearound.add_material(media_file)
+            res = self.client.shakearound.add_material(media_file, 'icon')
             self.assertEqual(
                 'http://shp.qpic.cn/wechat_shakearound_pic/0/1428377032e9dd2797018cad79186e03e8c5aec8dc/120',  # NOQA
                 res['pic_url']
@@ -618,3 +627,75 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(2, res['video_count'])
             self.assertEqual(3, res['image_count'])
             self.assertEqual(4, res['news_count'])
+
+    def test_shakearound_get_apply_status(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.get_apply_status(
+                1234
+            )
+            self.assertEqual(4, len(res))
+
+    def test_reraise_requests_exception(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
+        def _wechat_api_mock(url, request):
+            return {'status_code': 404, 'content': '404 not found'}
+
+        try:
+            with HTTMock(_wechat_api_mock):
+                self.client.material.get_count()
+        except WeChatClientException as e:
+            self.assertEqual(404, e.response.status_code)
+
+    def test_wifi_list_shops(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.list_shops()
+            self.assertEqual(16, res['totalcount'])
+            self.assertEqual(1, res['pageindex'])
+
+    def test_wifi_add_device(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.add_device(
+                123, 'WX-test', '12345678', '00:1f:7a:ad:5c:a8'
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_wifi_list_devices(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.list_devices()
+            self.assertEqual(2, res['totalcount'])
+            self.assertEqual(1, res['pageindex'])
+
+    def test_wifi_delete_device(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.delete_device('00:1f:7a:ad:5c:a8')
+            self.assertEqual(0, res['errcode'])
+
+    def test_wifi_get_qrcode_url(self):
+        with HTTMock(wechat_api_mock):
+            qrcode_url = self.client.wifi.get_qrcode_url(123, 0)
+            self.assertEqual('http://www.qq.com', qrcode_url)
+
+    def test_wifi_set_homepage(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.set_homepage(123, 0)
+            self.assertEqual(0, res['errcode'])
+
+    def test_wifi_get_homepage(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.get_homepage(429620)
+            self.assertEqual(1, res['template_id'])
+            self.assertEqual('http://wifi.weixin.qq.com/', res['url'])
+
+    def test_wifi_list_statistics(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.list_statistics('2015-05-01', '2015-05-02')
+            self.assertEqual(2, len(res))
+
+    def test_upload_mass_image(self):
+        media_file = six.StringIO('nothing')
+        with HTTMock(wechat_api_mock):
+            res = self.client.media.upload_mass_image(media_file)
+        self.assertEqual(
+            'http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0',  # NOQA
+            res
+        )

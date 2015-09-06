@@ -1,6 +1,43 @@
 Changelog
 ================
 
+Version 1.0.4
+---------------------
++ 摇一摇周边接口 bug 修复
++ 更新自动重试的 error codes
++ ``WeChatClient._request`` 方法在解析 JSON 失败时返回原始 Response 对象
+
+Version 1.0.3
+---------------------
++ 群发消息增加上传图片接口
++ 修复下载永久素材接口错误
+
+Version 1.0.2
+---------------------
++ ``WeChatClient`` 初始化性能提升（Python 2.7+）
++ ``WeChatClient`` 数据乱码问题解决
++ Session storage ``get`` 方法增加可选默认值参数
+
+Version 1.0.1
+---------------------
++ 修复微信支付接口中文乱码问题
++ 微信支付订单查询接口 ``client_ip`` 参数可选，并修复了一些问题
++ 增加微信连 Wi-Fi 接口
++ 摇一摇周边接口增加 ``get_apply_status`` 接口
++ 摇一摇周边 ``add_material`` 接口增加 ``media_type`` 可选参数
+
+Version 1.0.0
+---------------------
++ 增加 Session 机制，目前只用来存储 access_token 等，支持 Redis, Memcached, 内存和 Shove 等存储 backend.
++ 增加微信门店接口
++ 增加摇一摇周边事件，添加页面接口增加 ``page_url`` 参数
++ reraise ``requests.RequestException`` 为 ``WeChatClientException``
++ 修复继承 ``WeChatClient`` 导致不能正常工作的问题
++ 企业号增加素材管理接口
++ 企业号增加 JS SDK API
++ 企业号增加 ``user_id`` 和 ``openid`` 互相转换接口
++ 企业号增加 OAuth 授权接口
+
 Version 0.9.1
 ---------------------
 + 群发预览接口支持对指定微信号发送预览

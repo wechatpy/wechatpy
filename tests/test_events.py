@@ -290,3 +290,26 @@ class EventsTestCase(unittest.TestCase):
         }
         self.assertEqual(chosen_beacon, event.chosen_beacon)
         self.assertEqual(2, len(event.around_beacons))
+
+    def test_wifi_connected_event(self):
+        from wechatpy.events import WiFiConnectedEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[WifiConnected]]></Event>
+        <ConnectTime>0</ConnectTime>
+        <ExpireTime>0</ExpireTime>
+        <VendorId><![CDATA[3001224419]]></VendorId>
+        <PlaceId><![CDATA[1234]]></PlaceId>
+        <DeviceNo><![CDATA[00:1f:7a:ad:5c:a8]]></DeviceNo>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, WiFiConnectedEvent))
+
+        self.assertEqual(0, event.connect_time)
+        self.assertEqual('1234', event.shop_id)
+        self.assertEqual('00:1f:7a:ad:5c:a8', event.bssid)

@@ -8,8 +8,8 @@ class MemoryStorage(SessionStorage):
     def __init__(self):
         self._data = {}
 
-    def get(self, key):
-        return self._data.get(key)
+    def get(self, key, default=None):
+        return self._data.get(key, default)
 
     def set(self, key, value, ttl=None):
         if value is None:

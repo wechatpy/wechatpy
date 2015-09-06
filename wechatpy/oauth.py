@@ -56,14 +56,29 @@ class WeChatOAuth(object):
             url=url,
             **kwargs
         )
-        res.raise_for_status()
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatOAuthException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
         res.encoding = 'UTF-8'
         result = res.json()
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
             errmsg = result['errmsg']
-            raise WeChatOAuthException(errcode, errmsg)
+            raise WeChatOAuthException(
+                errcode,
+                errmsg,
+                client=self,
+                request=res.request,
+                response=res
+            )
 
         return result
 

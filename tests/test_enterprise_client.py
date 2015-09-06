@@ -7,6 +7,7 @@ import unittest
 from httmock import urlmatch, HTTMock, response
 
 from wechatpy.enterprise import WeChatClient
+from wechatpy.exceptions import WeChatClientException
 from wechatpy._compat import json
 
 
@@ -187,6 +188,19 @@ class WeChatClientTestCase(unittest.TestCase):
             signature
         )
 
+    def test_user_convert_to_openid(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.user.convert_to_openid('zhangsan')
+            self.assertEqual('oDOGms-6yCnGrRovBj2yHij5JL6E', res['openid'])
+            self.assertEqual('wxf874e15f78cc84a7', res['appid'])
+
+    def test_user_convert_to_user_id(self):
+        with HTTMock(wechat_api_mock):
+            user_id = self.client.user.convert_to_user_id(
+                'oDOGms-6yCnGrRovBj2yHij5JL6E'
+            )
+            self.assertEqual('zhangsan', user_id)
+
     def test_upload_media(self):
         media_file = six.StringIO('nothing')
         with HTTMock(wechat_api_mock):
@@ -236,3 +250,14 @@ class WeChatClientTestCase(unittest.TestCase):
                 'p7cNliYu9V5w7oovsUPf3wG4t9N3tE',
                 res['mpnews']['articles'][1]['thumb_media_id']
             )
+
+    def test_reraise_requests_exception(self):
+        @urlmatch(netloc=r'(.*\.)?qyapi\.weixin\.qq\.com$')
+        def _wechat_api_mock(url, request):
+            return {'status_code': 404, 'content': '404 not found'}
+
+        try:
+            with HTTMock(_wechat_api_mock):
+                self.client.material.get_count(1)
+        except WeChatClientException as e:
+            self.assertEqual(404, e.response.status_code)

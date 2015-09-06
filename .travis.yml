@@ -19,6 +19,10 @@ env:
   - TOX_ENV=pypy-cryptography
   - TOX_ENV=pypy-pycrypto
 
+cache:
+  directories:
+    - $HOME/.cache/pip
+
 install:
   - pip install tox
   - pip install coverage

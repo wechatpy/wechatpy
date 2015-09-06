@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-import requests
-
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -21,7 +19,6 @@ class WeChatMedia(BaseWeChatAPI):
         return self._post(
             url='http://file.api.weixin.qq.com/cgi-bin/media/upload',
             params={
-                'access_token': self.access_token,
                 'type': media_type
             },
             files={
@@ -39,10 +36,9 @@ class WeChatMedia(BaseWeChatAPI):
 
         :return: requests 的 Response 实例
         """
-        return requests.get(
+        return self._get(
             'http://file.api.weixin.qq.com/cgi-bin/media/get',
             params={
-                'access_token': self.access_token,
                 'media_id': media_id
             }
         )
@@ -77,9 +73,6 @@ class WeChatMedia(BaseWeChatAPI):
         """
         return self._post(
             url='https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo',
-            params={
-                'access_token': self.access_token
-            },
             data={
                 'media_id': media_id,
                 'title': title,
@@ -113,3 +106,20 @@ class WeChatMedia(BaseWeChatAPI):
                 'articles': articles_data
             }
         )
+
+    def upload_mass_image(self, media_file):
+        """
+        上传群发消息内的图片
+        详情请参考
+        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+
+        :param media_file: 要上传的文件，一个 File-object
+        :return: 上传成功时返回图片 URL
+        """
+        res = self._post(
+            url='https://api.weixin.qq.com/cgi-bin/media/uploadimg',
+            files={
+                'media': media_file
+            }
+        )
+        return res['url']

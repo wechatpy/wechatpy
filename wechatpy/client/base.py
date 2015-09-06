@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import sys
 import time
-import copy
+import inspect
 
 import six
 import requests
 
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy._compat import json
+from wechatpy._compat import json, get_querystring
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
+
+
+def _is_api_endpoint(obj):
+    return isinstance(obj, BaseWeChatAPI)
 
 
 class BaseWeChatClient(object):
@@ -18,13 +23,23 @@ class BaseWeChatClient(object):
 
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
-        for _class in cls.__mro__:
-            if issubclass(_class, BaseWeChatClient):
-                for name, api in _class.__dict__.items():
-                    if isinstance(api, BaseWeChatAPI):
-                        api = copy.deepcopy(api)
-                        api._client = self
-                        setattr(self, name, api)
+        if sys.version_info[:2] == (2, 6):
+            import copy
+            # Python 2.6 inspect.gemembers bug workaround
+            # http://bugs.python.org/issue1785
+            for _class in cls.__mro__:
+                if issubclass(_class, BaseWeChatClient):
+                    for name, api in _class.__dict__.items():
+                        if isinstance(api, BaseWeChatAPI):
+                            api = copy.deepcopy(api)
+                            api._client = self
+                            setattr(self, name, api)
+        else:
+            api_endpoints = inspect.getmembers(self, _is_api_endpoint)
+            for name, api in api_endpoints:
+                api_cls = type(api)
+                api = api_cls(self)
+                setattr(self, name, api)
         return self
 
     def __init__(self, access_token=None, session=None):
@@ -35,8 +50,11 @@ class BaseWeChatClient(object):
             from shove import Shove
             from wechatpy.session.shovestorage import ShoveStorage
 
+            querystring = get_querystring(session)
+            prefix = querystring.get('prefix', ['wechatpy'])[0]
+
             shove = Shove(session)
-            storage = ShoveStorage(shove)
+            storage = ShoveStorage(shove, prefix)
             self.session = storage
 
         self.session.set('access_token', access_token)
@@ -70,11 +88,27 @@ class BaseWeChatClient(object):
             url=url,
             **kwargs
         )
-        res.raise_for_status()
-        result = res.json()
-        return self._handle_result(result, method, url, **kwargs)
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
 
-    def _handle_result(self, result, method=None, url=None, **kwargs):
+        return self._handle_result(res, method, url, **kwargs)
+
+    def _handle_result(self, res, method=None, url=None, **kwargs):
+        res.encoding = 'utf-8'
+        try:
+            result = res.json()
+        except (TypeError, ValueError):
+            # Return origin response object if we can not decode it as JSON
+            return res
+
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
             result = result['base_resp']
@@ -84,7 +118,7 @@ class BaseWeChatClient(object):
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
             errmsg = result['errmsg']
-            if errcode == 42001:
+            if errcode in (40001, 40014, 42001):
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
                 kwargs['params']['access_token'] = self.session.get(
@@ -97,9 +131,21 @@ class BaseWeChatClient(object):
                 )
             elif errcode == 45009:
                 # api freq out of limit
-                raise APILimitedException(errcode, errmsg)
+                raise APILimitedException(
+                    errcode,
+                    errmsg,
+                    client=self,
+                    request=res.request,
+                    response=res
+                )
             else:
-                raise WeChatClientException(errcode, errmsg)
+                raise WeChatClientException(
+                    errcode,
+                    errmsg,
+                    client=self,
+                    request=res.request,
+                    response=res
+                )
 
         return result
 
@@ -127,10 +173,25 @@ class BaseWeChatClient(object):
             url=url,
             params=params
         )
-        res.raise_for_status()
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
         result = res.json()
         if 'errcode' in result and result['errcode'] != 0:
-            raise WeChatClientException(result['errcode'], result['errmsg'])
+            raise WeChatClientException(
+                result['errcode'],
+                result['errmsg'],
+                client=self,
+                request=res.request,
+                response=res
+            )
 
         expires_in = 7200
         if 'expires_in' in result:
