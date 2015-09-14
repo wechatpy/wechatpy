@@ -206,6 +206,20 @@ class BaseWeChatComponent(object):
         self.fetch_access_token()
         return self.session.get('component_access_token')
 
+    def get(self, url, **kwargs):
+        return self._request(
+            method='get',
+            url_or_endpoint=url,
+            **kwargs
+        )
+
+    def post(self, url, **kwargs):
+        return self._request(
+            method='post',
+            url_or_endpoint=url,
+            **kwargs
+        )
+
 
 class WeChatComponent(BaseWeChatComponent):
 
@@ -213,7 +227,7 @@ class WeChatComponent(BaseWeChatComponent):
         """
         获取预授权码
         """
-        return self._post(
+        return self.post(
             '/component/api_create_preauthcode',
             data={
                 'component_appid': self.component_appid
@@ -226,7 +240,7 @@ class WeChatComponent(BaseWeChatComponent):
 
         :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
-        return self._post(
+        return self.post(
             '/component/api_query_auth',
             data={
                 'component_appid': self.component_appid,
@@ -242,7 +256,7 @@ class WeChatComponent(BaseWeChatComponent):
         :params authorizer_appid: 授权方appid
         :params authorizer_refresh_token: 授权方的刷新令牌
         """
-        return self._post(
+        return self.post(
             '/component/api_authorizer_token',
             data={
                 'component_appid': self.component_appid,
@@ -257,7 +271,7 @@ class WeChatComponent(BaseWeChatComponent):
 
         :params authorizer_appid: 授权方appid
         """
-        return self._post(
+        return self.post(
             '/component/api_get_authorizer_info',
             data={
                 'component_appid': self.component_appid,
@@ -272,7 +286,7 @@ class WeChatComponent(BaseWeChatComponent):
         :params authorizer_appid: 授权公众号appid
         :params option_name: 选项名称
         """
-        return self._post(
+        return self.post(
             '/component/api_get_authorizer_option',
             data={
                 'component_appid': self.component_appid,
@@ -290,7 +304,7 @@ class WeChatComponent(BaseWeChatComponent):
         :params option_name: 选项名称
         :params option_value: 设置的选项值
         """
-        return self._post(
+        return self.post(
             '/component/api_set_authorizer_option',
             data={
                 'component_appid': self.component_appid,
