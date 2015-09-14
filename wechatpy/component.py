@@ -140,7 +140,10 @@ class BaseWeChatComponent(object):
 
         :return: 返回的 JSON 数据包
         """
-        url = self.API_BASE_URL + 'component/api_component_token'
+        url = '{0}{1}'.format(
+            self.API_BASE_URL,
+            'component/api_component_token'
+        )
         return self._fetch_access_token(
             url=url,
             data=json.dumps({
@@ -179,8 +182,11 @@ class BaseWeChatComponent(object):
         expires_in = 7200
         if 'expires_in' in result:
             expires_in = result['expires_in']
-        self.session.set('component_access_token',
-                         result['component_access_token'], expires_in)
+        self.session.set(
+            'component_access_token',
+            result['component_access_token'],
+            expires_in
+        )
         self.expires_at = int(time.time()) + expires_in
         return result
 
@@ -302,16 +308,19 @@ class WeChatComponent(BaseWeChatComponent):
         """
         result = self.query_auth(authorization_code)
         access_token = result['authorization_info']['authorizer_access_token']
-        refresh_token = result['authorization_info']['authorizer_refresh_token']
+        refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
         authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
         return WeChatComponentClient(
-            authorizer_appid, access_token, refresh_token, self)
-
-    def get_client(
-            self,
             authorizer_appid,
-            authorizer_refresh_token,
-            authorizer_access_token=None):
+            access_token,
+            refresh_token,
+            self
+        )
+
+    def get_client(self,
+                   authorizer_appid,
+                   authorizer_refresh_token,
+                   authorizer_access_token=None):
         """
         通过 authorizer_appid, access_token, refresh_token获取 Client 对象
 
@@ -321,7 +330,9 @@ class WeChatComponent(BaseWeChatComponent):
         """
         if not authorizer_access_token:
             ret = self.refresh_authorizer_token(
-                authorizer_appid, authorizer_refresh_token)
+                authorizer_appid,
+                authorizer_refresh_token
+            )
             authorizer_access_token = ret['authorizer_access_token']
             authorizer_refresh_token = ret['authorizer_refresh_token']
 

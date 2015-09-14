@@ -66,22 +66,25 @@ class WeChatComponentClient(WeChatClient):
             self, appid, access_token, refresh_token, component, session=None):
         # 未用到secret，所以这里没有
         super(WeChatComponentClient, self).__init__(
-            appid, '', access_token, session)
+            appid, '', access_token, session
+        )
         self.appid = appid
         self.component = component
-        self.session.set('{0}_refresh_token'.form(self.appid), refresh_token)
+        self.session.set('{0}_refresh_token'.format(self.appid), refresh_token)
 
     @property
     def access_token(self):
-        access_token = self.session.get('{0}_access_token'.form(self.appid))
+        access_token = self.session.get('{0}_access_token'.format(self.appid))
         if not access_token:
             self.fetch_access_token()
-            access_token = self.session.get('{0}_access_token'.form(self.appid))
+            access_token = self.session.get(
+                '{0}_access_token'.format(self.appid)
+            )
         return access_token
 
     @property
     def refresh_token(self):
-        return self.session.get('{0}_refresh_token'.form(self.appid))
+        return self.session.get('{0}_refresh_token'.format(self.appid))
 
     def fetch_access_token(self):
         """
@@ -96,9 +99,15 @@ class WeChatComponentClient(WeChatClient):
             self.appid, self.refresh_token)
         if 'expires_in' in result:
             expires_in = result['expires_in']
-        self.session.set('{0}_access_token'.form(
-            self.appid), result['authorizer_access_token'], expires_in)
-        self.session.set('{0}_refresh_token'.form(
-            self.appid), result['authorizer_refresh_token'], expires_in)
+        self.session.set(
+            '{0}_access_token'.format(self.appid),
+            result['authorizer_access_token'],
+            expires_in
+        )
+        self.session.set(
+            '{0}_refresh_token'.format(self.appid),
+            result['authorizer_refresh_token'],
+            expires_in
+        )
         self.expires_at = int(time.time()) + expires_in
         return result
