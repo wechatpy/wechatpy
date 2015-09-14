@@ -69,19 +69,19 @@ class WeChatComponentClient(WeChatClient):
             appid, '', access_token, session)
         self.appid = appid
         self.component = component
-        self.session.set('refresh_token', refresh_token)
+        self.session.set('{0}_refresh_token'.form(self.appid), refresh_token)
 
     @property
     def access_token(self):
-        access_token = self.session.get('access_token')
+        access_token = self.session.get('{0}_access_token'.form(self.appid))
         if not access_token:
             self.fetch_access_token()
-            access_token = self.session.get('access_token')
+            access_token = self.session.get('{0}_access_token'.form(self.appid))
         return access_token
 
     @property
     def refresh_token(self):
-        return self.session.get('refresh_token')
+        return self.session.get('{0}_refresh_token'.form(self.appid))
 
     def fetch_access_token(self):
         """
@@ -96,9 +96,9 @@ class WeChatComponentClient(WeChatClient):
             self.appid, self.refresh_token)
         if 'expires_in' in result:
             expires_in = result['expires_in']
-        self.session.set(
-            'access_token', result['authorizer_access_token'], expires_in)
-        self.session.set(
-            'refresh_token', result['authorizer_refresh_token'], expires_in)
+        self.session.set('{0}_access_token'.form(
+            self.appid), result['authorizer_access_token'], expires_in)
+        self.session.set('{0}_refresh_token'.form(
+            self.appid), result['authorizer_refresh_token'], expires_in)
         self.expires_at = int(time.time()) + expires_in
         return result

@@ -179,7 +179,7 @@ class BaseWeChatComponent(object):
         expires_in = 7200
         if 'expires_in' in result:
             expires_in = result['expires_in']
-        self.session.set('access_token',
+        self.session.set('component_access_token',
                          result['component_access_token'], expires_in)
         self.expires_at = int(time.time()) + expires_in
         return result
@@ -187,7 +187,7 @@ class BaseWeChatComponent(object):
     @property
     def access_token(self):
         """ WeChat component access token """
-        access_token = self.session.get('access_token')
+        access_token = self.session.get('component_access_token')
         if access_token:
             if not self.expires_at:
                 # user provided access_token, just return it
@@ -198,25 +198,7 @@ class BaseWeChatComponent(object):
                 return access_token
 
         self.fetch_access_token()
-        return self.session.get('access_token')
-
-    def get(self, url, **kwargs):
-        return self._request(
-            method='get',
-            url_or_endpoint=url,
-            **kwargs
-        )
-
-    _get = get
-
-    def post(self, url, **kwargs):
-        return self._request(
-            method='post',
-            url_or_endpoint=url,
-            **kwargs
-        )
-
-    _post = post
+        return self.session.get('component_access_token')
 
 
 class WeChatComponent(BaseWeChatComponent):
