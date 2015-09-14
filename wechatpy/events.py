@@ -407,3 +407,13 @@ class PoiCheckNotifyEvent(BaseEvent):
     uniq_id = StringField('UniqId')
     result = StringField('Result')
     message = StringField('Msg')
+
+
+@register_event('wificonnected')
+class WiFiConnectedEvent(BaseEvent):
+    event = 'wificconnected'
+    connect_time = IntegerField('ConnectTime')
+    expire_time = IntegerField('ExpireTime')
+    vendor_id = StringField('VendorId')
+    shop_id = StringField('PlaceId')
+    bssid = StringField('DeviceNo')

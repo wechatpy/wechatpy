@@ -131,3 +131,10 @@ WeChatTemplate 模板消息相关接口
 
 .. autoclass:: WeChatTemplate
    :members:
+
+
+WeChatWiFi  微信连 Wi-Fi 接口
+----------------------------------
+
+.. autoclass:: WeChatWiFi
+   :members:
