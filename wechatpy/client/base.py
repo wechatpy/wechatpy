@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import sys
 import time
-import copy
+import inspect
 
 import six
 import requests
@@ -12,19 +13,33 @@ from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
+def _is_api_endpoint(obj):
+    return isinstance(obj, BaseWeChatAPI)
+
+
 class BaseWeChatClient(object):
 
     API_BASE_URL = ''
 
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
-        for _class in cls.__mro__:
-            if issubclass(_class, BaseWeChatClient):
-                for name, api in _class.__dict__.items():
-                    if isinstance(api, BaseWeChatAPI):
-                        api = copy.deepcopy(api)
-                        api._client = self
-                        setattr(self, name, api)
+        if sys.version_info[:2] == (2, 6):
+            import copy
+            # Python 2.6 inspect.gemembers bug workaround
+            # http://bugs.python.org/issue1785
+            for _class in cls.__mro__:
+                if issubclass(_class, BaseWeChatClient):
+                    for name, api in _class.__dict__.items():
+                        if isinstance(api, BaseWeChatAPI):
+                            api = copy.deepcopy(api)
+                            api._client = self
+                            setattr(self, name, api)
+        else:
+            api_endpoints = inspect.getmembers(self, _is_api_endpoint)
+            for name, api in api_endpoints:
+                api_cls = type(api)
+                api = api_cls(self)
+                setattr(self, name, api)
         return self
 
     def __init__(self, access_token=None, session=None):
@@ -87,7 +102,13 @@ class BaseWeChatClient(object):
         return self._handle_result(res, method, url, **kwargs)
 
     def _handle_result(self, res, method=None, url=None, **kwargs):
-        result = res.json()
+        res.encoding = 'utf-8'
+        try:
+            result = res.json()
+        except (TypeError, ValueError):
+            # Return origin response object if we can not decode it as JSON
+            return res
+
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
             result = result['base_resp']
@@ -97,7 +118,7 @@ class BaseWeChatClient(object):
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
             errmsg = result['errmsg']
-            if errcode == 42001:
+            if errcode in (40001, 40014, 42001):
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
                 kwargs['params']['access_token'] = self.session.get(
