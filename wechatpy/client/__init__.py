@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-
+import time
 from wechatpy.client.base import BaseWeChatClient
 from wechatpy.client import api
 
 
 class WeChatClient(BaseWeChatClient):
+
     """
     微信 API 操作类
     通过这个类可以操作微信 API，发送主动消息、群发消息和创建自定义菜单等。
@@ -53,3 +54,51 @@ class WeChatClient(BaseWeChatClient):
                 'secret': self.secret
             }
         )
+
+
+class WeChatComponentClient(WeChatClient):
+
+    """
+    开放平台代公众号调用客户端
+    """
+
+    def __init__(
+            self, appid, access_token, refresh_token, component, session=None):
+        # 未用到secret，所以这里没有
+        super(WeChatComponentClient, self).__init__(
+            appid, '', access_token, session)
+        self.appid = appid
+        self.component = component
+        self.session.set('{0}_refresh_token'.form(self.appid), refresh_token)
+
+    @property
+    def access_token(self):
+        access_token = self.session.get('{0}_access_token'.form(self.appid))
+        if not access_token:
+            self.fetch_access_token()
+            access_token = self.session.get('{0}_access_token'.form(self.appid))
+        return access_token
+
+    @property
+    def refresh_token(self):
+        return self.session.get('{0}_refresh_token'.form(self.appid))
+
+    def fetch_access_token(self):
+        """
+        获取 access token
+        详情请参考 https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list\
+        &t=resource/res_list&verify=1&id=open1419318587&token=&lang=zh_CN
+
+        :return: 返回的 JSON 数据包
+        """
+        expires_in = 7200
+        result = self.component.refresh_authorizer_token(
+            self.appid, self.refresh_token)
+        if 'expires_in' in result:
+            expires_in = result['expires_in']
+        self.session.set('{0}_access_token'.form(
+            self.appid), result['authorizer_access_token'], expires_in)
+        self.session.set('{0}_refresh_token'.form(
+            self.appid), result['authorizer_refresh_token'], expires_in)
+        self.expires_at = int(time.time()) + expires_in
+        return result
