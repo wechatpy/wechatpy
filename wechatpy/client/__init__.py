@@ -40,7 +40,11 @@ class WeChatComponentClient(BaseWeChatClient):
 
     @property
     def access_token(self):
-        return self.session.get('access_token')
+        access_token = self.session.get('access_token')
+        if not access_token:
+            self.fetch_access_token()
+            access_token = self.session.get('access_token')
+        return access_token
 
     @property
     def refresh_token(self):

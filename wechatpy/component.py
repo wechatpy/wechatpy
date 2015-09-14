@@ -10,7 +10,6 @@
 """
 from __future__ import absolute_import, unicode_literals
 import time
-from urlparse import urljoin
 import json
 import six
 import requests
@@ -141,7 +140,7 @@ class BaseWeChatComponent(object):
 
         :return: 返回的 JSON 数据包
         """
-        url = urljoin(self.API_BASE_URL, '/component/api_component_token')
+        url = self.API_BASE_URL + 'component/api_component_token'
         return self._fetch_access_token(
             url=url,
             data=json.dumps({
@@ -220,7 +219,7 @@ class BaseWeChatComponent(object):
     _post = post
 
 
-class WeChatComponentAPI(BaseWeChatComponent):
+class WeChatComponent(BaseWeChatComponent):
 
     def create_preauthcode(self):
         """
@@ -237,7 +236,7 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         使用授权码换取公众号的授权信息
 
-        @params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
+        :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
         return self._post(
             '/component/api_query_auth',
@@ -252,10 +251,8 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         获取（刷新）授权公众号的令牌
 
-        @params authorizer_appid: 授权方appid
-        @params authorizer_refresh_token: 授权方的刷新令牌，刷新令牌主要用于公众号第三方平台获取和刷新已
-                                          授权用户的access_token，只会在授权时刻提供，请妥善保存。
-                                          一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌
+        :params authorizer_appid: 授权方appid
+        :params authorizer_refresh_token: 授权方的刷新令牌
         """
         return self._post(
             '/component/api_authorizer_token',
@@ -270,7 +267,7 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         获取授权方的账户信息
 
-        @params authorizer_appid: 授权方appid
+        :params authorizer_appid: 授权方appid
         """
         return self._post(
             '/component/api_get_authorizer_info',
@@ -284,8 +281,8 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         获取授权方的选项设置信息
 
-        @params authorizer_appid: 授权公众号appid
-        @params option_name: 选项名称
+        :params authorizer_appid: 授权公众号appid
+        :params option_name: 选项名称
         """
         return self._post(
             '/component/api_get_authorizer_option',
@@ -301,9 +298,9 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         设置授权方的选项信息
 
-        @params authorizer_appid: 授权公众号appid
-        @params option_name: 选项名称
-        @params option_value: 设置的选项值
+        :params authorizer_appid: 授权公众号appid
+        :params option_name: 选项名称
+        :params option_value: 设置的选项值
         """
         return self._post(
             '/component/api_set_authorizer_option',
@@ -319,7 +316,7 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         通过授权码直接获取 Client 对象
 
-        @params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
+        :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
         result = self.query_auth(authorization_code)
         access_token = result['authorization_info']['authorizer_access_token']
@@ -336,9 +333,9 @@ class WeChatComponentAPI(BaseWeChatComponent):
         """
         通过 authorizer_appid, access_token, refresh_token获取 Client 对象
 
-        @params authorizer_appid: 授权公众号appid
-        @params authorizer_refresh_token: 刷新令牌
-        @params authorizer_access_token: 授权方令牌
+        :params authorizer_appid: 授权公众号appid
+        :params authorizer_refresh_token: 刷新令牌
+        :params authorizer_access_token: 授权方令牌
         """
         if not authorizer_access_token:
             ret = self.refresh_authorizer_token(

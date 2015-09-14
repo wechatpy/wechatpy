@@ -6,6 +6,7 @@ from wechatpy.client import WeChatClient  # NOQA
 from wechatpy.exceptions import WeChatException  # NOQA
 from wechatpy.oauth import WeChatOAuth  # NOQA
 from wechatpy.pay import WeChatPay  # NOQA
+from wechatpy.component import WeChatComponent  # NOQA
 
 
 __version__ = '1.0.0'
