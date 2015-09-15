@@ -11,5 +11,5 @@ from wechatpy.pay import WeChatPay  # NOQA
 from wechatpy.exceptions import WeChatPayException  # NOQA
 
 
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __author__ = 'messense'
