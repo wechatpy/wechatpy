@@ -12,8 +12,6 @@ from __future__ import absolute_import, unicode_literals
 import time
 import base64
 
-import six
-
 from wechatpy.utils import to_text, to_binary, WeChatSigner
 from wechatpy.exceptions import (
     InvalidAppIdException,
@@ -90,7 +88,7 @@ class BaseWeChatCrypto(object):
                          timestamp,
                          nonce,
                          crypto_class=None):
-        if isinstance(msg, six.string_types):
+        if not isinstance(msg, dict):
             import xmltodict
 
             msg = xmltodict.parse(to_text(msg))['xml']
