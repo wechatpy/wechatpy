@@ -27,7 +27,6 @@ class BaseWeChatComponent(object):
     def __init__(self,
                  component_appid,
                  component_appsecret,
-                 component_verify_ticket,
                  session=None):
         """
         :param component_appid: 第三方平台appid
@@ -49,8 +48,6 @@ class BaseWeChatComponent(object):
             shove = Shove(session)
             storage = ShoveStorage(shove, prefix)
             self.session = storage
-        self.session.set(
-            'component_verify_ticket', component_verify_ticket, 600)
 
     @property
     def component_verify_ticket(self):
@@ -319,7 +316,9 @@ class WeChatComponent(BaseWeChatComponent):
         refresh_token = result['authorization_info']['authorizer_refresh_token']
         authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
         return WeChatComponentClient(
-            authorizer_appid, access_token, refresh_token, self)
+            authorizer_appid, access_token, refresh_token, self,
+            session=self.session
+        )
 
     def get_client(
             self,
@@ -343,5 +342,6 @@ class WeChatComponent(BaseWeChatComponent):
             authorizer_appid,
             authorizer_access_token,
             authorizer_refresh_token,
-            self
+            self,
+            session=self.session
         )
