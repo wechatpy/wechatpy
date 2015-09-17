@@ -24,15 +24,14 @@ class BaseWeChatClient(object):
     def __new__(cls, *args, **kwargs):
         self = super(BaseWeChatClient, cls).__new__(cls)
         if sys.version_info[:2] == (2, 6):
-            import copy
             # Python 2.6 inspect.gemembers bug workaround
             # http://bugs.python.org/issue1785
             for _class in cls.__mro__:
                 if issubclass(_class, BaseWeChatClient):
                     for name, api in _class.__dict__.items():
                         if isinstance(api, BaseWeChatAPI):
-                            api = copy.deepcopy(api)
-                            api._client = self
+                            api_cls = type(api)
+                            api = api_cls(self)
                             setattr(self, name, api)
         else:
             api_endpoints = inspect.getmembers(self, _is_api_endpoint)
