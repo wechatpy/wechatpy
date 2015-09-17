@@ -16,8 +16,8 @@ env:
   - TOX_ENV=py33-pycrypto
   - TOX_ENV=py34-cryptography
   - TOX_ENV=py34-pycrypto
-  - TOX_ENV=py35-cryptography
-  - TOX_ENV=py35-pycrypto
+    # - TOX_ENV=py35-cryptography
+    # - TOX_ENV=py35-pycrypto
   - TOX_ENV=pypy-cryptography
   - TOX_ENV=pypy-pycrypto
 
