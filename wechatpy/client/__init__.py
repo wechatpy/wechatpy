@@ -35,7 +35,7 @@ class WeChatClient(BaseWeChatClient):
     wifi = api.WeChatWiFi()
 
     def __init__(self, appid, secret, access_token=None, session=None):
-        super(WeChatClient, self).__init__(access_token, session)
+        super(WeChatClient, self).__init__(appid, access_token, session)
         self.appid = appid
         self.secret = secret
 
@@ -63,34 +63,49 @@ class WeChatComponentClient(WeChatClient):
     """
 
     def __init__(
-            self, appid, access_token, refresh_token, component, session=None):
+            self, appid, component, access_token=None, refresh_token=None, session=None):
         # 未用到secret，所以这里没有
         super(WeChatComponentClient, self).__init__(
             appid, '', access_token, session
         )
         self.appid = appid
         self.component = component
-        self.session.set('{0}_refresh_token'.format(self.appid), refresh_token)
+        # 如果公众号是刚授权，外部还没有缓存access_token和refresh_token
+        # 可以传入这两个值，session 会缓存起来。
+        # 如果外部已经缓存，这里只需要传入 appid，component和session即可
+        if access_token:
+            self.session.set(self.access_token_key, access_token, 7200)
+        if refresh_token:
+            self.session.set(self.refresh_token_key, refresh_token, 7200)
+
+    @property
+    def access_token_key(self):
+        return '{0}_access_token'.format(self.appid)
+
+    @property
+    def refresh_token_key(self):
+        return '{0}_refresh_token'.format(self.appid)
 
     @property
     def access_token(self):
-        access_token = self.session.get('{0}_access_token'.format(self.appid))
+        access_token = self.session.get(self.access_token_key)
         if not access_token:
             self.fetch_access_token()
-            access_token = self.session.get(
-                '{0}_access_token'.format(self.appid)
-            )
+            access_token = self.session.get(self.access_token_key)
         return access_token
 
     @property
     def refresh_token(self):
-        return self.session.get('{0}_refresh_token'.format(self.appid))
+        return self.session.get(self.refresh_token_key)
 
     def fetch_access_token(self):
         """
         获取 access token
         详情请参考 https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list\
         &t=resource/res_list&verify=1&id=open1419318587&token=&lang=zh_CN
+
+        这是内部刷新机制。请不要完全依赖！
+        因为有可能在缓存期间没有对此公众号的操作，造成refresh_token失效。
 
         :return: 返回的 JSON 数据包
         """
@@ -100,12 +115,12 @@ class WeChatComponentClient(WeChatClient):
         if 'expires_in' in result:
             expires_in = result['expires_in']
         self.session.set(
-            '{0}_access_token'.format(self.appid),
+            self.access_token_key,
             result['authorizer_access_token'],
             expires_in
         )
         self.session.set(
-            '{0}_refresh_token'.format(self.appid),
+            self.refresh_token_key,
             result['authorizer_refresh_token'],
             expires_in
         )
