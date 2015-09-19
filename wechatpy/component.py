@@ -22,7 +22,7 @@ from wechatpy.client import WeChatComponentClient
 
 class BaseWeChatComponent(object):
 
-    API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
+    API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin'
 
     def __init__(self,
                  component_appid,
@@ -139,7 +139,7 @@ class BaseWeChatComponent(object):
         """
         url = '{0}{1}'.format(
             self.API_BASE_URL,
-            'component/api_component_token'
+            '/component/api_component_token'
         )
         return self._fetch_access_token(
             url=url,
@@ -322,33 +322,33 @@ class WeChatComponent(BaseWeChatComponent):
         refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
         authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
         return WeChatComponentClient(
-            authorizer_appid, access_token, refresh_token, self,
+            authorizer_appid, self, access_token, refresh_token,
             session=self.session
         )
 
-    def get_client(self,
-                   authorizer_appid,
-                   authorizer_refresh_token,
-                   authorizer_access_token=None):
+    def get_client(self, authorizer_appid):
         """
-        通过 authorizer_appid, access_token, refresh_token获取 Client 对象
+        通过 authorizer_appid获取 Client 对象
 
         :params authorizer_appid: 授权公众号appid
-        :params authorizer_refresh_token: 刷新令牌
-        :params authorizer_access_token: 授权方令牌
         """
-        if not authorizer_access_token:
+        access_token_key = '{0}_access_token'.format(authorizer_appid)
+        refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
+        access_token = self.session.get(access_token_key)
+        refresh_token = self.session.get(refresh_token_key)
+
+        if not access_token:
             ret = self.refresh_authorizer_token(
                 authorizer_appid,
-                authorizer_refresh_token
+                refresh_token
             )
-            authorizer_access_token = ret['authorizer_access_token']
-            authorizer_refresh_token = ret['authorizer_refresh_token']
+            access_token = ret['authorizer_access_token']
+            refresh_token = ret['authorizer_refresh_token']
 
         return WeChatComponentClient(
             authorizer_appid,
-            authorizer_access_token,
-            authorizer_refresh_token,
             self,
+            access_token,
+            refresh_token,
             session=self.session
         )
