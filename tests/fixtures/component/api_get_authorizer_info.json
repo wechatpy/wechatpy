@@ -1,0 +1,19 @@
+{
+    "authorizer_info": {
+        "nick_name": "微信SDK Demo Special", 
+        "head_img": "http://wx.qlogo.cn/mmopen/GPyw0pGicibl5Eda4GmSSbTguhjg9LZjumHmVjybjiaQXnE9XrXEts6ny9Uv4Fk6hOScWRDibq1fI0WOkSaAjaecNTict3n6EjJaC/0", 
+        "service_type_info": { "id": 2 }, 
+        "verify_type_info": { "id": 0 },
+        "user_name":"gh_eb5e3a772040",
+        "alias":"paytest01"
+    },
+    "qrcode_url":"URL",    
+    "authorization_info": {
+        "appid": "wxf8b4f85f3a794e77", 
+        "func_info": [
+            { "funcscope_category": { "id": 1 } }, 
+            { "funcscope_category": { "id": 2 } }, 
+            { "funcscope_category": { "id": 3 } }
+        ]
+    }
+}
