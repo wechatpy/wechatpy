@@ -9,15 +9,66 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+from datetime import datetime
 import time
 import json
 import six
 import requests
+import xmltodict
 
 from wechatpy._compat import get_querystring
+from wechatpy.utils import to_text, to_binary, timezone
+from wechatpy.fields import IntegerField, StringField
+from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
+from wechatpy.crypto import WeChatCrypto
 from wechatpy.client import WeChatComponentClient
+
+
+class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
+    """Base class for all component messages and events"""
+    type = 'unknown'
+    appid = StringField('AppId')
+    time = IntegerField('CreateTime', 0)
+
+    def __init__(self, message):
+        self._data = message
+
+    def __repr__(self):
+        _repr = "{klass}({msg})".format(
+            klass=self.__class__.__name__,
+            msg=repr(self._data)
+        )
+        if six.PY2:
+            return to_binary(_repr)
+        else:
+            return to_text(_repr)
+
+    @property
+    def create_time(self):
+        """
+        消息创建时间 ``datetime.datetime`` 类型
+        """
+        tz = timezone('Asia/Shanghai')
+        created = datetime.fromtimestamp(self.time, tz)
+        return created
+
+
+class ComponentVerifyTicketMessage(BaseComponentMessage):
+    """
+    component_verify_ticket协议
+    """
+    type = 'component_verify_ticket'
+    verify_ticket = StringField('ComponentVerifyTicket')
+
+
+class ComponentUnauthorizedMessage(BaseComponentMessage):
+    """
+    取消授权通知
+    """
+    type = 'unauthorized'
+    authorizer_appid = StringField('AuthorizerAppid')
 
 
 class BaseWeChatComponent(object):
@@ -352,3 +403,33 @@ class WeChatComponent(BaseWeChatComponent):
             refresh_token,
             session=self.session
         )
+
+    def set(self, token, encoding_aes_key):
+        self.crypto = WeChatCrypto(
+            token, encoding_aes_key, self.component_appid)
+
+    def get_component_verify_ticket(self, msg, signature, timestamp, nonce):
+        """
+        处理 wechat server 推送的 component_verify_ticket消息
+
+        :params msg: 加密内容
+        :params signature: 消息签名
+        :params timestamp: 时间戳
+        :params nonce: 随机数
+        """
+        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
+        message = xmltodict.parse(to_text(content))['xml']
+        return ComponentVerifyTicketMessage(message)
+
+    def get_unauthorized(self, msg, signature, timestamp, nonce):
+        """
+        处理取消授权通知
+
+        :params msg: 加密内容
+        :params signature: 消息签名
+        :params timestamp: 时间戳
+        :params nonce: 随机数
+        """
+        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
+        message = xmltodict.parse(to_text(content))['xml']
+        return ComponentUnauthorizedMessage(message)
