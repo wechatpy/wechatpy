@@ -22,7 +22,7 @@ from wechatpy.fields import IntegerField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
-from wechatpy.enterprise.crypto import WeChatCrypto
+from wechatpy.crypto import WeChatCrypto
 from wechatpy.client import WeChatComponentClient
 
 
