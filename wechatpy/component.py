@@ -9,7 +9,7 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
-from datetime import datetime, timezone
+from datetime import datetime
 import time
 import json
 import six
@@ -17,7 +17,7 @@ import requests
 import xmltodict
 
 from wechatpy._compat import get_querystring
-from wechatpy.utils import to_binary, to_text
+from wechatpy.utils import to_text, to_binary, timezone
 from wechatpy.fields import IntegerField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
