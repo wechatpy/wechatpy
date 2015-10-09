@@ -12,5 +12,5 @@ from wechatpy.exceptions import WeChatPayException  # NOQA
 from wechatpy.component import WeChatComponent  # NOQA
 
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __author__ = 'messense'
