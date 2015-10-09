@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals, print_function
 import os
+import sys
 import platform
 import unittest
 
@@ -107,6 +108,9 @@ class WeChatSessionTestCase(unittest.TestCase):
             self.assertEqual('1234567890', client.access_token)
 
     def test_shove_storage_init(self):
+        if sys.version_info[:2] == (2, 6):
+            return
+
         from wechatpy.session.shovestorage import ShoveStorage
 
         uri = 'memory://'
@@ -115,6 +119,9 @@ class WeChatSessionTestCase(unittest.TestCase):
         self.assertEqual('wechatpy', client.session.prefix)
 
     def test_shove_storage_init_with_prefix(self):
+        if sys.version_info[:2] == (2, 6):
+            return
+
         from wechatpy.session.shovestorage import ShoveStorage
 
         uri = 'memory://?prefix=custom_prefix'
@@ -123,6 +130,9 @@ class WeChatSessionTestCase(unittest.TestCase):
         self.assertEqual('custom_prefix', client.session.prefix)
 
     def test_shove_storage_access_token(self):
+        if sys.version_info[:2] == (2, 6):
+            return
+
         uri = 'memory://'
         client = WeChatClient(self.app_id, self.secret, session=uri)
         with HTTMock(wechat_api_mock):

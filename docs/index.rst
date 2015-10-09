@@ -15,7 +15,6 @@ wechatpy 是一个微信 (WeChat) 公众平台的第三方 Python SDK, 实现了
    :maxdepth: 2
 
    install
-   changelog
 
 微信公众平台接口
 -------------------
@@ -33,3 +32,20 @@ wechatpy 是一个微信 (WeChat) 公众平台的第三方 Python SDK, 实现了
 -------------------
 
 TODO: 待完善
+
+微信公众号第三方平台接口
+----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   component
+
+
+Changelogs
+---------------
+
+.. toctree::
+   :maxdepth: 2
+
+   changelog
