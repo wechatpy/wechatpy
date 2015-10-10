@@ -29,8 +29,11 @@ def wechat_api_mock(url, request):
     try:
         with open(res_file, 'rb') as f:
             content = json.loads(f.read().decode('utf-8'))
-    except (IOError, ValueError):
-        pass
+    except (IOError, ValueError) as e:
+        content['errmsg'] = 'Loads fixture {0} failed, error: {1}'.format(
+            res_file,
+            e
+        )
     return response(200, content, headers, request=request)
 
 
@@ -267,3 +270,20 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.shakearound.get_shake_info('123456')
             self.assertEqual(14000, res['page_id'])
             self.assertEqual('zhangsan', res['userid'])
+
+    def test_service_get_provider_token(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.service.get_provider_token('provider_secret')
+
+        self.assertEqual(7200, res['expires_in'])
+        self.assertEqual('enLSZ5xxxxxxJRL', res['provider_access_token'])
+
+    def test_service_get_login_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.service.get_login_info(
+                'enLSZ5xxxxxxJRL',
+                'auth_code'
+            )
+
+        self.assertTrue(res['is_sys'])
+        self.assertTrue(res['is_inner'])

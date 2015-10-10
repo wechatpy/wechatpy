@@ -1,0 +1,33 @@
+{
+   "is_sys":true,
+   "is_inner":true,
+   "user_info":{
+       "email":"xxxx",
+       "userid":"xxxx",
+       "name":"xxxx",
+       "avatar":"xxxx",
+       "mobile":"xxxx"
+   },
+   "corp_info":{
+       "corpid":"wx6c698d13f7a409a4",
+       "corp_name":"zanktan_test",
+       "corp_type":"verified",
+       "corp_round_logo_url": "http://mmbiz.qpic.cn/mmbiz/dO7fnVotTkoLYdaxcfXD5FypiaibRKkmRoEic2ks2HgJk9icKwbmmtQFdOF11JdicMbzGibTAtaOrLEzDhcZNv6VwnkA/0",
+       "corp_square_logo_url":"http://wx.qlogo.cn/mmhead/Q3auHgzwzM6YrDZaLe8iahpKbKYf7HEtoicvAYCRIDVqZE2ydk46yZ4A/0",
+       "corp_user_max":10,
+       "corp_agent_max":5
+   },
+   "agent":[
+       {"agentid":0,"auth_type":1},
+       {"agentid":1,"auth_type":1},
+       {"agentid":2,"auth_type":1}
+   ],
+   "auth_info":{
+       "department":[
+           {
+               "id":"2",
+               "writable":"true"
+           }
+       ]
+   }
+}
