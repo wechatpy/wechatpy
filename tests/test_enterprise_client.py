@@ -261,3 +261,9 @@ class WeChatClientTestCase(unittest.TestCase):
                 self.client.material.get_count(1)
         except WeChatClientException as e:
             self.assertEqual(404, e.response.status_code)
+
+    def test_shakearound_get_shake_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.shakearound.get_shake_info('123456')
+            self.assertEqual(14000, res['page_id'])
+            self.assertEqual('zhangsan', res['userid'])
