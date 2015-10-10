@@ -23,6 +23,7 @@ class WeChatClient(BaseWeChatClient):
     oauth = api.WeChatOAuth()
     shakearound = api.WeChatShakeAround()
     service = api.WeChatService()
+    chat = api.WeChatChat()
 
     def __init__(self, corp_id, secret, access_token=None, session=None):
         super(WeChatClient, self).__init__(corp_id, access_token, session)
