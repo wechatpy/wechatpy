@@ -1,11 +1,7 @@
-sudo: false
 language: python
-python:
-  - "2.7"
 
-services:
-  - redis-server
-  - memcached
+# Use container-based infrastructure
+sudo: false
 
 matrix:
   include:
@@ -23,6 +19,10 @@ matrix:
       python: 3.5
     - env: TOX_ENV=pypy-cryptography
     - env: TOX_ENV=pypy-pycrypto
+
+services:
+  - redis-server
+  - memcached
 
 cache:
   directories:
