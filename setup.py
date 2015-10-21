@@ -44,4 +44,8 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
     ],
+    extras_require={
+        'cryptography': ['cryptography'],
+        'pycrypto': ['pycrypto'],
+    }
 )
