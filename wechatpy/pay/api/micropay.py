@@ -7,11 +7,11 @@ from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
 
 
-class MicroPay(BaseWeChatPayAPI):
+class WeChatMicroPay(BaseWeChatPayAPI):
     def create(self, body, total_fee, auth_code, client_ip=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', goods_tag=None, device_info=None, limit_pay=None):
         """
-        统一下单接口
+        刷卡支付接口
         :param device_info: 可选，终端设备号(商户自定义，如门店编号)
         :param body: 商品描述
         :param detail: 可选，商品详情
