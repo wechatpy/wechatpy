@@ -33,6 +33,8 @@ class WeChatPay(object):
     tools = api.WeChatTools()
     """工具类接口"""
     jsapi = api.WeChatJSAPI()
+    """刷卡支付接口"""
+    micropay = api.WeChatMicroPay()
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
