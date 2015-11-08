@@ -39,7 +39,8 @@ class WeChatComponentTestCase(unittest.TestCase):
     encoding_aes_key = 'asdadadfsdsdffsdfsdfsfdsf'
 
     def setUp(self):
-        self.client = WeChatComponent(self.app_id, self.app_secret)
+        self.client = WeChatComponent(
+            self.app_id, self.app_secret, self.token, self.encoding_aes_key)
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
