@@ -37,12 +37,20 @@ component_verify_ticket的处理
 当需要代公众号调用接口时，有两种方法:
 
     - 将授权码传给component.get_client_by_authorization_code()，可以直接获取操作公众号 API 的对象。适用于刚刚获得授权的场景。
-    - 将公众号 appid、由 component 获得的access_token和refresh_token，传入`component.get_client()`。适用于已经授权的场景。
+    - 将公众号 appid传入`component.get_client_by_appid()`。适用于已经授权的场景。
+
+公众号的授权码和刷新码内部自动缓存。
 
 操作公众号 API 的对象并非:class:`~wechatpy.client.WeChatClient`，但实现了同样的功能。在使用上相同::
     
     client = component.get_client(appid, refresh_token, access_token)
     menu_info = client.menu.get()
+
+
+公众号的授权码和刷新码的更新
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+授权码和刷新码有效期为7200秒，需要在失效之前更新授权码。由于各个项目的差异性和复杂性，本项目并未实现更新逻辑，需要调用者根据项目来自己实现。在失效之前，只要调用 `client.fetch_access_token()`即可刷新缓存，所以这个逻辑很简单。
 
 
 .. autoclass:: WeChatComponent
