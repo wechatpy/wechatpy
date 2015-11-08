@@ -35,8 +35,8 @@ def wechat_api_mock(url, request):
 class WeChatComponentTestCase(unittest.TestCase):
     app_id = '123456'
     app_secret = '123456'
-    token = 'sdfusfss'
-    encoding_aes_key = 'asdadadfsdsdffsdfsdfsfdsf'
+    token = 'sdfusfsssdc'
+    encoding_aes_key = 'yguy3495y79o34vod7843933902h9gb2834hgpB90rg'
 
     def setUp(self):
         self.client = WeChatComponent(
