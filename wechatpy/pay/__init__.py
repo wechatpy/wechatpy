@@ -29,6 +29,8 @@ class WeChatPay(object):
     order = api.WeChatOrder()
     """订单接口"""
     refund = api.WeChatRefund()
+    """刷卡支付接口"""
+    micropay = api.WeChatMicroPay()
     """退款接口"""
     tools = api.WeChatTools()
     """工具类接口"""

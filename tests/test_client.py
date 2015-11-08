@@ -33,7 +33,10 @@ def wechat_api_mock(url, request):
         with open(res_file, 'rb') as f:
             content = json.loads(f.read().decode('utf-8'))
     except (IOError, ValueError) as e:
-        print(e)
+        content['errmsg'] = 'Loads fixture {0} failed, error: {1}'.format(
+            res_file,
+            e
+        )
     return response(200, content, headers, request=request)
 
 

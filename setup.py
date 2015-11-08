@@ -14,7 +14,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='wechatpy',
-    version='1.1-alpha',
+    version='1.1.2',
     author='messense',
     author_email='messense@icloud.com',
     url='https://github.com/messense/wechatpy',
@@ -44,4 +44,8 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
     ],
+    extras_require={
+        'cryptography': ['cryptography'],
+        'pycrypto': ['pycrypto'],
+    }
 )

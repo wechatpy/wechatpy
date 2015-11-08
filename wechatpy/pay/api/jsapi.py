@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 import time
 
-from wechatpy.utils import random_string
+from wechatpy.utils import random_string, to_text
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay.utils import calculate_signature
 
@@ -20,7 +20,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         """
         data = {
             'appId': self.appid,
-            'timeStamp': timestamp or int(time.time()),
+            'timeStamp': timestamp or to_text(int(time.time())),
             'nonceStr': nonce_str or random_string(32),
             'signType': 'MD5',
             'package': 'prepay_id={0}'.format(prepay_id),
@@ -38,7 +38,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         """
         data = {
             'appId': self.appid,
-            'timeStamp': timestamp or int(time.time()),
+            'timeStamp': timestamp or to_text(int(time.time())),
             'nonceStr': nonce_str or random_string(32),
             'signType': 'MD5',
             'package': 'prepay_id={0}'.format(prepay_id),
