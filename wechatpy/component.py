@@ -78,15 +78,20 @@ class BaseWeChatComponent(object):
     def __init__(self,
                  component_appid,
                  component_appsecret,
+                 component_token,
+                 encoding_aes_key,
                  session=None):
         """
         :param component_appid: 第三方平台appid
         :param component_appsecret: 第三方平台appsecret
-        :param component_verify_ticket: 微信后台推送的ticket，此ticket会定时推送
+        :param component_token: 公众号消息校验Token
+        :param encoding_aes_key: 公众号消息加解密Key
         """
         self.component_appid = component_appid
         self.component_appsecret = component_appsecret
         self.expires_at = None
+        self.crypto = WeChatCrypto(
+            component_token, encoding_aes_key, component_appid)
         self.session = session or MemoryStorage()
 
         if isinstance(session, six.string_types):
@@ -362,7 +367,7 @@ class WeChatComponent(BaseWeChatComponent):
             }
         )
 
-    def get_client_by(self, authorization_code):
+    def get_client_by_authorization_code(self, authorization_code):
         """
         通过授权码直接获取 Client 对象
 
@@ -377,9 +382,9 @@ class WeChatComponent(BaseWeChatComponent):
             session=self.session
         )
 
-    def get_client(self, authorizer_appid):
+    def get_client_by_appid(self, authorizer_appid):
         """
-        通过 authorizer_appid获取 Client 对象
+        通过 authorizer_appid 获取 Client 对象
 
         :params authorizer_appid: 授权公众号appid
         """
@@ -404,11 +409,7 @@ class WeChatComponent(BaseWeChatComponent):
             session=self.session
         )
 
-    def set(self, token, encoding_aes_key):
-        self.crypto = WeChatCrypto(
-            token, encoding_aes_key, self.component_appid)
-
-    def get_component_verify_ticket(self, msg, signature, timestamp, nonce):
+    def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
         """
         处理 wechat server 推送的 component_verify_ticket消息
 
@@ -419,7 +420,8 @@ class WeChatComponent(BaseWeChatComponent):
         """
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
-        return ComponentVerifyTicketMessage(message)
+        o = ComponentVerifyTicketMessage(message)
+        self.session.set(o.type, o.verify_ticket, 600)
 
     def get_unauthorized(self, msg, signature, timestamp, nonce):
         """
