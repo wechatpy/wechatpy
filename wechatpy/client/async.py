@@ -26,7 +26,7 @@ class AsyncClientMixin(object):
         if 'access_token' not in params:
             kwargs['params']['access_token'] = self.access_token
 
-        params = urlencode({k: to_binary(v) for k, v in params.items()})
+        params = urlencode(dict((k, to_binary(v)) for k, v in params.items()))
         url = '{0}?{1}'.format(url, params)
 
         data = kwargs.pop('data', None)
