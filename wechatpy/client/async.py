@@ -22,6 +22,7 @@ class AsyncClientMixin(object):
         else:
             url = url_or_endpoint
 
+        headers = {}
         params = kwargs.pop('params', {})
         if 'access_token' not in params:
             kwargs['params']['access_token'] = self.access_token
@@ -29,14 +30,27 @@ class AsyncClientMixin(object):
         params = urlencode(dict((k, to_binary(v)) for k, v in params.items()))
         url = '{0}?{1}'.format(url, params)
 
-        data = kwargs.pop('data', None)
+        data = kwargs.get('data')
         if isinstance(data, dict):
             body = json.dumps(kwargs['data'], ensure_ascii=False)
             body = body.encode('utf-8')
 
+        files = kwargs.get('files')
+        if files:
+            from requests.models import RequestEncodingMixin
+            from requests.utils import super_len
+
+            body, content_type = RequestEncodingMixin._encode_files(
+                files,
+                body
+            )
+            headers['Content-Type'] = content_type
+            headers['Content-Length'] = super_len(body)
+
         req = HTTPRequest(
             url=url,
             method=method,
+            headers=headers,
             body=body,
         )
         res = yield http_client.fetch(req)
