@@ -18,7 +18,7 @@ import six
 
 from wechatpy.utils import to_text, to_binary, ObjectDict, timezone
 
-#
+
 default_timezone = timezone('Asia/Shanghai')
 
 

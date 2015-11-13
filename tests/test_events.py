@@ -328,8 +328,8 @@ class EventsTestCase(unittest.TestCase):
         <ExpiredTime>1442401156</ExpiredTime>
         </xml>"""
         event = parse_message(xml)
-        self.assertIsInstance(event, QualificationVerifySuccessEvent)
-        self.assertIsInstance(event.expired_time, datetime)
+        self.assertTrue(isinstance(event, QualificationVerifySuccessEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))
 
     def test_qualification_verify_fail_event(self):
         from wechatpy.events import QualificationVerifyFailEvent
@@ -345,8 +345,8 @@ class EventsTestCase(unittest.TestCase):
         <FailReason><![CDATA[by time]]></FailReason>
         </xml>"""
         event = parse_message(xml)
-        self.assertIsInstance(event, QualificationVerifyFailEvent)
-        self.assertIsInstance(event.fail_time, datetime)
+        self.assertTrue(isinstance(event, QualificationVerifyFailEvent))
+        self.assertTrue(isinstance(event.fail_time, datetime))
         self.assertEqual(event.fail_reason, 'by time')
 
     def test_naming_verify_success_event(self):
@@ -362,8 +362,8 @@ class EventsTestCase(unittest.TestCase):
         <ExpiredTime>1442401093</ExpiredTime>
         </xml>"""
         event = parse_message(xml)
-        self.assertIsInstance(event, NamingVerifySuccessEvent)
-        self.assertIsInstance(event.expired_time, datetime)
+        self.assertTrue(isinstance(event, NamingVerifySuccessEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))
 
     def test_naming_verify_fail_event(self):
         from wechatpy.events import NamingVerifyFailEvent
@@ -379,8 +379,8 @@ class EventsTestCase(unittest.TestCase):
         <FailReason><![CDATA[by time]]></FailReason>
         </xml>"""
         event = parse_message(xml)
-        self.assertIsInstance(event, NamingVerifyFailEvent)
-        self.assertIsInstance(event.fail_time, datetime)
+        self.assertTrue(isinstance(event, NamingVerifyFailEvent))
+        self.assertTrue(isinstance(event.fail_time, datetime))
         self.assertEqual(event.fail_reason, 'by time')
 
     def test_annual_renew_event(self):
@@ -396,8 +396,8 @@ class EventsTestCase(unittest.TestCase):
         <ExpiredTime>1442401004</ExpiredTime>
         </xml>"""
         event = parse_message(xml)
-        self.assertIsInstance(event, AnnualRenewEvent)
-        self.assertIsInstance(event.expired_time, datetime)
+        self.assertTrue(isinstance(event, AnnualRenewEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))
 
     def test_verify_expired_event(self):
         from wechatpy.events import VerifyExpiredEvent
@@ -412,5 +412,5 @@ class EventsTestCase(unittest.TestCase):
         <ExpiredTime>1442400900</ExpiredTime>
         </xml>"""
         event = parse_message(xml)
-        self.assertIsInstance(event, VerifyExpiredEvent)
-        self.assertIsInstance(event.expired_time, datetime)
+        self.assertTrue(isinstance(event, VerifyExpiredEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))

@@ -14,7 +14,7 @@ class ReplyTestCase(unittest.TestCase):
 
         self.assertEqual('user1', reply.source)
         self.assertEqual('user2', reply.target)
-        self.assertIsInstance(reply.time, datetime)
+        self.assertTrue(isinstance(reply.time, datetime))
 
     def test_reply_render(self):
         timestamp = int(time.time())
