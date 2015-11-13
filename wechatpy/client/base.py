@@ -105,13 +105,19 @@ class BaseWeChatClient(object):
 
         return self._handle_result(res, method, url, **kwargs)
 
-    def _handle_result(self, res, method=None, url=None, **kwargs):
+    def _decode_result(self, res):
         res.encoding = 'utf-8'
         try:
             result = res.json()
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
             return res
+        return result
+
+    def _handle_result(self, res, method=None, url=None, **kwargs):
+        result = self._decode_result(res)
+        if not isinstance(result, dict):
+            return result
 
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
@@ -199,7 +205,11 @@ class BaseWeChatClient(object):
         expires_in = 7200
         if 'expires_in' in result:
             expires_in = result['expires_in']
-        self.session.set(self.access_token_key, result['access_token'], expires_in)
+        self.session.set(
+            self.access_token_key,
+            result['access_token'],
+            expires_in
+        )
         self.expires_at = int(time.time()) + expires_in
         return result
 

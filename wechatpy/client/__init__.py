@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import time
+
 from wechatpy.client.base import BaseWeChatClient
 from wechatpy.client import api
+
+try:
+    from wechatpy.client.async import AsyncClientMixin
+    _has_async = True
+except ImportError:
+    _has_async = False
 
 
 class WeChatClient(BaseWeChatClient):
@@ -62,8 +69,8 @@ class WeChatComponentClient(WeChatClient):
     开放平台代公众号调用客户端
     """
 
-    def __init__(
-            self, appid, component, access_token=None, refresh_token=None, session=None):
+    def __init__(self, appid, component, access_token=None,
+                 refresh_token=None, session=None):
         # 未用到secret，所以这里没有
         super(WeChatComponentClient, self).__init__(
             appid, '', access_token, session
@@ -126,3 +133,8 @@ class WeChatComponentClient(WeChatClient):
         )
         self.expires_at = int(time.time()) + expires_in
         return result
+
+
+if _has_async:
+    class AsyncWeChatClient(WeChatClient, AsyncClientMixin):
+        pass
