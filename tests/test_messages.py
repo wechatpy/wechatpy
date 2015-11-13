@@ -22,8 +22,7 @@ class MessagesTestCase(unittest.TestCase):
         self.assertEqual(123456, msg.id)
         self.assertEqual('user1', msg.source)
         self.assertEqual('user2', msg.target)
-        self.assertEqual(timestamp, msg.time)
-        self.assertTrue(isinstance(msg.create_time, datetime))
+        self.assertIsInstance(msg.create_time, datetime)
 
     def test_text_message(self):
         from wechatpy.messages import TextMessage

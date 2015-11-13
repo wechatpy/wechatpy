@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import time
+from datetime import datetime
 import unittest
 
 from wechatpy.replies import TextReply
@@ -9,12 +10,11 @@ from wechatpy.replies import TextReply
 class ReplyTestCase(unittest.TestCase):
 
     def test_reply_init_ok(self):
-        timestamp = int(time.time())
         reply = TextReply(source='user1', target='user2')
 
         self.assertEqual('user1', reply.source)
         self.assertEqual('user2', reply.target)
-        self.assertTrue(timestamp <= reply.time)
+        self.assertIsInstance(reply.time, datetime)
 
     def test_reply_render(self):
         timestamp = int(time.time())
