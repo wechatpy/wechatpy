@@ -15,7 +15,8 @@ from wechatpy.fields import (
     FloatField,
     IntegerField,
     BaseField,
-    Base64DecodeField
+    Base64DecodeField,
+    DateTimeField
 )
 from wechatpy.messages import BaseMessage
 
@@ -419,9 +420,9 @@ class WiFiConnectedEvent(BaseEvent):
     bssid = StringField('DeviceNo')
 
 
-#=============================================================================
+# ============================================================================
 # 微信认证事件推送
-#=============================================================================
+# ============================================================================
 @register_event('qualification_verify_success')
 class QualificationVerifySuccessEvent(BaseEvent):
     """
@@ -431,7 +432,7 @@ class QualificationVerifySuccessEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
     """
     event = 'qualification_verify_success'
-    expired_time = StringField('ExpiredTime')
+    expired_time = DateTimeField('ExpiredTime')
 
 
 @register_event('qualification_verify_fail')
@@ -443,7 +444,7 @@ class QualificationVerifyFailEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
     """
     event = 'qualification_verify_fail'
-    fail_time = StringField('FailTime')
+    fail_time = DateTimeField('FailTime')
     fail_reason = StringField('FailReason')
 
 
@@ -456,7 +457,7 @@ class NamingVerifySuccessEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
     """
     event = 'naming_verify_success'
-    expired_time = StringField('ExpiredTime')
+    expired_time = DateTimeField('ExpiredTime')
 
 
 @register_event('naming_verify_fail')
@@ -468,7 +469,7 @@ class NamingVerifyFailEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
     """
     event = 'naming_verify_fail'
-    fail_time = StringField('FailTime')
+    fail_time = DateTimeField('FailTime')
     fail_reason = StringField('FailReason')
 
 
@@ -481,7 +482,7 @@ class AnnualRenewEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
     """
     event = 'annual_renew'
-    expired_time = StringField('ExpiredTime')
+    expired_time = DateTimeField('ExpiredTime')
 
 
 @register_event('verify_expired')
@@ -493,4 +494,4 @@ class VerifyExpiredEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
     """
     event = 'verify_expired'
-    expired_time = StringField('ExpiredTime')
+    expired_time = DateTimeField('ExpiredTime')
