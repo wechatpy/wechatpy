@@ -5,12 +5,6 @@ import time
 from wechatpy.client.base import BaseWeChatClient
 from wechatpy.client import api
 
-try:
-    from wechatpy.client.async import AsyncClientMixin
-    _has_async = True
-except ImportError:
-    _has_async = False
-
 
 class WeChatClient(BaseWeChatClient):
 
@@ -133,8 +127,3 @@ class WeChatComponentClient(WeChatClient):
         )
         self.expires_at = int(time.time()) + expires_in
         return result
-
-
-if _has_async:
-    class AsyncWeChatClient(WeChatClient, AsyncClientMixin):
-        pass

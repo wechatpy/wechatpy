@@ -6,6 +6,7 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
 from wechatpy._compat import json
 from wechatpy.utils import to_binary
+from wechatpy.client import WeChatClient
 
 
 class AsyncClientMixin(object):
@@ -69,3 +70,7 @@ class AsyncClientMixin(object):
             # Return origin response object if we can not decode it as JSON
             return res
         return result
+
+
+class AsyncWeChatClient(WeChatClient, AsyncClientMixin):
+    pass
