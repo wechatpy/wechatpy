@@ -14,7 +14,6 @@ import six
 from wechatpy.fields import(
     StringField,
     IntegerField,
-    DateTimeField,
     ImageField,
     VoiceField,
     VideoField,
@@ -41,7 +40,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
     """Base class for all replies"""
     source = StringField('FromUserName')
     target = StringField('ToUserName')
-    time = DateTimeField('CreateTime', time.time())
+    time = IntegerField('CreateTime', time.time())
     type = 'unknown'
 
     def __init__(self, **kwargs):
