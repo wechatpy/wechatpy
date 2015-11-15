@@ -10,7 +10,13 @@ from wechatpy.client import WeChatClient
 
 
 class AsyncClientMixin(object):
+    """
+    基于 Tornado coroutine 和 ``tornado.httpclient.AsyncHTTPClient`` 的
+    异步主动调用客户端实现 mixin
 
+    主要是替换了使用 ``requests`` 实现同步客户端的 ``_request`` 和
+     `` _decode_result`` 方法以适应 AsyncHTTPClient 和 requests 的不同。
+    """
     @coroutine
     def _request(self, method, url_or_endpoint, **kwargs):
         http_client = AsyncHTTPClient()
@@ -73,4 +79,8 @@ class AsyncClientMixin(object):
 
 
 class AsyncWeChatClient(WeChatClient, AsyncClientMixin):
+    """
+    基于 Tornado coroutine 和 ``tornado.httpclient.AsyncHTTPClient`` 的
+    异步主动调用客户端
+    """
     pass
