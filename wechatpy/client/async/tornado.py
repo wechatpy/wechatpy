@@ -9,10 +9,10 @@ from wechatpy.utils import to_binary
 from wechatpy.client import WeChatClient
 
 
-class AsyncClientMixin(object):
+class AsyncWeChatClient(WeChatClient):
     """
     基于 Tornado coroutine 和 ``tornado.httpclient.AsyncHTTPClient`` 的
-    异步主动调用客户端实现 mixin
+    异步主动调用客户端实现
 
     主要是替换了使用 ``requests`` 实现同步客户端的 ``_request`` 和
      `` _decode_result`` 方法以适应 AsyncHTTPClient 和 requests 的不同。
@@ -32,7 +32,7 @@ class AsyncClientMixin(object):
         headers = {}
         params = kwargs.pop('params', {})
         if 'access_token' not in params:
-            kwargs['params']['access_token'] = self.access_token
+            params['access_token'] = self.access_token
 
         params = urlencode(dict((k, to_binary(v)) for k, v in params.items()))
         url = '{0}?{1}'.format(url, params)
@@ -58,7 +58,7 @@ class AsyncClientMixin(object):
 
         req = HTTPRequest(
             url=url,
-            method=method,
+            method=method.upper(),
             headers=headers,
             body=body,
         )
@@ -69,18 +69,10 @@ class AsyncClientMixin(object):
         result = self._handle_result(res, method, url, **kwargs)
         raise Return(result)
 
-    def _decode_result(res, method, url, **kwargs):
+    def _decode_result(self, res):
         try:
             result = json.loads(res.body)
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
             return res
         return result
-
-
-class AsyncWeChatClient(WeChatClient, AsyncClientMixin):
-    """
-    基于 Tornado coroutine 和 ``tornado.httpclient.AsyncHTTPClient`` 的
-    异步主动调用客户端
-    """
-    pass

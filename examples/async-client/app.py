@@ -19,7 +19,7 @@ class ExampleHandler(tornado.web.RequestHandler):
     def get(self):
         client = AsyncWeChatClient(APPID, SECRET)
         try:
-            user_info = client.user.get(OPENID)
+            user_info = yield client.user.get(OPENID)
         except Exception as e:
             print(e)
             self.write(str(e))
