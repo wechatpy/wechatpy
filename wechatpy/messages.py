@@ -61,6 +61,7 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
     source = StringField('FromUserName')
     target = StringField('ToUserName')
     create_time = DateTimeField('CreateTime')
+    time = IntegerField('CreateTime')
 
     def __init__(self, message):
         self._data = message
