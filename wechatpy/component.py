@@ -9,7 +9,6 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
-from datetime import datetime
 import time
 import json
 import six
@@ -17,8 +16,8 @@ import requests
 import xmltodict
 
 from wechatpy._compat import get_querystring
-from wechatpy.utils import to_text, to_binary, timezone
-from wechatpy.fields import IntegerField, StringField
+from wechatpy.utils import to_text, to_binary
+from wechatpy.fields import StringField, DateTimeField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
@@ -30,7 +29,7 @@ class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
     """Base class for all component messages and events"""
     type = 'unknown'
     appid = StringField('AppId')
-    time = IntegerField('CreateTime', 0)
+    create_time = DateTimeField('CreateTime')
 
     def __init__(self, message):
         self._data = message
@@ -44,15 +43,6 @@ class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
             return to_binary(_repr)
         else:
             return to_text(_repr)
-
-    @property
-    def create_time(self):
-        """
-        消息创建时间 ``datetime.datetime`` 类型
-        """
-        tz = timezone('Asia/Shanghai')
-        created = datetime.fromtimestamp(self.time, tz)
-        return created
 
 
 class ComponentVerifyTicketMessage(BaseComponentMessage):

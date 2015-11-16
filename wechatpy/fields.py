@@ -9,12 +9,17 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import time
+from datetime import datetime
 import base64
 import copy
 
 import six
 
-from wechatpy.utils import to_text, to_binary, ObjectDict
+from wechatpy.utils import to_text, to_binary, ObjectDict, timezone
+
+
+default_timezone = timezone('Asia/Shanghai')
 
 
 class FieldDescriptor(object):
@@ -85,6 +90,19 @@ class IntegerField(BaseField):
 
     def to_xml(self, value):
         value = self.converter(value) if value is not None else self.default
+        tpl = '<{name}>{value}</{name}>'
+        return tpl.format(name=self.name, value=value)
+
+
+class DateTimeField(BaseField):
+    def __converter(self, value):
+        v = int(value)
+        return datetime.fromtimestamp(v, tz=default_timezone)
+    converter = __converter
+
+    def to_xml(self, value):
+        value = time.mktime(datetime.timetuple(value))
+        value = int(value)
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 

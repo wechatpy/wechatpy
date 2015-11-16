@@ -10,17 +10,16 @@
 """
 from __future__ import absolute_import, unicode_literals
 import copy
-from datetime import datetime
-
 import six
 
 from wechatpy.fields import (
     BaseField,
     StringField,
     IntegerField,
+    DateTimeField,
     FieldDescriptor
 )
-from wechatpy.utils import to_text, to_binary, timezone
+from wechatpy.utils import to_text, to_binary
 
 
 MESSAGE_TYPES = {}
@@ -61,7 +60,8 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
     id = IntegerField('MsgId', 0)
     source = StringField('FromUserName')
     target = StringField('ToUserName')
-    time = IntegerField('CreateTime', 0)
+    create_time = DateTimeField('CreateTime')
+    time = IntegerField('CreateTime')
 
     def __init__(self, message):
         self._data = message
@@ -75,14 +75,6 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
             return to_binary(_repr)
         else:
             return to_text(_repr)
-
-    @property
-    def create_time(self):
-        """消息创建时间 ``datetime.datetime`` 类型
-        """
-        tz = timezone('Asia/Shanghai')
-        created = datetime.fromtimestamp(self.time, tz)
-        return created
 
 
 @register_message('text')
