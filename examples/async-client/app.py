@@ -13,7 +13,7 @@ SECRET = '2817b66a1d5829847196cf2f96ab2816'
 OPENID = 'ozJS1syaqn5ztglMsr8ceH8o2zCQ'
 
 
-class ExampleHandler(tornado.web.RequestHandler):
+class UserInfoHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self):
@@ -28,9 +28,26 @@ class ExampleHandler(tornado.web.RequestHandler):
             self.write(json.dumps(user_info))
 
 
+class UserGroupHandler(tornado.web.RequestHandler):
+
+    @tornado.gen.coroutine
+    def get(self):
+        client = AsyncWeChatClient(APPID, SECRET)
+        try:
+            group_id = yield client.user.get_group_id(OPENID)
+        except Exception as e:
+            print(e)
+            self.write(str(e))
+        else:
+            self.write(str(group_id))
+
+
 if __name__ == '__main__':
     app = tornado.web.Application(
-        handlers=[('/', ExampleHandler)],
+        handlers=[
+            ('/', UserInfoHandler),
+            ('/group_id', UserGroupHandler),
+        ],
         debug=True,
     )
     app.listen(8888)
