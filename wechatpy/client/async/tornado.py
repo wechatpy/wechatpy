@@ -57,11 +57,13 @@ class AsyncClientMixin(object):
                 body = data
 
         result_processor = kwargs.pop('result_processor', None)
+        timeout = kwargs.get('timeout', self.timeout)
         req = HTTPRequest(
             url=url,
             method=method.upper(),
             headers=headers,
             body=body,
+            request_timeout=timeout
         )
         res = yield http_client.fetch(req)
         if res.error is not None:

@@ -41,10 +41,11 @@ class BaseWeChatClient(object):
                 setattr(self, name, api)
         return self
 
-    def __init__(self, appid, access_token=None, session=None):
+    def __init__(self, appid, access_token=None, session=None, timeout=None):
         self.appid = appid
         self.expires_at = None
         self.session = session or MemoryStorage()
+        self.timeout = timeout
 
         if isinstance(session, six.string_types):
             from shove import Shove
@@ -87,6 +88,7 @@ class BaseWeChatClient(object):
             body = body.encode('utf-8')
             kwargs['data'] = body
 
+        kwargs['timeout'] = kwargs.get('timeout', self.timeout)
         result_processor = kwargs.pop('result_processor', None)
         res = requests.request(
             method=method,
