@@ -76,6 +76,8 @@ class WeChatMenu(BaseWeChatAPI):
             data=menu_data
         )
 
+    update = create
+
     def delete(self):
         """
         删除自定义菜单。
@@ -85,15 +87,6 @@ class WeChatMenu(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get('menu/delete')
-
-    def update(self, menu_data):
-        """
-        更新自定义菜单
-        等同于先调用 :func:`delete_menu` 删除自定义菜单后，
-        再调用 :func:`create_menu` 创建自定义菜单。
-        """
-        self.delete()
-        return self.create(menu_data)
 
     def get_menu_info(self):
         """
