@@ -77,7 +77,7 @@ class MenuUpdateHandler(tornado.web.RequestHandler):
         }
         client = AsyncWeChatClient(APPID, SECRET)
         try:
-            res = yield client.menu.update(menu_data)
+            res = yield client.menu.create(menu_data)
         except Exception as e:
             print(e)
             self.write(str(e))
