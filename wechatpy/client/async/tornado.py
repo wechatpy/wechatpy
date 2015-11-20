@@ -56,6 +56,7 @@ class AsyncClientMixin(object):
             else:
                 body = data
 
+        result_processor = kwargs.pop('result_processor', None)
         req = HTTPRequest(
             url=url,
             method=method.upper(),
@@ -66,7 +67,9 @@ class AsyncClientMixin(object):
         if res.error is not None:
             res.rethrow()
 
-        result = self._handle_result(res, method, url, **kwargs)
+        result = self._handle_result(
+            res, method, url, result_processor, **kwargs
+        )
         raise Return(result)
 
     def _decode_result(self, res):

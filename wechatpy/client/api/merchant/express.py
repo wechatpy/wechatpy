@@ -35,10 +35,14 @@ class MerchantExpress(BaseWeChatAPI):
             'merchant/express/getbyid',
             data={
                 'template_id': template_id
-            }
+            },
+            result_processor=lambda x: x['template_info']
         )
-        return res['template_info']
+        return res
 
     def get_all(self):
-        res = self._get('merchant/express/getall')
-        return res['template_info']
+        res = self._get(
+            'merchant/express/getall',
+            result_processor=lambda x: x['template_info']
+        )
+        return res

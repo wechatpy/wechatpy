@@ -41,9 +41,10 @@ class WeChatShakeAround(BaseWeChatAPI):
         data['comment'] = comment
         res = self._post(
             'shakearound/device/applyid',
-            data=data
+            data=data,
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def update_device(self, device_id=None, uuid=None, major=None,
                       minor=None, comment=None):
@@ -120,9 +121,10 @@ class WeChatShakeAround(BaseWeChatAPI):
             data['device_identifiers'] = identifiers
         res = self._post(
             'shakearound/device/search',
-            data=data
+            data=data,
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def add_page(self, title, description, icon_url, page_url, comment=None):
         """
@@ -146,9 +148,10 @@ class WeChatShakeAround(BaseWeChatAPI):
         data['comment'] = comment
         res = self._post(
             'shakearound/page/add',
-            data=data
+            data=data,
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def update_page(self, page_id, title, description,
                     icon_url, page_url, comment=None):
@@ -175,9 +178,10 @@ class WeChatShakeAround(BaseWeChatAPI):
         data['comment'] = comment
         res = self._post(
             'shakearound/page/update',
-            data=data
+            data=data,
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def search_pages(self, page_ids=None, begin=0, count=10):
         """
@@ -206,9 +210,10 @@ class WeChatShakeAround(BaseWeChatAPI):
 
         res = self._post(
             'shakearound/page/search',
-            data=data
+            data=data,
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def delete_page(self, page_id):
         """
@@ -243,9 +248,10 @@ class WeChatShakeAround(BaseWeChatAPI):
             },
             params={
                 'type': media_type
-            }
+            },
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def bind_device_pages(self, page_ids, bind, append, device_id=None,
                           uuid=None, major=None, minor=None):
@@ -294,9 +300,10 @@ class WeChatShakeAround(BaseWeChatAPI):
             'shakearound/user/getshakeinfo',
             data={
                 'ticket': ticket
-            }
+            },
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def get_device_statistics(self, begin_date, end_date, device_id=None,
                               uuid=None, major=None, minor=None):
@@ -323,9 +330,10 @@ class WeChatShakeAround(BaseWeChatAPI):
         }
         res = self._post(
             'shakearound/statistics/device',
-            data=data
+            data=data,
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def get_page_statistics(self, page_id, begin_date, end_date):
         """
@@ -344,9 +352,10 @@ class WeChatShakeAround(BaseWeChatAPI):
                 'page_id': page_id,
                 'begin_date': self._to_timestamp(begin_date),
                 'end_date': self._to_timestamp(end_date),
-            }
+            },
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def get_apply_status(self, apply_id):
         """
@@ -361,6 +370,7 @@ class WeChatShakeAround(BaseWeChatAPI):
             'shakearound/device/applystatus',
             data={
                 'apply_id': apply_id,
-            }
+            },
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res

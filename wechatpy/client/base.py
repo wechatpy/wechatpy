@@ -87,6 +87,7 @@ class BaseWeChatClient(object):
             body = body.encode('utf-8')
             kwargs['data'] = body
 
+        result_processor = kwargs.pop('result_processor', None)
         res = requests.request(
             method=method,
             url=url,
@@ -103,7 +104,9 @@ class BaseWeChatClient(object):
                 response=reqe.response
             )
 
-        return self._handle_result(res, method, url, **kwargs)
+        return self._handle_result(
+            res, method, url, result_processor, **kwargs
+        )
 
     def _decode_result(self, res):
         res.encoding = 'utf-8'
@@ -114,7 +117,8 @@ class BaseWeChatClient(object):
             return res
         return result
 
-    def _handle_result(self, res, method=None, url=None, **kwargs):
+    def _handle_result(self, res, method=None, url=None,
+                       result_processor=None, **kwargs):
         result = self._decode_result(res)
         if not isinstance(result, dict):
             return result
@@ -136,6 +140,7 @@ class BaseWeChatClient(object):
                 return self._request(
                     method=method,
                     url_or_endpoint=url,
+                    result_processor=result_processor,
                     **kwargs
                 )
             elif errcode == 45009:
@@ -156,7 +161,7 @@ class BaseWeChatClient(object):
                     response=res
                 )
 
-        return result
+        return result if not result_processor else result_processor(result)
 
     def get(self, url, **kwargs):
         return self._request(
