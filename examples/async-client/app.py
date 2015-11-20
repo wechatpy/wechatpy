@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals, print_function
+import os
 import json
 import tornado.web
 import tornado.gen
@@ -42,10 +43,30 @@ class UserGroupHandler(tornado.web.RequestHandler):
             self.write(str(group_id))
 
 
+class MediaUploadHandler(tornado.web.RequestHandler):
+
+    @tornado.gen.coroutine
+    def get(self):
+        img_path = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            'doge.jpeg'
+        )
+        client = AsyncWeChatClient(APPID, SECRET)
+        try:
+            with open(img_path) as media_file:
+                res = yield client.media.upload('image', media_file)
+        except Exception as e:
+            print(e)
+            self.write(str(e))
+        else:
+            self.write(json.dumps(res))
+
+
 if __name__ == '__main__':
     app = tornado.web.Application(
         handlers=[
             ('/', UserInfoHandler),
+            ('/media/upload', MediaUploadHandler),
             ('/group_id', UserGroupHandler),
         ],
         debug=True,
