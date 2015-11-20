@@ -62,11 +62,35 @@ class MediaUploadHandler(tornado.web.RequestHandler):
             self.write(json.dumps(res))
 
 
+class MenuUpdateHandler(tornado.web.RequestHandler):
+
+    @tornado.gen.coroutine
+    def get(self):
+        menu_data = {
+            'button': [
+                {
+                    'type': 'click',
+                    'name': 'test',
+                    'key': 'test'
+                }
+            ]
+        }
+        client = AsyncWeChatClient(APPID, SECRET)
+        try:
+            res = yield client.menu.update(menu_data)
+        except Exception as e:
+            print(e)
+            self.write(str(e))
+        else:
+            self.write(json.dumps(res))
+
+
 if __name__ == '__main__':
     app = tornado.web.Application(
         handlers=[
             ('/', UserInfoHandler),
             ('/media/upload', MediaUploadHandler),
+            ('/menu/update', MenuUpdateHandler),
             ('/group_id', UserGroupHandler),
         ],
         debug=True,
