@@ -37,8 +37,9 @@ class WeChatTemplate(BaseWeChatAPI):
             'template/api_add_template',
             data={
                 'template_id_short': template_id_short
-            }
+            },
+            result_processor=lambda x: x['template_id']
         )
-        return res['template_id']
+        return res
 
     add = get

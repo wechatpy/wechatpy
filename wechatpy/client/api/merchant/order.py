@@ -11,9 +11,10 @@ class MerchantOrder(BaseWeChatAPI):
             'merchant/order/getbyid',
             data={
                 'order_id': order_id
-            }
+            },
+            result_processor=lambda x: x['order']
         )
-        return res['order']
+        return res
 
     def get_by_filter(self, status=None, begin_time=None, end_time=None):
         filter_dict = optionaldict(
@@ -24,9 +25,10 @@ class MerchantOrder(BaseWeChatAPI):
 
         res = self._post(
             'merchant/order/getbyfilter',
-            data=dict(filter_dict)
+            data=dict(filter_dict),
+            result_processor=lambda x: x['order_list']
         )
-        return res['order_list']
+        return res
 
     def set_delivery(self, order_id, company, track_no,
                      need_delivery=1, is_others=0):

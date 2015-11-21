@@ -25,8 +25,11 @@ class WeChatClient(BaseWeChatClient):
     service = api.WeChatService()
     chat = api.WeChatChat()
 
-    def __init__(self, corp_id, secret, access_token=None, session=None):
-        super(WeChatClient, self).__init__(corp_id, access_token, session)
+    def __init__(self, corp_id, secret, access_token=None,
+                 session=None, timeout=None):
+        super(WeChatClient, self).__init__(
+            corp_id, access_token, session, timeout
+        )
         self.corp_id = corp_id
         self.secret = secret
 

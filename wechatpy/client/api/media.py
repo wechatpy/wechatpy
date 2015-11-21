@@ -120,6 +120,7 @@ class WeChatMedia(BaseWeChatAPI):
             url='https://api.weixin.qq.com/cgi-bin/media/uploadimg',
             files={
                 'media': media_file
-            }
+            },
+            result_processor=lambda x: x['url']
         )
-        return res['url']
+        return res
