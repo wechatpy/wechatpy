@@ -121,7 +121,12 @@ class BaseWeChatClient(object):
 
     def _handle_result(self, res, method=None, url=None,
                        result_processor=None, **kwargs):
-        result = self._decode_result(res)
+        if not isinstance(res, dict):
+            # Dirty hack around asyncio based AsyncWeChatClient
+            result = self._decode_result(res)
+        else:
+            result = res
+
         if not isinstance(result, dict):
             return result
 

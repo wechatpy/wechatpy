@@ -25,10 +25,6 @@ class AsyncClientMixin(object):
         else:
             url = url_or_endpoint
 
-        # 群发消息上传视频接口地址 HTTPS 证书错误，暂时忽略证书验证
-        if url.startswith('https://file.api.weixin.qq.com'):
-            kwargs['verify'] = False
-
         if 'params' not in kwargs:
             kwargs['params'] = {}
         if isinstance(kwargs['params'], dict) and \
@@ -48,20 +44,31 @@ class AsyncClientMixin(object):
                 body = data
             kwargs['data'] = body
 
-        # kwargs['timeout'] = kwargs.get('timeout', self.timeout)
         result_processor = kwargs.pop('result_processor', None)
-        res = yield from aiohttp.request(
-            method=method,
-            url=url,
-            **kwargs
-        )
-        # TODO Exception handling
-        result = yield from self._handle_result(
+        timeout = kwargs.pop('timeout', self.timeout)
+        if timeout is None:
+            res = yield from aiohttp.request(
+                method=method,
+                url=url,
+                **kwargs
+            )
+        else:
+            res_future = aiohttp.request(
+                method=method,
+                url=url,
+                **kwargs
+            )
+            res = yield from asyncio.wait_for(res_future, timeout)
+        # TODO request Exception handling
+        # dirty hack
+        res = yield from self._decode_result(res)
+        return self._handle_result(
             res, method, url, result_processor, **kwargs
         )
-        return result
 
     def _decode_result(self, res):
+        if isinstance(res, dict):
+            return res
         try:
             result = yield from res.json()
         except (TypeError, ValueError):

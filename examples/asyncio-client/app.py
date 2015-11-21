@@ -28,7 +28,7 @@ def user_info(request):
 @asyncio.coroutine
 def user_group_id(request):
     resp = Response()
-    client = AsyncWeChatClient(APPID, SECRET)
+    client = AsyncWeChatClient(APPID, SECRET, timeout=10)
     try:
         group_id = yield from client.user.get_group_id(OPENID)
     except Exception as e:
