@@ -9,12 +9,11 @@ from wechatpy.replies import TextReply
 class ReplyTestCase(unittest.TestCase):
 
     def test_reply_init_ok(self):
-        timestamp = int(time.time())
         reply = TextReply(source='user1', target='user2')
 
         self.assertEqual('user1', reply.source)
         self.assertEqual('user2', reply.target)
-        self.assertTrue(timestamp <= reply.time)
+        self.assertTrue(isinstance(reply.time, int))
 
     def test_reply_render(self):
         timestamp = int(time.time())
