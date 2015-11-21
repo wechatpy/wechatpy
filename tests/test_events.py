@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import unittest
+from datetime import datetime
 from wechatpy import parse_message
 
 
@@ -313,3 +314,103 @@ class EventsTestCase(unittest.TestCase):
         self.assertEqual(0, event.connect_time)
         self.assertEqual('1234', event.shop_id)
         self.assertEqual('00:1f:7a:ad:5c:a8', event.bssid)
+
+    def test_qualification_verify_success_event(self):
+        from wechatpy.events import QualificationVerifySuccessEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>1442401156</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[qualification_verify_success]]></Event>
+        <ExpiredTime>1442401156</ExpiredTime>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, QualificationVerifySuccessEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))
+
+    def test_qualification_verify_fail_event(self):
+        from wechatpy.events import QualificationVerifyFailEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>1442401156</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[qualification_verify_fail]]></Event>
+        <FailTime>1442401122</FailTime>
+        <FailReason><![CDATA[by time]]></FailReason>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, QualificationVerifyFailEvent))
+        self.assertTrue(isinstance(event.fail_time, datetime))
+        self.assertEqual(event.fail_reason, 'by time')
+
+    def test_naming_verify_success_event(self):
+        from wechatpy.events import NamingVerifySuccessEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>1442401093</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[naming_verify_success]]></Event>
+        <ExpiredTime>1442401093</ExpiredTime>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, NamingVerifySuccessEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))
+
+    def test_naming_verify_fail_event(self):
+        from wechatpy.events import NamingVerifyFailEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>1442401061</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[naming_verify_fail]]></Event>
+        <FailTime>1442401061</FailTime>
+        <FailReason><![CDATA[by time]]></FailReason>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, NamingVerifyFailEvent))
+        self.assertTrue(isinstance(event.fail_time, datetime))
+        self.assertEqual(event.fail_reason, 'by time')
+
+    def test_annual_renew_event(self):
+        from wechatpy.events import AnnualRenewEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>1442401004</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[annual_renew]]></Event>
+        <ExpiredTime>1442401004</ExpiredTime>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, AnnualRenewEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))
+
+    def test_verify_expired_event(self):
+        from wechatpy.events import VerifyExpiredEvent
+
+        xml = """
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>1442400900</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[verify_expired]]></Event>
+        <ExpiredTime>1442400900</ExpiredTime>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertTrue(isinstance(event, VerifyExpiredEvent))
+        self.assertTrue(isinstance(event.expired_time, datetime))

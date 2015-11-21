@@ -1,0 +1,11 @@
+{
+   "errcode": 0,
+   "errmsg": "ok",
+   "chat_info":
+   {
+       "chatid": "235364212115767297",
+       "name": "企业应用中心",
+       "owner": "zhangsan",
+       "userlist": ["zhangsan", "lisi", "wangwu"]
+   }
+}

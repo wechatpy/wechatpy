@@ -1,25 +1,28 @@
-sudo: false
 language: python
-python:
-  - "2.7"
+
+# Use container-based infrastructure
+sudo: false
+
+matrix:
+  include:
+    - env: TOX_ENV=py26-cryptography
+    - env: TOX_ENV=py26-pycrypto
+    - env: TOX_ENV=py27-cryptography
+    - env: TOX_ENV=py27-pycrypto
+    - env: TOX_ENV=py33-cryptography
+    - env: TOX_ENV=py33-pycrypto
+    - env: TOX_ENV=py34-cryptography
+    - env: TOX_ENV=py34-pycrypto
+    - env: TOX_ENV=py35-cryptography
+      python: 3.5
+    - env: TOX_ENV=py35-pycrypto
+      python: 3.5
+    - env: TOX_ENV=pypy-cryptography
+    - env: TOX_ENV=pypy-pycrypto
 
 services:
   - redis-server
   - memcached
-
-env:
-  - TOX_ENV=py26-cryptography
-  - TOX_ENV=py26-pycrypto
-  - TOX_ENV=py27-cryptography
-  - TOX_ENV=py27-pycrypto
-  - TOX_ENV=py33-cryptography
-  - TOX_ENV=py33-pycrypto
-  - TOX_ENV=py34-cryptography
-  - TOX_ENV=py34-pycrypto
-    # - TOX_ENV=py35-cryptography
-    # - TOX_ENV=py35-pycrypto
-  - TOX_ENV=pypy-cryptography
-  - TOX_ENV=pypy-pycrypto
 
 cache:
   directories:

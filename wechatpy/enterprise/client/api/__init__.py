@@ -14,3 +14,5 @@ from wechatpy.enterprise.client.api.jsapi import WeChatJSAPI  # NOQA
 from wechatpy.enterprise.client.api.material import WeChatMaterial  # NOQA
 from wechatpy.enterprise.client.api.oauth import WeChatOAuth  # NOQA
 from wechatpy.enterprise.client.api.shakearound import WeChatShakeAround  # NOQA
+from wechatpy.enterprise.client.api.service import WeChatService  # NOQA
+from wechatpy.enterprise.client.api.chat import WeChatChat  # NOQA

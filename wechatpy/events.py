@@ -15,7 +15,8 @@ from wechatpy.fields import (
     FloatField,
     IntegerField,
     BaseField,
-    Base64DecodeField
+    Base64DecodeField,
+    DateTimeField
 )
 from wechatpy.messages import BaseMessage
 
@@ -417,3 +418,80 @@ class WiFiConnectedEvent(BaseEvent):
     vendor_id = StringField('VendorId')
     shop_id = StringField('PlaceId')
     bssid = StringField('DeviceNo')
+
+
+# ============================================================================
+# 微信认证事件推送
+# ============================================================================
+@register_event('qualification_verify_success')
+class QualificationVerifySuccessEvent(BaseEvent):
+    """
+    资质认证成功事件
+
+    此时立即获得接口权限，详情请参阅
+    http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
+    """
+    event = 'qualification_verify_success'
+    expired_time = DateTimeField('ExpiredTime')
+
+
+@register_event('qualification_verify_fail')
+class QualificationVerifyFailEvent(BaseEvent):
+    """
+    资质认证失败事件
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
+    """
+    event = 'qualification_verify_fail'
+    fail_time = DateTimeField('FailTime')
+    fail_reason = StringField('FailReason')
+
+
+@register_event('naming_verify_success')
+class NamingVerifySuccessEvent(BaseEvent):
+    """
+    名称认证成功事件
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
+    """
+    event = 'naming_verify_success'
+    expired_time = DateTimeField('ExpiredTime')
+
+
+@register_event('naming_verify_fail')
+class NamingVerifyFailEvent(BaseEvent):
+    """
+    名称认证失败事件
+
+    客户端不打勾，但仍有接口权限。详情请参阅
+    http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
+    """
+    event = 'naming_verify_fail'
+    fail_time = DateTimeField('FailTime')
+    fail_reason = StringField('FailReason')
+
+
+@register_event('annual_renew')
+class AnnualRenewEvent(BaseEvent):
+    """
+    年审通知事件
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
+    """
+    event = 'annual_renew'
+    expired_time = DateTimeField('ExpiredTime')
+
+
+@register_event('verify_expired')
+class VerifyExpiredEvent(BaseEvent):
+    """
+    认证过期失效通知
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/1/7f81dec16b801b34629091094c099439.html
+    """
+    event = 'verify_expired'
+    expired_time = DateTimeField('ExpiredTime')

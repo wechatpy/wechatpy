@@ -40,7 +40,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
     """Base class for all replies"""
     source = StringField('FromUserName')
     target = StringField('ToUserName')
-    time = IntegerField('CreateTime', int(time.time()))
+    time = IntegerField('CreateTime', time.time())
     type = 'unknown'
 
     def __init__(self, **kwargs):
@@ -54,7 +54,7 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
             if hasattr(message, 'agent') and 'agent' not in kwargs:
                 kwargs['agent'] = message.agent
         if 'time' not in kwargs:
-            kwargs['time'] = int(time.time())
+            kwargs['time'] = time.time()
         for name, value in kwargs.items():
             field = self._fields.get(name)
             if field:

@@ -1,0 +1,9 @@
+-r requirements.txt
+nose
+httmock
+coverage
+redis
+pymemcache
+shove
+cryptography
+pycrypto
