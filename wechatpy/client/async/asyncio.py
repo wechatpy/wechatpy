@@ -59,6 +59,8 @@ class AsyncClientMixin(object):
                 **kwargs
             )
             res = yield from asyncio.wait_for(res_future, timeout)
+            # reset timeout for later retrying
+            kwargs['timeout'] = timeout
         # TODO request Exception handling
         # dirty hack
         res = yield from self._decode_result(res)
