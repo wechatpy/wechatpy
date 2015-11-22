@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals, print_function
 import os
-import sys
 
 import pytest
 from six import StringIO
 from six.moves.urllib.parse import urlparse
 from httmock import urlmatch, HTTMock, response
+from tornado.concurrent import Future
+from tornado.httpclient import HTTPResponse
 from wechatpy._compat import json
 
-
-pytestmark = pytest.mark.skipif(
-    sys.version_info < (2, 7),
-    reason='requires Python 2.7'
-)
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')
@@ -46,8 +42,6 @@ def access_token_mock(url, request):
 
 
 def wechat_api_mock(client, request, *args, **kwargs):
-    from tornado.concurrent import Future
-    from tornado.httpclient import HTTPResponse
 
     url = urlparse(request.url)
     path = url.path.replace('/cgi-bin/', '').replace('/', '_')
