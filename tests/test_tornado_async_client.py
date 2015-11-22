@@ -7,8 +7,6 @@ import pytest
 from six import StringIO
 from six.moves.urllib.parse import urlparse
 from httmock import urlmatch, HTTMock, response
-from tornado.concurrent import Future
-from tornado.httpclient import HTTPResponse
 from wechatpy._compat import json
 
 
@@ -48,6 +46,9 @@ def access_token_mock(url, request):
 
 
 def wechat_api_mock(client, request, *args, **kwargs):
+    from tornado.concurrent import Future
+    from tornado.httpclient import HTTPResponse
+
     url = urlparse(request.url)
     path = url.path.replace('/cgi-bin/', '').replace('/', '_')
     if path.startswith('_'):
