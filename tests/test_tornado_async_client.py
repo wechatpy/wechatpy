@@ -84,12 +84,15 @@ def map_request_to_json_file(monkeypatch):
     monkeypatch.setattr(AsyncHTTPClient, 'fetch', wechat_api_mock)
 
 
-from wechatpy.client.async.tornado import AsyncWeChatClient
+@pytest.fixture()
+def client():
+    from wechatpy.client.async.tornado import AsyncWeChatClient
+
+    return AsyncWeChatClient(APPID, SECRET)
 
 
 @pytest.mark.gen_test
-def test_user_get_group_id(io_loop):
+def test_user_get_group_id(client):
     with HTTMock(access_token_mock):
-        client = AsyncWeChatClient(APPID, SECRET)
         group_id = yield client.user.get_group_id('123456')
         assert 102 == group_id
