@@ -1,5 +1,6 @@
 -r requirements.txt
-nose
+pytest
+pytest-cov
 httmock
 coverage
 redis
