@@ -1,7 +1,28 @@
 #!/usr/bin/env python
 from __future__ import with_statement
 import os
+import sys
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+
+
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
+
 
 readme = 'README.md'
 if os.path.exists('README.rst'):
@@ -24,8 +45,15 @@ setup(
     long_description=long_description,
     install_requires=requirements,
     include_package_data=True,
-    tests_require=['nose', 'httmock', 'redis', 'pymemcache', 'shove'],
-    test_suite='nose.collector',
+    tests_require=[
+        'pytest',
+        'pytest-cov',
+        'httmock',
+        'redis',
+        'pymemcache',
+        'shove',
+    ],
+    cmdclass={'test': PyTest},
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
