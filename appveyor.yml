@@ -15,10 +15,11 @@ install:
   - ps: "(new-object net.webclient).DownloadFile('https://raw.github.com/pypa/pip/master/contrib/get-pip.py', 'C:/get-pip.py')"
   - "%PYTHON%/python.exe C:/get-pip.py"
   - "%PYTHON%/Scripts/pip.exe install -e ."
-  - "%PYTHON%/Scripts/pip.exe install pytest pytest-cov"
+  - "%PYTHON%/Scripts/pip.exe install pytest pytest-cov pytest-tornado"
   - "%PYTHON%/Scripts/pip.exe install httmock"
   - "%PYTHON%/Scripts/pip.exe install cryptography"
   - "%PYTHON%/Scripts/pip.exe install redis"
   - "%PYTHON%/Scripts/pip.exe install shove"
+  - "%PYTHON%/Scripts/pip.exe install tornado"
 test_script:
   - "%PYTHON%/python.exe setup.py test"

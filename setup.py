@@ -48,10 +48,12 @@ setup(
     tests_require=[
         'pytest',
         'pytest-cov',
+        'pytest-tornado',
         'httmock',
         'redis',
         'pymemcache',
         'shove',
+        'tornado',
     ],
     cmdclass={'test': PyTest},
     classifiers=[
