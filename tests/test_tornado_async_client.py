@@ -95,4 +95,21 @@ def client():
 def test_user_get_group_id(client):
     with HTTMock(access_token_mock):
         group_id = yield client.user.get_group_id('123456')
-        assert 102 == group_id
+    assert 102 == group_id
+
+
+@pytest.mark.gen_test
+def test_user_get(client):
+    with HTTMock(access_token_mock):
+        openid = 'o6_bmjrPTlm6_2sgVt7hMZOPfL2M'
+        user = yield client.user.get(openid)
+    assert 'Band' == user['nickname']
+
+
+@pytest.mark.gen_test
+def test_upload_media(client):
+    media_file = StringIO('nothing')
+    with HTTMock(access_token_mock):
+        media = yield client.media.upload('image', media_file)
+    assert 'image' == media['type']
+    assert '12345678' == media['media_id']
