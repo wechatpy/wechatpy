@@ -31,15 +31,15 @@ class AsyncClientMixin(object):
                 'access_token' not in kwargs['params']:
             kwargs['params']['access_token'] = self.access_token
 
-        data = kwargs.get('data')
-        files = kwargs.get('files')
+        data = kwargs.get('data', {})
+        files = kwargs.pop('files', {})
         if files:
             # data must be dict
             assert isinstance(data, dict), 'data must be a dict'
             data.update(files)
         else:
             if isinstance(data, dict):
-                body = json.dumps(kwargs['data'], ensure_ascii=False)
+                body = json.dumps(data, ensure_ascii=False)
             else:
                 body = data
             kwargs['data'] = body
@@ -59,8 +59,9 @@ class AsyncClientMixin(object):
                 **kwargs
             )
             res = yield from asyncio.wait_for(res_future, timeout)
-            # reset timeout for later retrying
+            # reset kwargs for later retrying
             kwargs['timeout'] = timeout
+            kwargs['files'] = files
         # TODO request Exception handling
         # dirty hack
         res = yield from self._decode_result(res)

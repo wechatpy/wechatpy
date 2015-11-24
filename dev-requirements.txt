@@ -1,6 +1,8 @@
 -r requirements.txt
 pytest
 pytest-cov
+pytest-tornado
+pytest-asyncio
 httmock
 coverage
 redis

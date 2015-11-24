@@ -49,6 +49,7 @@ setup(
         'pytest',
         'pytest-cov',
         'pytest-tornado',
+        'pytest-asyncio',
         'httmock',
         'redis',
         'pymemcache',

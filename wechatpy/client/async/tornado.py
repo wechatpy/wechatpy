@@ -37,7 +37,7 @@ class AsyncClientMixin(object):
         params = urlencode(dict((k, to_binary(v)) for k, v in params.items()))
         url = '{0}?{1}'.format(url, params)
 
-        data = kwargs.get('data')
+        data = kwargs.get('data', {})
         files = kwargs.get('files')
         if files:
             from requests.models import RequestEncodingMixin
@@ -51,7 +51,7 @@ class AsyncClientMixin(object):
             headers['Content-Length'] = super_len(body)
         else:
             if isinstance(data, dict):
-                body = json.dumps(kwargs['data'], ensure_ascii=False)
+                body = json.dumps(data, ensure_ascii=False)
                 body = body.encode('utf-8')
             else:
                 body = data
