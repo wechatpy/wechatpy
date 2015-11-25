@@ -83,8 +83,11 @@ class WeChatCustomService(BaseWeChatAPI):
 
         :return: 客服账号列表
         """
-        res = self._get('customservice/getkflist')
-        return res['kf_list']
+        res = self._get(
+            'customservice/getkflist',
+            result_processor=lambda x: x['kf_list']
+        )
+        return res
 
     def upload_headimg(self, account, media_file):
         """
@@ -114,8 +117,11 @@ class WeChatCustomService(BaseWeChatAPI):
 
         :return: 客服接待信息列表
         """
-        res = self._get('customservice/getonlinekflist')
-        return res['kf_online_list']
+        res = self._get(
+            'customservice/getonlinekflist',
+            result_processor=lambda x: x['kf_online_list']
+        )
+        return res
 
     def create_session(self, openid, account, text=None):
         """
@@ -184,9 +190,10 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         res = self._get(
             'https://api.weixin.qq.com/customservice/kfsession/getsessionlist',
-            params={'kf_account': account}
+            params={'kf_account': account},
+            result_processor=lambda x: x['sessionlist']
         )
-        return res['sessionlist']
+        return res
 
     def get_wait_case(self):
         """
@@ -229,6 +236,7 @@ class WeChatCustomService(BaseWeChatAPI):
             record_data['openid'] = user_id
         res = self._post(
             'https://api.weixin.qq.com/customservice/msgrecord/getrecord',
-            data=record_data
+            data=record_data,
+            result_processor=lambda x: x['recordlist']
         )
-        return res['recordlist']
+        return res

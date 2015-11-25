@@ -28,5 +28,8 @@ class WeChatMisc(BaseWeChatAPI):
 
         :return: IP 地址列表
         """
-        res = self._get('getcallbackip')
-        return res['ip_list']
+        res = self._get(
+            'getcallbackip',
+            result_processor=lambda x: x['ip_list']
+        )
+        return res

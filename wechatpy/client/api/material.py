@@ -74,15 +74,19 @@ class WeChatMaterial(BaseWeChatAPI):
         :param media_id: 素材的 media_id
         :return: 图文素材返回图文列表，其它类型为素材的内容
         """
+        def _processor(res):
+            if isinstance(res, dict):
+                # 图文素材
+                return res.get('news_item', [])
+            return res
+
         res = self._post(
             url='https://api.weixin.qq.com/cgi-bin/material/get_material',
             data={
                 'media_id': media_id
-            }
+            },
+            result_processor=_processor
         )
-        if isinstance(res, dict):
-            # 图文素材
-            return res.get('news_item', [])
         return res
 
     def delete(self, media_id):

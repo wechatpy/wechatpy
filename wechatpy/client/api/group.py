@@ -35,14 +35,17 @@ class WeChatGroup(BaseWeChatAPI):
         :return: 所有分组列表或用户所在分组 ID
         """
         if user_id is None:
-            res = self._get('groups/get')
-            return res['groups']
+            res = self._get(
+                'groups/get',
+                result_processor=lambda x: x['groups']
+            )
         else:
             res = self._post(
                 'groups/getid',
-                data={'openid': user_id}
+                data={'openid': user_id},
+                result_processor=lambda x: x['groupid']
             )
-            return res['groupid']
+        return res
 
     def update(self, group_id, name):
         """

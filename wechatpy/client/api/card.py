@@ -15,9 +15,10 @@ class WeChatCard(BaseWeChatAPI):
         """
         result = self._post(
             'card/create',
-            data=card_data
+            data=card_data,
+            result_processor=lambda x: x['card_id']
         )
-        return result['card_id']
+        return result
 
     def batch_add_locations(self, location_data):
         """
@@ -28,9 +29,10 @@ class WeChatCard(BaseWeChatAPI):
         """
         result = self._post(
             'card/location/batchadd',
-            data=location_data
+            data=location_data,
+            result_processor=lambda x: x['location_id_list']
         )
-        return result['location_id_list']
+        return result
 
     def batch_get_locations(self, offset=0, count=0):
         """
@@ -49,8 +51,11 @@ class WeChatCard(BaseWeChatAPI):
         获得卡券的最新颜色列表，用于创建卡券
         :return: 颜色列表
         """
-        result = self._get('card/getcolors')
-        return result['colors']
+        result = self._get(
+            'card/getcolors',
+            result_processor=lambda x: x['colors']
+        )
+        return result
 
     def create_qrcode(self, qrcode_data):
         """
@@ -61,9 +66,10 @@ class WeChatCard(BaseWeChatAPI):
         """
         result = self._post(
             'card/qrcode/create',
-            data=qrcode_data
+            data=qrcode_data,
+            result_processor=lambda x: x['ticket']
         )
-        return result['ticket']
+        return result
 
     def consume_code(self, code, card_id=None):
         """
@@ -87,9 +93,10 @@ class WeChatCard(BaseWeChatAPI):
             'card/code/decrypt',
             data={
                 'encrypt_code': encrypt_code
-            }
+            },
+            result_processor=lambda x: x['code']
         )
-        return result['code']
+        return result
 
     def delete(self, card_id):
         """
@@ -133,9 +140,10 @@ class WeChatCard(BaseWeChatAPI):
             'card/get',
             data={
                 'card_id': card_id
-            }
+            },
+            result_processor=lambda x: x['card']
         )
-        return result['card']
+        return result
 
     def update_code(self, card_id, old_code, new_code):
         """
