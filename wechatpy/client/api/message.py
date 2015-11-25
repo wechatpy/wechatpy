@@ -152,25 +152,34 @@ class WeChatMessage(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
-        :param articles: 一个包含至多10个图文的数组
+        :param articles: 一个包含至多10个图文的数组, 或者微信图文消息素材 media_id
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
-        articles_data = []
-        for article in articles:
-            articles_data.append({
-                'title': article['title'],
-                'description': article['description'],
-                'url': article['url'],
-                'picurl': article['image']
-            })
-        data = {
-            'touser': user_id,
-            'msgtype': 'news',
-            'news': {
-                'articles': articles_data
+        if isinstance(articles, (tuple, list)):
+            articles_data = []
+            for article in articles:
+                articles_data.append({
+                    'title': article['title'],
+                    'description': article['description'],
+                    'url': article['url'],
+                    'picurl': article.get('image', article.get('picurl')),
+                })
+            data = {
+                'touser': user_id,
+                'msgtype': 'news',
+                'news': {
+                    'articles': articles_data
+                }
             }
-        }
+        else:
+            data = {
+                'touser': user_id,
+                'msgtype': 'mpnews',
+                'mpnews': {
+                    'media_id': articles,
+                }
+            }
         return self._send_custom_message(data, account=account)
 
     def send_card(self, user_id, card_id, card_ext, account=None):
