@@ -7,6 +7,7 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from wechatpy._compat import json
 from wechatpy.utils import to_binary
 from wechatpy.client import WeChatClient
+from wechatpy.exceptions import WeChatClientException
 
 
 class AsyncClientMixin(object):
@@ -67,7 +68,13 @@ class AsyncClientMixin(object):
         )
         res = yield http_client.fetch(req)
         if res.error is not None:
-            res.rethrow()
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=req,
+                response=res
+            )
 
         result = self._handle_result(
             res, method, url, result_processor, **kwargs

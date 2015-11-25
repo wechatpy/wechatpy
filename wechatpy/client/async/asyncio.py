@@ -2,9 +2,12 @@
 from __future__ import absolute_import, unicode_literals
 import json
 import asyncio
+
 import aiohttp
+from aiohttp.errors import ClientError
 
 from wechatpy.client import WeChatClient
+from wechatpy.exceptions import WeChatClientException
 
 
 class AsyncClientMixin(object):
@@ -46,23 +49,29 @@ class AsyncClientMixin(object):
 
         result_processor = kwargs.pop('result_processor', None)
         timeout = kwargs.pop('timeout', self.timeout)
-        if timeout is None:
-            res = yield from aiohttp.request(
-                method=method,
-                url=url,
-                **kwargs
+        try:
+            if timeout is None:
+                res = yield from aiohttp.request(
+                    method=method,
+                    url=url,
+                    **kwargs
+                )
+            else:
+                res_future = aiohttp.request(
+                    method=method,
+                    url=url,
+                    **kwargs
+                )
+                res = yield from asyncio.wait_for(res_future, timeout)
+                # reset kwargs for later retrying
+                kwargs['timeout'] = timeout
+                kwargs['files'] = files
+        except ClientError:
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
             )
-        else:
-            res_future = aiohttp.request(
-                method=method,
-                url=url,
-                **kwargs
-            )
-            res = yield from asyncio.wait_for(res_future, timeout)
-            # reset kwargs for later retrying
-            kwargs['timeout'] = timeout
-            kwargs['files'] = files
-        # TODO request Exception handling
         # dirty hack
         res = yield from self._decode_result(res)
         return self._handle_result(
