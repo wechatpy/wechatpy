@@ -47,7 +47,6 @@ setup(
     include_package_data=True,
     tests_require=[
         'pytest',
-        'pytest-cov',
         'pytest-tornado',
         'pytest-asyncio',
         'httmock',

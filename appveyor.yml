@@ -30,7 +30,6 @@ install:
   - redis-64\tools\redis-server.exe --service-start
   - '@ECHO Redis Started'
   - C:\Python27\python -m pip install tox
-  - C:\Python27\python -m pip install pytest pytest-cov
 
 test_script:
   - C:\Python27\python -m tox -e %TESTENV%
