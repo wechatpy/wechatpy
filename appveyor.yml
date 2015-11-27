@@ -24,9 +24,11 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - "nuget install redis-64 -Version 2.8.2101"
-  - "redis-64\\redis-server.exe --service-install"
-  - "redis-64\\redis-server.exe --service-start"
+  # Install the Redis
+  - nuget install redis-64 -excludeversion
+  - redis-64\tools\redis-server.exe --service-install
+  - redis-64\tools\redis-server.exe --service-start
+  - '@ECHO Redis Started'
   - C:\Python27\python -m pip install tox
 
 test_script:
