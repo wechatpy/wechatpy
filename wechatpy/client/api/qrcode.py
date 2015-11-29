@@ -33,7 +33,6 @@ class WeChatQRCode(BaseWeChatAPI):
         """
         if isinstance(ticket, dict):
             ticket = ticket['ticket']
-        ticket = six.moves.urllib.parse.quote(ticket)
         return requests.get(
             url='https://mp.weixin.qq.com/cgi-bin/showqrcode',
             params={
