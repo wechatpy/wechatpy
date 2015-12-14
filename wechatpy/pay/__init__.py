@@ -5,6 +5,7 @@ import inspect
 
 import requests
 import xmltodict
+from xml.parsers.expat import ExpatError
 from optionaldict import optionaldict
 
 from wechatpy.utils import random_string
@@ -122,7 +123,7 @@ class WeChatPay(object):
         xml = res.text
         try:
             data = xmltodict.parse(xml)['xml']
-        except xmltodict.ParsingInterrupted:
+        except (xmltodict.ParsingInterrupted, ExpatError):
             # 解析 XML 失败
             return xml
 
