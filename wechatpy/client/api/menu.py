@@ -97,13 +97,13 @@ class WeChatMenu(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get('get_current_selfmenu_info')
-        
+
     def add_conditional(self, menu_data):
         """
         创建个性化菜单 ::
 
             client = WeChatClient("id", "secret")
-            client.menu.addconditional({
+            client.menu.add_conditional({
                 "button":[
                     {
                         "type":"click",
@@ -156,8 +156,8 @@ class WeChatMenu(BaseWeChatAPI):
         return self._post(
             'menu/addconditional',
             data=menu_data
-        )   
-        
+        )
+
     def del_conditional(self, menu_id):
         """
         删除个性化菜单
@@ -173,7 +173,7 @@ class WeChatMenu(BaseWeChatAPI):
             'menu/delconditional',
             data={'menuid': menu_id}
         )
-        
+
     def try_match(self, user_id):
         """
         测试个性化菜单匹配结果
@@ -181,9 +181,9 @@ class WeChatMenu(BaseWeChatAPI):
         详情请参考
         http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
 
-        :param user_id: 可以是粉丝的OpenID，也可以是粉丝的微信号。 
+        :param user_id: 可以是粉丝的OpenID，也可以是粉丝的微信号。
 
-        :return: 该接口将返回菜单配置 
+        :return: 该接口将返回菜单配置
         """
         return self._post(
             'menu/trymatch',
