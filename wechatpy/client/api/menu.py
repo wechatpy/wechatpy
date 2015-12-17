@@ -98,7 +98,7 @@ class WeChatMenu(BaseWeChatAPI):
         """
         return self._get('get_current_selfmenu_info')
         
-    def addconditional(self, menu_data):
+    def add_conditional(self, menu_data):
         """
         创建个性化菜单 ::
 
@@ -158,7 +158,7 @@ class WeChatMenu(BaseWeChatAPI):
             data=menu_data
         )   
         
-    def delconditional(self, menu_id):
+    def del_conditional(self, menu_id):
         """
         删除个性化菜单
 
@@ -174,7 +174,7 @@ class WeChatMenu(BaseWeChatAPI):
             data={'menuid': menu_id}
         )
         
-    def trymatch(self, user_id):
+    def try_match(self, user_id):
         """
         测试个性化菜单匹配结果
 
