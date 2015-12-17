@@ -97,3 +97,95 @@ class WeChatMenu(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get('get_current_selfmenu_info')
+        
+    def addconditional(self, menu_data):
+        """
+        创建个性化菜单 ::
+
+            client = WeChatClient("id", "secret")
+            client.menu.addconditional({
+                "button":[
+                    {
+                        "type":"click",
+                        "name":"今日歌曲",
+                        "key":"V1001_TODAY_MUSIC"
+                    },
+                    {
+                        "type":"click",
+                        "name":"歌手简介",
+                        "key":"V1001_TODAY_SINGER"
+                    },
+                    {
+                        "name":"菜单",
+                        "sub_button":[
+                            {
+                                "type":"view",
+                                "name":"搜索",
+                                "url":"http://www.soso.com/"
+                            },
+                            {
+                                "type":"view",
+                                "name":"视频",
+                                "url":"http://v.qq.com/"
+                            },
+                            {
+                                "type":"click",
+                                "name":"赞一下我们",
+                                "key":"V1001_GOOD"
+                            }
+                        ]
+                    }
+                ],
+                "matchrule":{
+                  "group_id":"2",
+                  "sex":"1",
+                  "country":"中国",
+                  "province":"广东",
+                  "city":"广州",
+                  "client_platform_type":"2"
+                }
+            })
+
+        详情请参考
+        http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+
+        :param menu_data: Python 字典
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'menu/addconditional',
+            data=menu_data
+        )   
+        
+    def delconditional(self, menu_id):
+        """
+        删除个性化菜单
+
+        详情请参考
+        http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+
+        :param menu_id: 菜单ID
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'menu/delconditional',
+            data={'menuid': menu_id}
+        )
+        
+    def trymatch(self, user_id):
+        """
+        测试个性化菜单匹配结果
+
+        详情请参考
+        http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+
+        :param user_id: 可以是粉丝的OpenID，也可以是粉丝的微信号。 
+
+        :return: 该接口将返回菜单配置 
+        """
+        return self._post(
+            'menu/trymatch',
+            data={'user_id': user_id}
+        )
