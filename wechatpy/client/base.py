@@ -121,7 +121,7 @@ class BaseWeChatClient(object):
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
-            errmsg = result['errmsg']
+            errmsg = result.get('errmsg', errcode)
             if errcode in (40001, 40014, 42001):
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
