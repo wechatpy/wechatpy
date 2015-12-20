@@ -127,6 +127,7 @@ class MassSendJobFinishEvent(BaseEvent):
     详情请参阅
     http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
     """
+    id = IntegerField('MsgID', 0)
     event = 'masssendjobfinish'
     status = StringField('Status')
     total_count = IntegerField('TotalCount', 0)
