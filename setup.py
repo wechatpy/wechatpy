@@ -35,7 +35,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='wechatpy',
-    version='1.2.0',
+    version='1.2.3',
     author='messense',
     author_email='messense@icloud.com',
     url='https://github.com/messense/wechatpy',
@@ -47,13 +47,10 @@ setup(
     include_package_data=True,
     tests_require=[
         'pytest',
-        'pytest-tornado',
-        'pytest-asyncio',
         'httmock',
         'redis',
         'pymemcache',
         'shove',
-        'tornado',
     ],
     cmdclass={'test': PyTest},
     classifiers=[

@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+try:
+    from pkgutil import extend_path
+    __path__ = extend_path(__path__, __name__)
+except ImportError:
+    from pkg_resources import declare_namespace
+    declare_namespace(__name__)
+
 import time
 
 from wechatpy.client.base import BaseWeChatClient
