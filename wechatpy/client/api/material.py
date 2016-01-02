@@ -58,7 +58,7 @@ class WeChatMaterial(BaseWeChatAPI):
             }
             params['description'] = json.dumps(description)
         return self._post(
-            url='http://file.api.weixin.qq.com/cgi-bin/material/add_material',
+            'material/add_material',
             params=params,
             files={
                 'media': media_file
@@ -81,7 +81,7 @@ class WeChatMaterial(BaseWeChatAPI):
             return res
 
         res = self._post(
-            url='https://api.weixin.qq.com/cgi-bin/material/get_material',
+            'material/get_material',
             data={
                 'media_id': media_id
             },
