@@ -45,7 +45,7 @@ setup(
     long_description=long_description,
     install_requires=requirements,
     include_package_data=True,
-    namespace_packages=['wechatpy'],
+    # namespace_packages=['wechatpy'],
     tests_require=[
         'pytest',
         'httmock',
