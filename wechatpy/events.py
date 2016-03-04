@@ -27,6 +27,7 @@ EVENT_TYPES = {}
 def register_event(event_type):
     """
     Register the event class so that they can be accessed from EVENT_TYPES
+
     :param event_type: Event type
     """
     def register(cls):

@@ -17,9 +17,10 @@ from wechatpy.utils import to_text
 
 def parse_message(xml):
     """
-    Parse WeChat XML format messages
-    :param xml: XML format messages
-    :return: Parsed messages or events
+    解析微信服务器推送的 XML 消息
+
+    :param xml: XML 消息
+    :return: 解析成功返回对应的消息或事件，否则返回 ``UnknownMessage``
     """
     if not xml:
         return

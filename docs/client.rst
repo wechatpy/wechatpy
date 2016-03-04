@@ -21,6 +21,9 @@ WeChatClient
    # client.media.xxx()
    # client.group.xxx()
 
+如果不提供 ``session`` 参数，默认使用 ``wechatpy.session.memorystorage.MemoryStorage`` session 类型，
+注意该类型不是线程安全的，不推荐生产环境使用。
+
 .. module:: wechatpy.client.api
 
 WeChatUser 用户 API
