@@ -16,6 +16,20 @@ class WeChatQRCode(BaseWeChatAPI):
 
         :param data: 你要发送的参数 dict
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.qrcode.create({
+                'expire_seconds': 1800,
+                'action_name': 'QR_SCENE',
+                'action_info': {
+                    'scene': {'scene_id': 123},
+                }
+            })
+
         """
         return self._post(
             'qrcode/create',
@@ -30,6 +44,14 @@ class WeChatQRCode(BaseWeChatAPI):
 
         :param ticket: 二维码 ticket 。可以通过 :func:`create` 获取到
         :return: 返回的 Request 对象
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.qrcode.show('ticket data')
+
         """
         if isinstance(ticket, dict):
             ticket = ticket['ticket']
@@ -49,6 +71,14 @@ class WeChatQRCode(BaseWeChatAPI):
 
         :param ticket: 二维码 ticket 。可以通过 :func:`create` 获取到
         :return: 返回的二维码地址
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            url = client.qrcode.get_url('ticket data')
+
         """
         url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}'
         if isinstance(ticket, dict):
