@@ -14,6 +14,14 @@ class WeChatMenu(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/16/ff9b7b85220e1396ffa16794a9d95adc.html
 
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            menu = client.menu.get()
+
         """
         try:
             return self._get('menu/get')
@@ -28,7 +36,9 @@ class WeChatMenu(BaseWeChatAPI):
         """
         创建自定义菜单 ::
 
-            client = WeChatClient("id", "secret")
+            from wechatpy import WeChatClient
+
+            client = WeChatClient("appid", "secret")
             client.menu.create({
                 "button":[
                     {
@@ -85,6 +95,14 @@ class WeChatMenu(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/16/8ed41ba931e4845844ad6d1eeb8060c8.html
 
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.menu.delete()
+
         """
         return self._get('menu/delete')
 
@@ -95,6 +113,14 @@ class WeChatMenu(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/17/4dc4b0514fdad7a5fbbd477aa9aab5ed.html
 
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            menu_info = client.menu.get_menu_info()
+
         """
         return self._get('get_current_selfmenu_info')
 
@@ -102,7 +128,9 @@ class WeChatMenu(BaseWeChatAPI):
         """
         创建个性化菜单 ::
 
-            client = WeChatClient("id", "secret")
+            from wechatpy import WeChatClient
+
+            client = WeChatClient("appid", "secret")
             client.menu.add_conditional({
                 "button":[
                     {
@@ -168,6 +196,14 @@ class WeChatMenu(BaseWeChatAPI):
         :param menu_id: 菜单ID
 
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.menu.del_conditional('menu_id')
+
         """
         return self._post(
             'menu/delconditional',
@@ -184,6 +220,14 @@ class WeChatMenu(BaseWeChatAPI):
         :param user_id: 可以是粉丝的OpenID，也可以是粉丝的微信号。
 
         :return: 该接口将返回菜单配置
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.menu.try_match('openid')
+
         """
         return self._post(
             'menu/trymatch',

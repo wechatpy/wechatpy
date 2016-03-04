@@ -30,6 +30,14 @@ class WeChatMessage(BaseWeChatAPI):
         :param content: 消息正文
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_text('openid', 'text')
+
         """
         data = {
             'touser': user_id,
@@ -49,6 +57,14 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 图片的媒体ID。 可以通过 :func:`upload_media` 上传。
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_image('openid', 'media_id')
+
         """
         data = {
             'touser': user_id,
@@ -70,6 +86,14 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 发送的语音的媒体ID。 可以通过 :func:`upload_media` 上传。
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_voice('openid', 'media_id')
+
         """
         data = {
             'touser': user_id,
@@ -94,6 +118,13 @@ class WeChatMessage(BaseWeChatAPI):
         :param description: 视频消息的描述
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_video('openid', 'media_id', 'title', 'description')
         """
         video_data = {
             'media_id': media_id,
@@ -214,6 +245,14 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param msg_id: 要删除的群发消息 ID
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.delete_mass('message id')
+
         """
         return self._post(
             'message/mass/delete',
@@ -413,6 +452,14 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param msg_id: 群发消息后返回的消息id
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.get_mass('mass message id')
+
         """
         return self._post(
             'message/mass/get',
@@ -455,6 +502,14 @@ class WeChatMessage(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/7/7b5789bb1262fb866d01b4b40b0efecb.html
 
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            info = client.message.get_autoreply_info()
+
         """
         return self._get('get_current_autoreply_info')
 

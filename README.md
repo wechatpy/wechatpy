@@ -17,7 +17,7 @@
 
 微信(WeChat) 公众平台第三方 Python SDK，实现了普通公众平台和企业号公众平台的解析消息、生成回复和主动调用等 API。
 
-阅读文档：[http://wechatpy.readthedocs.org/zh_CN/latest/](http://wechatpy.readthedocs.org/zh_CN/latest/)
+阅读文档：[http://wechatpy.readthedocs.org/zh_CN/latest/](http://wechatpy.readthedocs.org/zh_CN/master/)
 
 [![Join the chat at https://gitter.im/messense/wechatpy](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/messense/wechatpy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
