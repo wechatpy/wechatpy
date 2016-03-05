@@ -1,5 +1,7 @@
-消息
-=====
+.. _messages:
+
+推送消息
+==========
 
 目前 wechatpy 共支持以下几种类型的消息：`TextMessage`，`ImageMessage`，`VoiceMessage`，`VideoMessage`，`LocationMessage`，`LinkMessage`。
 
