@@ -1,4 +1,4 @@
-``wechatpy.WeChatClient`` - 微信 API 操作类
+微信主动调用接口操作类
 ===========================================
 
 WeChatClient
