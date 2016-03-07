@@ -4,7 +4,7 @@
 目前 wechatpy 支持的 Python 环境有 2.6, 2.7, 3.3, 3.4, 3.5, pypy 和 pypy3。
 
 从 0.8.0 版本开始，wechatpy 消息加解密同时兼容 cryptography 和 PyCrypto, 优先使用 cryptography 库。
-因而不再强制依赖 PyCrypto 库。如需使用消息加解密（企业号平台必须），请先自行安装 cryptography 或者 PyCrypto 库::
+因而不再强制依赖 PyCrypto 库。请先自行安装 cryptography 或者 PyCrypto 库::
 
     # 安装 cryptography
     pip install cryptography>=0.8.2
