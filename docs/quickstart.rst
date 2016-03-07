@@ -152,7 +152,6 @@
 .. code-block:: python
 
     from wechatpy.crypto import WeChatCrypto
-    from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 
     crypto = WeChatCrypto(token, encoding_aes_key, appid)
     encrypted_xml = crypto.encrypt_message(xml, nonce, timestamp)
