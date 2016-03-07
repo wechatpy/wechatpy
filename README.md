@@ -24,7 +24,7 @@
 ## 安装
 
 从 0.8.0 版本开始，wechatpy 消息加解密同时兼容 [cryptography](https://github.com/pyca/cryptography) 和 [PyCrypto](https://github.com/dlitz/pycrypto), 
-优先使用 cryptography 库。因而不再强制依赖 PyCrypto 库。请先自行安装 cryptography 或者 PyCrypto 库：
+优先使用 cryptography 库。因而不再强制依赖 PyCrypto 库。可先自行安装 cryptography 或者 PyCrypto 库：
 
 ```bash
 # 安装 cryptography
@@ -37,7 +37,13 @@ pip install pycrypto>=2.6.1
 
 推荐使用 pip 进行安装:
 
-    pip install wechatpy
+```bash
+pip install wechatpy
+# with cryptography
+pip install wechatpy[cryptography]
+# with pycrypto
+pip install wechatpy[pycrypto]
+```
 
 升级版本：
 
