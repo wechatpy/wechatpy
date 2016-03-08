@@ -41,6 +41,7 @@ class WeChatClient(BaseWeChatClient):
     template = api.WeChatTemplate()
     poi = api.WeChatPoi()
     wifi = api.WeChatWiFi()
+    scan = api.WeChatScan()
 
     def __init__(self, appid, secret, access_token=None,
                  session=None, timeout=None):

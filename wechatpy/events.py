@@ -497,3 +497,63 @@ class VerifyExpiredEvent(BaseEvent):
     """
     event = 'verify_expired'
     expired_time = DateTimeField('ExpiredTime')
+
+
+@register_event('user_scan_product')
+class UserScanProductEvent(BaseEvent):
+    """
+    打开商品主页事件
+
+    详情请参考
+    http://mp.weixin.qq.com/wiki/15/f4109a5e44b4bfbc7eb1337eb739f3e3.html
+    """
+    event = 'user_scan_product'
+    standard = StringField('KeyStandard')
+    key = StringField('KeyStr')
+    country = StringField('Country')
+    province = StringField('Province')
+    city = StringField('City')
+    sex = IntegerField('Sex')
+    scene = IntegerField('Scene')
+
+
+@register_event('user_scan_product_enter_session')
+class UserScanProductEnterSessionEvent(BaseEvent):
+    """
+    进入公众号事件
+
+    详情请参考
+    http://mp.weixin.qq.com/wiki/15/f4109a5e44b4bfbc7eb1337eb739f3e3.html
+    """
+    event = 'user_scan_product_enter_session'
+    standard = StringField('KeyStandard')
+    key = StringField('KeyStr')
+
+
+@register_event('user_scan_product_async')
+class UserScanProductAsyncEvent(BaseEvent):
+    """
+    地理位置信息异步推送事件
+
+    详情请参考
+    http://mp.weixin.qq.com/wiki/15/f4109a5e44b4bfbc7eb1337eb739f3e3.html
+    """
+    event = 'user_scan_product_async'
+    standard = StringField('KeyStandard')
+    key = StringField('KeyStr')
+    region_code = StringField('RegionCode')
+
+
+@register_event('user_scan_product_verify_action')
+class UserScanProductVerifyActionEvent(BaseEvent):
+    """
+    商品审核结果事件
+
+    详情请参考
+    http://mp.weixin.qq.com/wiki/15/f4109a5e44b4bfbc7eb1337eb739f3e3.html
+    """
+    event = 'user_scan_product_verify_action'
+    standard = StringField('KeyStandard')
+    key = StringField('KeyStr')
+    result = StringField('Result')
+    reason = StringField('ReasonMsg')
