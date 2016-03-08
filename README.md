@@ -32,7 +32,7 @@ pip install cryptography>=0.8.2
 pip install pycrypto>=2.6.1
 ```
 
-> Tips: Windows 用户请先安装 PyCrypto 的二进制包后再使用 pip 安装 wechatpy 。 PyCrypto Windows 的二进制包可以在[这里](http://www.voidspace.org.uk/python/pycrypto-2.6.1/)下载。
+> Tips: Windows 用户请先安装 PyCrypto 的二进制包后再使用 pip 安装 wechatpy 。 PyCrypto Windows 的二进制包可以在[这里](http://www.voidspace.org.uk/python/modules.shtml#pycrypto)下载。
 
 推荐使用 pip 进行安装:
 
