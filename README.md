@@ -7,13 +7,12 @@
          \|____________|\|_______|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|__||\___/ /     
                                                                                 \|___|/      
 
-[![Latest Version](https://pypip.in/version/wechatpy/badge.svg)](https://pypi.python.org/pypi/wechatpy/)
 [![Build Status](https://travis-ci.org/jxtech/wechatpy.svg?branch=master)](https://travis-ci.org/jxtech/wechatpy)
 [![Build status](https://ci.appveyor.com/api/projects/status/sluy95tvbe090af1/branch/master?svg=true)](https://ci.appveyor.com/project/messense/wechatpy-den93/branch/master)
 [![codecov.io](http://codecov.io/github/messense/wechatpy/coverage.svg?branch=master)](http://codecov.io/github/messense/wechatpy?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jxtech/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master)
-[![Supported Python versions](https://pypip.in/py_versions/wechatpy/badge.svg)](https://pypi.python.org/pypi/wechatpy/)
-[![Supported Python implementations](https://pypip.in/implementation/wechatpy/badge.svg)](https://pypi.python.org/pypi/wechatpy/)
+[![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.python.org/pypi/wechatpy)
+[![Updates](https://pyup.io/repos/github/jxtech/wechatpy/shield.svg)](https://pyup.io/repos/github/jxtech/wechatpy/)
 
 微信(WeChat) 公众平台第三方 Python SDK，实现了普通公众平台和企业号公众平台的解析消息、生成回复和主动调用等 API。
 
