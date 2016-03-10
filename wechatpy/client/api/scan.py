@@ -54,7 +54,7 @@ class WeChatScan(BaseWeChatAPI):
             'keystr': key,
             'status': status,
         }
-        self._post('product/modstatus', data=data)
+        return self._post('product/modstatus', data=data)
 
     def publish_product(self, standard, key):
         """
@@ -106,7 +106,7 @@ class WeChatScan(BaseWeChatAPI):
             'keystandard': standard,
             'keystr': key,
         }
-        self._post('product/get', data=data)
+        return self._post('product/get', data=data)
 
     def list_product(self, offset=0, limit=10, status=None, key=None):
         """
@@ -128,7 +128,7 @@ class WeChatScan(BaseWeChatAPI):
             status=status,
             keystr=key,
         )
-        self._post('product/getlist', data=data)
+        return self._post('product/getlist', data=data)
 
     def update_product(self, product_data):
         """
@@ -168,4 +168,4 @@ class WeChatScan(BaseWeChatAPI):
         :param ticket: 请求 URL 中带上的 wxticket 参数
         :return: 返回的 JSON 数据包
         """
-        self._post('scanticket/check', data={'ticket': ticket})
+        return self._post('scanticket/check', data={'ticket': ticket})

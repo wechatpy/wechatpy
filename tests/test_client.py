@@ -702,3 +702,59 @@ class WeChatClientTestCase(unittest.TestCase):
             'http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0',  # NOQA
             res
         )
+
+    def test_scan_get_merchant_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.get_merchant_info()
+        self.assertEqual(8888, res['verified_firm_code_list'][0])
+
+    def test_scan_create_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.create_product({
+                "keystandard": "ean13",
+                "keystr": "6900000000000",
+            })
+        self.assertEqual('5g0B4A90aqc', res['pid'])
+
+    def test_scan_publish_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.publish_product('ean13', '6900873042720')
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_unpublish_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.unpublish_product('ean13', '6900873042720')
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_set_test_whitelist(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.set_test_whitelist(['openid1'], ['messense'])
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_get_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.get_product('ean13', '6900873042720')
+        assert 'brand_info' in res
+
+    def test_scan_list_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.list_product()
+        self.assertEqual(2, res['total'])
+
+    def test_scan_update_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.update_product({
+                "keystandard": "ean13",
+                "keystr": "6900000000000",
+            })
+        self.assertEqual('5g0B4A90aqc', res['pid'])
+
+    def test_scan_clear_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.clear_product('ean13', '6900873042720')
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_check_ticket(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.check_ticket('Ym1haDlvNXJqY3Ru1')
+        self.assertEqual('otAzGjrS4AYCmeJM1GhEOcHXXTAo', res['openid'])
