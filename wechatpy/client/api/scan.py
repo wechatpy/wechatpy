@@ -60,7 +60,7 @@ class WeChatScan(BaseWeChatAPI):
         """
         提交审核商品 shortcut 接口
 
-        等同于调用 ``modify_product_status(standard, key, 'on')
+        等同于调用 ``modify_product_status(standard, key, 'on')``
         """
         return self.modify_product_status(standard, key, 'on')
 
@@ -68,7 +68,7 @@ class WeChatScan(BaseWeChatAPI):
         """
         取消发布商品 shortcut 接口
 
-        等同于调用 ``modify_product_status(standard, key, 'off')
+        等同于调用 ``modify_product_status(standard, key, 'off')``
         """
         return self.modify_product_status(standard, key, 'off')
 

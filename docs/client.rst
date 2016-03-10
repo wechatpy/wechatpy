@@ -141,3 +141,9 @@ JS-SDK 接口
 
 .. autoclass:: WeChatWiFi
    :members:
+
+微信扫一扫接口
+----------------------------------
+
+.. autoclass:: WeChatScan
+   :members:
