@@ -19,13 +19,13 @@ class WeChatOAuth(BaseWeChatAPI):
         :param state: 重定向后会带上 state 参数
         :return: 返回的 JSON 数据包
         """
-        redirect_uri = six.moves.urllib.parse.quote(redirect_uri)
+        url = six.moves.urllib.parse.quote(redirect_url)
         url_list = [
             self.OAUTH_BASE_URL,
             '?appid=',
-            self.corp_id,
+            self._client.corp_id,
             '&redirect_uri=',
-            redirect_uri,
+            url,
             '&response_type=code&scope=snsapi_base',
         ]
         if self.state:
@@ -33,7 +33,7 @@ class WeChatOAuth(BaseWeChatAPI):
         url_list.append('#wechat_redirect')
         return ''.join(url_list)
 
-    def get_user_info(self, code):
+    def get_user_info(self, access_token,code):
         """
         根据 code 获取用户信息
         详情请参考
@@ -46,6 +46,7 @@ class WeChatOAuth(BaseWeChatAPI):
         return self._get(
             'user/getuserinfo',
             params={
+                'access_token':access_token,
                 'code': code,
             }
         )
