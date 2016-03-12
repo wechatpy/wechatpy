@@ -11,6 +11,7 @@ class MerchantCommon(BaseWeChatAPI):
             params={
                 'filename': filename
             },
-            data=image_data
+            data=image_data,
+            result_processor=lambda x: x['image_url']
         )
-        return res['image_url']
+        return res

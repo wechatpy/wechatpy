@@ -35,8 +35,11 @@ class MerchantShelf(BaseWeChatAPI):
         )
 
     def get_all(self):
-        res = self._get('merchant/shelf/getall')
-        return res['shelves']
+        res = self._get(
+            'merchant/shelf/getall',
+            result_processor=lambda x: x['shelves']
+        )
+        return res
 
     def get(self, shelf_id):
         return self._post(

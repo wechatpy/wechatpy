@@ -2,23 +2,34 @@ build: false
 environment:
   matrix:
     - PYTHON: "C:/Python27"
+      TESTENV: "py27-cryptography"
+    - PYTHON: "C:/Python27"
+      TESTENV: "py27-pycrypto"
     - PYTHON: "C:/Python27-x64"
-    - PYTHON: "C:/Python33"
+      TESTENV: "py27-cryptography"
+    - PYTHON: "C:/Python27-x64"
+      TESTENV: "py27-pycrypto"
     - PYTHON: "C:/Python34"
+      TESTENV: "py34-cryptography"
+    - PYTHON: "C:/Python34"
+      TESTENV: "py34-pycrypto"
+    - PYTHON: "C:/Python35"
+      TESTENV: "py35-cryptography"
+    - PYTHON: "C:/Python35"
+      TESTENV: "py35-pycrypto"
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:/Python*"
 install:
-  - "nuget install redis-64 -excludeversion"
-  - "redis-64\\redis-server.exe --service-install"
-  - "redis-64\\redis-server.exe --service-start"
-  - ps: "(new-object net.webclient).DownloadFile('https://raw.github.com/pypa/pip/master/contrib/get-pip.py', 'C:/get-pip.py')"
-  - "%PYTHON%/python.exe C:/get-pip.py"
-  - "%PYTHON%/Scripts/pip.exe install -e ."
-  - "%PYTHON%/Scripts/pip.exe install nose"
-  - "%PYTHON%/Scripts/pip.exe install httmock"
-  - "%PYTHON%/Scripts/pip.exe install cryptography"
-  - "%PYTHON%/Scripts/pip.exe install redis"
-  - "%PYTHON%/Scripts/pip.exe install shove"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # Install the Redis
+  - nuget install redis-64 -excludeversion
+  - redis-64\tools\redis-server.exe --service-install
+  - redis-64\tools\redis-server.exe --service-start
+  - '@ECHO Redis Started'
+  - C:\Python27\python -m pip install tox
+
 test_script:
-  - "%PYTHON%/python.exe setup.py test"
+  - C:\Python27\python -m tox -c tox-win.ini -e %TESTENV%

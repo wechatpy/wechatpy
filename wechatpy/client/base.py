@@ -41,10 +41,11 @@ class BaseWeChatClient(object):
                 setattr(self, name, api)
         return self
 
-    def __init__(self, appid, access_token=None, session=None):
+    def __init__(self, appid, access_token=None, session=None, timeout=None):
         self.appid = appid
         self.expires_at = None
         self.session = session or MemoryStorage()
+        self.timeout = timeout
 
         if isinstance(session, six.string_types):
             from shove import Shove
@@ -87,6 +88,8 @@ class BaseWeChatClient(object):
             body = body.encode('utf-8')
             kwargs['data'] = body
 
+        kwargs['timeout'] = kwargs.get('timeout', self.timeout)
+        result_processor = kwargs.pop('result_processor', None)
         res = requests.request(
             method=method,
             url=url,
@@ -103,15 +106,29 @@ class BaseWeChatClient(object):
                 response=reqe.response
             )
 
-        return self._handle_result(res, method, url, **kwargs)
+        return self._handle_result(
+            res, method, url, result_processor, **kwargs
+        )
 
-    def _handle_result(self, res, method=None, url=None, **kwargs):
+    def _decode_result(self, res):
         res.encoding = 'utf-8'
         try:
             result = res.json()
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
             return res
+        return result
+
+    def _handle_result(self, res, method=None, url=None,
+                       result_processor=None, **kwargs):
+        if not isinstance(res, dict):
+            # Dirty hack around asyncio based AsyncWeChatClient
+            result = self._decode_result(res)
+        else:
+            result = res
+
+        if not isinstance(result, dict):
+            return result
 
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
@@ -121,7 +138,7 @@ class BaseWeChatClient(object):
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
-            errmsg = result['errmsg']
+            errmsg = result.get('errmsg', errcode)
             if errcode in (40001, 40014, 42001):
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
@@ -130,6 +147,7 @@ class BaseWeChatClient(object):
                 return self._request(
                     method=method,
                     url_or_endpoint=url,
+                    result_processor=result_processor,
                     **kwargs
                 )
             elif errcode == 45009:
@@ -150,7 +168,7 @@ class BaseWeChatClient(object):
                     response=res
                 )
 
-        return result
+        return result if not result_processor else result_processor(result)
 
     def get(self, url, **kwargs):
         return self._request(
@@ -199,7 +217,11 @@ class BaseWeChatClient(object):
         expires_in = 7200
         if 'expires_in' in result:
             expires_in = result['expires_in']
-        self.session.set(self.access_token_key, result['access_token'], expires_in)
+        self.session.set(
+            self.access_token_key,
+            result['access_token'],
+            expires_in
+        )
         self.expires_at = int(time.time()) + expires_in
         return result
 

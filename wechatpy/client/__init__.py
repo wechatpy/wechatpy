@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+try:
+    from pkgutil import extend_path
+    __path__ = extend_path(__path__, __name__)
+except ImportError:
+    from pkg_resources import declare_namespace
+    declare_namespace(__name__)
+
 import time
+
 from wechatpy.client.base import BaseWeChatClient
 from wechatpy.client import api
 
@@ -33,9 +41,13 @@ class WeChatClient(BaseWeChatClient):
     template = api.WeChatTemplate()
     poi = api.WeChatPoi()
     wifi = api.WeChatWiFi()
+    scan = api.WeChatScan()
 
-    def __init__(self, appid, secret, access_token=None, session=None):
-        super(WeChatClient, self).__init__(appid, access_token, session)
+    def __init__(self, appid, secret, access_token=None,
+                 session=None, timeout=None):
+        super(WeChatClient, self).__init__(
+            appid, access_token, session, timeout
+        )
         self.appid = appid
         self.secret = secret
 
@@ -62,11 +74,11 @@ class WeChatComponentClient(WeChatClient):
     开放平台代公众号调用客户端
     """
 
-    def __init__(
-            self, appid, component, access_token=None, refresh_token=None, session=None):
+    def __init__(self, appid, component, access_token=None,
+                 refresh_token=None, session=None, timeout=None):
         # 未用到secret，所以这里没有
         super(WeChatComponentClient, self).__init__(
-            appid, '', access_token, session
+            appid, '', access_token, session, timeout
         )
         self.appid = appid
         self.component = component

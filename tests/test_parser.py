@@ -209,3 +209,36 @@ class ParseMessageTestCase(unittest.TestCase):
         msg = parse_message(xml)
 
         self.assertTrue(isinstance(msg, UnknownMessage))
+
+    def test_parse_subscribe_scan_product_event(self):
+        from wechatpy.events import SubscribeScanProductEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_fbe8a958756e]]></ToUserName>
+        <FromUserName><![CDATA[otAzGjrS4AYCmeJM1GhEOcHXXTAo]]></FromUserName>
+        <CreateTime>1433259128</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe]]></Event>
+        <EventKey><![CDATA[scanbarcode|keystandard|keystr]]></EventKey>
+        </xml>"""
+
+        msg = parse_message(xml)
+        self.assertTrue(isinstance(msg, SubscribeScanProductEvent))
+        self.assertEqual('scanbarcode', msg.scene)
+        self.assertEqual('keystandard', msg.standard)
+        self.assertEqual('keystr', msg.key)
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_fbe8a958756e]]></ToUserName>
+        <FromUserName><![CDATA[otAzGjrS4AYCmeJM1GhEOcHXXTAo]]></FromUserName>
+        <CreateTime>1433259128</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe]]></Event>
+        <EventKey><![CDATA[scanimage|keystandard|keystr]]></EventKey>
+        </xml>"""
+
+        msg = parse_message(xml)
+        self.assertTrue(isinstance(msg, SubscribeScanProductEvent))
+        self.assertEqual('scanimage', msg.scene)
+        self.assertEqual('keystandard', msg.standard)
+        self.assertEqual('keystr', msg.key)

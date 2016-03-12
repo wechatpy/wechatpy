@@ -28,6 +28,18 @@ class WeChatSemantic(BaseWeChatAPI):
         :param city: 可选，城市名称，与经纬度二选一传入
         :param region: 可选，区域名称，在城市存在的情况下可省；与经纬度二选一传入
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.semantic.search(
+                '查一下明天从北京到上海的南航机票',
+                'flight,hotel',
+                city='北京'
+            )
+
         """
         if isinstance(category, (tuple, list)):
             category = ','.join(category)

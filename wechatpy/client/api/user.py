@@ -15,6 +15,14 @@ class WeChatUser(BaseWeChatAPI):
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param lang: 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            user = client.user.get('openid')
+
         """
         assert lang in ('zh_CN', 'zh_TW', 'en'), 'lang can only be one of \
             zh_CN, zh_TW, en language codes'
@@ -34,6 +42,14 @@ class WeChatUser(BaseWeChatAPI):
 
         :param first_user_id: 可选。第一个拉取的 OPENID，不填默认从头开始拉取
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            followers = client.user.get_followers()
+
         """
         params = {}
         if first_user_id:
@@ -52,6 +68,14 @@ class WeChatUser(BaseWeChatAPI):
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param remark: 备注名
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            client.user.update_remark('openid', 'Remark')
+
         """
         return self._post(
             'user/info/updateremark',
@@ -70,12 +94,21 @@ class WeChatUser(BaseWeChatAPI):
 
         :param user_id: 用户 ID
         :return: 用户所在分组 ID
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            group_id = client.user.get_group_id('openid')
+
         """
         res = self._post(
             'groups/getid',
-            data={'openid': user_id}
+            data={'openid': user_id},
+            result_processor=lambda x: x['groupid']
         )
-        return res['groupid']
+        return res
 
     def get_batch(self, user_list):
         """
@@ -86,9 +119,18 @@ class WeChatUser(BaseWeChatAPI):
 
         :param user_id: user_list
         :return: 用户信息的 list
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            users = client.user.get_batch(['openid1', 'openid2'])
+
         """
         res = self._post(
             'user/info/batchget',
-            data={'user_list': user_list}
+            data={'user_list': user_list},
+            result_processor=lambda x: x['user_info_list']
         )
-        return res['user_info_list']
+        return res

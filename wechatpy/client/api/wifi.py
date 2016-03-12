@@ -26,9 +26,10 @@ class WeChatWiFi(BaseWeChatAPI):
             data={
                 'pageindex': page_index,
                 'pagesize': page_size,
-            }
+            },
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
 
     def add_device(self, shop_id, ssid, password, bssid):
         """
@@ -71,8 +72,12 @@ class WeChatWiFi(BaseWeChatAPI):
             pageindex=page_index,
             pagesize=page_size
         )
-        res = self._post('device/list', data=data)
-        return res['data']
+        res = self._post(
+            'device/list',
+            data=data,
+            result_processor=lambda x: x['data']
+        )
+        return res
 
     def delete_device(self, bssid):
         """
@@ -103,9 +108,10 @@ class WeChatWiFi(BaseWeChatAPI):
             data={
                 'shop_id': shop_id,
                 'img_id': img_id,
-            }
+            },
+            result_processor=lambda x: x['data']['qrcode_url']
         )
-        return res['data']['qrcode_url']
+        return res
 
     def set_homepage(self, shop_id, template_id, url=None):
         """
@@ -137,8 +143,12 @@ class WeChatWiFi(BaseWeChatAPI):
         :param shop_id: 门店 ID
         :return: 返回的 JSON 数据包
         """
-        res = self._post('homepage/get', data={'shop_id': shop_id})
-        return res['data']
+        res = self._post(
+            'homepage/get',
+            data={'shop_id': shop_id},
+            result_processor=lambda x: x['data']
+        )
+        return res
 
     def list_statistics(self, begin_date, end_date, shop_id=-1):
         """
@@ -162,6 +172,7 @@ class WeChatWiFi(BaseWeChatAPI):
                 'begin_date': begin_date,
                 'end_date': end_date,
                 'shop_id': shop_id
-            }
+            },
+            result_processor=lambda x: x['data']
         )
-        return res['data']
+        return res
