@@ -44,6 +44,12 @@ TODO: 待完善
    component
 
 
+示例项目
+----------
+
+1. `django restful demo <https://github.com/wechatpy/django-wechat-example/>`_
+
+
 Changelogs
 ---------------
 
