@@ -23,13 +23,13 @@ class WeChatOAuth(BaseWeChatAPI):
         url_list = [
             self.OAUTH_BASE_URL,
             '?appid=',
-            self.corp_id,
+            self._client.corp_id,
             '&redirect_uri=',
             redirect_uri,
             '&response_type=code&scope=snsapi_base',
         ]
-        if self.state:
-            url_list.extend(['&state=', self.state])
+        if state:
+            url_list.extend(['&state=', state])
         url_list.append('#wechat_redirect')
         return ''.join(url_list)
 
