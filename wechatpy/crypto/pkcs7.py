@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-
+from six import byte2int
 from wechatpy.utils import to_binary
-from wechatpy._compat import byte2int
 
 
 class PKCS7Encoder(object):
@@ -19,7 +18,7 @@ class PKCS7Encoder(object):
 
     @classmethod
     def decode(cls, decrypted):
-        padding = byte2int(decrypted, -1)
+        padding = byte2int(decrypted[-1])
         if padding < 1 or padding > 32:
             padding = 0
         return decrypted[:-padding]

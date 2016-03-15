@@ -6,9 +6,8 @@ import inspect
 
 import six
 import requests
-
+from wechatpy.utils import json, get_querystring
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy._compat import json, get_querystring
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
 

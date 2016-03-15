@@ -7,7 +7,7 @@ from httmock import urlmatch, HTTMock, response
 
 from wechatpy import WeChatOAuth
 from wechatpy.exceptions import WeChatClientException
-from wechatpy._compat import json
+from wechatpy.utils import json
 
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from six import byte2int
 import struct
 import socket
 import base64
 
 from wechatpy.utils import to_text, to_binary, random_string
-from wechatpy._compat import byte2int
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
 try:
     from wechatpy.crypto.cryptography import WeChatCipher
@@ -42,7 +42,7 @@ class BasePrpCrypto(object):
     def _decrypt(self, text, _id, exception=None):
         text = to_binary(text)
         plain_text = self.cipher.decrypt(base64.b64decode(text))
-        padding = byte2int(plain_text, -1)
+        padding = byte2int(plain_text[-1])
         content = plain_text[16:-padding]
         xml_length = socket.ntohl(struct.unpack(b'I', content[:4])[0])
         xml_content = to_text(content[4:xml_length + 4])
