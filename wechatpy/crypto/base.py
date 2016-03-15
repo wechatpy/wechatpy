@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from six import byte2int
 import struct
 import socket
 import base64
 
-from wechatpy.utils import to_text, to_binary, random_string
+from wechatpy.utils import to_text, to_binary, random_string, byte2int
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
 try:
     from wechatpy.crypto.cryptography import WeChatCipher

@@ -17,7 +17,7 @@ import random
 import hashlib
 
 try:
-    # Use simplejson if we can, fallback to json otherwise.
+    '''Use simplejson if we can, fallback to json otherwise.'''
     import simplejson as json
 except ImportError:
     import json  # NOQA
@@ -128,6 +128,11 @@ def random_string(length=16):
 
 
 def get_querystring(uri):
+    """Get Qeruystring information from uri.
+
+    :param uri: uri
+    :return: querystring info or {}
+    """
     parts = urlparse.urlsplit(uri)
     if sys.version_info[:2] == (2, 6):
         query = parts.path
@@ -136,3 +141,9 @@ def get_querystring(uri):
     else:
         query = parts.query
     return urlparse.parse_qs(query)
+
+
+def byte2int(c):
+    if six.PY2:
+        return ord(c)
+    return c
