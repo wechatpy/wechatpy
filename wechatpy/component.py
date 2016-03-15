@@ -15,8 +15,7 @@ import six
 import requests
 import xmltodict
 
-from wechatpy._compat import get_querystring
-from wechatpy.utils import to_text, to_binary
+from wechatpy.utils import to_text, to_binary, get_querystring
 from wechatpy.fields import StringField, DateTimeField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage

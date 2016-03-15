@@ -11,33 +11,11 @@
 from __future__ import absolute_import, unicode_literals
 import sys
 import six
-import six.moves.urllib.parse as urlparse
-try:
-    """ Use simplejson if we can, fallback to json otherwise. """
-    import simplejson as json
-except ImportError:
-    import json  # NOQA
+import warnings
 
+warnings.warn("Module `wechatpy._compat` is deprecated, will be removed in 2.0"
+              "use `wechatpy.utils` instead",
+              DeprecationWarning, stacklevel=2)
 
-def byte2int(s, index=0):
-    """Get the ASCII int value of a character in a string.
-
-    :param s: a string
-    :param index: the position of desired character
-
-    :return: ASCII int value
-    """
-    if six.PY2:
-        return ord(s[index])
-    return s[index]
-
-
-def get_querystring(uri):
-    parts = urlparse.urlsplit(uri)
-    if sys.version_info[:2] == (2, 6):
-        query = parts.path
-        if query.startswith('?'):
-            query = query[1:]
-    else:
-        query = parts.query
-    return urlparse.parse_qs(query)
+from wechatpy.utils import get_querystring
+from wechatpy.utils import json

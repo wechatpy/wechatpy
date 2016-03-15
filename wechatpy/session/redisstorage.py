@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from wechatpy.session import SessionStorage
 from wechatpy.utils import to_text
-from wechatpy._compat import json
+from wechatpy.utils import json
 
 
 class RedisStorage(SessionStorage):

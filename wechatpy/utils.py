@@ -9,10 +9,18 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import six
+import six.moves.urllib.parse as urlparse
+import sys
 import string
 import random
 import hashlib
-import six
+
+try:
+    '''Use simplejson if we can, fallback to json otherwise.'''
+    import simplejson as json
+except ImportError:
+    import json  # NOQA
 
 
 class ObjectDict(dict):
@@ -117,3 +125,25 @@ def random_string(length=16):
     rule = string.ascii_letters + string.digits
     rand_list = random.sample(rule, length)
     return ''.join(rand_list)
+
+
+def get_querystring(uri):
+    """Get Qeruystring information from uri.
+
+    :param uri: uri
+    :return: querystring info or {}
+    """
+    parts = urlparse.urlsplit(uri)
+    if sys.version_info[:2] == (2, 6):
+        query = parts.path
+        if query.startswith('?'):
+            query = query[1:]
+    else:
+        query = parts.query
+    return urlparse.parse_qs(query)
+
+
+def byte2int(c):
+    if six.PY2:
+        return ord(c)
+    return c

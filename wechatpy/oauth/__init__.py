@@ -19,7 +19,7 @@ except ImportError:
 import six
 import requests
 
-from wechatpy._compat import json
+from wechatpy.utils import json
 from wechatpy.exceptions import WeChatOAuthException
 
 
