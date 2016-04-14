@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import time
 import random
 from datetime import datetime, timedelta
 
@@ -35,7 +36,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         now = datetime.now()
-        hours_later = now + timedelta(hours=2)
+        hours_later = now + timedelta(hours=2) + timedelta(seconds=time.timezone + 28800)
         if time_start is None:
             time_start = now
         if time_expire is None:
