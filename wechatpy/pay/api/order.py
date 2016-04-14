@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import time
 import random
 import time
 from datetime import datetime, timedelta
 
+from wechatpy.utils import timezone
 from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.utils import random_string, to_text
@@ -37,7 +39,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :return: 返回的结果数据
         """
-        now = datetime.now()
+        now = datetime.fromtimestamp(time.time(), tz=timezone('Asia/Shanghai'))
         hours_later = now + timedelta(hours=2)
         if time_start is None:
             time_start = now
