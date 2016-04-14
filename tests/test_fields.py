@@ -173,10 +173,9 @@ class FieldsTestCase(unittest.TestCase):
 
     def test_datetime_field_to_xml(self):
         from wechatpy.fields import DateTimeField
-        from wechatpy.fields import default_timezone
 
         content = 1442401156
-        content = datetime.fromtimestamp(content, tz=default_timezone)
+        content = datetime.fromtimestamp(content)
         field = DateTimeField('ExpiredTime')
         expected = '<ExpiredTime>1442401156</ExpiredTime>'
         self.assertEqual(expected, field.to_xml(content))
