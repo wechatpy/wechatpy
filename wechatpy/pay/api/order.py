@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import random
+import time
 from datetime import datetime, timedelta
 
 from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.utils import random_string, to_text
+from wechatpy.pay.utils import calculate_signature
 
 
 class WeChatOrder(BaseWeChatPayAPI):
@@ -94,3 +97,24 @@ class WeChatOrder(BaseWeChatPayAPI):
             'out_trade_no': out_trade_no,
         }
         return self._post('pay/closeorder', data=data)
+
+    def get_appapi_params(self, prepay_id, timestamp=None, nonce_str=None):
+        """
+        获取 APP 支付参数
+
+        :param prepay_id: 统一下单接口返回的 prepay_id 参数值
+        :param timestamp: 可选，时间戳，默认为当前时间戳
+        :param nonce_str: 可选，随机字符串，默认自动生成
+        :return: 签名
+        """
+        data = {
+            'appid': self.app_id,
+            'partnerid': self.mch_id,
+            'prepayid': prepay_id,
+            'package': 'Sign=WXPay',
+            'timestamp': timestamp or to_text(int(time.time())),
+            'noncestr': nonce_str or random_string(32)
+        }
+        sign = calculate_signature(data, self._client.api_key)
+        data['sign'] = sign
+        return data
