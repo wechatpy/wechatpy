@@ -4,6 +4,7 @@ import time
 import random
 from datetime import datetime, timedelta
 
+from wechatpy.utils import timezone
 from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
 
@@ -35,7 +36,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :return: 返回的结果数据
         """
-        now = datetime.now() + timedelta(seconds=time.timezone + 28800)
+        now = datetime.fromtimestamp(time.time(), tz=timezone('Asia/Shanghai'))
         hours_later = now + timedelta(hours=2)
         if time_start is None:
             time_start = now
