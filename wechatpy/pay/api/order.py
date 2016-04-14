@@ -35,8 +35,8 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :return: 返回的结果数据
         """
-        now = datetime.now()
-        hours_later = now + timedelta(hours=2) + timedelta(seconds=time.timezone + 28800)
+        now = datetime.now() + timedelta(seconds=time.timezone + 28800)
+        hours_later = now + timedelta(hours=2)
         if time_start is None:
             time_start = now
         if time_expire is None:
