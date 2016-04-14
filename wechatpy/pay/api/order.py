@@ -12,7 +12,7 @@ class WeChatOrder(BaseWeChatPayAPI):
     def create(self, trade_type, body, total_fee, notify_url, client_ip=None,
                user_id=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', time_start=None, time_expire=None,
-               goods_tag=None, product_id=None, device_info=None):
+               goods_tag=None, product_id=None, device_info=None, limit_pay=None):
         """
         统一下单接口
 
@@ -31,6 +31,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param goods_tag: 可选，商品标记，代金券或立减优惠功能的参数
         :param product_id: 可选，trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义
         :param device_info: 可选，终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
+        :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :return: 返回的结果数据
         """
         now = datetime.now()
@@ -60,6 +61,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'goods_tag': goods_tag,
             'notify_url': notify_url,
             'trade_type': trade_type,
+            'limit_pay': limit_pay,
             'product_id': product_id,
             'openid': user_id,
         }
