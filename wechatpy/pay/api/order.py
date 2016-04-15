@@ -110,7 +110,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :return: 签名
         """
         data = {
-            'appid': self.app_id,
+            'appid': self.appid,
             'partnerid': self.mch_id,
             'prepayid': prepay_id,
             'package': 'Sign=WXPay',
