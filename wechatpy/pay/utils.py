@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import copy
 import hashlib
 import socket
 
@@ -18,6 +19,12 @@ def format_url(params, api_key=None):
 def calculate_signature(params, api_key):
     url = format_url(params, api_key)
     return to_text(hashlib.md5(url).hexdigest().upper())
+
+
+def _check_signature(params, api_key):
+    _params = copy.deepcopy(params)
+    sign = _params.pop('sign', '')
+    return sign == calculate_signature(_params, api_key)
 
 
 def dict_to_xml(d, sign):

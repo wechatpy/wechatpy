@@ -10,8 +10,9 @@ from optionaldict import optionaldict
 
 from wechatpy.utils import random_string
 from wechatpy.exceptions import WeChatPayException
-from wechatpy.pay.utils import calculate_signature
-from wechatpy.pay.utils import dict_to_xml
+from wechatpy.pay.utils import (
+    calculate_signature, _check_signature, dict_to_xml
+)
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
 
@@ -159,3 +160,6 @@ class WeChatPay(object):
             url_or_endpoint=url,
             **kwargs
         )
+
+    def check_signature(self, params):
+        return _check_signature(params, self.api_key)
