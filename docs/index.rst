@@ -48,6 +48,7 @@ TODO: 待完善
 ----------
 
 1. `django restful demo <https://github.com/wechatpy/django-wechat-example/>`_
+2. `WeCron 基于微信的定时提醒 <https://github.com/polyrabbit/WeCron>`_
 
 
 Changelogs
