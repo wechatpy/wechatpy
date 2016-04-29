@@ -172,7 +172,7 @@ class WeChatCard(BaseWeChatAPI):
             'offset': offset,
             'count': count
         }
-        if (status_list):
+        if status_list:
             card_data['status_list'] = status_list
         return self._post(
             'card/batchget',
@@ -416,14 +416,14 @@ class WeChatCard(BaseWeChatAPI):
         """
         修改库存
         """
-        if (n == 0):
+        if n == 0:
             return
         card_data = {
             'card_id': card_id,
         }
-        if (n > 0):
+        if n > 0:
             card_data['increase_stock_value'] = n
-        elif (n < 0):
+        elif n < 0:
             card_data['reduce_stock_value'] = -n
         return self._post(
             'card/modifystock',
