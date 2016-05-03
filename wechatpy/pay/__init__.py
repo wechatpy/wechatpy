@@ -22,6 +22,16 @@ def _is_api_endpoint(obj):
 
 
 class WeChatPay(object):
+    """
+    微信红包接口
+
+    :param appid: 微信公众号 appid
+    :param api_key: 商户 key
+    :param mch_id: 商户号
+    :param sub_mch_id: 可选，子商户号，受理模式下必填
+    :param mch_cert: 必填，商户证书路径
+    :param mch_key: 必填，商户证书私钥路径
+    """
     redpack = api.WeChatRedpack()
     """红包接口"""
     transfer = api.WeChatTransfer()
