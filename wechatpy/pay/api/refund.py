@@ -30,7 +30,7 @@ class WeChatRefund(BaseWeChatPayAPI):
             'total_fee': total_fee,
             'refund_fee': refund_fee,
             'refund_fee_type': fee_type,
-            'op_user_id': op_user_id,
+            'op_user_id': op_user_id if op_user_id else self.mch_id,
             'device_info': device_info,
         }
         return self._post('secapi/pay/refund', data=data)
