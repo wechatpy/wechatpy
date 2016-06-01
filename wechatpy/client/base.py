@@ -40,12 +40,12 @@ class BaseWeChatClient(object):
                 setattr(self, name, api)
         return self
 
-    def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=None):
+    def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
         self.appid = appid
         self.expires_at = None
         self.session = session or MemoryStorage()
         self.timeout = timeout
-        self.auto_retry = auto_retry or True
+        self.auto_retry = auto_retry
 
         if isinstance(session, six.string_types):
             from shove import Shove
