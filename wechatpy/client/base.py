@@ -45,6 +45,7 @@ class BaseWeChatClient(object):
         self.expires_at = None
         self.session = session or MemoryStorage()
         self.timeout = timeout
+        self.auto_retry = True
 
         if isinstance(session, six.string_types):
             from shove import Shove
@@ -138,7 +139,7 @@ class BaseWeChatClient(object):
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
             errmsg = result.get('errmsg', errcode)
-            if errcode in (40001, 40014, 42001):
+            if errcode in (40001, 40014, 42001) and self.auto_retry:
                 # access_token expired, fetch a new one and retry request
                 self.fetch_access_token()
                 access_token = self.session.get(self.access_token_key)
