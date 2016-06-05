@@ -111,9 +111,8 @@ class BaseWeChatClient(object):
         )
 
     def _decode_result(self, res):
-        res.encoding = 'utf-8'
         try:
-            result = json.loads(res.content.decode('utf-8', 'ignore'))
+            result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
             return res

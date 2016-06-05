@@ -10,12 +10,11 @@
 """
 from __future__ import absolute_import, unicode_literals
 import time
-import json
 import six
 import requests
 import xmltodict
 
-from wechatpy.utils import to_text, to_binary, get_querystring
+from wechatpy.utils import to_text, to_binary, get_querystring, json
 from wechatpy.fields import StringField, DateTimeField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
@@ -136,7 +135,7 @@ class BaseWeChatComponent(object):
         return self._handle_result(res, method, url, **kwargs)
 
     def _handle_result(self, res, method=None, url=None, **kwargs):
-        result = res.json()
+        result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
         if 'errcode' in result:
             result['errcode'] = int(result['errcode'])
 

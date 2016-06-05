@@ -73,8 +73,7 @@ class WeChatOAuth(object):
                 request=reqe.request,
                 response=reqe.response
             )
-        res.encoding = 'UTF-8'
-        result = res.json()
+        result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
