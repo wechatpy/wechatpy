@@ -9,7 +9,9 @@
 WeChatComponent
 ---------------
 
-WeChatComponent的基本使用方法::
+WeChatComponent的基本使用方法:
+
+.. code-block:: python
 
     from wechatpy import WeChatComponent
     component = WeChatComponent('app_id', 'app_secret', 'component_token', 'encoding_aes_key')
@@ -41,8 +43,10 @@ component_verify_ticket 的处理
 
 公众号的授权码和刷新码内部自动缓存。
 
-操作公众号 API 的对象并非:class:`~wechatpy.client.WeChatClient`，但实现了同样的功能。在使用上相同::
-    
+操作公众号 API 的对象并非 :class:`~wechatpy.client.WeChatClient` ，但实现了同样的功能。在使用上相同:
+
+.. code-block:: python
+ 
     client = component.get_client(appid, refresh_token, access_token)
     menu_info = client.menu.get()
 
@@ -50,8 +54,9 @@ component_verify_ticket 的处理
 公众号的授权码和刷新码的更新
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-授权码和刷新码有效期为7200秒，需要在失效之前更新授权码。由于各个项目的差异性和复杂性，本项目并未实现更新逻辑，需要调用者根据项目来自己实现。在失效之前，只要调用 `client.fetch_access_token()`即可刷新缓存，所以这个逻辑很简单。
+授权码和刷新码有效期为7200秒，需要在失效之前更新授权码。由于各个项目的差异性和复杂性，本项目并未实现更新逻辑，需要调用者根据项目来自己实现。在失效之前，只要调用 `client.fetch_access_token()` 即可刷新缓存，所以这个逻辑很简单。
 
 
 .. autoclass:: WeChatComponent
    :members:
+   :inherited-members:

@@ -10,6 +10,7 @@
 
 .. autoclass:: WeChatOAuth
    :members:
+   :inherited-members:
 
 企业号 OAuth 网页授权接入
 -----------------------------------
@@ -78,3 +79,4 @@
 
 .. autoclass:: WeChatOAuth
    :members:
+   :inherited-members:

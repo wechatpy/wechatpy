@@ -28,6 +28,7 @@ event       事件的类型
 
 .. autoclass:: SubscribeEvent
    :members:
+   :inherited-members:
 
 SubscribeEvent 的属性:
 
@@ -42,6 +43,7 @@ event   subscribe
 
 .. autoclass:: UnsubscribeEvent
    :members:
+   :inherited-members:
 
 UnsubscribeEvent 的属性:
 
@@ -56,6 +58,7 @@ event   unsubscribe
 
 .. autoclass:: SubscribeScanEvent
    :members:
+   :inherited-members:
 
 
 SubscribeScanEvent 的属性:
@@ -73,6 +76,7 @@ ticket    带参数二维码 ticket
 
 .. autoclass:: ScanEvent
    :members:
+   :inherited-members:
 
 ScanEvent 的属性:
 
@@ -89,6 +93,7 @@ ticket    带参数二维码 ticket
 
 .. autoclass:: LocationEvent
    :members:
+   :inherited-members:
 
 
 LocationEvent 的属性:
@@ -107,6 +112,7 @@ precision   地理位置精度
 
 .. autoclass:: ClickEvent
    :members:
+   :inherited-members:
 
 ClickEvent 的属性:
 
@@ -122,6 +128,7 @@ key     自定义菜单 key 值
 
 .. autoclass:: ViewEvent
    :members:
+   :inherited-members:
 
 ViewEvent 的属性:
 
@@ -137,6 +144,7 @@ url     跳转链接 url
 
 .. autoclass:: MassSendJobFinishEvent
    :members:
+   :inherited-members:
 
 MassSendJobFinishEvent 的属性:
 
@@ -156,6 +164,7 @@ error_count   发送失败的粉丝数
 
 .. autoclass:: TemplateSendJobFinishEvent
    :members:
+   :inherited-members:
 
 TemplateSendJobFinishEvent 的属性:
 
@@ -171,6 +180,7 @@ status  模板消息发送状态
 
 .. autoclass:: ScanCodePushEvent
    :members:
+   :inherited-members:
 
 ScanCodePushEvent 的属性:
 
@@ -188,6 +198,7 @@ scan_result 扫描结果
 
 .. autoclass:: ScanCodeWaitMsgEvent
    :members:
+   :inherited-members:
 
 ScanCodeWaitMsgEvent 的属性:
 
@@ -205,6 +216,7 @@ scan_result 扫描结果
 
 .. autoclass:: PicSysPhotoEvent
    :members:
+   :inherited-members:
 
 PicSysPhotoEvent 的属性:
 
@@ -222,6 +234,7 @@ pictures    图片列表
 
 .. autoclass:: PicPhotoOrAlbumEvent
    :members:
+   :inherited-members:
 
 PicPhotoOrAlbumEvent 的属性:
 
@@ -239,6 +252,7 @@ pictures    图片列表
 
 .. autoclass:: PicWeChatEvent
    :members:
+   :inherited-members:
 
 PicWeChatEvent 的属性:
 
@@ -256,6 +270,7 @@ pictures    图片列表
 
 .. autoclass:: LocationSelectEvent
    :members:
+   :inherited-members:
 
 LocationSelectEvent 的属性:
 
@@ -281,6 +296,7 @@ poiname     朋友圈 POI 的名字，可能为空
 
 .. autoclass:: QualificationVerifySuccessEvent
    :members:
+   :inherited-members:
 
 QualificationVerifySuccessEvent 的属性:
 
@@ -296,6 +312,7 @@ expired_time 有效期，将于该时间戳认证过期
 
 .. autoclass:: QualificationVerifyFailEvent
    :members:
+   :inherited-members:
 
 QualificationVerifyFailEvent 的属性:
 
@@ -312,6 +329,7 @@ fail_reason  认证失败的原因
 
 .. autoclass:: NamingVerifySuccessEvent
    :members:
+   :inherited-members:
 
 NamingVerifySuccessEvent 的属性:
 
@@ -327,6 +345,7 @@ expired_time 有效期，将于该时间戳认证过期
 
 .. autoclass:: NamingVerifyFailEvent
    :members:
+   :inherited-members:
 
 NamingVerifyFailEvent 的属性:
 
@@ -343,6 +362,7 @@ fail_reason  认证失败的原因
 
 .. autoclass:: AnnualRenewEvent
    :members:
+   :inherited-members:
 
 AnnualRenewEvent 的属性:
 
@@ -358,6 +378,7 @@ expired_time 有效期，将于该时间戳认证过期，需尽快年审
 
 .. autoclass:: VerifyExpiredEvent
    :members:
+   :inherited-members:
 
 VerifyExpiredEvent 的属性:
 
@@ -376,6 +397,7 @@ expired_time 有效期，表示已于该时间戳认证过期，需要重新发�
 
 .. autoclass:: UserScanProductEvent
    :members:
+   :inherited-members:
 
 UserScanProductEvent 的属性:
 
@@ -397,6 +419,7 @@ scene        打开商品主页的场景，1为扫码，2为其他打开场景�
 
 .. autoclass:: UserScanProductEnterSessionEvent
    :members:
+   :inherited-members:
 
 UserScanProductEnterSessionEvent 的属性:
 
@@ -413,6 +436,7 @@ key          商品编码内容
 
 .. autoclass:: UserScanProductAsyncEvent
    :members:
+   :inherited-members:
 
 UserScanProductAsyncEvent 的属性:
 
@@ -430,6 +454,7 @@ region_code  用户的实时地理位置信息
 
 .. autoclass:: UserScanProductVerifyActionEvent
    :members:
+   :inherited-members:
 
 ============ ============================================
 参数          值
@@ -446,6 +471,7 @@ reason       审核未通过的原因
 
 .. autoclass:: SubscribeScanProductEvent
    :members:
+   :inherited-members:
 
 ============ ============================================
 参数          值

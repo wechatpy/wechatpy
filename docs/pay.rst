@@ -8,6 +8,7 @@ WeChatPay
 
 .. autoclass:: WeChatPay
    :members:
+   :inherited-members:
 
 
 .. module:: wechatpy.pay.api
@@ -17,6 +18,7 @@ WeChatPay
 
 .. autoclass:: WeChatRedpack
    :members:
+   :inherited-members:
 
 
 企业付款接口
@@ -24,6 +26,7 @@ WeChatPay
 
 .. autoclass:: WeChatTransfer
    :members:
+   :inherited-members:
 
 
 代金券接口
@@ -31,6 +34,7 @@ WeChatPay
 
 .. autoclass:: WeChatCoupon
    :members:
+   :inherited-members:
 
 
 订单接口
@@ -38,6 +42,7 @@ WeChatPay
 
 .. autoclass:: WeChatOrder
    :members:
+   :inherited-members:
 
 
 工具类接口
@@ -45,6 +50,7 @@ WeChatPay
 
 .. autoclass:: WeChatTools
    :members:
+   :inherited-members:
 
 
 公众号网页 JS 支付接口
@@ -52,3 +58,4 @@ WeChatPay
 
 .. autoclass:: WeChatJSAPI
    :members:
+   :inherited-members:
