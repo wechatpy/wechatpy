@@ -176,7 +176,11 @@ class WeChatPay(object):
 
     def parse_payment_result(self, xml):
         """解析微信支付结果通知"""
-        data = xmltodict.parse(xml)
+        try:
+            data = xmltodict.parse(xml)
+        except (xmltodict.ParsingInterrupted, ExpatError):
+            raise InvalidSignatureException()
+
         if not data or 'xml' not in data:
             raise InvalidSignatureException()
 
