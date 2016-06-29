@@ -9,7 +9,7 @@ from xml.parsers.expat import ExpatError
 from optionaldict import optionaldict
 
 from wechatpy.utils import random_string
-from wechatpy.exceptions import WeChatPayException
+from wechatpy.exceptions import WeChatPayException, InvalidSignatureException
 from wechatpy.pay.utils import (
     calculate_signature, _check_signature, dict_to_xml
 )
@@ -173,3 +173,22 @@ class WeChatPay(object):
 
     def check_signature(self, params):
         return _check_signature(params, self.api_key)
+
+    def parse_payment_result(self, xml):
+        """解析微信支付结果通知"""
+        try:
+            data = xmltodict.parse(xml)
+        except (xmltodict.ParsingInterrupted, ExpatError):
+            raise InvalidSignatureException()
+
+        if not data or 'xml' not in data:
+            raise InvalidSignatureException()
+
+        data = data['xml']
+        sign = data.pop('sign', None)
+        real_sign = calculate_signature(data, self.api_key)
+        if sign != real_sign:
+            raise InvalidSignatureException()
+
+        data['sign'] = sign
+        return data
