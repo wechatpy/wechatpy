@@ -69,7 +69,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='wechatpy',
-    version='1.2.12',
+    version='1.2.13',
     author='messense',
     author_email='messense@icloud.com',
     url='https://github.com/messense/wechatpy',
