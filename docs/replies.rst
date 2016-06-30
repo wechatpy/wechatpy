@@ -176,6 +176,15 @@ name          value
 type          transfer_customer_service
 ============= ===============================
 
+回复空串
+-----------------------------------------------
+
+.. autoclass:: EmptyReply
+   :members:
+
+微信服务器不会对此作任何处理，并且不会发起重试,
+可以使用客服消息接口进行异步回复。
+
 快速构建回复
 -------------
 
@@ -184,6 +193,8 @@ wechatpy 提供了一个便捷的 create_reply 函数用来快速构建回复 :
 .. code-block:: python
 
     from wechatpy import create_reply
+
+    empty_reply = create_reply('')
 
     text_reply = create_reply('text reply', message=message)
 
