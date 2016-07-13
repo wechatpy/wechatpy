@@ -50,11 +50,12 @@ TODO: 待完善
    component
 
 
-示例项目
-----------
+示例项目/扩展程序
+---------------------
 
 1. `django restful demo <https://github.com/wechatpy/django-wechat-example/>`_
 2. `WeCron 基于微信的定时提醒 <https://github.com/polyrabbit/WeCron>`_
+3. `flask-wechatpy <https://github.com/cloverstd/flask-wechatpy>`_ Flask 扩展
 
 
 Changelogs
