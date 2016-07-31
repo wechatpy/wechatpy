@@ -308,6 +308,14 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField('UserCardCode')
 
 
+@register_event('user_consume_card')
+class UserConsumeCardEvent(BaseEvent):
+    event = 'user_consume_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    consume_source = StringField('ConsumeSource')
+
+
 @register_event('merchant_order')
 class MerchantOrderEvent(BaseEvent):
     event = 'merchant_order'
