@@ -295,14 +295,29 @@ class CardNotPassCheckEvent(BaseEvent):
 
 @register_event('user_get_card')
 class UserGetCardEvent(BaseEvent):
+    """
+    领取事件推送
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/16/28b34ee91675a04cb24853768debded4.html#.E9.A2.86.E5.8F.96.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
+    """
     event = 'user_get_card'
     card_id = StringField('CardId')
     is_given_by_friend = IntegerField('IsGiveByFriend')
+    friend = StringField('FriendUserName')
     code = StringField('UserCardCode')
+    old_code = StringField('OldUserCardCode')
+    outer_id = StringField('OuterId')
 
 
 @register_event('user_del_card')
 class UserDeleteCardEvent(BaseEvent):
+    """
+    卡券删除事件推送
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/16/28b34ee91675a04cb24853768debded4.html#.E5.88.A0.E9.99.A4.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
+    """
     event = 'user_del_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
@@ -310,10 +325,18 @@ class UserDeleteCardEvent(BaseEvent):
 
 @register_event('user_consume_card')
 class UserConsumeCardEvent(BaseEvent):
+    """
+    卡券核销事件推送
+
+    详情请参阅
+    http://mp.weixin.qq.com/wiki/16/28b34ee91675a04cb24853768debded4.html#.E6.A0.B8.E9.94.80.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
+    """
     event = 'user_consume_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
     consume_source = StringField('ConsumeSource')
+    location_id = StringField('LocationId')
+    staff = StringField('StaffOpenId')
 
 
 @register_event('merchant_order')
