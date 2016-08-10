@@ -242,6 +242,17 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual('iWithery', result[0]['nickname'])
             self.assertEqual(user_list[1]['openid'], result[1]['openid'])
 
+    def test_get_user_info_batch_openid_list(self):
+        user_list = [
+            'otvxTs4dckWG7imySrJd6jSi0CWE',
+            'otvxTs_JZ6SEiP0imdhpi50fuSZg'
+        ]
+        with HTTMock(wechat_api_mock):
+            result = self.client.user.get_batch(user_list)
+            self.assertEqual(user_list[0], result[0]['openid'])
+            self.assertEqual('iWithery', result[0]['nickname'])
+            self.assertEqual(user_list[1], result[1]['openid'])
+
     def test_create_qrcode(self):
         data = {
             'expire_seconds': 1800,
@@ -654,6 +665,12 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.wifi.list_shops()
             self.assertEqual(16, res['totalcount'])
             self.assertEqual(1, res['pageindex'])
+
+    def test_wifi_get_shop(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.get_shop(1)
+            self.assertEqual(1, res['bar_type'])
+            self.assertEqual(2, res['ap_count'])
 
     def test_wifi_add_device(self):
         with HTTMock(wechat_api_mock):

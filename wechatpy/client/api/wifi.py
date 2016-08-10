@@ -31,7 +31,7 @@ class WeChatWiFi(BaseWeChatAPI):
         )
         return res
 
-    def get_shop(self, shop_id = 0):
+    def get_shop(self, shop_id=0):
         """
         查询门店的WiFi信息
         http://mp.weixin.qq.com/wiki/15/bcfb5d4578ea818b89913472cf2bbf8f.html

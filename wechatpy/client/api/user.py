@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import six
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -126,8 +127,14 @@ class WeChatUser(BaseWeChatAPI):
 
             client = WeChatClient('appid', 'secret')
             users = client.user.get_batch(['openid1', 'openid2'])
+            users = client.user.get_batch([
+              {'openid': 'openid1', 'lang': 'zh-CN'},
+              {'openid': 'openid2', 'lang': 'en'},
+            ])
 
         """
+        if all((isinstance(x, six.string_types) for x in user_list)):
+            user_list = [{'openid': oid} for oid in user_list]
         res = self._post(
             'user/info/batchget',
             data={'user_list': user_list},
