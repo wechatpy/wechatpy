@@ -58,7 +58,8 @@ class BaseWeChatClient(object):
             storage = ShoveStorage(shove, prefix)
             self.session = storage
 
-        self.session.set(self.access_token_key, access_token)
+        if access_token:
+            self.session.set(self.access_token_key, access_token)
 
     @property
     def access_token_key(self):
