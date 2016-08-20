@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 import sys
 import inspect
+import logging
 
 import requests
 import xmltodict
@@ -15,6 +16,9 @@ from wechatpy.pay.utils import (
 )
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
+
+
+logger = logging.getLogger(__name__)
 
 
 def _is_api_endpoint(obj):
@@ -136,6 +140,7 @@ class WeChatPay(object):
             data = xmltodict.parse(xml)['xml']
         except (xmltodict.ParsingInterrupted, ExpatError):
             # 解析 XML 失败
+            logger.warning('WeChat payment result xml parsing error', exc_info=True)
             return xml
 
         return_code = data['return_code']

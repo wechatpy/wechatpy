@@ -10,6 +10,8 @@
 """
 from __future__ import absolute_import, unicode_literals
 import time
+import logging
+
 import six
 import requests
 import xmltodict
@@ -21,6 +23,9 @@ from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.client import WeChatComponentClient
+
+
+logger = logging.getLogger(__name__)
 
 
 class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
@@ -143,7 +148,7 @@ class BaseWeChatComponent(object):
             errcode = result['errcode']
             errmsg = result['errmsg']
             if errcode == 42001:
-                # access_token expired, fetch a new one and retry request
+                logger.info('Component access token expired, fetch a new one and retry request')
                 self.fetch_component_access_token()
                 kwargs['params']['component_access_token'] = self.session.get(
                     'component_access_token'
@@ -196,6 +201,7 @@ class BaseWeChatComponent(object):
 
     def _fetch_access_token(self, url, data):
         """ The real fetch access token """
+        logger.info('Fetching component access token')
         res = requests.post(
             url=url,
             data=data
