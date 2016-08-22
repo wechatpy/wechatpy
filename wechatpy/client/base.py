@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import sys
 import time
 import inspect
+import logging
 
 import six
 import requests
@@ -10,6 +11,9 @@ from wechatpy.utils import json, get_querystring
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
+
+
+logger = logging.getLogger(__name__)
 
 
 def _is_api_endpoint(obj):
@@ -116,6 +120,7 @@ class BaseWeChatClient(object):
             result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
+            logger.warning('Can not decode response as JSON', exc_info=True)
             return res
         return result
 
@@ -140,7 +145,7 @@ class BaseWeChatClient(object):
             errcode = result['errcode']
             errmsg = result.get('errmsg', errcode)
             if errcode in (40001, 40014, 42001) and self.auto_retry:
-                # access_token expired, fetch a new one and retry request
+                logger.info('Access token expired, fetch a new one and retry request')
                 self.fetch_access_token()
                 access_token = self.session.get(self.access_token_key)
                 kwargs['params']['access_token'] = access_token
@@ -190,6 +195,7 @@ class BaseWeChatClient(object):
 
     def _fetch_access_token(self, url, params):
         """ The real fetch access token """
+        logger.info('Fetching access token')
         res = requests.get(
             url=url,
             params=params

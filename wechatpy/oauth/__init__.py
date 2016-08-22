@@ -16,8 +16,8 @@ except ImportError:
     from pkg_resources import declare_namespace
     declare_namespace(__name__)
 
-import six
 import requests
+from six.moves.urllib.parse import quote
 
 from wechatpy.utils import json
 from wechatpy.exceptions import WeChatOAuthException
@@ -102,7 +102,7 @@ class WeChatOAuth(object):
 
         :return: URL 地址
         """
-        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
+        redirect_uri = quote(self.redirect_uri)
         url_list = [
             self.OAUTH_BASE_URL,
             'oauth2/authorize?appid=',
@@ -123,7 +123,7 @@ class WeChatOAuth(object):
 
         :return: URL 地址
         """
-        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
+        redirect_uri = quote(self.redirect_uri)
         url_list = [
             self.OAUTH_BASE_URL,
             'qrconnect?appid=',
