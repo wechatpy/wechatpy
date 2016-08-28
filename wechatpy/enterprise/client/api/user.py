@@ -150,7 +150,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         data = optionaldict()
         data['userid'] = user_id
-        data['agent_id'] = agent_id
+        data['agentid'] = agent_id
         return self._post('user/convert_to_openid', data=data)
 
     def convert_to_user_id(self, openid):
