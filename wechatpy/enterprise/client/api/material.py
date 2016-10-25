@@ -45,13 +45,13 @@ class WeChatMaterial(BaseWeChatAPI):
         :param media_file: 要上传的文件，一个 File-object
         :return: 返回的 JSON 数据包
         """
-        data = {
+        params = {
             'agentid': agent_id,
             'type': media_type,
         }
         return self._post(
             url='material/add_material',
-            data=data,
+            params=params,
             files={
                 'media': media_file
             }
