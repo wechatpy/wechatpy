@@ -14,10 +14,10 @@ WeChatClient
 
    from wechatpy.enterprise import WeChatClient
 
-   client = WeChatClient('app_id', 'secret')
+   client = WeChatClient('corp_id', 'secret')
    user = client.user.get('user id')
    menu = client.menu.get()
-   client.message.send_text('user id', 'content')
+   client.message.send_text('agent id', 'user id', 'content')
    # 以此类推，参见下面的 API 说明
    # client.media.xxx()
    # client.tag.xxx()
