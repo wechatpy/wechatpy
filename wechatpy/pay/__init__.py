@@ -140,7 +140,7 @@ class WeChatPay(object):
             data = xmltodict.parse(xml)['xml']
         except (xmltodict.ParsingInterrupted, ExpatError):
             # 解析 XML 失败
-            logger.warning('WeChat payment result xml parsing error', exc_info=True)
+            logger.debug('WeChat payment result xml parsing error', exc_info=True)
             return xml
 
         return_code = data['return_code']

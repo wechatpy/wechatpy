@@ -120,7 +120,7 @@ class BaseWeChatClient(object):
             result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
-            logger.warning('Can not decode response as JSON', exc_info=True)
+            logger.debug('Can not decode response as JSON', exc_info=True)
             return res
         return result
 
