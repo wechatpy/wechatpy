@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 import time
 import random
-import time
 from datetime import datetime, timedelta
 
 from wechatpy.utils import timezone
@@ -120,3 +119,20 @@ class WeChatOrder(BaseWeChatPayAPI):
         sign = calculate_signature(data, self._client.api_key)
         data['sign'] = sign
         return data
+
+    def reverse(self, transaction_id=None, out_trade_no=None):
+        """
+        撤销订单
+
+        :param transaction_id: 可选，微信的订单号，优先使用
+        :param out_trade_no: 可选，商户系统内部的订单号,
+                            transaction_id、out_trade_no二选一，
+                            如果同时存在优先级：transaction_id> out_trade_no
+        :return: 返回的结果数据
+        """
+        data = {
+            'appid': self.appid,
+            'transaction_id': transaction_id,
+            'out_trade_no': out_trade_no,
+        }
+        return self._post('secapi/pay/reverse', data=data)
