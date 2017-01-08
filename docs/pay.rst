@@ -45,6 +45,14 @@ WeChatPay
    :inherited-members:
 
 
+退款接口
+-------------------------
+
+.. autoclass:: WeChatRefund
+   :members:
+   :inherited-members:
+
+
 工具类接口
 ---------------------------------
 
