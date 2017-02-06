@@ -15,7 +15,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         主动发送消息给设备
         详情请参考
-        http://iot.weixin.qq.com/document-2_3.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-3
 
         :param device_type: 设备类型，目前为“公众账号原始ID”
         :param device_id: 设备ID
@@ -38,7 +38,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         获取设备二维码
         详情请参考
-        http://iot.weixin.qq.com/document-2_5.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-4
 
         :param device_ids: 设备id的列表
         :return: 返回的 JSON 数据包
@@ -55,7 +55,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         通过 ticket 换取二维码地址
         详情请参考
-        http://iot.weixin.qq.com/document-2_5.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-4
 
         :param ticket: 二维码 ticket
         :param data: 额外数据
@@ -73,7 +73,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         绑定设备
         详情请参考
-        http://iot.weixin.qq.com/document-2_12.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-7
 
         :param ticket: 绑定操作合法性的凭证（由微信后台生成，第三方H5通过客户端jsapi获得）
         :param device_id: 设备id
@@ -93,7 +93,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         解绑设备
         详情请参考
-        http://iot.weixin.qq.com/document-2_12.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-7
 
         :param ticket: 绑定操作合法性的凭证（由微信后台生成，第三方H5通过客户端jsapi获得）
         :param device_id: 设备id
@@ -113,7 +113,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         强制绑定用户和设备
         详情请参考
-        http://iot.weixin.qq.com/document-2_12.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-7
 
         :param device_id: 设备id
         :param user_id: 用户对应的openid
@@ -133,7 +133,7 @@ class WeChatDevice(BaseWeChatAPI):
         """
         强制解绑用户和设备
         详情请参考
-        http://iot.weixin.qq.com/document-2_12.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-7
 
         :param device_id: 设备id
         :param user_id: 用户对应的openid
@@ -153,21 +153,21 @@ class WeChatDevice(BaseWeChatAPI):
         """
         设备状态查询
         详情请参考
-        http://iot.weixin.qq.com/document-2_7.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-8
 
         :param device_id: 设备id
         :return: 返回的 JSON 数据包
         """
-        return self._post(
+        return self._get(
             'get_stat',
-            data={'device_id': device_id}
+            params={'device_id': device_id}
         )
 
     def verify_qrcode(self, ticket):
         """
         验证二维码
         详情请参考
-        http://iot.weixin.qq.com/document-2_9.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-9
 
         :param ticket: 设备二维码的ticket
         :return: 返回的 JSON 数据包
@@ -181,15 +181,15 @@ class WeChatDevice(BaseWeChatAPI):
         """
         获取设备绑定openID
         详情请参考
-        http://iot.weixin.qq.com/document-2_4.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-11
 
         :param device_type: 设备类型，目前为“公众账号原始ID”
         :param device_id: 设备id
         :return: 返回的 JSON 数据包
         """
-        return self._post(
+        return self._get(
             'get_openid',
-            data={
+            params={
                 'device_type': device_type,
                 'device_id': device_id
             }
@@ -201,14 +201,14 @@ class WeChatDevice(BaseWeChatAPI):
         """
         通过openid获取用户在当前devicetype下绑定的deviceid列表
         详情请参考
-        http://iot.weixin.qq.com/document-2_13.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-12
 
         :param user_id: 要查询的用户的openid
         :return: 返回的 JSON 数据包
         """
-        return self._post(
+        return self._get(
             'get_bind_device',
-            data={'openid': user_id}
+            params={'openid': user_id}
         )
 
     get_bind_device = get_binded_devices
@@ -235,25 +235,6 @@ class WeChatDevice(BaseWeChatAPI):
             }
         )
 
-    def authorize(self, devices, op_type=0):
-        """
-        设备授权
-        详情请参考
-        http://iot.weixin.qq.com/document-2_6.html
-
-        :param devices: 设备信息的列表
-        :param op_type: 请求操作的类型，限定取值为：0：设备授权 1：设备更新
-        :return: 返回的 JSON 数据包
-        """
-        return self._post(
-            'authorize',
-            data={
-                'device_num': len(devices),
-                'device_list': devices,
-                'op_type': op_type
-            }
-        )
-
     def get_qrcode(self):
         """
         获取deviceid和二维码
@@ -264,11 +245,11 @@ class WeChatDevice(BaseWeChatAPI):
         """
         return self._get('getqrcode')
 
-    def authorize_device(self, devices, op_type=1):
+    def authorize(self, devices, op_type=1):
         """
         设备授权
         详情请参考
-        http://iot.weixin.qq.com/document-2_6.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-5
 
         :param devices: 设备信息的列表
         :param op_type: 请求操作的类型，限定取值为：0：设备授权 1：设备更新
