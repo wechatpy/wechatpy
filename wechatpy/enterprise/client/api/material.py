@@ -30,8 +30,10 @@ class WeChatMaterial(BaseWeChatAPI):
         return self._post(
             'material/add_mpnews',
             data={
-                'articles': articles_data
-            }
+                "mpnews": {
+                    "articles": articles_data
+                    }
+                }
         )
 
     def add(self, agent_id, media_type, media_file):
