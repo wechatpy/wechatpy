@@ -29,7 +29,8 @@ wechatpy 遵循 [PEP8](http://legacy.python.org/dev/peps/pep-0008/) 代码风格
 
 ```bash
 pip install flake8
-flake8 --install-hook
+flake8 --install-hook git
+[flake8文档](http://flake8.pycqa.org/en/latest/user/using-hooks.html)
 ```
 
 推荐的 git hook 配置为（文件路径为 wechatpy/.git/hooks/pre-commit）：
