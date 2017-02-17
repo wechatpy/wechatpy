@@ -14,10 +14,10 @@ source bin/activate
 python setup.py develop
 ```
 
-为了方便测试，需要安装 nose, httmock 以及 tox:
+为了方便测试，需要安装 pytest, httmock 以及 tox:
 
 ```bash
-pip install nose httmock tox
+pip install pytest httmock tox
 ```
 
 > Tips: 安装 [autoenv](https://github.com/kennethreitz/autoenv) 可以让您在进入 wechatpy 文件夹时自动激活虚拟环境，省去每次手动执行 `source bin/activate`
@@ -73,17 +73,17 @@ tox -e py27,py34
 
 如果出现测试失败，请检查您的修改过的代码或者检查测试用例的代码是否需要更新。
 
-> Tips: 您可以使用 `nosetests --pdb` 在测试失败的时候自动进入 pdb 进行调试。
+> Tips: 您可以使用 `pytest -s --pdb` 在测试失败的时候自动进入 pdb 进行调试。
 
 ## Pull Requests
 
-在您完成上述所有步骤后，您可以在 [wechatpy](https://github.com/messense/wechatpy) 项目上提交您的 Pull Requests.
+在您完成上述所有步骤后，您可以在 [wechatpy](https://github.com/jxtech/wechatpy) 项目上提交您的 Pull Requests.
 
-在您提交 Pull Requests 之后，[Travis CI](https://travis-ci.org/messense/wechatpy) 会进行全面的自动化测试（测试所有支持的 Python 环境）。
-测试成功后 [Coveralls](https://coveralls.io/r/messense/wechatpy?branch=master) 会给出 coverage 报告，
-[Scrutinizer CI](https://scrutinizer-ci.com/g/messense/wechatpy/?branch=master) 会给出代码质量分析报告。
+在您提交 Pull Requests 之后，[Travis CI](https://travis-ci.org/jxtech/wechatpy) 会进行全面的自动化测试（测试所有支持的 Python 环境）。
+测试成功后 [Coveralls](https://coveralls.io/r/jxtech/wechatpy?branch=master) 会给出 coverage 报告，
+[Scrutinizer CI](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master) 会给出代码质量分析报告。
 
-如果出现测试失败的情况，请您在 [Travis CI](https://travis-ci.org/messense/wechatpy) 的构建日志中查找原因，修复后提交代码。
+如果出现测试失败的情况，请您在 [Travis CI](https://travis-ci.org/jxtech/wechatpy) 的构建日志中查找原因，修复后提交代码。
 
 > Tips: 如果您的修改不是针对代码的，不需要进行自动化测试，可以在 Git commit message 结尾加上 `[ci skip]`.
 
