@@ -47,6 +47,15 @@ class WeChatJSAPI(BaseWeChatAPI):
         return ticket
 
     def get_jsapi_signature(self, noncestr, ticket, timestamp, url):
+        """
+        获取 JSAPI 签名
+
+        :param noncestr: nonce string
+        :param ticket: JS-SDK ticket
+        :param timestamp: 时间戳
+        :param url: URL
+        :return: 签名
+        """
         data = [
             'noncestr={noncestr}'.format(noncestr=noncestr),
             'jsapi_ticket={ticket}'.format(ticket=ticket),
