@@ -11,7 +11,7 @@ from __future__ import absolute_import, unicode_literals
 import time
 import six
 
-from wechatpy.fields import(
+from wechatpy.fields import (
     StringField,
     IntegerField,
     ImageField,
