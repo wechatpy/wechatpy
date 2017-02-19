@@ -88,7 +88,7 @@ class WeChatJSAPI(BaseWeChatAPI):
             self.session.set('jsapi_card_ticket_expires_at', expires_at)
         return jsapi_card_ticket_response
 
-    def get_jsapi_card_signature_dict(self, jsapi_card_ticket, card_type, **kwargs):
+    def get_jsapi_card_signature_params(self, jsapi_card_ticket, card_type, **kwargs):
         """
         参数意义见微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
         :param jsapi_card_ticket: 用于卡券的微信 api_ticket
@@ -104,9 +104,12 @@ class WeChatJSAPI(BaseWeChatAPI):
             'timestamp': kwargs.get('timestamp', self._create_timestamp()),
         }
         card_signature_dict.update(kwargs)
-        list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
-        str_to_sign = "".join(list_before_sign).encode()
-        card_signature_dict['sign'] = hashlib.sha1(str_to_sign).hexdigest()
+        signer = WeChatSigner()
+        signer.add_data(*card_signature_dict.values())
+        card_signature_dict['sign'] = signer.signature
+        # list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
+        # str_to_sign = "".join(list_before_sign).encode()
+        # card_signature_dict['sign'] = hashlib.sha1(str_to_sign).hexdigest()
         return card_signature_dict
 
     def _create_timestamp(self):

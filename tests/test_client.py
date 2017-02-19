@@ -544,7 +544,7 @@ class WeChatClientTestCase(unittest.TestCase):
         noncestr = 'Wm3WZYTPz0wzccnW'
         jsapi_card_ticket = 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg'
         timestamp = 1414587457
-        signature_dict = self.client.jsapi.get_jsapi_card_signature_dict(
+        signature_dict = self.client.jsapi.get_jsapi_card_signature_params(
             noncestr=noncestr,
             jsapi_card_ticket=jsapi_card_ticket,
             timestamp=timestamp,
