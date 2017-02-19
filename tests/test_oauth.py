@@ -49,14 +49,14 @@ class WeChatOAuthTestCase(unittest.TestCase):
     def test_get_authorize_url(self):
         authorize_url = self.oauth.authorize_url
         self.assertEqual(
-            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A//localhost&response_type=code&scope=snsapi_base#wechat_redirect',  # NOQA
+            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=snsapi_base#wechat_redirect',  # NOQA
             authorize_url
         )
 
     def test_get_qrconnect_url(self):
         url = self.oauth.qrconnect_url
         self.assertEqual(
-            'https://open.weixin.qq.com/connect/qrconnect?appid=123456&redirect_uri=http%3A//localhost&response_type=code&scope=snsapi_login#wechat_redirect',  # NOQA
+            'https://open.weixin.qq.com/connect/qrconnect?appid=123456&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=snsapi_login#wechat_redirect',  # NOQA
             url
         )
 
