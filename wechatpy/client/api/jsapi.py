@@ -38,8 +38,8 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         :return: ticket
         """
-        ticket_key = '{}_jsapi_ticket'.format(self.appid)
-        expires_at_key = '{}_jsapi_ticket_expires_at'.format(self.appid)
+        ticket_key = '{0}_jsapi_ticket'.format(self.appid)
+        expires_at_key = '{0}_jsapi_ticket_expires_at'.format(self.appid)
         ticket = self.session.get(ticket_key)
         expires_at = self.session.get(expires_at_key, 0)
         if not ticket or expires_at < int(time.time()):
@@ -78,8 +78,8 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         :return: ticket
         """
-        ticket_response = self.session.get('{}_jsapi_card_ticket'.format(self.appid))
-        expires_at = self.session.get('{}_jsapi_card_ticket_expires_at'.format(self.appid), 0)
+        ticket_response = self.session.get('{0}_jsapi_card_ticket'.format(self.appid))
+        expires_at = self.session.get('{0}_jsapi_card_ticket_expires_at'.format(self.appid), 0)
         if not ticket_response or expires_at < int(time.time()):
             ticket_response = self.get_ticket('wx_card')
             ticket = ticket_response['ticket']
