@@ -539,12 +539,12 @@ class WeChatClientTestCase(unittest.TestCase):
             )
             self.assertEqual(7200, result['expires_in'])
 
-    def test_jsapi_get_jsapi_card_signature_dict(self):
+    def test_jsapi_get_jsapi_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
         noncestr = 'Wm3WZYTPz0wzccnW'
         jsapi_card_ticket = 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg'
         timestamp = 1414587457
-        signature_dict = self.client.jsapi.get_jsapi_card_signature_params(
+        signature_dict = self.client.jsapi.get_jsapi_card_params(
             noncestr=noncestr,
             jsapi_card_ticket=jsapi_card_ticket,
             timestamp=timestamp,

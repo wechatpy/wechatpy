@@ -88,7 +88,7 @@ class WeChatJSAPI(BaseWeChatAPI):
             self.session.set('jsapi_card_ticket_expires_at', expires_at)
         return jsapi_card_ticket_response
 
-    def get_jsapi_card_signature_params(self, jsapi_card_ticket, card_type, **kwargs):
+    def get_jsapi_card_params(self, jsapi_card_ticket, card_type, **kwargs):
         """
         参数意义见微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
         :param jsapi_card_ticket: 用于卡券的微信 api_ticket
