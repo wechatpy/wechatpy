@@ -93,7 +93,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         参数意义见微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
         :param jsapi_card_ticket: 用于卡券的微信 api_ticket
         :param card_type: 
-        :param kwargs: 非必须参数：nonce_str, timestamp, code, openid, fixed_begintimestamp, outer_str
+        :param kwargs: 非必须参数：noncestr, timestamp, code, openid, fixed_begintimestamp, outer_str
         :return: 包含调用jssdk所有所需参数的 dict
         """
         card_signature_dict = {
@@ -101,12 +101,9 @@ class WeChatJSAPI(BaseWeChatAPI):
             'noncestr': kwargs.get('noncestr', random_string()),
             'api_ticket': jsapi_card_ticket,
             'appid': self.appid,
-            'timestamp': kwargs.get('timestamp', self._create_timestamp()),
+            'timestamp': kwargs.get('timestamp', str(int(time.time()))),
         }
         list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
         str_to_sign = "".join(list_before_sign).encode()
         card_signature_dict['sign'] = hashlib.sha1(str_to_sign).hexdigest()
         return card_signature_dict
-
-    def _create_timestamp(self):
-        return str(int(time.time()))
