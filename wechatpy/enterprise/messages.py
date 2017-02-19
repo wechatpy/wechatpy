@@ -44,6 +44,7 @@ class VideoMessage(messages.VideoMessage):
 class LocationMessage(messages.LocationMessage):
     agent = IntegerField('AgentID', 0)
 
+
 @register_message('link')
 class LinkMessage(messages.LinkMessage):
     agent = IntegerField('AgentID', 0)
