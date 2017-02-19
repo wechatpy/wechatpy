@@ -52,7 +52,6 @@ class WeChatSigner(object):
     def signature(self):
         """Get data signature"""
         self._data.sort()
-        print(self._data)
         str_to_sign = self._delimiter.join(self._data)
         return hashlib.sha1(str_to_sign).hexdigest()
 

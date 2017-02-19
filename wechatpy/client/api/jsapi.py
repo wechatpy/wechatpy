@@ -103,13 +103,9 @@ class WeChatJSAPI(BaseWeChatAPI):
             'appid': self.appid,
             'timestamp': kwargs.get('timestamp', self._create_timestamp()),
         }
-        card_signature_dict.update(kwargs)
-        signer = WeChatSigner()
-        signer.add_data(*card_signature_dict.values())
-        card_signature_dict['sign'] = signer.signature
-        # list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
-        # str_to_sign = "".join(list_before_sign).encode()
-        # card_signature_dict['sign'] = hashlib.sha1(str_to_sign).hexdigest()
+        list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
+        str_to_sign = "".join(list_before_sign).encode()
+        card_signature_dict['sign'] = hashlib.sha1(str_to_sign).hexdigest()
         return card_signature_dict
 
     def _create_timestamp(self):
