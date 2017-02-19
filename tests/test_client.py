@@ -528,6 +528,35 @@ class WeChatClientTestCase(unittest.TestCase):
             signature
         )
 
+    def test_jsapi_get_jsapi_card_ticket(self):
+        """card_ticket 与 jsapi_ticket 的 api 都相同，除了请求参数 type 为 wx_card
+        所以这里使用与 `test_jsapi_get_ticket` 相同的测试文件"""
+        with HTTMock(wechat_api_mock):
+            result = self.client.jsapi.get_jsapi_card_ticket()
+            self.assertEqual(
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
+                result['ticket']
+            )
+            self.assertEqual(7200, result['expires_in'])
+
+    def test_jsapi_get_jsapi_card_signature_dict(self):
+        """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
+        noncestr = 'Wm3WZYTPz0wzccnW'
+        jsapi_card_ticket = 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg'
+        timestamp = 1414587457
+        signature_dict = self.client.jsapi.get_jsapi_card_signature_dict(
+            noncestr=noncestr,
+            jsapi_card_ticket=jsapi_card_ticket,
+            timestamp=timestamp,
+            card_type='GROUPON',
+        )
+        self.assertEqual(
+            {'card_type': 'GROUPON', 'noncestr': 'Wm3WZYTPz0wzccnW',
+             'api_ticket': 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg',
+             'appid': '123456', 'timestamp': 1414587457, 'sign': 'c47b1fb500eb35d8f2f9b9375b4491089df953e2'},
+            signature_dict
+        )
+
     def test_menu_get_menu_info(self):
         with HTTMock(wechat_api_mock):
             menu_info = self.client.menu.get_menu_info()
