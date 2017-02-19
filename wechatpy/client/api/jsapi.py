@@ -88,10 +88,10 @@ class WeChatJSAPI(BaseWeChatAPI):
             self.session.set('jsapi_card_ticket_expires_at', expires_at)
         return ticket_response
 
-    def get_jsapi_card_params(self, jsapi_card_ticket, card_type, **kwargs):
+    def get_jsapi_card_params(self, card_ticket, card_type, **kwargs):
         """
         参数意义见微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
-        :param jsapi_card_ticket: 用于卡券的微信 api_ticket
+        :param card_ticket: 用于卡券的微信 api_ticket
         :param card_type: 
         :param kwargs: 非必须参数：noncestr, timestamp, code, openid, fixed_begintimestamp, outer_str
         :return: 包含调用jssdk所有所需参数的 dict
@@ -99,7 +99,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         card_signature_dict = {
             'card_type': card_type,
             'noncestr': kwargs.get('noncestr', random_string()),
-            'api_ticket': jsapi_card_ticket,
+            'api_ticket': card_ticket,
             'appid': self.appid,
             'timestamp': kwargs.get('timestamp', str(int(time.time()))),
         }
