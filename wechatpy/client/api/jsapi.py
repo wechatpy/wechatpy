@@ -19,7 +19,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatJSAPI(BaseWeChatAPI):
 
-    def get_ticket_response(self, type='jsapi'):
+    def get_ticket(self, type='jsapi'):
         """
         获取微信 JS-SDK ticket
 
@@ -43,9 +43,9 @@ class WeChatJSAPI(BaseWeChatAPI):
         ticket = self.session.get(ticket_key)
         expires_at = self.session.get(expires_at_key, 0)
         if not ticket or expires_at < int(time.time()):
-            jsapi_ticket = self.get_ticket_response('jsapi')
-            ticket = jsapi_ticket['ticket']
-            expires_at = int(time.time()) + int(jsapi_ticket['expires_in'])
+            jsapi_ticket_response = self.get_ticket('jsapi')
+            ticket = jsapi_ticket_response['ticket']
+            expires_at = int(time.time()) + int(jsapi_ticket_response['expires_in'])
             self.session.set(ticket_key, ticket)
             self.session.set(expires_at_key, expires_at)
         return ticket
@@ -84,7 +84,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         ticket = self.session.get(jsapi_card_ticket_key)
         expires_at = self.session.get(jsapi_card_ticket_expire_at_key, 0)
         if not ticket or expires_at < int(time.time()):
-            ticket_response = self.get_ticket_response('wx_card')
+            ticket_response = self.get_ticket('wx_card')
             ticket = ticket_response['ticket']
             expires_at = int(time.time()) + int(ticket_response['expires_in'])
             self.session.set(jsapi_card_ticket_key, ticket)
