@@ -532,12 +532,16 @@ class WeChatClientTestCase(unittest.TestCase):
         """card_ticket 与 jsapi_ticket 的 api 都相同，除了请求参数 type 为 wx_card
         所以这里使用与 `test_jsapi_get_ticket` 相同的测试文件"""
         with HTTMock(wechat_api_mock):
-            result = self.client.jsapi.get_jsapi_card_ticket()
+            ticket = self.client.jsapi.get_jsapi_card_ticket()
             self.assertEqual(
                 'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
-                result['ticket']
+                ticket
             )
-            self.assertEqual(7200, result['expires_in'])
+            self.assertTrue(7200 < self.client.session.get('{0}_jsapi_card_ticket_expires_at'.format(self.client.appid)))
+            self.assertEqual(
+                self.client.session.get('{0}_jsapi_card_ticket'.format(self.client.appid)),
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',
+                )
 
     def test_jsapi_get_jsapi_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
