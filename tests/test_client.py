@@ -503,9 +503,9 @@ class WeChatClientTestCase(unittest.TestCase):
             )
             self.assertEqual(1, len(result))
 
-    def test_jsapi_get_ticket(self):
+    def test_jsapi_get_ticket_response(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.jsapi.get_ticket()
+            result = self.client.jsapi.get_ticket_response()
             self.assertEqual(
                 'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
                 result['ticket']
