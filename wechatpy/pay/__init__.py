@@ -27,6 +27,8 @@ def _is_api_endpoint(obj):
 
 class WeChatPay(object):
     """
+    微信支付接口
+    
     :param appid: 微信公众号 appid
     :param api_key: 商户 key
     :param mch_id: 商户号
