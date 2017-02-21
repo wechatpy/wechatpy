@@ -27,8 +27,6 @@ def _is_api_endpoint(obj):
 
 class WeChatPay(object):
     """
-    微信红包接口
-
     :param appid: 微信公众号 appid
     :param api_key: 商户 key
     :param mch_id: 商户号
@@ -51,6 +49,7 @@ class WeChatPay(object):
     tools = api.WeChatTools()
     """工具类接口"""
     jsapi = api.WeChatJSAPI()
+    """公众号网页 JS 支付接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
