@@ -43,3 +43,28 @@ class WeChatService(BaseWeChatAPI):
                 'auth_code': auth_code,
             }
         )
+
+    def get_login_url(self, login_ticket, target, agentid=None, provider_access_token=None):
+        """
+        获取登录企业号官网的url
+
+        详情请参考
+        http://qydev.weixin.qq.com/wiki/index.php?title=获取登录企业号官网的url
+
+        :param provider_access_token: 服务提供商的 accesstoken
+        :param login_ticket: 通过get_login_info得到的login_ticket, 10小时有效
+        :param target: 登录跳转到企业号后台的目标页面
+        :param agentid: 可选，授权方应用id
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'service/get_login_url',
+            params={
+                'provider_access_token': provider_access_token,
+            },
+            data={
+                'login_ticket': login_ticket,
+                'target': target,
+                'agentid': agentid,
+            }
+        )
