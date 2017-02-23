@@ -23,12 +23,12 @@ class WeChatService(BaseWeChatAPI):
             }
         )
 
-    def get_login_info(self, provider_access_token, auth_code):
+    def get_login_info(self, auth_code, provider_access_token=None):
         """
-        获取企业号管理员登录信息
+        获取企业号登录用户信息
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=获取企业号管理员登录信息
+        http://qydev.weixin.qq.com/wiki/index.php?title=获取企业号登录用户信息
 
         :param provider_access_token: 服务提供商的 accesstoken
         :param auth_code: OAuth 2.0 授权企业号管理员登录产生的 code
