@@ -28,7 +28,7 @@ def _is_api_endpoint(obj):
 class WeChatPay(object):
     """
     微信支付接口
-    
+
     :param appid: 微信公众号 appid
     :param api_key: 商户 key
     :param mch_id: 商户号
@@ -196,5 +196,8 @@ class WeChatPay(object):
         if sign != real_sign:
             raise InvalidSignatureException()
 
+        for key in ('total_fee', 'settlement_total_fee', 'cash_fee', 'coupon_fee', 'coupon_count'):
+            if key in data:
+                data[key] = int(data[key])
         data['sign'] = sign
         return data
