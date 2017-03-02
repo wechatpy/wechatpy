@@ -479,7 +479,6 @@ class WeChatMessage(BaseWeChatAPI):
         :param template_id: 模板 ID。在公众平台线上模板库中选用模板获得
         :param url: 链接地址
         :param data: 模板消息数据
-
         :return: 返回的 JSON 数据包
         """
         return self._post(
@@ -488,7 +487,6 @@ class WeChatMessage(BaseWeChatAPI):
                 'touser': user_id,
                 'template_id': template_id,
                 'url': url,
-                'topcolor': top_color,
                 'data': data
             }
         )
