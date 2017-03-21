@@ -1,6 +1,40 @@
 Changelog
 ================
 
+Version 1.4.0
+------------------
+
+Unreleased
+
++ 微信硬件接口部分更新
++ `jsapi_ticket` session 存储 key 增加 appid/corp_id 前缀
++ 修复 OAuth `redirect_uri` 编码问题
++ 增加微信卡券 ticket 获取及签名
++ 更新企业号登录授权相关接口
++ WeChatPayException 在 str() 和 repr() 里增加更详细的错误描述
+
+Breaking Changes:
+
++ 根据最新的微信支付文档增加删除了一些参数
++ send_template 根据最新文档移除 top_color 参数
+
+Version 1.3.1
+------------------
+
+Release on 2017-02-06
+
++ 修复企业号部分接口传参不全的问题
+
+Version 1.3.0
+-------------------
+
+Release on 2017-01-08
+
++ 降低 JSON/XML 解析出错时的日志级别
++ 移除废弃的企业号邀请成员关注接口
++ 微信支付增加撤销订单和授权码转换 openid 接口
++ 部分文档更新
+
 Version 1.2.15
 ---------------------
 
