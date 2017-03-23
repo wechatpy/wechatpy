@@ -26,19 +26,17 @@ class WeChatException(Exception):
         self.errmsg = errmsg
 
     def __str__(self):
+        _repr = 'Error code: {code}, message: {msg}'.format(
+            code=self.errcode,
+            msg=self.errmsg
+        )
         if six.PY2:
-            return to_binary('Error code: {code}, message: {msg}'.format(
-                code=self.errcode,
-                msg=self.errmsg
-            ))
+            return to_binary(_repr)
         else:
-            return to_text('Error code: {code}, message: {msg}'.format(
-                code=self.errcode,
-                msg=self.errmsg
-            ))
+            return to_text(_repr)
 
     def __repr__(self):
-        _repr = '{klass}({code}, {msg}'.format(
+        _repr = '{klass}({code}, {msg})'.format(
             klass=self.__class__.__name__,
             code=self.errcode,
             msg=self.errmsg
