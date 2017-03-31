@@ -9,7 +9,7 @@ class MerchantGroup(BaseWeChatAPI):
         return self._post(
             'merchant/group/add',
             data={
-                'group_detail': {
+                'groups_detail': {
                     'group_name': name,
                     'product_list': product_list
                 }
@@ -45,7 +45,7 @@ class MerchantGroup(BaseWeChatAPI):
     def get_all(self):
         res = self._get(
             'merchant/group/getall',
-            result_processor=lambda x: x['group_detail']
+            result_processor=lambda x: x['groups_detail']
         )
         return res
 
@@ -55,6 +55,6 @@ class MerchantGroup(BaseWeChatAPI):
             data={
                 'group_id': group_id
             },
-            result_processor=lambda x: x['group_detail']
+            result_processor=lambda x: x['groups_detail']
         )
         return res
