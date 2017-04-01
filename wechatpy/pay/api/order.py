@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import time
 import random
 from datetime import datetime, timedelta
 
+from wechatpy.utils import timezone
 from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.utils import random_string, to_text
+from wechatpy.pay.utils import calculate_signature
 
 
 class WeChatOrder(BaseWeChatPayAPI):
@@ -12,7 +16,7 @@ class WeChatOrder(BaseWeChatPayAPI):
     def create(self, trade_type, body, total_fee, notify_url, client_ip=None,
                user_id=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', time_start=None, time_expire=None,
-               goods_tag=None, product_id=None, device_info=None):
+               goods_tag=None, product_id=None, device_info=None, limit_pay=None):
         """
         统一下单接口
 
@@ -31,9 +35,10 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param goods_tag: 可选，商品标记，代金券或立减优惠功能的参数
         :param product_id: 可选，trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义
         :param device_info: 可选，终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
+        :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :return: 返回的结果数据
         """
-        now = datetime.now()
+        now = datetime.fromtimestamp(time.time(), tz=timezone('Asia/Shanghai'))
         hours_later = now + timedelta(hours=2)
         if time_start is None:
             time_start = now
@@ -60,6 +65,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'goods_tag': goods_tag,
             'notify_url': notify_url,
             'trade_type': trade_type,
+            'limit_pay': limit_pay,
             'product_id': product_id,
             'openid': user_id,
         }
@@ -92,3 +98,41 @@ class WeChatOrder(BaseWeChatPayAPI):
             'out_trade_no': out_trade_no,
         }
         return self._post('pay/closeorder', data=data)
+
+    def get_appapi_params(self, prepay_id, timestamp=None, nonce_str=None):
+        """
+        获取 APP 支付参数
+
+        :param prepay_id: 统一下单接口返回的 prepay_id 参数值
+        :param timestamp: 可选，时间戳，默认为当前时间戳
+        :param nonce_str: 可选，随机字符串，默认自动生成
+        :return: 签名
+        """
+        data = {
+            'appid': self.appid,
+            'partnerid': self.mch_id,
+            'prepayid': prepay_id,
+            'package': 'Sign=WXPay',
+            'timestamp': timestamp or to_text(int(time.time())),
+            'noncestr': nonce_str or random_string(32)
+        }
+        sign = calculate_signature(data, self._client.api_key)
+        data['sign'] = sign
+        return data
+
+    def reverse(self, transaction_id=None, out_trade_no=None):
+        """
+        撤销订单
+
+        :param transaction_id: 可选，微信的订单号，优先使用
+        :param out_trade_no: 可选，商户系统内部的订单号,
+                            transaction_id、out_trade_no二选一，
+                            如果同时存在优先级：transaction_id> out_trade_no
+        :return: 返回的结果数据
+        """
+        data = {
+            'appid': self.appid,
+            'transaction_id': transaction_id,
+            'out_trade_no': out_trade_no,
+        }
+        return self._post('secapi/pay/reverse', data=data)

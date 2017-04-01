@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 import sys
 import inspect
+import logging
 
 import requests
 import xmltodict
@@ -9,11 +10,15 @@ from xml.parsers.expat import ExpatError
 from optionaldict import optionaldict
 
 from wechatpy.utils import random_string
-from wechatpy.exceptions import WeChatPayException
-from wechatpy.pay.utils import calculate_signature
-from wechatpy.pay.utils import dict_to_xml
+from wechatpy.exceptions import WeChatPayException, InvalidSignatureException
+from wechatpy.pay.utils import (
+    calculate_signature, _check_signature, dict_to_xml
+)
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
+
+
+logger = logging.getLogger(__name__)
 
 
 def _is_api_endpoint(obj):
@@ -21,6 +26,16 @@ def _is_api_endpoint(obj):
 
 
 class WeChatPay(object):
+    """
+    微信支付接口
+
+    :param appid: 微信公众号 appid
+    :param api_key: 商户 key
+    :param mch_id: 商户号
+    :param sub_mch_id: 可选，子商户号，受理模式下必填
+    :param mch_cert: 必填，商户证书路径
+    :param mch_key: 必填，商户证书私钥路径
+    """
     redpack = api.WeChatRedpack()
     """红包接口"""
     transfer = api.WeChatTransfer()
@@ -30,12 +45,13 @@ class WeChatPay(object):
     order = api.WeChatOrder()
     """订单接口"""
     refund = api.WeChatRefund()
-    """刷卡支付接口"""
-    micropay = api.WeChatMicroPay()
     """退款接口"""
+    micropay = api.WeChatMicroPay()
+    """刷卡支付接口"""
     tools = api.WeChatTools()
     """工具类接口"""
     jsapi = api.WeChatJSAPI()
+    """公众号网页 JS 支付接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
@@ -125,6 +141,7 @@ class WeChatPay(object):
             data = xmltodict.parse(xml)['xml']
         except (xmltodict.ParsingInterrupted, ExpatError):
             # 解析 XML 失败
+            logger.debug('WeChat payment result xml parsing error', exc_info=True)
             return xml
 
         return_code = data['return_code']
@@ -159,3 +176,28 @@ class WeChatPay(object):
             url_or_endpoint=url,
             **kwargs
         )
+
+    def check_signature(self, params):
+        return _check_signature(params, self.api_key)
+
+    def parse_payment_result(self, xml):
+        """解析微信支付结果通知"""
+        try:
+            data = xmltodict.parse(xml)
+        except (xmltodict.ParsingInterrupted, ExpatError):
+            raise InvalidSignatureException()
+
+        if not data or 'xml' not in data:
+            raise InvalidSignatureException()
+
+        data = data['xml']
+        sign = data.pop('sign', None)
+        real_sign = calculate_signature(data, self.api_key)
+        if sign != real_sign:
+            raise InvalidSignatureException()
+
+        for key in ('total_fee', 'settlement_total_fee', 'cash_fee', 'coupon_fee', 'coupon_count'):
+            if key in data:
+                data[key] = int(data[key])
+        data['sign'] = sign
+        return data

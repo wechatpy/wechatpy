@@ -468,19 +468,17 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def send_template(self, user_id, template_id, url, top_color, data):
+    def send_template(self, user_id, template_id, url, data):
         """
         发送模板消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html
+        https://mp.weixin.qq.com/wiki?id=mp1445241432&lang=zh_CN
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param template_id: 模板 ID。在公众平台线上模板库中选用模板获得
         :param url: 链接地址
-        :param top_color: 消息顶部颜色
         :param data: 模板消息数据
-
         :return: 返回的 JSON 数据包
         """
         return self._post(
@@ -489,7 +487,6 @@ class WeChatMessage(BaseWeChatAPI):
                 'touser': user_id,
                 'template_id': template_id,
                 'url': url,
-                'topcolor': top_color,
                 'data': data
             }
         )

@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import sys
 import time
 import inspect
+import logging
 
 import six
 import requests
@@ -10,6 +11,9 @@ from wechatpy.utils import json, get_querystring
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
+
+
+logger = logging.getLogger(__name__)
 
 
 def _is_api_endpoint(obj):
@@ -40,11 +44,12 @@ class BaseWeChatClient(object):
                 setattr(self, name, api)
         return self
 
-    def __init__(self, appid, access_token=None, session=None, timeout=None):
+    def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
         self.appid = appid
         self.expires_at = None
         self.session = session or MemoryStorage()
         self.timeout = timeout
+        self.auto_retry = auto_retry
 
         if isinstance(session, six.string_types):
             from shove import Shove
@@ -57,7 +62,8 @@ class BaseWeChatClient(object):
             storage = ShoveStorage(shove, prefix)
             self.session = storage
 
-        self.session.set(self.access_token_key, access_token)
+        if access_token:
+            self.session.set(self.access_token_key, access_token)
 
     @property
     def access_token_key(self):
@@ -110,11 +116,11 @@ class BaseWeChatClient(object):
         )
 
     def _decode_result(self, res):
-        res.encoding = 'utf-8'
         try:
-            result = res.json()
+            result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
         except (TypeError, ValueError):
             # Return origin response object if we can not decode it as JSON
+            logger.debug('Can not decode response as JSON', exc_info=True)
             return res
         return result
 
@@ -138,8 +144,8 @@ class BaseWeChatClient(object):
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
             errmsg = result.get('errmsg', errcode)
-            if errcode in (40001, 40014, 42001):
-                # access_token expired, fetch a new one and retry request
+            if errcode in (40001, 40014, 42001) and self.auto_retry:
+                logger.info('Access token expired, fetch a new one and retry request')
                 self.fetch_access_token()
                 access_token = self.session.get(self.access_token_key)
                 kwargs['params']['access_token'] = access_token
@@ -189,6 +195,7 @@ class BaseWeChatClient(object):
 
     def _fetch_access_token(self, url, params):
         """ The real fetch access token """
+        logger.info('Fetching access token')
         res = requests.get(
             url=url,
             params=params

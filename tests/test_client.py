@@ -242,6 +242,17 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual('iWithery', result[0]['nickname'])
             self.assertEqual(user_list[1]['openid'], result[1]['openid'])
 
+    def test_get_user_info_batch_openid_list(self):
+        user_list = [
+            'otvxTs4dckWG7imySrJd6jSi0CWE',
+            'otvxTs_JZ6SEiP0imdhpi50fuSZg'
+        ]
+        with HTTMock(wechat_api_mock):
+            result = self.client.user.get_batch(user_list)
+            self.assertEqual(user_list[0], result[0]['openid'])
+            self.assertEqual('iWithery', result[0]['nickname'])
+            self.assertEqual(user_list[1], result[1]['openid'])
+
     def test_create_qrcode(self):
         data = {
             'expire_seconds': 1800,
@@ -492,7 +503,7 @@ class WeChatClientTestCase(unittest.TestCase):
             )
             self.assertEqual(1, len(result))
 
-    def test_jsapi_get_ticket(self):
+    def test_jsapi_get_ticket_response(self):
         with HTTMock(wechat_api_mock):
             result = self.client.jsapi.get_ticket()
             self.assertEqual(
@@ -515,6 +526,39 @@ class WeChatClientTestCase(unittest.TestCase):
         self.assertEqual(
             '0f9de62fce790f9a083d5c99e95740ceb90c27ed',
             signature
+        )
+
+    def test_jsapi_get_jsapi_card_ticket(self):
+        """card_ticket 与 jsapi_ticket 的 api 都相同，除了请求参数 type 为 wx_card
+        所以这里使用与 `test_jsapi_get_ticket` 相同的测试文件"""
+        with HTTMock(wechat_api_mock):
+            ticket = self.client.jsapi.get_jsapi_card_ticket()
+            self.assertEqual(
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
+                ticket
+            )
+            self.assertTrue(7200 < self.client.session.get('{0}_jsapi_card_ticket_expires_at'.format(self.client.appid)))
+            self.assertEqual(
+                self.client.session.get('{0}_jsapi_card_ticket'.format(self.client.appid)),
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',
+                )
+
+    def test_jsapi_get_jsapi_card_params(self):
+        """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
+        noncestr = 'Wm3WZYTPz0wzccnW'
+        card_ticket = 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg'
+        timestamp = 1414587457
+        signature_dict = self.client.jsapi.get_jsapi_card_params(
+            noncestr=noncestr,
+            card_ticket=card_ticket,
+            timestamp=timestamp,
+            card_type='GROUPON',
+        )
+        self.assertEqual(
+            {'card_type': 'GROUPON', 'noncestr': 'Wm3WZYTPz0wzccnW',
+             'api_ticket': 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg',
+             'appid': '123456', 'timestamp': 1414587457, 'sign': 'c47b1fb500eb35d8f2f9b9375b4491089df953e2'},
+            signature_dict
         )
 
     def test_menu_get_menu_info(self):
@@ -654,6 +698,12 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.wifi.list_shops()
             self.assertEqual(16, res['totalcount'])
             self.assertEqual(1, res['pageindex'])
+
+    def test_wifi_get_shop(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.get_shop(1)
+            self.assertEqual(1, res['bar_type'])
+            self.assertEqual(2, res['ap_count'])
 
     def test_wifi_add_device(self):
         with HTTMock(wechat_api_mock):

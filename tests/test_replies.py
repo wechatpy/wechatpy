@@ -111,3 +111,9 @@ class ReplyTestCase(unittest.TestCase):
         r1.add_article(article)
         r2 = ArticlesReply()
         self.assertTrue(r1.render() != r2.render())
+
+    def test_empty_reply(self):
+        from wechatpy.replies import EmptyReply
+
+        reply = EmptyReply()
+        self.assertEqual('', reply.render())

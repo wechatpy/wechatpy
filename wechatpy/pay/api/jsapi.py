@@ -34,7 +34,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         :param prepay_id: 统一下单接口返回的 prepay_id 参数值
         :param timestamp: 可选，时间戳，默认为当前时间戳
         :param nonce_str: 可选，随机字符串，默认自动生成
-        :return: 签名
+        :return: 参数
         """
         data = {
             'appId': self.appid,

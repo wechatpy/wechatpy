@@ -84,6 +84,23 @@ class ParseMessageTestCase(unittest.TestCase):
         msg = parse_message(xml)
         self.assertEqual('location', msg.type)
 
+    def test_parse_link_message(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[fromUser]]></FromUserName>
+        <CreateTime>1351776360</CreateTime>
+        <MsgType><![CDATA[link]]></MsgType>
+        <Title><![CDATA[公众平台官网链接]]></Title>
+        <Description><![CDATA[公众平台官网链接]]></Description>
+        <Url><![CDATA[url]]></Url>
+        <PicUrl><![CDATA[picurl]]></PicUrl>
+        <MsgId>1234567890123456</MsgId>
+        <AgentID>1</AgentID>
+        </xml>"""
+
+        msg = parse_message(xml)
+        self.assertEqual('link', msg.type)
+
     def test_parse_subscribe_event(self):
         xml = """<xml>
         <ToUserName><![CDATA[toUser]]></ToUserName>

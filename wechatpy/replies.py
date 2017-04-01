@@ -11,7 +11,7 @@ from __future__ import absolute_import, unicode_literals
 import time
 import six
 
-from wechatpy.fields import(
+from wechatpy.fields import (
     StringField,
     IntegerField,
     ImageField,
@@ -82,6 +82,20 @@ class BaseReply(six.with_metaclass(MessageMetaClass)):
             return to_binary(self.render())
         else:
             return to_text(self.render())
+
+
+@register_reply('empty')
+class EmptyReply(BaseReply):
+    """
+    回复空串
+
+    微信服务器不会对此作任何处理，并且不会发起重试
+    """
+    def __init__(self):
+        pass
+
+    def render(self):
+        return ''
 
 
 @register_reply('text')
@@ -302,7 +316,9 @@ def create_reply(reply, message=None, render=False):
     Create a reply quickly
     """
     r = None
-    if isinstance(reply, BaseReply):
+    if not reply:
+        r = EmptyReply()
+    elif isinstance(reply, BaseReply):
         r = reply
         if message:
             r.source = message.target

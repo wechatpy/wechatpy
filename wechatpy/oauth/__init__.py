@@ -16,15 +16,15 @@ except ImportError:
     from pkg_resources import declare_namespace
     declare_namespace(__name__)
 
-import six
 import requests
+from six.moves.urllib.parse import quote
 
 from wechatpy.utils import json
 from wechatpy.exceptions import WeChatOAuthException
 
 
 class WeChatOAuth(object):
-    """ 微信公众平台 OAuth 网页授权 """
+    """微信公众平台 OAuth 网页授权 """
 
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
@@ -32,11 +32,12 @@ class WeChatOAuth(object):
     def __init__(self, app_id, secret, redirect_uri,
                  scope='snsapi_base', state=''):
         """
-        :param app_id: WeChat app id
-        :param secret: WeChat app secret
+
+        :param app_id: 微信公众号 app_id
+        :param secret: 微信公众号 secret
         :param redirect_uri: OAuth2 redirect URI
-        :param scope: WeChat OAuth2 scope
-        :param state: WeChat OAuth2 state
+        :param scope: 可选，微信公众号 OAuth2 scope，默认为 ``snsapi_base``
+        :param state: 可选，微信公众号 OAuth2 state
         """
         self.app_id = app_id
         self.secret = secret
@@ -73,8 +74,7 @@ class WeChatOAuth(object):
                 request=reqe.request,
                 response=reqe.response
             )
-        res.encoding = 'UTF-8'
-        result = res.json()
+        result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
@@ -98,10 +98,11 @@ class WeChatOAuth(object):
 
     @property
     def authorize_url(self):
-        """Generate authorize url
-        :return: An url
+        """获取授权跳转地址
+
+        :return: URL 地址
         """
-        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
+        redirect_uri = quote(self.redirect_uri, safe='')
         url_list = [
             self.OAUTH_BASE_URL,
             'oauth2/authorize?appid=',
@@ -118,10 +119,11 @@ class WeChatOAuth(object):
 
     @property
     def qrconnect_url(self):
-        """Generate qrconnect url
-        :return: An url
+        """生成扫码登录地址
+
+        :return: URL 地址
         """
-        redirect_uri = six.moves.urllib.parse.quote(self.redirect_uri)
+        redirect_uri = quote(self.redirect_uri, safe='')
         url_list = [
             self.OAUTH_BASE_URL,
             'qrconnect?appid=',
@@ -137,9 +139,10 @@ class WeChatOAuth(object):
         return ''.join(url_list)
 
     def fetch_access_token(self, code):
-        """Fetch OAuth2 access token
-        :param code: code argument from url
-        :return: JSON data
+        """获取 access_token
+
+        :param code: 授权完成跳转回来后 URL 中的 code 参数
+        :return: JSON 数据包
         """
         res = self._get(
             'sns/oauth2/access_token',
@@ -157,9 +160,10 @@ class WeChatOAuth(object):
         return res
 
     def refresh_access_token(self, refresh_token):
-        """Refresh OAuth2 access token
+        """刷新 access token
+
         :param refresh_token: OAuth2 refresh token
-        :return: JSON data
+        :return: JSON 数据包
         """
         res = self._get(
             'sns/oauth2/refresh_token',
@@ -176,11 +180,12 @@ class WeChatOAuth(object):
         return res
 
     def get_user_info(self, openid=None, access_token=None, lang='zh_CN'):
-        """Get user infomation
-        :param openid: WeChat openid, optional
-        :param access_token: WeChat OAuth2 access token, optional
-        :param lang: Preferred language code, optional
-        :return: JSON data
+        """获取用户信息
+
+        :param openid: 可选，微信 openid，默认获取当前授权用户信息
+        :param access_token: 可选，access_token，默认使用当前授权用户的 access_token
+        :param lang: 可选，语言偏好, 默认为 ``zh_CN``
+        :return: JSON 数据包
         """
         openid = openid or self.open_id
         access_token = access_token or self.access_token
@@ -194,10 +199,11 @@ class WeChatOAuth(object):
         )
 
     def check_access_token(self, openid=None, access_token=None):
-        """Check whether access token is valid or not
-        :param openid: WeChat openid, optional
-        :param access_token: WeChat OAuth2 access token, optional
-        :return: True if valid, else False
+        """检查 access_token 有效性
+
+        :param openid: 可选，微信 openid，默认获取当前授权用户信息
+        :param access_token: 可选，access_token，默认使用当前授权用户的 access_token
+        :return: 有效返回 True，否则 False
         """
         openid = openid or self.open_id
         access_token = access_token or self.access_token

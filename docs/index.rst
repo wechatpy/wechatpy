@@ -33,7 +33,13 @@ wechatpy 是一个微信 (WeChat) 公众平台的第三方 Python SDK, 实现了
 微信企业号平台接口
 ---------------------
 
-TODO: 待完善
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   enterprise/quickstart
+   enterprise/client
+
 
 微信公众号第三方平台接口
 -----------------------------
@@ -44,10 +50,12 @@ TODO: 待完善
    component
 
 
-示例项目
-----------
+示例项目/扩展程序
+---------------------
 
 1. `django restful demo <https://github.com/wechatpy/django-wechat-example/>`_
+2. `WeCron 基于微信的定时提醒 <https://github.com/polyrabbit/WeCron>`_
+3. `flask-wechatpy <https://github.com/cloverstd/flask-wechatpy>`_ Flask 扩展
 
 
 Changelogs

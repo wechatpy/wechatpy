@@ -97,19 +97,6 @@ class WeChatUser(BaseWeChatAPI):
             }
         )
 
-    def invite(self, user_id, tips=None):
-        """
-        邀请成员关注
-        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理成员
-        """
-        data = optionaldict()
-        data['userid'] = user_id
-        data['invite_tips'] = tips
-        return self._post(
-            'invite/send',
-            data=data
-        )
-
     def batch_delete(self, user_ids):
         """
         批量删除成员
@@ -150,7 +137,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         data = optionaldict()
         data['userid'] = user_id
-        data['agent_id'] = agent_id
+        data['agentid'] = agent_id
         return self._post('user/convert_to_openid', data=data)
 
     def convert_to_user_id(self, openid):

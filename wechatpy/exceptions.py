@@ -26,19 +26,17 @@ class WeChatException(Exception):
         self.errmsg = errmsg
 
     def __str__(self):
+        _repr = 'Error code: {code}, message: {msg}'.format(
+            code=self.errcode,
+            msg=self.errmsg
+        )
         if six.PY2:
-            return to_binary('Error code: {code}, message: {msg}'.format(
-                code=self.errcode,
-                msg=self.errmsg
-            ))
+            return to_binary(_repr)
         else:
-            return to_text('Error code: {code}, message: {msg}'.format(
-                code=self.errcode,
-                msg=self.errmsg
-            ))
+            return to_text(_repr)
 
     def __repr__(self):
-        _repr = '{klass}({code}, {msg}'.format(
+        _repr = '{klass}({code}, {msg})'.format(
             klass=self.__class__.__name__,
             code=self.errcode,
             msg=self.errmsg
@@ -105,3 +103,32 @@ class WeChatPayException(WeChatClientException):
         self.return_code = return_code
         self.result_code = result_code
         self.return_msg = return_msg
+
+    def __str__(self):
+        if six.PY2:
+            return to_binary('Error code: {code}, message: {msg}. Pay Error code: {pay_code}, message: {pay_msg}'.format(
+                code=self.return_code,
+                msg=self.return_msg,
+                pay_code=self.errcode,
+                pay_msg=self.errmsg
+            ))
+        else:
+            return to_text('Error code: {code}, message: {msg}. Pay Error code: {pay_code}, message: {pay_msg}'.format(
+                code=self.return_code,
+                msg=self.return_msg,
+                pay_code=self.errcode,
+                pay_msg=self.errmsg
+            ))
+
+    def __repr__(self):
+        _repr = '{klass}({code}, {msg}). Pay({pay_code}, {pay_msg})'.format(
+            klass=self.__class__.__name__,
+            code=self.return_code,
+            msg=self.return_msg,
+            pay_code=self.errcode,
+            pay_msg=self.errmsg
+        )
+        if six.PY2:
+            return to_binary(_repr)
+        else:
+            return to_text(_repr)

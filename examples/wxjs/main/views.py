@@ -21,10 +21,10 @@ def jsapi_signature(request):
     url = request.POST['url']
 
     client = WeChatClient(settings.WECHAT_APPID, settings.WECHAT_SECRET)
-    ticket = client.jsapi.get_ticket()
+    ticket_response = client.jsapi.get_ticket()
     signature = client.jsapi.get_jsapi_signature(
         noncestr,
-        ticket['ticket'],
+        ticket_response['ticket'],
         timestamp,
         url
     )

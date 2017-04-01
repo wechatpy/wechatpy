@@ -30,8 +30,10 @@ class WeChatMaterial(BaseWeChatAPI):
         return self._post(
             'material/add_mpnews',
             data={
-                'articles': articles_data
-            }
+                "mpnews": {
+                    "articles": articles_data
+                    }
+                }
         )
 
     def add(self, agent_id, media_type, media_file):
@@ -45,13 +47,13 @@ class WeChatMaterial(BaseWeChatAPI):
         :param media_file: 要上传的文件，一个 File-object
         :return: 返回的 JSON 数据包
         """
-        data = {
+        params = {
             'agentid': agent_id,
             'type': media_type,
         }
         return self._post(
             url='material/add_material',
-            data=data,
+            params=params,
             files={
                 'media': media_file
             }
@@ -62,6 +64,7 @@ class WeChatMaterial(BaseWeChatAPI):
         获取永久素材下载地址
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
         :return: 临时素材下载地址
@@ -82,6 +85,7 @@ class WeChatMaterial(BaseWeChatAPI):
         获取永久素材
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
         :return: requests 的 Response 实例
@@ -95,6 +99,7 @@ class WeChatMaterial(BaseWeChatAPI):
         获取永久素材：图文消息素材
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
         :return: 返回的 JSON 数据包
@@ -180,7 +185,7 @@ class WeChatMaterial(BaseWeChatAPI):
 
         :param agent_id: 企业应用的id
         :param media_type: 媒体文件类型，分别有图文（mpnews）、图片（image）、
-        语音（voice）、视频（video）和文件（file）
+                           语音（voice）、视频（video）和文件（file）
         :param offset: 从全部素材的该偏移位置开始返回，0 表示从第一个素材返回
         :param count: 返回素材的数量，取值在1到20之间
         :return: 返回的 JSON 数据包

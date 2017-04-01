@@ -140,6 +140,7 @@ class WeChatMessage(BaseWeChatAPI):
             articles_data.append({
                 'thumb_media_id': article['thumb_media_id'],
                 'author': article['author'],
+                'title': article['title'],
                 'content': article['content'],
                 'content_source_url': article['content_source_url'],
                 'digest': article['digest'],

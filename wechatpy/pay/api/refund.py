@@ -7,7 +7,7 @@ class WeChatRefund(BaseWeChatPayAPI):
 
     def apply(self, total_fee, refund_fee, out_refund_no, transaction_id=None,
               out_trade_no=None, fee_type='CNY', op_user_id=None,
-              device_info=None):
+              device_info=None, refund_account='REFUND_SOURCE_UNSETTLED_FUNDS'):
         """
         申请退款
 
@@ -19,6 +19,7 @@ class WeChatRefund(BaseWeChatPayAPI):
         :param fee_type: 可选，货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY
         :param op_user_id: 可选，操作员帐号, 默认为商户号
         :param device_info: 可选，终端设备号
+        :param refund_account: 可选，退款资金来源，仅针对老资金流商户使用，默认使用未结算资金退款
         :return: 返回的结果数据
         """
         data = {
@@ -30,8 +31,8 @@ class WeChatRefund(BaseWeChatPayAPI):
             'total_fee': total_fee,
             'refund_fee': refund_fee,
             'refund_fee_type': fee_type,
-            'op_user_id': op_user_id,
-            'device_info': device_info,
+            'op_user_id': op_user_id if op_user_id else self.mch_id,
+            'refund_account': refund_account,
         }
         return self._post('secapi/pay/refund', data=data)
 

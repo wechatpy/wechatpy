@@ -9,16 +9,22 @@
 
 [![Build Status](https://travis-ci.org/jxtech/wechatpy.svg?branch=master)](https://travis-ci.org/jxtech/wechatpy)
 [![Build status](https://ci.appveyor.com/api/projects/status/sluy95tvbe090af1/branch/master?svg=true)](https://ci.appveyor.com/project/messense/wechatpy-den93/branch/master)
-[![codecov.io](http://codecov.io/github/messense/wechatpy/coverage.svg?branch=master)](http://codecov.io/github/messense/wechatpy?branch=master)
+[![codecov.io](http://codecov.io/github/jxtech/wechatpy/coverage.svg?branch=master)](http://codecov.io/github/jxtech/wechatpy?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jxtech/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master)
 [![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.python.org/pypi/wechatpy)
 [![Updates](https://pyup.io/repos/github/jxtech/wechatpy/shield.svg)](https://pyup.io/repos/github/jxtech/wechatpy/)
 
-微信(WeChat) 公众平台第三方 Python SDK，实现了普通公众平台和企业号公众平台的解析消息、生成回复和主动调用等 API。
+微信(WeChat) 公众平台第三方 Python SDK。
 
 [【阅读文档】](http://wechatpy.readthedocs.org/zh_CN/master/) [【快速入门】](http://wechatpy.readthedocs.org/zh_CN/master/quickstart.html)
 
 [![Join the chat at https://gitter.im/messense/wechatpy](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/messense/wechatpy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+## 功能特性
+
+1. 普通公众平台被动响应和主动调用 API
+2. 企业号公众平台被动响应和主动调用 API
+3. 微信支付 API
 
 ## 安装
 
@@ -57,12 +63,20 @@ pip install wechatpy[pycrypto]
 
 请阅读 [贡献代码指南](CONTRIBUTING.md)
 
+## 问题反馈
 
-##License
+我们主要使用 [GitHub issues](https://github.com/jxtech/wechatpy/issues) 进行问题追踪和反馈。
+
+QQ 群：176596300
+
+![wechatpy QQ 群](docs/_static/images/qq-group.png)
+
+
+## License
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2015 messense
+Copyright (c) 2014-2017 messense
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

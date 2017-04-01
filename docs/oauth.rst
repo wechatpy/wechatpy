@@ -6,7 +6,11 @@
 公众号 OAuth 网页授权接入
 -----------------------------------
 
-TODO
+.. module:: wechatpy.oauth
+
+.. autoclass:: WeChatOAuth
+   :members:
+   :inherited-members:
 
 企业号 OAuth 网页授权接入
 -----------------------------------
@@ -69,3 +73,10 @@ TODO
             debug=True,
             port=9000,
         )
+
+
+.. module:: wechatpy.enterprise.client.api.oauth
+
+.. autoclass:: WeChatOAuth
+   :members:
+   :inherited-members:
