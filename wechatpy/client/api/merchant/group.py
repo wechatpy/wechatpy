@@ -5,6 +5,8 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class MerchantGroup(BaseWeChatAPI):
 
+    API_BASE_URL = 'https://api.weixin.qq.com/'
+
     def add(self, name, product_list):
         return self._post(
             'merchant/group/add',
@@ -45,7 +47,7 @@ class MerchantGroup(BaseWeChatAPI):
     def get_all(self):
         res = self._get(
             'merchant/group/getall',
-            result_processor=lambda x: x['group_detail']
+            result_processor=lambda x: x['groups_detail']
         )
         return res
 
