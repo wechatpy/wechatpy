@@ -5,6 +5,8 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class MerchantCommon(BaseWeChatAPI):
 
+    API_BASE_URL = 'https://api.weixin.qq.com/'
+
     def upload_image(self, filename, image_data):
         res = self._post(
             'merchant/common/upload_img',

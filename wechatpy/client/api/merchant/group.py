@@ -5,6 +5,8 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class MerchantGroup(BaseWeChatAPI):
 
+    API_BASE_URL = 'https://api.weixin.qq.com/'
+
     def add(self, name, product_list):
         return self._post(
             'merchant/group/add',
