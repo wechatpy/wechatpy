@@ -72,7 +72,7 @@ QQ 群：176596300
 ![wechatpy QQ 群](docs/_static/images/qq-group.png)
 
 
-##License
+## License
 
 The MIT License (MIT)
 
