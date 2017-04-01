@@ -14,6 +14,7 @@ Unreleased
 + WeChatPayException 在 str() 和 repr() 里增加更详细的错误描述
 + 微信支付退款接口增加退款资金来源参数
 + 更新微信小店接口 URL
++ 增加用户标签管理接口（替换原分组接口）
 
 Breaking Changes:
 
