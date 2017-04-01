@@ -45,7 +45,7 @@ class MerchantGroup(BaseWeChatAPI):
     def get_all(self):
         res = self._get(
             'merchant/group/getall',
-            result_processor=lambda x: x['group_detail']
+            result_processor=lambda x: x['groups_detail']
         )
         return res
 
