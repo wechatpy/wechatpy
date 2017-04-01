@@ -12,6 +12,7 @@ Unreleased
 + 增加微信卡券 ticket 获取及签名
 + 更新企业号登录授权相关接口
 + WeChatPayException 在 str() 和 repr() 里增加更详细的错误描述
++ 微信支付退款接口增加退款资金来源参数
 + 更新微信小店接口 URL
 
 Breaking Changes:
