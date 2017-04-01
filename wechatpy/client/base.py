@@ -83,6 +83,13 @@ class BaseWeChatClient(object):
         if url.startswith('https://file.api.weixin.qq.com'):
             kwargs['verify'] = False
 
+        # 微信小店API手册v1.16中将所有请求url进行了修改，去掉了cgi-bin
+        if url_or_endpoint.startswith('merchant/'):
+            url = '{base}{endpoint}'.format(
+                base='https://api.weixin.qq.com/',
+                endpoint=url_or_endpoint
+            )
+
         if 'params' not in kwargs:
             kwargs['params'] = {}
         if isinstance(kwargs['params'], dict) and \
