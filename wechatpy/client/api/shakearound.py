@@ -146,6 +146,7 @@ class WeChatShakeAround(BaseWeChatAPI):
         data['icon_url'] = icon_url
         data['page_url'] = page_url
         data['comment'] = comment
+        data['page_url'] = page_url
         res = self._post(
             'shakearound/page/add',
             data=data,
