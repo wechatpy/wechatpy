@@ -468,7 +468,7 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def send_template(self, user_id, template_id, url, data):
+    def send_template(self, user_id, template_id, url, data, miniprogram=None, pagepath=None, appid=None):
         """
         发送模板消息
 
@@ -487,6 +487,9 @@ class WeChatMessage(BaseWeChatAPI):
                 'touser': user_id,
                 'template_id': template_id,
                 'url': url,
+                'miniprogram': miniprogram,
+                'appid': appid,
+                'pagepath': pagepath,
                 'data': data
             }
         )
