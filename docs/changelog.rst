@@ -15,6 +15,8 @@ Unreleased
 + 微信支付退款接口增加退款资金来源参数
 + 更新微信小店接口 URL
 + 增加用户标签管理接口（替换原分组接口）
++ memcached session 对 python-memcached 和 pymemcache 支持 `ttl` 参数
++ 模板消息支持打开小程序
 
 Breaking Changes:
 
