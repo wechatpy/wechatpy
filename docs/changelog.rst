@@ -4,7 +4,7 @@ Changelog
 Version 1.4.0
 ------------------
 
-Unreleased
+Released on 2017-04-22
 
 + 微信硬件接口部分更新
 + `jsapi_ticket` session 存储 key 增加 appid/corp_id 前缀
