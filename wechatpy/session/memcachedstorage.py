@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from wechatpy.session import SessionStorage
 from wechatpy.utils import to_text
 from wechatpy.utils import json
@@ -23,12 +24,12 @@ class MemcachedStorage(SessionStorage):
             return default
         return json.loads(to_text(value))
 
-    def set(self, key, value, ttl=None):
+    def set(self, key, value, ttl=0):
         if value is None:
             return
         key = self.key_name(key)
         value = json.dumps(value)
-        self.mc.set(key, value)
+        self.mc.set(key, value, ttl)
 
     def delete(self, key):
         key = self.key_name(key)

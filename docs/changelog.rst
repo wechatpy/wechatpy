@@ -1,10 +1,21 @@
 Changelog
 ================
 
+Version 1.4.1
+-------------------
+
+Released on 2017-04-22
+
++ 修复模板消息小程序支持
+
+Breaking Changes:
+
++ 模板消息接口 `url` 参数为可选参数
+
 Version 1.4.0
 ------------------
 
-Unreleased
+Released on 2017-04-22
 
 + 微信硬件接口部分更新
 + `jsapi_ticket` session 存储 key 增加 appid/corp_id 前缀
@@ -14,6 +25,9 @@ Unreleased
 + WeChatPayException 在 str() 和 repr() 里增加更详细的错误描述
 + 微信支付退款接口增加退款资金来源参数
 + 更新微信小店接口 URL
++ 增加用户标签管理接口（替换原分组接口）
++ memcached session 对 python-memcached 和 pymemcache 支持 `ttl` 参数
++ 模板消息支持打开小程序
 
 Breaking Changes:
 

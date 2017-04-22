@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import re
+
 import six
+from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -468,7 +471,7 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def send_template(self, user_id, template_id, url, data):
+    def send_template(self, user_id, template_id, data, url=None, mini_program=None):
         """
         发送模板消息
 
@@ -479,16 +482,19 @@ class WeChatMessage(BaseWeChatAPI):
         :param template_id: 模板 ID。在公众平台线上模板库中选用模板获得
         :param url: 链接地址
         :param data: 模板消息数据
+        :param mini_program: 跳小程序所需数据, 如：`{'appid': 'appid', 'pagepath': 'index?foo=bar'}`
         :return: 返回的 JSON 数据包
         """
+        tpl_data = optionaldict(
+            touser=user_id,
+            template_id=template_id,
+            url=url,
+            miniprogram=mini_program,
+            data=data,
+        )
         return self._post(
             'message/template/send',
-            data={
-                'touser': user_id,
-                'template_id': template_id,
-                'url': url,
-                'data': data
-            }
+            data=tpl_data
         )
 
     def get_autoreply_info(self):
