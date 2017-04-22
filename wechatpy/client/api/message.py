@@ -471,8 +471,7 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def send_template(self, user_id, template_id, url, data,
-                      mini_program=None):
+    def send_template(self, user_id, template_id, data, url=None, mini_program=None):
         """
         发送模板消息
 
