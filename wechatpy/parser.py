@@ -36,11 +36,11 @@ def parse_message(xml):
             if event_key.startswith(('scanbarcode|', 'scanimage|')):
                 event_type = 'subscribe_scan_product'
                 message['Event'] = event_type
-            else:
+            elif event_key.startswith('qrscene_'):
                 # Scan to subscribe with scene id event
                 event_type = 'subscribe_scan'
                 message['Event'] = event_type
-            message['EventKey'] = event_key.replace('qrscene_', '')
+                message['EventKey'] = event_key.replace('qrscene_', '')
         message_class = EVENT_TYPES.get(event_type, UnknownMessage)
     else:
         message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)

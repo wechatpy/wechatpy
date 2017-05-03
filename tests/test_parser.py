@@ -106,6 +106,23 @@ class ParseMessageTestCase(unittest.TestCase):
 
         self.assertEqual('event', msg.type)
         self.assertEqual('subscribe', msg.event)
+        self.assertEqual('', msg.key)
+
+    def test_parse_subscribe_event_with_last_trade_no(self):
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[FromUser]]></FromUserName>
+        <CreateTime>123456789</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe]]></Event>
+        <EventKey><![CDATA[last_trade_no_4008072001201701105817415015]]></EventKey>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertEqual('event', msg.type)
+        self.assertEqual('subscribe', msg.event)
+        self.assertEqual('last_trade_no_4008072001201701105817415015', msg.key)
 
     def test_parse_subscribe_scan_event(self):
         xml = """<xml>

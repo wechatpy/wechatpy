@@ -51,6 +51,7 @@ class SubscribeEvent(BaseEvent):
     http://mp.weixin.qq.com/wiki/2/5baf56ce4947d35003b86a9805634b1e.html
     """
     event = 'subscribe'
+    key = StringField('EventKey', '')
 
 
 @register_event('unsubscribe')
