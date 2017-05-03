@@ -165,4 +165,72 @@
 微信主动调用接口使用
 -------------------------
 
-TODO
+`WeChatClient` 基本使用方法:
+
+.. code-block:: python
+
+   from wechatpy import WeChatClient
+
+   client = WeChatClient('app_id', 'secret')
+   user = client.user.get('user id')
+   menu = client.menu.get()
+   client.message.send_text('user id', 'content')
+   # 以此类推
+   # client.media.xxx()
+   # client.group.xxx()
+
+具体接口请参考 `主动调用 API 文档 <client>`
+
+AccessToken
+~~~~~~~~~~~~~~~~~~~~~~
+wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 ``wechat_client.access_token`` 获取到。
+
+Storage
+..................
+wechatpy 支持多种 **AccessToken** 的持久化储存，下面以 Redis 作为示例
+
+.. code-block:: python
+
+    from wechatpy.client import WeChatClient
+    from wechatpy.session.redisstorage import RedisStorage
+    from redis import Redis
+
+    redis_client = Redis.from_url('redis://127.0.0.1:6379/0')
+    session_interface = RedisStorage(
+        redis_client,
+        prefix="wechatpy"
+    )
+
+    wechat_client = WeChatClient(
+        app_id,
+        secret,
+        session=session_interface
+    )
+
+自定义 Storage
+!!!!!!!!!!!!!!
+对于 wechatpy 不支持的 Storage，也可以自定义 Storage，要使用 Storage，首先要实现自定义的 Storage，自定义的 Storage 需要实现 ``get`` 、 ``set`` 和 ``delete``，具体示例如下
+
+.. code-block:: python
+
+    from wechatpy.session import SessionStorage
+
+    class CustomStorage(SessionStorage):
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def get(self, key, default=None):
+            pass
+
+        def set(self, key, value, ttl=None):
+            pass
+
+        def delete(self, key):
+            pass
+
+    wechat_client = WeChatClient(
+        app_id,
+        secret,
+        session=CustomStorage()
+    )
