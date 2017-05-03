@@ -7,7 +7,7 @@
 验证请求有效性
 ~~~~~~~~~~~~~~~~~~~~~~
 
-假设你已经从微信服务器推送的请求参数中获取了 ``signature``, ``timestamp`` 和 ``nonce`` 参数，以及回调 ``token``
+假设你已经从微信服务器推送的请求参数中获取了 ``signature``, ``timestamp``, ``echostr`` 和 ``nonce`` 参数，以及回调 ``token``
 
 .. code-block:: python
 
@@ -18,6 +18,8 @@
         check_signature(token, signature, timestamp, nonce)
     except InvalidSignatureException:
         # 处理异常情况或忽略
+
+验证成功时，应原样返回 ``echostr`` 参数值。
 
 解析 XML 消息
 ~~~~~~~~~~~~~~~~~~~~
