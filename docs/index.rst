@@ -20,6 +20,8 @@ wechatpy 是一个微信 (WeChat) 公众平台的第三方 Python SDK, 实现了
 微信公众平台接口
 -------------------
 
+建议在使用前先阅读 `微信开发平台官方文档 <https://mp.weixin.qq.com/wiki>`_
+
 .. toctree::
    :maxdepth: 2
 
@@ -32,6 +34,8 @@ wechatpy 是一个微信 (WeChat) 公众平台的第三方 Python SDK, 实现了
 
 微信企业号平台接口
 ---------------------
+
+建议在使用前先阅读 `微信企业号平台官方文档 <http://qydev.weixin.qq.com/wiki/index.php?title=%E9%A6%96%E9%A1%B5>`_
 
 .. toctree::
    :maxdepth: 2
@@ -62,6 +66,6 @@ Changelogs
 ---------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    changelog
