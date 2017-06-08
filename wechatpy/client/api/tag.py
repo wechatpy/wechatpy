@@ -136,6 +136,7 @@ class WeChatTag(BaseWeChatAPI):
 
         """
         params = {}
+        params['tagid'] = tag_id
         if first_user_id:
             params['next_openid'] = first_user_id
         return self._get(
