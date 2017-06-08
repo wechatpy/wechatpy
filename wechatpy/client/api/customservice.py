@@ -232,6 +232,5 @@ class WeChatCustomService(BaseWeChatAPI):
         res = self._post(
             'https://api.weixin.qq.com/customservice/msgrecord/getmsglist',
             data=record_data,
-            result_processor=lambda x: x['recordlist']
         )
         return res
