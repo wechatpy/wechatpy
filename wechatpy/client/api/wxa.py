@@ -9,9 +9,9 @@ class WeChatWxa(BaseWeChatAPI):
 
     API_BASE_URL = 'https://api.weixin.qq.com/'
 
-    def create_code(self, path, width=430, auth_color=False, line_color={"r": "0", "g": "0", "b": "0"}):
+    def create_qrcode(self, path, width=430):
         """
-        创建普通二维码
+        创建小程序二维码（接口C：适用于需要的码数量较少的业务场景）
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
 
@@ -20,15 +20,13 @@ class WeChatWxa(BaseWeChatAPI):
             'cgi-bin/wxaapp/createwxaqrcode',
             data={
                 'path': path,
-                'width': width,
-                'auth_color': auth_color,
-                'line_color': line_color,
+                'width': width
             }
         )
 
-    def create_wxa_code(self, path, width=430):
+    def get_wxa_code(self, path, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}):
         """
-        创建小程序码
+        创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
 
@@ -38,6 +36,25 @@ class WeChatWxa(BaseWeChatAPI):
             data={
                 'path': path,
                 'width': width,
+                'auto_color': auto_color,
+                'line_color': line_color,
+            }
+        )
+
+    def get_wxa_code_unlimited(self, scene, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}):
+        """
+        创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
+        详情请参考
+        https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
+
+        """
+        return self._post(
+            'wxa/getwxacodeunlimit',
+            data={
+                'scene': scene,
+                'width': width,
+                'auto_color': auto_color,
+                'line_color': line_color,
             }
         )
 
