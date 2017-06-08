@@ -1,6 +1,18 @@
 Changelog
 ================
 
+Version 1.4.2
+-------------------
+
+Unreleased
+
++ 增加群发文章评论相关接口
++ 增加小程序二维码相关接口
+
+Breaking Changes:
+
++ 客服 `get_records` 接口更新，返回值更改为 `dict`
+
 Version 1.4.1
 -------------------
 
