@@ -41,6 +41,13 @@ WeChatClient
    :members:
    :inherited-members:
 
+用户标签接口
+----------------------
+
+.. autoclass:: WeChatTag
+   :members:
+   :inherited-members:
+
 主动消息接口
 -----------------------------
 
@@ -165,5 +172,12 @@ JS-SDK 接口
 ----------------------------------
 
 .. autoclass:: WeChatScan
+   :members:
+   :inherited-members:
+   
+小程序接口
+----------------------
+
+.. autoclass:: WeChatWxa
    :members:
    :inherited-members:

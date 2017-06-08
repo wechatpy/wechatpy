@@ -165,3 +165,101 @@ class WeChatMaterial(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get('material/get_materialcount')
+
+    def open_comment(self, msg_data_id, index=1):
+        """
+        打开已群发文章评论
+        https://mp.weixin.qq.com/wiki?id=mp1494572718_WzHIY
+        """
+        return self._post(
+            'comment/open',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+            })
+
+    def close_comment(self, msg_data_id, index=1):
+        """
+        关闭已群发文章评论
+        """
+        return self._post(
+            'comment/close',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+            })
+
+    def list_comment(self, msg_data_id, index=1, begin=0, count=50, type=0):
+        """
+        查看指定文章的评论数据
+        """
+        return self._post(
+            'comment/list',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                "begin": begin,
+                "count": count,
+                "type": type
+            })
+
+    def markelect_comment(self, msg_data_id, index, user_comment_id):
+        """
+        将评论标记精选
+        """
+        return self._post(
+            'comment/markelect',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
+
+    def unmarkelect_comment(self, msg_data_id, index, user_comment_id):
+        """
+        将评论取消精选
+        """
+        return self._post(
+            'comment/unmarkelect',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
+
+    def delete_comment(self, msg_data_id, index, user_comment_id):
+        """
+        删除评论
+        """
+        return self._post(
+            'comment/delete',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
+
+    def add_reply_comment(self, msg_data_id, index, user_comment_id, content):
+        """
+        回复评论
+        """
+        return self._post(
+            'comment/reply/add',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+                'content': content
+            })
+
+    def delete_reply_comment(self, msg_data_id, index, user_comment_id):
+        """
+        删除回复
+        """
+        return self._post(
+            'comment/reply/delete',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
