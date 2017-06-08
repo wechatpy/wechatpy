@@ -365,7 +365,7 @@ class WeChatClientTestCase(unittest.TestCase):
                 987654321,
                 1
             )
-            self.assertEqual(2, len(result))
+            self.assertEqual(2, len(result['recordlist']))
 
     def test_datacube_get_user_summary(self):
         with HTTMock(wechat_api_mock):
