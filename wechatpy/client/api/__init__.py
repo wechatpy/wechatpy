@@ -22,3 +22,4 @@ from wechatpy.client.api.poi import WeChatPoi  # NOQA
 from wechatpy.client.api.wifi import WeChatWiFi  # NOQA
 from wechatpy.client.api.scan import WeChatScan  # NOQA
 from wechatpy.client.api.tag import WeChatTag  # NOQA
+from wechatpy.client.api.wxa import WeChatWxa  # NOQA
