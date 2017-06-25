@@ -8,10 +8,12 @@ Unreleased
 
 + 增加群发文章评论相关接口
 + 增加小程序二维码相关接口
++ 设备获取二维码接口增加 `product_id` 参数
 
 Breaking Changes:
 
 + 客服 `get_records` 接口更新，返回值更改为 `dict`
++ 修复设备相关接口返回数据不正确的问题
 
 Version 1.4.1
 -------------------
