@@ -235,15 +235,21 @@ class WeChatDevice(BaseWeChatAPI):
             }
         )
 
-    def get_qrcode(self):
+    def get_qrcode(self, product_id=1):
         """
         获取deviceid和二维码
         详情请参考
-        http://iot.weixin.qq.com/document-2_11.html
+        http://iot.weixin.qq.com/wiki/new/index.html?page=3-4-4
 
+        :param product_id: 设备的产品编号
         :return: 返回的 JSON 数据包
         """
-        return self._get('getqrcode')
+        if product_id == '1' or product_id == 1:
+            params = None
+        else:
+            params = {'product_id': product_id}
+
+        return self._get('getqrcode', params=params)
 
     def authorize(self, devices, op_type=1):
         """

@@ -137,7 +137,7 @@ class BaseWeChatClient(object):
 
         if 'base_resp' in result:
             # Different response in device APIs. Fuck tencent!
-            result = result['base_resp']
+            result.update(result.pop('base_resp'))
         if 'errcode' in result:
             result['errcode'] = int(result['errcode'])
 
