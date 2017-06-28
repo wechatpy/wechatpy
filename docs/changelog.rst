@@ -9,6 +9,7 @@ Unreleased
 + 增加群发文章评论相关接口
 + 增加小程序二维码相关接口
 + 设备获取二维码接口增加 `product_id` 参数
++ 修复设备被动响应事件解析问题
 
 Breaking Changes:
 

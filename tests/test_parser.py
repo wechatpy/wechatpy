@@ -259,3 +259,26 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual('scanimage', msg.scene)
         self.assertEqual('keystandard', msg.standard)
         self.assertEqual('keystr', msg.key)
+
+    def test_parse_device_text_event(self):
+        from wechatpy.events import DeviceTextEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[fromUser]]></FromUserName>
+        <CreateTime>1348831860</CreateTime>
+        <MsgType><![CDATA[device_text]]></MsgType>
+        <MsgId>1234567890123456</MsgId>
+        <OpenID><![CDATA[123]]></OpenID>
+        <DeviceID><![CDATA[123]]></DeviceID>
+        <DeviceType><![CDATA[123]]></DeviceType>
+        <SessionID><![CDATA[123]]></SessionID>
+        <Content><![CDATA[MTIz]]></Content>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertTrue(isinstance(msg, DeviceTextEvent))
+        self.assertEqual('123', msg.content)
+        self.assertEqual('123', msg.device_type)
+        self.assertEqual('123', msg.device_id)

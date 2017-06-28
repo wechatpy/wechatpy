@@ -375,11 +375,12 @@ class DeviceTextEvent(BaseEvent):
     device_id = StringField('DeviceID')
     session_id = StringField('SessionID')
     content = Base64DecodeField('Content')
+    open_id = StringField('OpenID')
 
 
 @register_event('device_bind')
 class DeviceBindEvent(BaseEvent):
-    event = 'bind'
+    event = 'device_bind'
     device_type = StringField('DeviceType')
     device_id = StringField('DeviceID')
     session_id = StringField('SessionID')
@@ -389,7 +390,7 @@ class DeviceBindEvent(BaseEvent):
 
 @register_event('device_unbind')
 class DeviceUnbindEvent(BaseEvent):
-    event = 'unbind'
+    event = 'device_unbind'
     device_type = StringField('DeviceType')
     device_id = StringField('DeviceID')
     session_id = StringField('SessionID')
@@ -399,7 +400,7 @@ class DeviceUnbindEvent(BaseEvent):
 
 @register_event('device_subscribe_status')
 class DeviceSubscribeStatusEvent(BaseEvent):
-    event = 'subscribe_status'
+    event = 'device_subscribe_status'
     device_type = StringField('DeviceType')
     device_id = StringField('DeviceID')
     open_id = StringField('OpenID')
@@ -408,7 +409,7 @@ class DeviceSubscribeStatusEvent(BaseEvent):
 
 @register_event('device_unsubscribe_status')
 class DeviceUnsubscribeStatusEvent(BaseEvent):
-    event = 'subscribe_status'
+    event = 'device_subscribe_status'
     device_type = StringField('DeviceType')
     device_id = StringField('DeviceID')
     open_id = StringField('OpenID')

@@ -26,11 +26,12 @@ def parse_message(xml):
         return
     message = xmltodict.parse(to_text(xml))['xml']
     message_type = message['MsgType'].lower()
-    if message_type in ('event', 'device_event'):
-        event_type = message['Event'].lower()
+    if message_type == 'event' or message_type.startswith('device_'):
         # special event type for device_event
-        if message_type == 'device_event':
-            event_type = 'device_{event}'.format(event=event_type)
+        if message_type.startswith('device_'):
+            event_type = message_type
+        else:
+            event_type = message['Event'].lower()
         if event_type == 'subscribe' and message.get('EventKey'):
             event_key = message['EventKey']
             if event_key.startswith(('scanbarcode|', 'scanimage|')):
