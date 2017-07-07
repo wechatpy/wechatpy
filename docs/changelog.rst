@@ -10,6 +10,7 @@ Unreleased
 + 增加小程序二维码相关接口
 + 设备获取二维码接口增加 `product_id` 参数
 + 修复设备被动响应事件解析问题
++ 修复永久素材获取视频消息问题
 
 Breaking Changes:
 

@@ -76,8 +76,9 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         def _processor(res):
             if isinstance(res, dict):
-                # 图文素材
-                return res.get('news_item', [])
+                if 'news_item' in res:
+                    # 图文素材
+                    return res['news_item']
             return res
 
         res = self._post(
