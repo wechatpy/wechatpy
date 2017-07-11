@@ -43,3 +43,31 @@ class WeChatTemplate(BaseWeChatAPI):
         return res
 
     add = get
+
+    def get_all_private_template(self):
+        """
+        获取模板列表
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get(
+            'template/get_all_private_template'
+        )
+
+    def del_private_template(self, template_id):
+        """
+        删除模板
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277
+
+        :param template_id: 公众帐号下模板消息ID
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'template/del_private_template',
+            data={
+                'template_id': template_id
+            }
+        )
