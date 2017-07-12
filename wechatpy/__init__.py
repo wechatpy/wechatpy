@@ -19,7 +19,7 @@ from wechatpy.exceptions import WeChatPayException  # NOQA
 from wechatpy.component import WeChatComponent  # NOQA
 
 
-__version__ = '1.4.1'
+__version__ = '1.4.2'
 __author__ = 'messense'
 
 # Set default logging handler to avoid "No handler found" warnings.
