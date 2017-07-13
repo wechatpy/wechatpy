@@ -24,6 +24,18 @@ class WeChatTemplate(BaseWeChatAPI):
             }
         )
 
+    def get_industry(self):
+        """
+        获取设置的行业信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get(
+            'template/get_industry'
+        )
+
     def get(self, template_id_short):
         """
         获得模板ID
