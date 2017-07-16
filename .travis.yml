@@ -5,12 +5,8 @@ sudo: false
 
 matrix:
   include:
-    - env: TOX_ENV=py26-cryptography
-    - env: TOX_ENV=py26-pycrypto
     - env: TOX_ENV=py27-cryptography
     - env: TOX_ENV=py27-pycrypto
-    - env: TOX_ENV=py33-cryptography
-    - env: TOX_ENV=py33-pycrypto
     - env: TOX_ENV=py34-cryptography
     - env: TOX_ENV=py34-pycrypto
     - env: TOX_ENV=py35-cryptography
