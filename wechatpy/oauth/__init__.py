@@ -44,6 +44,7 @@ class WeChatOAuth(object):
         self.redirect_uri = redirect_uri
         self.scope = scope
         self.state = state
+        self._http = requests.Session()
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -59,7 +60,7 @@ class WeChatOAuth(object):
             body = body.encode('utf-8')
             kwargs['data'] = body
 
-        res = requests.request(
+        res = self._http.request(
             method=method,
             url=url,
             **kwargs

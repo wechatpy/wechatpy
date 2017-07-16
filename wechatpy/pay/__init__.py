@@ -90,6 +90,7 @@ class WeChatPay(object):
         self.sub_mch_id = sub_mch_id
         self.mch_cert = mch_cert
         self.mch_key = mch_key
+        self._http = requests.Session()
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -117,7 +118,7 @@ class WeChatPay(object):
         if self.mch_cert and self.mch_key:
             kwargs['cert'] = (self.mch_cert, self.mch_key)
 
-        res = requests.request(
+        res = self._http.request(
             method=method,
             url=url,
             **kwargs
