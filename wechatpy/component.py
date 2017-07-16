@@ -97,6 +97,7 @@ class BaseWeChatComponent(object):
             shove = Shove(session)
             storage = ShoveStorage(shove, prefix)
             self.session = storage
+        self._http = requests.Session()
 
     @property
     def component_verify_ticket(self):
@@ -121,7 +122,7 @@ class BaseWeChatComponent(object):
         if isinstance(kwargs['data'], dict):
             kwargs['data'] = json.dumps(kwargs['data'])
 
-        res = requests.request(
+        res = self._http.request(
             method=method,
             url=url,
             **kwargs
@@ -202,7 +203,7 @@ class BaseWeChatComponent(object):
     def _fetch_access_token(self, url, data):
         """ The real fetch access token """
         logger.info('Fetching component access token')
-        res = requests.post(
+        res = self._http.post(
             url=url,
             data=data
         )

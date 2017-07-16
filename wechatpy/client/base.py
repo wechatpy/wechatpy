@@ -65,6 +65,8 @@ class BaseWeChatClient(object):
         if access_token:
             self.session.set(self.access_token_key, access_token)
 
+        self._http = requests.Session()
+
     @property
     def access_token_key(self):
         return '{0}_access_token'.format(self.appid)
@@ -91,7 +93,7 @@ class BaseWeChatClient(object):
 
         kwargs['timeout'] = kwargs.get('timeout', self.timeout)
         result_processor = kwargs.pop('result_processor', None)
-        res = requests.request(
+        res = self._http.request(
             method=method,
             url=url,
             **kwargs
@@ -192,7 +194,7 @@ class BaseWeChatClient(object):
     def _fetch_access_token(self, url, params):
         """ The real fetch access token """
         logger.info('Fetching access token')
-        res = requests.get(
+        res = self._http.get(
             url=url,
             params=params
         )
