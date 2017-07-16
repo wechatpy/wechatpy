@@ -35,29 +35,6 @@ class PyTest(TestCommand):
 cmdclass = {}
 cmdclass['test'] = PyTest
 
-# patch bdist_wheel
-try:
-    from wheel.bdist_wheel import bdist_wheel
-
-    REPLACE = (
-        'macosx_10_6_intel.'
-        'macosx_10_9_intel.'
-        'macosx_10_9_x86_64.'
-        'macosx_10_10_intel.'
-        'macosx_10_10_x86_64'
-    )
-
-    class _bdist_wheel(bdist_wheel):
-        def get_tag(self):
-            tag = bdist_wheel.get_tag(self)
-            if tag[2] == 'macosx_10_6_intel':
-                tag = (tag[0], tag[1], REPLACE)
-            return tag
-
-    cmdclass['bdist_wheel'] = _bdist_wheel
-except ImportError:
-    pass
-
 readme = 'README.md'
 if os.path.exists('README.rst'):
     readme = 'README.rst'
