@@ -1,11 +1,6 @@
 from __future__ import absolute_import, unicode_literals
+
 import logging
-try:
-    from pkgutil import extend_path
-    __path__ = extend_path(__path__, __name__)
-except ImportError:
-    from pkg_resources import declare_namespace
-    declare_namespace(__name__)
 
 from wechatpy.parser import parse_message  # NOQA
 from wechatpy.replies import create_reply  # NOQA
