@@ -78,3 +78,129 @@ class WeChatWxa(BaseWeChatAPI):
             'cgi-bin/message/wxopen/template/send',
             data=tpl_data
         )
+
+    def modify_domain(self, action, request_domain=(), wsrequest_domain=(), upload_domain=(), download_domain=()):
+        """
+        修改小程序服务器授权域名
+
+        :param action: 增删改查的操作类型，仅支持 'add', 'delete', 'set', 'get'
+        :param request_domain: request 合法域名
+        :param wsrequest_domain: socket 合法域名
+        :param upload_domain: upload file 合法域名
+        :param download_domain: download file 合法域名
+        """
+        return self._post(
+            'wxa/modify_domain',
+            data={
+                'action': action,
+                'requestdomain': request_domain,
+                'wsrequestdomain': wsrequest_domain,
+                'upload_domain': upload_domain,
+                'download_domain': download_domain,
+            }
+        )
+
+    def bind_tester(self, wechat_id):
+        """
+        绑定微信用户成为小程序体验者
+
+        :param wechat_id: 微信号
+        """
+        return self._post(
+            'wxa/bind_tester',
+            data={
+                'wechatid': wechat_id,
+            }
+        )
+
+    def unbind_tester(self, wechat_id):
+        """
+        解除绑定小程序的体验者
+
+        :param wechat_id: 微信号
+        """
+        return self._post(
+            'wxa/unbind_tester',
+            data={
+                'wechatid': wechat_id,
+            }
+        )
+
+    def commit(self, template_id, ext_json, version, description):
+        """
+        为授权的小程序账号上传小程序代码
+
+        :param template_id: 代码库中的代码模版 ID
+        :param ext_json: 第三方自定义的配置
+        :param version: 代码版本号，开发者可自定义
+        :param description: 代码描述，开发者可自定义
+        """
+        return self._post(
+            'wxa/commit',
+            data={
+                'template_id': template_id,
+                'ext_json': ext_json,
+                'user_version': version,
+                'user_desc': description,
+            }
+        )
+
+    def create_open(self, appid):
+        """
+        创建开放平台账号，并绑定公众号/小程序
+
+        :param appid: 授权公众号或小程序的 appid
+        :return: 开放平台的 appid
+        """
+        return self._post(
+            'cgi-bin/open/create',
+            data={
+                'appid': appid,
+            },
+            result_processor=lambda x: x['open_appid'],
+        )
+
+    def get_open(self, appid):
+        """
+        获取公众号/小程序所绑定的开放平台账号
+
+        :param appid: 授权公众号或小程序的 appid
+        :return: 开放平台的 appid
+        """
+        return self._post(
+            'cgi-bin/open/get',
+            data={
+                'appid': appid,
+            },
+            result_processor=lambda x: x['open_appid'],
+        )
+
+    def bind_open(self, appid, open_appid):
+        """
+        将公众号/小程序绑定到开放平台帐号下
+
+        :param appid: 授权公众号或小程序的 appid
+        :param open_appid: 开放平台帐号 appid
+        """
+        return self._post(
+            'cgi-bin/open/bind',
+            data={
+                'appid': appid,
+                'open_appid': open_appid,
+            }
+        )
+
+    def unbind_open(self, appid, open_appid):
+        """
+        将公众号/小程序绑定到开放平台帐号下
+
+        :param appid: 授权公众号或小程序的 appid
+        :param open_appid: 开放平台帐号 appid
+        """
+        return self._post(
+            'cgi-bin/open/unbind',
+            data={
+                'appid': appid,
+                'open_appid': open_appid,
+            }
+        )
