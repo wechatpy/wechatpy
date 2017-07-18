@@ -1,6 +1,19 @@
 Changelog
 ================
 
+Version 1.5.0
+-------------------
+
+Unreleased
+
++ 模板消息增加获取设置的行业信息接口
++ 新增部分微信小程序接口
++ 支持 HTTP keepalive
+
+Breaking Changes:
+
++ 不再支持 Python 2.6 和 Python 3.3
+
 Version 1.4.2
 -------------------
 
