@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatWxa(BaseWeChatAPI):
-
     API_BASE_URL = 'https://api.weixin.qq.com/'
 
     def create_qrcode(self, path, width=430):
@@ -14,7 +14,6 @@ class WeChatWxa(BaseWeChatAPI):
         创建小程序二维码（接口C：适用于需要的码数量较少的业务场景）
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
-
         """
         return self._post(
             'cgi-bin/wxaapp/createwxaqrcode',
@@ -29,7 +28,6 @@ class WeChatWxa(BaseWeChatAPI):
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
-
         """
         return self._post(
             'wxa/getwxacode',
@@ -46,7 +44,6 @@ class WeChatWxa(BaseWeChatAPI):
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
-
         """
         return self._post(
             'wxa/getwxacodeunlimit',
@@ -61,7 +58,6 @@ class WeChatWxa(BaseWeChatAPI):
     def send_template_message(self, user_id, template_id, data, form_id, page=None, color=None, emphasis_keyword=None):
         """
         发送模板消息
-
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/notice.html
         """
@@ -142,7 +138,104 @@ class WeChatWxa(BaseWeChatAPI):
                 'ext_json': ext_json,
                 'user_version': version,
                 'user_desc': description,
-            }
+            },
+        )
+
+    def get_qrcode(self):
+        """
+        获取体验小程序的体验二维码
+        返回 Response 类型，header 中带有 Content-Type 与 Content-disposition 类型
+
+        :rtype: requests.Response
+        """
+        return self._get('wxa/get_qrcode')
+
+    def get_category(self):
+        """
+        获取授权小程序账号的可选类目
+
+        :rtype: list[dict]
+        """
+        return self._get(
+            'wxa/get_category',
+            result_processor=lambda x: x['category_list'],
+        )
+
+    def get_page(self):
+        """
+        获取小程序的第三方提交代码的页面配置
+
+        :rtype: list
+        """
+        return self._get(
+            'wxa/get_page',
+            result_processor=lambda x: x['page_list'],
+        )
+
+    def submit_audit(self, item_list):
+        """
+        将第三方提交的代码包提交审核
+
+        :param item_list: 提交审核项的一个列表（至少填写1项，至多填写5项）
+        :type item_list: list[dict]
+        :return: 审核编号
+        :rtype: int
+        """
+        return self._post(
+            'wxa/submit_audit',
+            data={
+                'item_list': item_list,
+            },
+            result_processor=lambda x: x['auditid'],
+        )
+
+    def get_audit_status(self, auditid):
+        """
+        查询某个指定版本的审核状态
+
+        :param auditid: 审核编号
+        :type auditid: int
+        :return: 一个包含 status, reason 的 dict。status 0为审核成功，1为审核失败，2为审核中。
+        """
+        return self._post(
+            'wxa/get_auditstatus',
+            data={
+                'auditid': auditid,
+            },
+        )
+
+    def get_latest_audit_status(self):
+        """
+        查询最近一次提交的审核状态
+
+        :return: 一个包含 status, reason, auditid 的 dict。status 0为审核成功，1为审核失败，2为审核中。
+        """
+        return self._post(
+            'wxa/get_latest_auditstatus',
+            data={},
+        )
+
+    def release(self):
+        """
+        发布已通过审核的小程序
+        """
+        return self._post(
+            'wxa/release',
+            data={},
+        )
+
+    def change_visit_status(self, close=False):
+        """
+        修改小程序线上代码的可见状态
+
+        :param close: close 为 True 时会关闭小程序线上代码的可见状态。
+        :type close: bool
+        """
+        return self._post(
+            'wxa/change_visitstatus',
+            data={
+                'action': 'close' if close else 'open',
+            },
         )
 
     def create_open(self, appid):
