@@ -282,3 +282,27 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual('123', msg.content)
         self.assertEqual('123', msg.device_type)
         self.assertEqual('123', msg.device_id)
+
+    def test_parse_device_bind_event(self):
+        from wechatpy.events import DeviceBindEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[fromUser]]></FromUserName>
+        <CreateTime>1348831860</CreateTime>
+        <MsgType><![CDATA[device_event]]></MsgType>
+        <MsgId>1234567890123456</MsgId>
+        <Event><![CDATA[bind]]></Event>
+        <OpenID><![CDATA[123]]></OpenID>
+        <DeviceID><![CDATA[123]]></DeviceID>
+        <DeviceType><![CDATA[123]]></DeviceType>
+        <SessionID><![CDATA[123]]></SessionID>
+        <Content><![CDATA[MTIz]]></Content>
+        </xml>"""
+
+        msg = parse_message(xml)
+
+        self.assertTrue(isinstance(msg, DeviceBindEvent))
+        self.assertEqual('123', msg.content)
+        self.assertEqual('123', msg.device_type)
+        self.assertEqual('123', msg.device_id)

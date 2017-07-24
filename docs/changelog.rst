@@ -9,6 +9,7 @@ Unreleased
 + 模板消息增加获取设置的行业信息接口
 + 新增部分微信小程序接口
 + 支持 HTTP keepalive
++ 修复设备事件解析 regression
 
 Breaking Changes:
 
