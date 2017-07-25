@@ -78,6 +78,8 @@ class WeChatWxa(BaseWeChatAPI):
     def modify_domain(self, action, request_domain=(), wsrequest_domain=(), upload_domain=(), download_domain=()):
         """
         修改小程序服务器授权域名
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489138143_WPbOO
 
         :param action: 增删改查的操作类型，仅支持 'add', 'delete', 'set', 'get'
         :param request_domain: request 合法域名
@@ -99,6 +101,8 @@ class WeChatWxa(BaseWeChatAPI):
     def bind_tester(self, wechat_id):
         """
         绑定微信用户成为小程序体验者
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140588_nVUgx
 
         :param wechat_id: 微信号
         """
@@ -112,6 +116,8 @@ class WeChatWxa(BaseWeChatAPI):
     def unbind_tester(self, wechat_id):
         """
         解除绑定小程序的体验者
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140588_nVUgx
 
         :param wechat_id: 微信号
         """
@@ -125,6 +131,8 @@ class WeChatWxa(BaseWeChatAPI):
     def commit(self, template_id, ext_json, version, description):
         """
         为授权的小程序账号上传小程序代码
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :param template_id: 代码库中的代码模版 ID
         :param ext_json: 第三方自定义的配置
@@ -145,6 +153,8 @@ class WeChatWxa(BaseWeChatAPI):
         """
         获取体验小程序的体验二维码
         返回 Response 类型，header 中带有 Content-Type 与 Content-disposition 类型
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :rtype: requests.Response
         """
@@ -153,6 +163,8 @@ class WeChatWxa(BaseWeChatAPI):
     def get_category(self):
         """
         获取授权小程序账号的可选类目
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :rtype: list[dict]
         """
@@ -164,6 +176,8 @@ class WeChatWxa(BaseWeChatAPI):
     def get_page(self):
         """
         获取小程序的第三方提交代码的页面配置
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :rtype: list
         """
@@ -175,6 +189,8 @@ class WeChatWxa(BaseWeChatAPI):
     def submit_audit(self, item_list):
         """
         将第三方提交的代码包提交审核
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :param item_list: 提交审核项的一个列表（至少填写1项，至多填写5项）
         :type item_list: list[dict]
@@ -192,6 +208,8 @@ class WeChatWxa(BaseWeChatAPI):
     def get_audit_status(self, auditid):
         """
         查询某个指定版本的审核状态
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :param auditid: 审核编号
         :type auditid: int
@@ -207,6 +225,8 @@ class WeChatWxa(BaseWeChatAPI):
     def get_latest_audit_status(self):
         """
         查询最近一次提交的审核状态
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :return: 一个包含 status, reason, auditid 的 dict。status 0为审核成功，1为审核失败，2为审核中。
         """
@@ -218,6 +238,8 @@ class WeChatWxa(BaseWeChatAPI):
     def release(self):
         """
         发布已通过审核的小程序
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
         """
         return self._post(
             'wxa/release',
@@ -227,6 +249,8 @@ class WeChatWxa(BaseWeChatAPI):
     def change_visit_status(self, close=False):
         """
         修改小程序线上代码的可见状态
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
         :param close: close 为 True 时会关闭小程序线上代码的可见状态。
         :type close: bool
@@ -241,6 +265,8 @@ class WeChatWxa(BaseWeChatAPI):
     def create_open(self, appid):
         """
         创建开放平台账号，并绑定公众号/小程序
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1498704199_1bcax
 
         :param appid: 授权公众号或小程序的 appid
         :return: 开放平台的 appid
@@ -256,6 +282,8 @@ class WeChatWxa(BaseWeChatAPI):
     def get_open(self, appid):
         """
         获取公众号/小程序所绑定的开放平台账号
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1498704199_1bcax
 
         :param appid: 授权公众号或小程序的 appid
         :return: 开放平台的 appid
@@ -271,6 +299,8 @@ class WeChatWxa(BaseWeChatAPI):
     def bind_open(self, appid, open_appid):
         """
         将公众号/小程序绑定到开放平台帐号下
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1498704199_1bcax
 
         :param appid: 授权公众号或小程序的 appid
         :param open_appid: 开放平台帐号 appid
@@ -286,6 +316,8 @@ class WeChatWxa(BaseWeChatAPI):
     def unbind_open(self, appid, open_appid):
         """
         将公众号/小程序绑定到开放平台帐号下
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1498704199_1bcax
 
         :param appid: 授权公众号或小程序的 appid
         :param open_appid: 开放平台帐号 appid
