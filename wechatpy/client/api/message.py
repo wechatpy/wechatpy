@@ -546,13 +546,12 @@ class WeChatMessage(BaseWeChatAPI):
             preview
         )
 
-    def get_subscribe_authorize_url(self, appid, scene, template_id, redirect_url, reserved=None):
+    def get_subscribe_authorize_url(self, scene, template_id, redirect_url, reserved=None):
         """
         构造请求用户授权的url
         详情请参阅：
         https://mp.weixin.qq.com/wiki?id=mp1500374289_66bvB
 
-        :param appid: 需授权的公众号 AppID
         :param scene: 订阅场景值，开发者可以填0-10000的整形值，用来标识订阅场景值
         :type scene: int
         :param template_id: 订阅消息模板ID，登录公众平台后台，在接口权限列表处可查看订阅模板ID
@@ -564,7 +563,7 @@ class WeChatMessage(BaseWeChatAPI):
         base_url = 'https://mp.weixin.qq.com/mp/subscribemsg'
         params = [
             ('action', 'get_confirm'),
-            ('appid', appid),
+            ('appid', self.appid),
             ('scene', scene),
             ('template_id', template_id),
             ('redirect_url', redirect_url),
