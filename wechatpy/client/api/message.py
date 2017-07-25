@@ -544,7 +544,7 @@ class WeChatMessage(BaseWeChatAPI):
             preview
         )
 
-    def send_subscribe_template(self, openid, template_id, url, scene, title, data):
+    def send_subscribe_template(self, openid, template_id, scene, title, data, url=None):
         """
         一次性订阅消息，通过API推送订阅模板消息给到授权微信用户。
         详情请参阅：
@@ -552,21 +552,24 @@ class WeChatMessage(BaseWeChatAPI):
 
         :param openid: 填接收消息的用户openid
         :param template_id: 订阅消息模板ID
-        :param url: 点击消息跳转的链接，需要有ICP备案
         :param scene: 订阅场景值，开发者可以填0-10000的整形值，用来标识订阅场景值
         :type scene: int
         :param title: 消息标题，15字以内
         :param data: 消息正文，value为消息内容，color为颜色，200字以内
         :type data: dict
+        :param url: 点击消息跳转的链接，需要有ICP备案
         """
+        post_data = {
+            'touser': openid,
+            'template_id': template_id,
+            'url': url,
+            'scene': scene,
+            'title': title,
+            'data': data,
+        }
+        if url is not None:
+            post_data['url'] = url
         return self._post(
             'message/template/subscribe',
-            data={
-                'touser': openid,
-                'template_id': template_id,
-                'url': url,
-                'scene': scene,
-                'title': title,
-                'data': data,
-            },
+            data=post_data,
         )
