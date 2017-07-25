@@ -262,6 +262,100 @@ class WeChatWxa(BaseWeChatAPI):
             },
         )
 
+    def list_library_templates(self, offset=0, count=20):
+        """
+        获取小程序模板库里，所有模板的ID与标题
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
+
+        :param offset: 用于分页，表示起始量，最小值为0
+        :type offset: int
+        :param count: 用于分页，表示拉取数量，最大值为20
+        :type count: int
+        :return: 带有 total_count 与 list 的数据
+        :rtype: dict
+        """
+        return self._post(
+            'cgi-bin/wxopen/template/library/list',
+            data={
+                'offset': offset,
+                'count': count,
+            },
+        )
+
+    def get_library_template(self, template_short_id):
+        """
+        获取小程序模板库里，某个模板的详细信息
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
+
+        :param template_short_id: 模板标题ID
+        :rtype: dict
+        """
+        return self._post(
+            'cgi-bin/wxopen/template/library/get',
+            data={
+                'id': template_short_id,
+            },
+        )
+
+    def list_templates(self, offset=0, count=20):
+        """
+        获取本账号内所有模板
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
+
+        :param offset: 用于分页，表示起始量，最小值为0
+        :type offset: int
+        :param count: 用于分页，表示拉取数量，最大值为20
+        :type count: int
+        :return: 模板列表
+        :rtype: list[dict]
+        """
+        return self._post(
+            'cgi-bin/wxopen/template/list',
+            data={
+                'offset': offset,
+                'count': count,
+            },
+            result_processor=lambda x: x['list'],
+        )
+
+    def add_template(self, template_short_id, keyword_id_list):
+        """
+        组合模板，并将其添加至账号下的模板列表里
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
+
+        :param template_short_id: 模板标题ID
+        :param keyword_id_list: 按照顺序排列的模板关键词列表，最多10个
+        :type keyword_id_list: list[int]
+        :return: 模板ID
+        """
+        return self._post(
+            'cgi-bin/wxopen/template/add',
+            data={
+                'id': template_short_id,
+                'keyword_id_list': keyword_id_list,
+            },
+            result_processor=lambda x: x['template_id'],
+        )
+
+    def del_template(self, template_id):
+        """
+        删除本账号内某个模板
+        详情请参考
+        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
+
+        :param template_id: 模板ID
+        """
+        return self._post(
+            'cgi-bin/wxopen/template/del',
+            data={
+                'template_id': template_id,
+            },
+        )
+
     def create_open(self, appid):
         """
         创建开放平台账号，并绑定公众号/小程序
