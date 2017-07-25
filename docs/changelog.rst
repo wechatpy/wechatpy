@@ -10,6 +10,7 @@ Unreleased
 + 新增部分微信小程序接口
 + 支持 HTTP keepalive
 + 修复设备事件解析 regression
++ 新增模板消息一次性订阅消息接口
 
 Breaking Changes:
 
