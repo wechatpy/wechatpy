@@ -2,11 +2,13 @@
 from __future__ import absolute_import, unicode_literals
 
 import re
+import urllib
 
 import six
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
+from wechatpy.utils import random_string
 
 
 class WeChatMessage(BaseWeChatAPI):
@@ -543,6 +545,33 @@ class WeChatMessage(BaseWeChatAPI):
             is_to_all,
             preview
         )
+
+    def get_subscribe_authorize_url(self, appid, scene, template_id, redirect_url, reserved=None):
+        """
+        构造请求用户授权的url
+        详情请参阅：
+        https://mp.weixin.qq.com/wiki?id=mp1500374289_66bvB
+
+        :param appid: 需授权的公众号 AppID
+        :param scene: 订阅场景值，开发者可以填0-10000的整形值，用来标识订阅场景值
+        :type scene: int
+        :param template_id: 订阅消息模板ID，登录公众平台后台，在接口权限列表处可查看订阅模板ID
+        :param redirect_url: 授权后重定向的回调地址
+        :param reserved: 用于保持请求和回调的状态，授权请后原样带回给第三方。该参数可用于防止csrf攻击。若不指定则随机生成。
+        """
+        if reserved is None:
+            reserved = random_string()
+        base_url = 'https://mp.weixin.qq.com/mp/subscribemsg'
+        params = [
+            ('action', 'get_confirm'),
+            ('appid', appid),
+            ('scene', scene),
+            ('template_id', template_id),
+            ('redirect_url', redirect_url),
+            ('reserved', reserved),
+        ]
+        url = '{base}?{params}#wechat_redirect'.format(base=base_url, params=urllib.urlencode(params))
+        return url
 
     def send_subscribe_template(self, openid, template_id, scene, title, data, url=None):
         """
