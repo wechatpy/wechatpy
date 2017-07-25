@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 
 import re
-import urllib
 
 import six
 from optionaldict import optionaldict
@@ -569,7 +568,8 @@ class WeChatMessage(BaseWeChatAPI):
             ('redirect_url', redirect_url),
             ('reserved', reserved),
         ]
-        url = '{base}?{params}#wechat_redirect'.format(base=base_url, params=urllib.urlencode(params))
+        encoded_params = six.moves.urllib.parse.urlencode(params)
+        url = '{base}?{params}#wechat_redirect'.format(base=base_url, params=encoded_params)
         return url
 
     def send_subscribe_template(self, openid, template_id, scene, title, data, url=None):
