@@ -15,7 +15,7 @@ class WeChatOAuth(BaseWeChatAPI):
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=OAuth%E9%AA%8C%E8%AF%81%E6%8E%A5%E5%8F%A3
 
-        :param redirect_url: 授权后重定向的回调链接地址
+        :param redirect_uri: 授权后重定向的回调链接地址
         :param state: 重定向后会带上 state 参数
         :return: 返回的 JSON 数据包
         """
