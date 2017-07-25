@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import time
 import inspect
 import logging
+import warnings
 
 import six
 import requests
@@ -168,7 +169,11 @@ class BaseWeChatClient(object):
             **kwargs
         )
 
-    _get = get
+    def _get(self, url, **kwargs):
+        warnings.warn('`_get` method of `WeChatClient` is deprecated, will be removed in 1.6,'
+                      'Use `get` instead',
+                      DeprecationWarning, stacklevel=2)
+        return self.get(url, **kwargs)
 
     def post(self, url, **kwargs):
         return self._request(
@@ -177,7 +182,11 @@ class BaseWeChatClient(object):
             **kwargs
         )
 
-    _post = post
+    def _post(self, url, **kwargs):
+        warnings.warn('`_post` method of `WeChatClient` is deprecated, will be removed in 1.6,'
+                      'Use `post` instead',
+                      DeprecationWarning, stacklevel=2)
+        return self.post(url, **kwargs)
 
     def _fetch_access_token(self, url, params):
         """ The real fetch access token """
