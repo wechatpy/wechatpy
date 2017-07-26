@@ -4,7 +4,7 @@ Changelog
 Version 1.5.0
 -------------------
 
-Unreleased
+Released on 2017-07-26
 
 + 模板消息增加获取设置的行业信息接口
 + 新增部分微信小程序接口
