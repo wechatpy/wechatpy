@@ -11,6 +11,8 @@ Unreleased
 + 支持 HTTP keepalive
 + 修复设备事件解析 regression
 + 新增模板消息一次性订阅消息接口
++ 新增黑名单用户管理接口
++ 永久素材接口允许设置评论开放与否
 
 Breaking Changes:
 
