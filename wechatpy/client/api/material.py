@@ -10,9 +10,10 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         新增永久图文素材
         详情请参考
-        http://mp.weixin.qq.com/wiki/14/7e6c03263063f4813141c3e17dd4350a.html
+        https://mp.weixin.qq.com/wiki?id=mp1494572718_WzHIY
 
         :param articles: 图文素材数组
+        :type articles: list[dict]
         :return: 返回的 JSON 数据包
         """
         articles_data = []
@@ -24,7 +25,9 @@ class WeChatMaterial(BaseWeChatAPI):
                 'author': article.get('author', ''),
                 'content_source_url': article.get('content_source_url', ''),
                 'digest': article.get('digest', ''),
-                'show_cover_pic': article.get('show_cover_pic', 0)
+                'show_cover_pic': article.get('show_cover_pic', 0),
+                'need_open_comment': int(article.get('need_open_comment', False)),
+                'only_fans_can_comment': int(article.get('only_fans_can_comment', False)),
             })
         return self._post(
             'material/add_news',
@@ -199,9 +202,9 @@ class WeChatMaterial(BaseWeChatAPI):
             data={
                 'msg_data_id': msg_data_id,
                 'index': index,
-                "begin": begin,
-                "count": count,
-                "type": type
+                'begin': begin,
+                'count': count,
+                'type': type
             })
 
     def markelect_comment(self, msg_data_id, index, user_comment_id):
