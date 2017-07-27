@@ -429,3 +429,39 @@ class WeChatCard(BaseWeChatAPI):
             'card/modifystock',
             data=card_data
         )
+
+    def get_activate_url(self, card_id, outer_str=None):
+        """
+        获取开卡插件 Url, 内含调用开卡插件所需的参数
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1499332673_Unm7V
+
+        :param card_id: 会员卡的card_id
+        :param outer_str: 渠道值，用于统计本次领取的渠道参数
+        :return: 内含调用开卡插件所需的参数的 Url
+        """
+        return self._post(
+            'card/membercard/activate/geturl',
+            data={
+                'card_id': card_id,
+                'outer_str': outer_str,
+            },
+            result_processor=lambda x: x['url'],
+        )
+
+    def get_activate_info(self, activate_ticket):
+        """
+        获取用户开卡时提交的信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1499332673_Unm7V
+
+        :param activate_ticket: 跳转型开卡组件开卡后回调中的激活票据，可以用来获取用户开卡资料
+        :return: 用户开卡时填写的字段值
+        """
+        return self._post(
+            'card/membercard/activatetempinfo/get',
+            data={
+                'activate_ticket': activate_ticket,
+            },
+            result_processor=lambda x: x['info'],
+        )
