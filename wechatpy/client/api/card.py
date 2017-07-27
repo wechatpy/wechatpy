@@ -291,6 +291,110 @@ class WeChatCard(BaseWeChatAPI):
             data=card_data
         )
 
+    def get_membercard_user_info(self, card_id, code):
+        """
+        查询会员卡的会员信息
+        详情请参见
+        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+
+        :param card_id: 查询会员卡的 Card ID
+        :param code: 所查询用户领取到的 code 值
+        :return: 会员信息，包括激活资料、积分信息以及余额等信息
+        """
+        return self._post(
+            'card/membercard/userinfo/get',
+            data={
+                'card_id': card_id,
+                'code': code,
+            },
+        )
+
+    def add_pay_giftcard(self, base_info, extra_info, is_membercard):
+        """
+        新增支付后投放卡券的规则，支持支付后领卡，支付后赠券
+        详情请参见
+        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+
+        :param base_info: 营销规则结构体
+        :type base_info: dict
+        :param extra_info: 支付规则结构体
+        :type extra_info: dict
+        :param is_membercard: 本次规则是否是领卡。（领卡传入 True, 赠券传入 False）
+        :type is_membercard: bool
+        :return: 规则 ID, 设置成功的列表，以及设置失败的列表
+        """
+        if is_membercard:
+            rule_key = 'member_rule'
+            rule_type = 'RULE_TYPE_PAY_MEMBER_CARD'
+        else:
+            rule_key = 'single_pay'
+            rule_type = 'RULE_TYPE_SINGLE_PAY'
+        return self._post(
+            'card/paygiftcard/add',
+            data={
+                'type': rule_type,
+                'base_info': base_info,
+                rule_key: extra_info,
+            }
+        )
+
+    def del_pay_giftcard(self, rule_id):
+        """
+        删除支付后投放卡券的规则
+        详情请参见
+        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+
+        :param rule_id: 支付即会员的规则 ID
+        """
+        return self._post(
+            'card/paygiftcard/delete',
+            data={
+                'rule_id': rule_id,
+            },
+        )
+
+    def get_pay_giftcard(self, rule_id):
+        """
+        查询支付后投放卡券的规则
+        详情请参见
+        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+
+        :param rule_id: 支付即会员的规则 ID
+        :return: 支付后投放卡券的规则
+        :rtype: dict
+        """
+        return self._post(
+            'card/paygiftcard/getbyid',
+            data={
+                'rule_id': rule_id,
+            },
+            result_processor=lambda x: x['rule_info'],
+        )
+
+    def batch_get_pay_giftcard(self, effective=True, offset=0, count=10):
+        """
+        批量查询支付后投放卡券的规则
+        详情请参见
+        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+
+
+        :param effective: 是否仅查询生效的规则
+        :type effective: bool
+        :param offset: 起始偏移量
+        :type offset: int
+        :param count: 查询的数量
+        :type count: int
+        :return: 支付后投放卡券规则的总数，以及查询到的列表
+        """
+        return self._post(
+            'card/paygiftcard/batchget',
+            data={
+                'effective': effective,
+                'offset': offset,
+                'count': count,
+            },
+        )
+
     def update_movie_ticket(self, code, ticket_class, show_time, duration,
                             screening_room, seat_number, card_id=None):
         """
