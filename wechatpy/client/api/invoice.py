@@ -38,12 +38,95 @@ class WeChatInvoice(BaseWeChatAPI):
         return self._post(
             'platform/createcard',
             data={
-                'base_info': base_info,
-                'payee': payee,
-                'type': invoice_type,
-                'detail': detail,
+                'invoice_info': {
+                    'base_info': base_info,
+                    'payee': payee,
+                    'type': invoice_type,
+                    'detail': detail,
+                },
             },
             result_processor=lambda x: x['card_id'],
+        )
+
+    def get_auth_url(self, s_pappid, order_id, money, timestamp, source, ticket, auth_type, redirect_url=None):
+        """
+        获取授权页链接
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
+        :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
+        :param money: 订单金额，以分为单位
+        :type money: int
+        :param timestamp: Unix 时间戳
+        :type timestamp: int
+        :param source: 开票来源。app: App开票, web: 微信H5开票, wap: 普通网页开票
+        :param ticket: 根据获取授权ticket接口取得
+        :param auth_type: 授权类型。0: 开票授权，1: 填写字段开票授权，2: 领票授权
+        :type auth_type: int
+        :param redirect_url: 授权成功后跳转页面。本字段只有在source为H5的时候需要填写。
+        :return: 获取授权页链接
+        """
+        if source not in {'app', 'web', 'wap'}:
+            raise ValueError('Unsupported source. Valid sources are "app", "web" or "wap"')
+        if source == 'web' and redirect_url is None:
+            raise ValueError('redirect_url is required if source is web')
+        if not (0 <= auth_type <= 2):
+            raise ValueError('Unsupported auth type. Valid auth types are 0, 1 or 2')
+        return self._post(
+            'getauthurl',
+            data={
+                's_pappid': s_pappid,
+                'order_id': order_id,
+                'money': money,
+                'timestamp': timestamp,
+                'source': source,
+                'ticket': ticket,
+                'type': auth_type,
+                'redirect_url': redirect_url,
+            },
+            result_processor=lambda x: x['auth_url'],
+        )
+
+    def set_auth_field(self, user_field, biz_field):
+        """
+        设置授权页字段信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param user_field: 授权页个人发票字段
+        :type user_field: dict
+        :param biz_field: 授权页单位发票字段
+        :type biz_field: dict
+        """
+        return self._post(
+            'setbizattr',
+            params={
+                'action': 'set_auth_field',
+            },
+            data={
+                'auth_field': {
+                    'user_field': user_field,
+                    'biz_field': biz_field,
+                },
+            },
+        )
+
+    def get_auth_field(self):
+        """
+        获取授权页字段信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :return: 授权页的字段设置
+        :rtype: dict
+        """
+        return self._post(
+            'setbizattr',
+            params={
+                'action': 'get_auth_field',
+            },
+            data={},
         )
 
     def get_user_title_url(
