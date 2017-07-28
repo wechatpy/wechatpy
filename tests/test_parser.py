@@ -260,6 +260,28 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual('keystandard', msg.standard)
         self.assertEqual('keystr', msg.key)
 
+    def test_parse_user_authorize_invoice_event(self):
+        from wechatpy.events import UserAuthorizeInvoiceEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_fc0a06a20993]]></ToUserName>
+        <FromUserName><![CDATA[oZI8Fj040-be6rlDohc6gkoPOQTQ]]></FromUserName>
+        <CreateTime>1475134700</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[user_authorize_invoice]]></Event>
+        <SuccOrderId><![CDATA[1202933957956]]></SuccOrderId>
+        <FailOrderId><![CDATA[]]></FailOrderId>
+        <AppId><![CDATA[wx1234567887654321]]></AppId>
+        <Source><![CDATA[]]></Source>
+        </xml>"""
+
+        msg = parse_message(xml)
+        self.assertTrue(isinstance(msg, UserAuthorizeInvoiceEvent))
+        self.assertEqual('1202933957956', msg.success_order_id)
+        self.assertEqual(None, msg.fail_order_id)
+        self.assertEqual('wx1234567887654321', msg.app_id)
+        self.assertEqual(None, msg.auth_source)
+
     def test_parse_device_text_event(self):
         from wechatpy.events import DeviceTextEvent
 
