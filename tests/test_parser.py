@@ -283,6 +283,27 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual('wx1234567887654321', msg.app_id)
         self.assertEqual(None, msg.auth_source)
 
+    def test_parse_update_invoice_status_event(self):
+        """ Test parsing xml for UpdateInvoiceStatusEvent """
+        from wechatpy.events import UpdateInvoiceStatusEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_9e1765b5568e]]></ToUserName>
+        <FromUserName><![CDATA[ojZ8Ytz4lESgdWZ34L_R1TvB2Kds]]></FromUserName>
+        <CreateTime>1478068440</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[update_invoice_status]]></Event>
+        <Status><![CDATA[INVOICE_REIMBURSE_INIT]]></Status>
+        <CardId><![CDATA[pjZ8Yt7Um2jYxzneP8GomnxoVFWo]]></CardId>
+        <Code><![CDATA[186921658591]]></Code>
+        </xml>"""
+
+        msg = parse_message(xml)
+        self.assertTrue(isinstance(msg, UpdateInvoiceStatusEvent))
+        self.assertEqual('INVOICE_REIMBURSE_INIT', msg.status)
+        self.assertEqual('pjZ8Yt7Um2jYxzneP8GomnxoVFWo', msg.card_id)
+        self.assertEqual('186921658591', msg.code)
+
     def test_parse_submit_invoice_title_event(self):
         """ Test parsing xml for SubmitInvoiceTitleEvent """
         from wechatpy.events import SubmitInvoiceTitleEvent

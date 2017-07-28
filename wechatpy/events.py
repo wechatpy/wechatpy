@@ -638,13 +638,27 @@ class UserAuthorizeInvoiceEvent(BaseEvent):
     （会包含一个订单号，不成功就失败）
 
     详情请参考
-    https://mp.weixin.qq.com/wik?id=mp1497082828_r1cI2
+    https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
     """
     event = 'user_authorize_invoice'
     success_order_id = StringField('SuccOrderId')  # 授权成功的订单号
     fail_order_id = StringField('FailOrderId')  # 授权失败的订单号
     app_id = StringField('AppId')  # 用于接收事件推送的公众号的AppId
     auth_source = StringField('Source')  # 授权来源，web表示来自微信内H5，app标识来自app
+
+
+@register_event('update_invoice_status')
+class UpdateInvoiceStatusEvent(BaseEvent):
+    """
+    发票状态更新事件
+
+    详情请参考
+    https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+    """
+    event = 'update_invoice_status'
+    status = StringField('Status')  # 发票报销状态
+    card_id = StringField('CardId')  # 发票 Card ID
+    code = StringField('Code')  # 发票 Code
 
 
 @register_event('submit_invoice_title')
