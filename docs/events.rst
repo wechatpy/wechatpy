@@ -498,3 +498,26 @@ fail_order_id    授权失败的订单号
 app_id           用于接收事件推送的公众号的AppId
 auth_source      授权来源，web表示来自微信内H5，app标识来自app
 ================ ============================================
+
+
+用户提交发票抬头事件
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: SubmitInvoiceTitleEvent
+   :members:
+   :inherited-members:
+
+=========== ============================================
+参数         值
+=========== ============================================
+event       submit_invoice_title
+title       抬头
+phone       联系方式
+tax_no      税号
+addr        地址
+bank_type   银行类型
+bank_no     银行号码
+attach      附加字段
+title_type  抬头类型，InvoiceUserTitlePersonType为个人抬头，InvoiceUserTitleBusinessType为公司抬头
+=========== ============================================
+

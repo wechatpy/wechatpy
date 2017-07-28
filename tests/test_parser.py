@@ -282,6 +282,36 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual('wx1234567887654321', msg.app_id)
         self.assertEqual(None, msg.auth_source)
 
+    def test_parse_submit_invoice_title_event(self):
+        from wechatpy.events import SubmitInvoiceTitleEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_fc0a06a20993]]></ToUserName>
+        <FromUserName><![CDATA[oZI8Fj040-be6rlDohc6gkoPOQTQ]]></FromUserName>
+        <CreateTime>1475134700</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[submit_invoice_title]]></Event>
+        <title><![CDATA[样例公司抬头]]></title>
+        <tax_no><![CDATA[1486715661]]></tax_no>
+        <addr><![CDATA[abc]]></addr>
+        <phone><![CDATA[13313331333]]></phone>
+        <bank_type><![CDATA[bt]]></bank_type>
+        <bank_no><![CDATA[bn]]></bank_no>
+        <attach><![CDATA[at]]></attach>
+        <title_type><![CDATA[InvoiceUserTitleBusinessType]]></title_type>
+        </xml>"""
+
+        msg = parse_message(xml)
+        self.assertTrue(isinstance(msg, SubmitInvoiceTitleEvent))
+        self.assertEqual('样例公司抬头', msg.title)
+        self.assertEqual('1486715661', msg.tax_no)
+        self.assertEqual('abc', msg.addr)
+        self.assertEqual('13313331333', msg.phone)
+        self.assertEqual('bt', msg.bank_type)
+        self.assertEqual('bn', msg.bank_no)
+        self.assertEqual('at', msg.attach)
+        self.assertEqual('InvoiceUserTitleBusinessType', msg.title_type)
+
     def test_parse_device_text_event(self):
         from wechatpy.events import DeviceTextEvent
 
