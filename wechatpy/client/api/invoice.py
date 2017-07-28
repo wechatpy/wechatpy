@@ -129,6 +129,125 @@ class WeChatInvoice(BaseWeChatAPI):
             data={},
         )
 
+    def get_auth_data(self, s_pappid, order_id):
+        """
+        查询授权数据
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
+        :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
+        :return: 用户的开票信息
+        :rtype: dict
+        """
+        return self._post(
+            'getauthdata',
+            data={
+                's_pappid': s_pappid,
+                'order_id': order_id,
+            },
+        )
+
+    def reject_insert(self, s_pappid, order_id, reason, redirect_url=None):
+        """
+        拒绝用户的开发票请求
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
+        :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
+        :param reason: 拒绝原因
+        :param redirect_url: 跳转链接
+        """
+        return self._post(
+            'rejectinsert',
+            data={
+                's_pappid': s_pappid,
+                'order_id': order_id,
+                'reason': reason,
+                'url': redirect_url,
+            },
+        )
+
+    def insert(self, order_id, card_id, appid, card_ext):
+        """
+        制作发票卡券，并放入用户卡包
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
+        :param card_id: 发票卡券模板的编号
+        :param appid: 商户 AppID
+        :param card_ext: 发票具体内容
+        :type card_ext: dict
+        :return: 随机防重字符串，以及用户 OpenID
+        """
+        return self._post(
+            'insert',
+            data={
+                'order_id': order_id,
+                'card_id': card_id,
+                'appid': appid,
+                'card_ext': card_ext,
+            },
+        )
+
+    def upload_pdf(self, pdf):
+        """
+        上传电子发票中的消费凭证 PDF
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param pdf: 要上传的 PDF 文件，一个 File-object
+        :return: 64位整数，在将发票卡券插入用户卡包时使用用于关联pdf和发票卡券。有效期为3天。
+        """
+        return self._post(
+            'platform/setpdf',
+            files={
+                'pdf': pdf,
+            },
+            result_processor=lambda x: x['s_media_id'],
+        )
+
+    def get_pdf(self, s_media_id):
+        """
+        查询已上传的 PDF
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param s_media_id: PDF 文件上传时的 s_media_id
+        :return: PDF 文件的 URL，以及过期时间
+        :rtype: dict
+        """
+        return self._post(
+            'platform/getpdf',
+            params={
+                'action': 'get_url',
+            },
+            data={
+                's_media_id': s_media_id,
+            },
+        )
+
+    def update_status(self, card_id, code, reimburse_status):
+        """
+        更新发票卡券的状态
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+
+        :param card_id: 发票卡券模板的编号
+        :param code: 发票卡券的编号
+        :param reimburse_status: 发票报销状态
+        """
+        return self._post(
+            'platform/updatestatus',
+            data={
+                'card_id': card_id,
+                'code': code,
+                'reimburse_status': reimburse_status,
+            },
+        )
+
     def get_user_title_url(
             self, user_fill, title=None, phone=None, tax_no=None, addr=None, bank_type=None, bank_no=None,
             out_title_id=None):
