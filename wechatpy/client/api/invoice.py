@@ -248,6 +248,45 @@ class WeChatInvoice(BaseWeChatAPI):
             },
         )
 
+    def set_pay_mch(self, mchid, s_pappid):
+        """
+        关联商户号与开票平台，设置支付后开票
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1496561731_2Z55U
+
+        :param mchid: 微信支付商户号
+        :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
+        """
+        return self._post(
+            'setbizattr',
+            params={
+                'action': 'set_pay_mch',
+            },
+            data={
+                'paymch_info': {
+                    'mchid': mchid,
+                    's_pappid': s_pappid,
+                },
+            },
+        )
+
+    def get_pay_mch(self):
+        """
+        查询商户号与开票平台关联情况
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1496561731_2Z55U
+
+        :return: mchid 和 s_pappid
+        :rtype: dict
+        """
+        return self._post(
+            'setbizattr',
+            params={
+                'action': 'get_pay_mch',
+            },
+            data={},
+        )
+
     def get_user_title_url(
             self, user_fill, title=None, phone=None, tax_no=None, addr=None, bank_type=None, bank_no=None,
             out_title_id=None):
