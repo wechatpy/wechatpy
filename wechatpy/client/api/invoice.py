@@ -180,7 +180,7 @@ class WeChatInvoice(BaseWeChatAPI):
         :param appid: 商户 AppID
         :param card_ext: 发票具体内容
         :type card_ext: dict
-        :return: 随机防重字符串，以及用户 OpenID
+        :return: 随机防重字符串，以及用户 Open ID
         """
         return self._post(
             'insert',
@@ -285,6 +285,64 @@ class WeChatInvoice(BaseWeChatAPI):
                 'action': 'get_pay_mch',
             },
             data={},
+        )
+
+    def get_reimburse(self, card_id, encrypt_code):
+        """
+        报销方查询发票信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1496561749_f7T6D
+
+        :param card_id: 发票卡券的 Card ID
+        :param encrypt_code: 发票卡券的加密 Code
+        :return: 电子发票的结构化信息
+        :rtype: dict
+        """
+        return self._post(
+            'reimburse/getinvoiceinfo',
+            data={
+                'card_id': card_id,
+                'encrypt_code': encrypt_code,
+            },
+        )
+
+    def update_reimburse(self, card_id, encrypt_code, reimburse_status):
+        """
+        报销方更新发票信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1496561749_f7T6D
+
+        :param card_id: 发票卡券的 Card ID
+        :param encrypt_code: 发票卡券的加密 Code
+        :param reimburse_status: 发票报销状态
+        """
+        return self._post(
+            'reimburse/updateinvoicestatus',
+            data={
+                'card_id': card_id,
+                'encrypt_code': encrypt_code,
+                'reimburse_status': reimburse_status,
+            },
+        )
+
+    def batch_update_reimburse(self, openid, reimburse_status, invoice_list):
+        """
+        报销方批量更新发票信息
+        详情请参考
+        https://mp.weixin.qq.com/wiki?id=mp1496561749_f7T6D
+
+        :param openid: 用户的 Open ID
+        :param reimburse_status: 发票报销状态
+        :param invoice_list: 发票列表
+        :type invoice_list: list[dict]
+        """
+        return self._post(
+            'reimburse/updatestatusbatch',
+            data={
+                'openid': openid,
+                'reimburse_status': reimburse_status,
+                'invoice_list': invoice_list,
+            },
         )
 
     def get_user_title_url(
