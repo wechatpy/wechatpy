@@ -1,0 +1,8 @@
+requirements_file: dev-requirements.txt
+formats:
+  - none
+python:
+  version: 3
+  pip_install: true
+  extra_requirements:
+    - cryptography
