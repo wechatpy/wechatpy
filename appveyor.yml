@@ -17,6 +17,10 @@ environment:
       TESTENV: "py35-cryptography"
     - PYTHON: "C:/Python35"
       TESTENV: "py35-pycrypto"
+    - PYTHON: "C:/Python36"
+      TESTENV: "py36-cryptography"
+    - PYTHON: "C:/Python36"
+      TESTENV: "py36-pycrypto"
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:/Python*"
@@ -33,3 +37,7 @@ install:
 
 test_script:
   - C:\Python27\python -m tox -e %TESTENV%
+
+after_test:
+  - pip install codecov
+  - codecov
