@@ -19,8 +19,6 @@ environment:
       TESTENV: "py35-pycrypto"
     - PYTHON: "C:/Python36"
       TESTENV: "py36-cryptography"
-    - PYTHON: "C:/Python36"
-      TESTENV: "py36-pycrypto"
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:/Python*"
