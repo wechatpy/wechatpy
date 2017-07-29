@@ -629,3 +629,52 @@ class SubscribeScanProductEvent(BaseEvent):
     @property
     def key(self):
         return self.event_key.split('|')[2]
+
+
+@register_event('user_authorize_invoice')
+class UserAuthorizeInvoiceEvent(BaseEvent):
+    """
+    用户授权发票事件
+    （会包含一个订单号，不成功就失败）
+
+    详情请参考
+    https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+    """
+    event = 'user_authorize_invoice'
+    success_order_id = StringField('SuccOrderId')  # 授权成功的订单号
+    fail_order_id = StringField('FailOrderId')  # 授权失败的订单号
+    app_id = StringField('AppId')  # 用于接收事件推送的公众号的AppId
+    auth_source = StringField('Source')  # 授权来源，web表示来自微信内H5，app标识来自app
+
+
+@register_event('update_invoice_status')
+class UpdateInvoiceStatusEvent(BaseEvent):
+    """
+    发票状态更新事件
+
+    详情请参考
+    https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+    """
+    event = 'update_invoice_status'
+    status = StringField('Status')  # 发票报销状态
+    card_id = StringField('CardId')  # 发票 Card ID
+    code = StringField('Code')  # 发票 Code
+
+
+@register_event('submit_invoice_title')
+class SubmitInvoiceTitleEvent(BaseEvent):
+    """
+    用户提交发票抬头事件
+
+    详情请参考
+    https://mp.weixin.qq.com/wiki?id=mp1496554912_vfWU0
+    """
+    event = 'submit_invoice_title'
+    title = StringField('title')  # 抬头
+    phone = StringField('phone')  # 联系方式
+    tax_no = StringField('tax_no')  # 税号
+    addr = StringField('addr')  # 地址
+    bank_type = StringField('bank_type')  # 银行类型
+    bank_no = StringField('bank_no')  # 银行号码
+    attach = StringField('attach')  # 附加字段
+    title_type = StringField('title_type')  # 抬头类型，个人InvoiceUserTitlePersonType, 公司InvoiceUserTitleBusinessType

@@ -481,3 +481,58 @@ scene        scanbarcode 为扫码场景，scanimage 为扫封面（图像）场
 standard     商品编码标准
 key          商品编码内容
 ============ ============================================
+
+用户授权发票事件
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: UserAuthorizeInvoiceEvent
+   :members:
+   :inherited-members:
+
+================ ============================================
+参数              值
+================ ============================================
+event            user_authorize_invoice
+success_order_id 授权成功的订单号
+fail_order_id    授权失败的订单号
+app_id           用于接收事件推送的公众号的AppId
+auth_source      授权来源，web表示来自微信内H5，app标识来自app
+================ ============================================
+
+发票状态更新事件
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: UpdateInvoiceStatusEvent
+   :members:
+   :inherited-members:
+
+=========== ============================================
+参数         值
+=========== ============================================
+event       update_invoice_status
+status      发票报销状态
+card_id     发票卡券 Card ID
+code        发票卡券 Code
+=========== ============================================
+
+用户提交发票抬头事件
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: SubmitInvoiceTitleEvent
+   :members:
+   :inherited-members:
+
+=========== ============================================
+参数         值
+=========== ============================================
+event       submit_invoice_title
+title       抬头
+phone       联系方式
+tax_no      税号
+addr        地址
+bank_type   银行类型
+bank_no     银行号码
+attach      附加字段
+title_type  抬头类型，InvoiceUserTitlePersonType为个人抬头，InvoiceUserTitleBusinessType为公司抬头
+=========== ============================================
+
