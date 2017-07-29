@@ -6,9 +6,13 @@ sudo: false
 matrix:
   include:
     - env: TOX_ENV=py27-cryptography
+      python: 2.7
     - env: TOX_ENV=py27-pycrypto
+      python: 2.7
     - env: TOX_ENV=py34-cryptography
+      python: 3.4
     - env: TOX_ENV=py34-pycrypto
+      python: 3.4
     - env: TOX_ENV=py35-cryptography
       python: 3.5
     - env: TOX_ENV=py35-pycrypto
@@ -18,7 +22,9 @@ matrix:
     - env: TOX_ENV=py36-pycrypto
       python: 3.6
     - env: TOX_ENV=pypy-cryptography
+      python: "pypy-5.3.1"
     - env: TOX_ENV=pypy-pycrypto
+      python: "pypy-5.3.1"
 
 services:
   - redis-server

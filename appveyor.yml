@@ -32,4 +32,4 @@ install:
   - C:\Python27\python -m pip install tox
 
 test_script:
-  - C:\Python27\python -m tox -c tox-win.ini -e %TESTENV%
+  - C:\Python27\python -m tox -e %TESTENV%
