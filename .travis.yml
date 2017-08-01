@@ -45,6 +45,17 @@ after_success:
   - ocular
   - codecov
 
+deploy:
+  provider: pypi
+  on:
+    tags: true
+    python: 3.6
+    condition: "$TOX_ENV = py36-cryptography"
+  user: messense
+  password:
+    secure: "COhBAKzDct1kjzJjoN6dRgdFFORIf0FWVvZcD7+mzfxxjWbYVx6EE24Bs3HoalSbm8BBVPIOVpXXl2mL2w4HtIzCA+oAghHKySIvYuMox0SD59hHjS/BzFjkTtfajHSLOJvhk0htnvt9YLQ2RDUfYrOgM1YZfWkTgIU8ZAOOFrJBr8CY7tBkUQ+V7kYUFlmyZSeiNWEDAUs3jZDDIXOih5zh+K4NGSOWywp49r4VOS82CxK1HFp1xrGT7haEAXFAQ/eDmIC1IE4RwXYLxJEvLGGZwFRS3uVFUKu7FQj2Cbvjty93vfcmn3+xJ2cO816uleUSg40m4RccKVeB3qBNPlGtA90nyxYsTkhWXlj+I7CN4ksFeM0x1s/Hv56Bjr6lTBZFLa9dv+m8EPLlQhlb6K79v3i8/ehnp/o82qa7XcldqA+DWuYNYMD30PGNHTxIUhIay1gkBEFntQJfNS5eHagUKEktJX+/vP6FVwppQTpPnAAFnv1fDBK0lqZ6uH6nz6jE6j0BU0xq3rEu2nUZjlSt/XtLcSgpzEATIML5s1bJtmo5Cziq0pyoMqRH0BFn93NfJPrJHFcMZN69G1K43ucqS63rteLLhBnFW1YMUeERKWyQAfx8wJrezusjUMfLaD8AEncY106S2KpUIW7IzGvoNxyzTe+sQGYuvovD0z8="
+  distributions: "sdist bdist_wheel"
+
 notifications:
   webhooks:
     urls:
