@@ -93,8 +93,8 @@ class WeChatWxa(BaseWeChatAPI):
                 'action': action,
                 'requestdomain': request_domain,
                 'wsrequestdomain': wsrequest_domain,
-                'upload_domain': upload_domain,
-                'download_domain': download_domain,
+                'uploaddomain': upload_domain,
+                'downloaddomain': download_domain,
             }
         )
 
@@ -230,9 +230,8 @@ class WeChatWxa(BaseWeChatAPI):
 
         :return: 一个包含 status, reason, auditid 的 dict。status 0为审核成功，1为审核失败，2为审核中。
         """
-        return self._post(
-            'wxa/get_latest_auditstatus',
-            data={},
+        return self._get(
+            'wxa/get_latest_auditstatus'
         )
 
     def release(self):
