@@ -7,6 +7,8 @@ import warnings
 
 import six
 import requests
+
+from wechatpy.constants import WeChatErrorCode
 from wechatpy.utils import json, get_querystring
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
@@ -131,7 +133,10 @@ class BaseWeChatClient(object):
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
             errmsg = result.get('errmsg', errcode)
-            if errcode in (40001, 40014, 42001) and self.auto_retry:
+            if self.auto_retry and errcode in (
+                    WeChatErrorCode.INVALID_CREDENTIAL.value,
+                    WeChatErrorCode.INVALID_ACCESS_TOKEN.value,
+                    WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value):
                 logger.info('Access token expired, fetch a new one and retry request')
                 self.fetch_access_token()
                 access_token = self.session.get(self.access_token_key)
@@ -142,7 +147,7 @@ class BaseWeChatClient(object):
                     result_processor=result_processor,
                     **kwargs
                 )
-            elif errcode == 45009:
+            elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
                 raise APILimitedException(
                     errcode,
