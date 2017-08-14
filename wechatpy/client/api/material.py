@@ -109,6 +109,35 @@ class WeChatMaterial(BaseWeChatAPI):
             }
         )
 
+    def update_article(self, media_id, index, article):
+        """
+        修改永久图文素材
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738732
+
+        :param media_id: 要修改的图文消息的 id
+        :param index: 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为 0
+        :param article: 图文素材
+        :return: 返回的 JSON 数据包
+        """
+        article_data = {
+            'thumb_media_id': article['thumb_media_id'],
+            'title': article['title'],
+            'content': article['content'],
+            'author': article.get('author', ''),
+            'content_source_url': article.get('content_source_url', ''),
+            'digest': article.get('digest', ''),
+            'show_cover_pic': article.get('show_cover_pic', 0)
+        }
+        return self._post(
+            'material/update_news',
+            data={
+                'media_id': media_id,
+                'index': index,
+                'articles': article_data
+            }
+        )
+
     def update_articles(self, media_id, index, articles):
         """
         修改永久图文素材
@@ -131,14 +160,7 @@ class WeChatMaterial(BaseWeChatAPI):
                 'digest': article.get('digest', ''),
                 'show_cover_pic': article.get('show_cover_pic', 0)
             })
-        return self._post(
-            'material/update_news',
-            data={
-                'media_id': media_id,
-                'index': index,
-                'articles': articles_data
-            }
-        )
+        return self.update_article(media_id, index, articles[index])
 
     def batchget(self, media_type, offset=0, count=20):
         """
