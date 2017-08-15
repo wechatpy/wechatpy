@@ -149,17 +149,6 @@ class WeChatMaterial(BaseWeChatAPI):
         :param articles: 图文素材数组
         :return: 返回的 JSON 数据包
         """
-        articles_data = []
-        for article in articles:
-            articles_data.append({
-                'thumb_media_id': article['thumb_media_id'],
-                'title': article['title'],
-                'content': article['content'],
-                'author': article.get('author', ''),
-                'content_source_url': article.get('content_source_url', ''),
-                'digest': article.get('digest', ''),
-                'show_cover_pic': article.get('show_cover_pic', 0)
-            })
         return self.update_article(media_id, index, articles[index])
 
     def batchget(self, media_type, offset=0, count=20):
