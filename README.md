@@ -61,7 +61,7 @@ pip install wechatpy[pycrypto]
 
 ## 贡献代码
 
-请阅读 [贡献代码指南](CONTRIBUTING.md)
+请阅读 [贡献代码指南](.github/CONTRIBUTING.md)
 
 ## 问题反馈
 
