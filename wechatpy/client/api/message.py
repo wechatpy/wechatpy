@@ -245,7 +245,7 @@ class WeChatMessage(BaseWeChatAPI):
         删除群发消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param msg_id: 要删除的群发消息 ID
         :return: 返回的 JSON 数据包
@@ -306,13 +306,16 @@ class WeChatMessage(BaseWeChatAPI):
         群发文本消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param content: 消息正文
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
 
         :return: 返回的 JSON 数据包
         """
@@ -334,13 +337,16 @@ class WeChatMessage(BaseWeChatAPI):
         群发图片消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 图片的媒体 ID。 可以通过 :func:`upload_media` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
 
         :return: 返回的 JSON 数据包
         """
@@ -362,13 +368,16 @@ class WeChatMessage(BaseWeChatAPI):
         群发语音消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 语音的媒体 ID。可以通过 :func:`upload_media` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
 
         :return: 返回的 JSON 数据包
         """
@@ -390,15 +399,18 @@ class WeChatMessage(BaseWeChatAPI):
         群发视频消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 视频的媒体 ID。可以通过 :func:`upload_video` 上传。
         :param title: 视频标题
         :param description: 视频描述
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
 
         :return: 返回的 JSON 数据包
         """
@@ -425,13 +437,16 @@ class WeChatMessage(BaseWeChatAPI):
         群发图文消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 图文的媒体 ID。可以通过 :func:`upload_articles` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
 
         :return: 返回的 JSON 数据包
         """
@@ -452,7 +467,7 @@ class WeChatMessage(BaseWeChatAPI):
         查询群发消息发送状态
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param msg_id: 群发消息后返回的消息id
         :return: 返回的 JSON 数据包
@@ -523,13 +538,16 @@ class WeChatMessage(BaseWeChatAPI):
         群发卡券消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param card_id: 卡券 ID
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
 
         :return: 返回的 JSON 数据包
         """
