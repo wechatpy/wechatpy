@@ -409,7 +409,7 @@ class DeviceSubscribeStatusEvent(BaseEvent):
 
 @register_event('device_unsubscribe_status')
 class DeviceUnsubscribeStatusEvent(BaseEvent):
-    event = 'device_subscribe_status'
+    event = 'device_unsubscribe_status'
     device_type = StringField('DeviceType')
     device_id = StringField('DeviceID')
     open_id = StringField('OpenID')
