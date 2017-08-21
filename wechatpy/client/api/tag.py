@@ -131,14 +131,14 @@ class WeChatTag(BaseWeChatAPI):
         :param first_user_id: 可选。第一个拉取的 OPENID，不填默认从头开始拉取
         :return: 返回的 JSON 数据包
         """
-        params = {
+        data = {
             'tagid': tag_id,
         }
         if first_user_id:
-            params['next_openid'] = first_user_id
-        return self._get(
+            data['next_openid'] = first_user_id
+        return self._post(
             'user/tag/get',
-            params=params
+            data=data
         )
 
     def get_black_list(self, begin_openid=None):

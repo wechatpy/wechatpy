@@ -11,6 +11,7 @@ Unreleased
 + 修复微信硬件取消关注事件 key
 + 群发消息文档完善
 + 微信支付统一下单接口增加 `scene_info` 字段
++ 获取标签下粉丝列表 API 更改为 HTTP POST
 
 Version 1.5.1
 -------------------
