@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from wechatpy.utils import timezone
 from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
-from wechatpy.utils import random_string, to_text
+from wechatpy.utils import random_string, to_text, json
 from wechatpy.pay.utils import calculate_signature
 
 
@@ -15,12 +15,12 @@ class WeChatOrder(BaseWeChatPayAPI):
 
     def create(self, trade_type, body, total_fee, notify_url, client_ip=None,
                user_id=None, out_trade_no=None, detail=None, attach=None,
-               fee_type='CNY', time_start=None, time_expire=None,
-               goods_tag=None, product_id=None, device_info=None, limit_pay=None):
+               fee_type='CNY', time_start=None, time_expire=None, goods_tag=None,
+               product_id=None, device_info=None, limit_pay=None, scene_info=None):
         """
         统一下单接口
 
-        :param trade_type: 交易类型，取值如下：JSAPI，NATIVE，APP，WAP
+        :param trade_type: 交易类型，取值如下：JSAPI，NATIVE，APP，WAP, MWEB
         :param body: 商品描述
         :param total_fee: 总金额，单位分
         :param notify_url: 接收微信支付异步通知回调地址
@@ -36,6 +36,8 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param product_id: 可选，trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义
         :param device_info: 可选，终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
         :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
+        :param scene_info: 可选，上报支付的场景信息
+        :type scene_info: dict
         :return: 返回的结果数据
         """
         now = datetime.fromtimestamp(time.time(), tz=timezone('Asia/Shanghai'))
@@ -50,6 +52,8 @@ class WeChatOrder(BaseWeChatPayAPI):
                 now.strftime('%Y%m%d%H%M%S'),
                 random.randint(1000, 10000)
             )
+        if scene_info is not None:
+            scene_info = json.dumps(scene_info, ensure_ascii=False)
         data = {
             'appid': self.appid,
             'device_info': device_info,
@@ -68,6 +72,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'limit_pay': limit_pay,
             'product_id': product_id,
             'openid': user_id,
+            'scene_info': scene_info,
         }
         return self._post('pay/unifiedorder', data=data)
 
