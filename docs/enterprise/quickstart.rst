@@ -121,7 +121,22 @@ Redis 示例:
 Shove 示例:
 
 .. code-block:: python
-    from wechatpy.session.shovestorage import ShoveStorag   
+
+    from wechatpy.enterprise import WeChatClient
+    from wechatpy.session.shovestorage import ShoveStorag 
+    from redis import Redis
+
+    redis_client = Redis.from_url('redis://127.0.0.1:6379/0')
+    session_interface = RedisStorage(
+        redis_client,
+        prefix="wechatpy"
+    )
+
+    wechat_client = WeChatClient(
+        CorpId,
+        secret,
+        session=session_interface
+    )
    
 memcached 示例:
 
