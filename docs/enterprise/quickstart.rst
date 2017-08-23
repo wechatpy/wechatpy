@@ -92,7 +92,7 @@
 
 AccessToken
 ~~~~~~~~~~~~~~~~~~~~~~
-wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 ``wechat_client.access_token`` 获取到。
+wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 `wechat_client.access_token <http://docs.wechatpy.org/zh_CN/master/enterprise/client.html#wechatpy.enterprise.client.WeChatClient.access_token>`_ 获取到。
 
 Storage
 ..................
