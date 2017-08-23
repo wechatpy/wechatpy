@@ -96,7 +96,9 @@ wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况
 
 Storage
 ..................
-wechatpy 支持多种 **AccessToken** 的持久化储存，下面以 Redis 作为示例
+wechatpy 支持多种 **AccessToken** 的持久化储存，目前支持memcached，memory，redis，shove
+
+Redis 示例:
 
 .. code-block:: python
 
@@ -115,6 +117,18 @@ wechatpy 支持多种 **AccessToken** 的持久化储存，下面以 Redis 作�
         secret,
         session=session_interface
     )
+    
+Shove 示例:
+.. code-block:: python
+   from wechatpy.session.shovestorage import ShoveStorage
+   
+memcached 示例:
+.. code-block:: python
+   from wechatpy.session.memcachedstorage import MemcachedStorage
+   
+memory 示例:
+.. code-block:: python
+   from wechatpy.session.memorystorage import MemoryStorage
 
 自定义 Storage
 !!!!!!!!!!!!!!
