@@ -121,17 +121,17 @@ Redis 示例:
 Shove 示例:
 
 .. code-block:: python
-   from wechatpy.session.shovestorage import ShoveStorag   
+    from wechatpy.session.shovestorage import ShoveStorag   
    
 memcached 示例:
 
 .. code-block:: python
-   from wechatpy.session.memcachedstorage import MemcachedStorage 
+    from wechatpy.session.memcachedstorage import MemcachedStorage 
    
 memory 示例:
 
 .. code-block:: python
-   from wechatpy.session.memorystorage import MemoryStorage 
+    from wechatpy.session.memorystorage import MemoryStorage 
 
 自定义 Storage
 !!!!!!!!!!!!!!
