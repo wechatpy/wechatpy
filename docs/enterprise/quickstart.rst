@@ -92,11 +92,13 @@
 
 AccessToken
 ~~~~~~~~~~~~~~~~~~~~~~
-wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 ``wechat_client.access_token`` 获取到。
+wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 `wechat_client.access_token <http://docs.wechatpy.org/zh_CN/master/enterprise/client.html#wechatpy.enterprise.client.WeChatClient.access_token>`_ 获取到。
 
 Storage
 ..................
-wechatpy 支持多种 **AccessToken** 的持久化储存，下面以 Redis 作为示例
+wechatpy 支持多种 **AccessToken** 的持久化储存，目前支持 memcached，memory，redis，shove
+
+Redis 示例:
 
 .. code-block:: python
 
@@ -115,6 +117,24 @@ wechatpy 支持多种 **AccessToken** 的持久化储存，下面以 Redis 作�
         secret,
         session=session_interface
     )
+    
+Shove 示例:
+
+.. code-block:: python
+
+    from wechatpy.session.shovestorage import ShoveStorag 
+   
+memcached 示例:
+
+.. code-block:: python
+
+    from wechatpy.session.memcachedstorage import MemcachedStorage 
+   
+memory 示例:
+
+.. code-block:: python
+
+    from wechatpy.session.memorystorage import MemoryStorage 
 
 自定义 Storage
 !!!!!!!!!!!!!!
