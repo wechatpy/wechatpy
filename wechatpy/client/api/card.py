@@ -332,9 +332,11 @@ class WeChatCard(BaseWeChatAPI):
         return self._post(
             'card/paygiftcard/add',
             data={
-                'type': rule_type,
-                'base_info': base_info,
-                rule_key: extra_info,
+                'rule_info': {
+                    'type': rule_type,
+                    'base_info': base_info,
+                    rule_key: extra_info,
+                }
             }
         )
 
