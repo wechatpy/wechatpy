@@ -24,6 +24,8 @@ def _is_api_endpoint(obj):
 
 class BaseWeChatClient(object):
 
+    _http = requests.Session()
+
     API_BASE_URL = ''
 
     def __new__(cls, *args, **kwargs):
@@ -55,8 +57,6 @@ class BaseWeChatClient(object):
 
         if access_token:
             self.session.set(self.access_token_key, access_token)
-
-        self._http = requests.Session()
 
     @property
     def access_token_key(self):
