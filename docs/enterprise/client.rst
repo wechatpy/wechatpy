@@ -25,6 +25,8 @@ WeChatClient
 如果不提供 ``session`` 参数，默认使用 ``wechatpy.session.memorystorage.MemoryStorage`` session 类型，
 注意该类型不是线程安全的，不推荐生产环境使用。
 
+发送的content有大小限制，为2048个Bytes，超出的将在发送中抛弃。
+
 .. module:: wechatpy.enterprise.client.api
 
 
