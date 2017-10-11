@@ -35,6 +35,8 @@ class WeChatPay(object):
     :param mch_cert: 必填，商户证书路径
     :param mch_key: 必填，商户证书私钥路径
     """
+    _http = requests.Session()
+
     redpack = api.WeChatRedpack()
     """红包接口"""
     transfer = api.WeChatTransfer()
@@ -79,7 +81,6 @@ class WeChatPay(object):
         self.sub_mch_id = sub_mch_id
         self.mch_cert = mch_cert
         self.mch_key = mch_key
-        self._http = requests.Session()
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):

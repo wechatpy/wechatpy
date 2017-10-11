@@ -66,6 +66,8 @@ class ComponentUnauthorizedMessage(BaseComponentMessage):
 
 class BaseWeChatComponent(object):
 
+    _http = requests.Session()
+
     API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin'
 
     def __init__(self,
@@ -97,7 +99,6 @@ class BaseWeChatComponent(object):
             shove = Shove(session)
             storage = ShoveStorage(shove, prefix)
             self.session = storage
-        self._http = requests.Session()
 
     @property
     def component_verify_ticket(self):
