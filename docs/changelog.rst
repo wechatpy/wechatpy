@@ -6,6 +6,9 @@ master
 
 Unreleased
 
+Version 1.5.2
+-------------------
+
 + 新增 `WeChatErrorCode` 类方便比较错误码
 + 修复永久素材更新图文素材接口问题
 + 修复微信硬件取消关注事件 key
