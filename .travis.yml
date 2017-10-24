@@ -51,9 +51,6 @@ deploy:
     tags: true
     python: 3.6
     condition: "$TOX_ENV = py36-cryptography"
-  user: messense
-  password:
-    secure: "G0a6DVmLY6QDi9sLxrTcyGdYM8GqqQARbAVzNdzeqJKkSWoe3quA9LPYjYWy4ijUitAKgtJOUY+xZBl84SPWV087sZSY9TGUGtZm/H6t5KiatuP9JWmr7/jDS/NPVAs16c3R+2GoSBpoBDfPWAGKaE4LTD8MErY9Kn6mtYsKW4aP6fv1Vt/r9iTSJrbncjFSfO5dwXYzsu2tjMH1/UkpRPHo9V2RshdfKs5k4Pu31zun+NkTKKUp92/eRw1ePyaPPU9ETr5+2ow3jdzmBUgLOnVog5mIH16PN6lk3fyZfk0vQ+4s4REm2ds78WwKqcVPVDiQlrK9vkNT4b95gDZdiO464Rf/HHxuyJ3BWYCU+zt42CPMiI3Zzr9C/9DnYSzZTu7skcc70/uBkX7n8VPeEmhVwPSpHZfldM+bX898dZbzA6ecGs4TPS6qjWlGTLOoUZGuu80xMH/2wSJCJxYD7uQx5MvAyvlwsJtl4mJfZN41tLzEs/DUEPJIXWMHUifKpPCaWs5/9C/yRh8TR06pMvMs4tYleGKZaA8bgk2t1aMHg8rTuio0tzI8ZsbNgKn61sM8ayNTPA+Y9KskBpyuXepbKFjaabUh217VGWA8cdaP5oaLbDGcm7nNXnruN0Cb15hNipGrDFVMV0mFOMIMCSQoPCC0UY7SnuTFzxRPf/4="
   distributions: "sdist bdist_wheel"
 
 notifications:
