@@ -272,23 +272,58 @@ class WeChatCard(BaseWeChatAPI):
             data=card_data
         )
 
-    def update_membercard(self, code, add_bonus=0, record_bonus='',
-                          add_balance=0, record_balance='', card_id=None):
+    def update_membercard(self, code, card_id, **kwargs):
         """
-        会员卡交易更新信息
-        """
-        card_data = {
-            'code': code,
-            'add_bonus': add_bonus,
-            'add_balance': add_balance,
-            'record_bonus': record_bonus,
-            'record_balance': record_balance
+        更新会员信息
+        详情请参见
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+
+        注意事项：
+        1.开发者可以同时传入add_bonus和bonus解决由于同步失败带来的幂等性问题。同时传入add_bonus和bonus时
+            add_bonus作为积分变动消息中的变量值，而bonus作为卡面上的总积分额度显示。余额变动同理。
+        2.开发者可以传入is_notify_bonus控制特殊的积分对账变动不发送消息，余额变动同理。
+
+        参数示例：
+        {
+            "code": "179011264953",
+            "card_id": "p1Pj9jr90_SQRaVqYI239Ka1erkI",
+            "background_pic_url": "https://mmbiz.qlogo.cn/mmbiz/0?wx_fmt=jpeg",
+            "record_bonus": "消费30元，获得3积分",
+            "bonus": 3000,
+            "add_bonus": 30,
+            "balance": 3000,
+            "add_balance": -30,
+            "record_balance": "购买焦糖玛琪朵一杯，扣除金额30元。",
+            "custom_field_value1": "xxxxx"，
+            "custom_field_value2": "xxxxx"，
+            "notify_optional": {
+                "is_notify_bonus": true,
+                "is_notify_balance": true,
+                "is_notify_custom_field1":true
+            }
         }
-        if card_id:
-            card_data['card_id'] = card_id
+
+        返回示例：
+        {
+            "errcode": 0,
+            "errmsg": "ok",
+            "result_bonus": 100,
+            "result_balance": 200,
+            "openid": "oFS7Fjl0WsZ9AMZqrI80nbIq8xrA"
+        }
+
+        :param code: 必填，卡券Code码
+        :param card_id: 必填，卡券ID
+        :param kwargs: 其他非必填字段，包含则更新对应字段。详情参见微信文档 “7 更新会员信息” 部分
+        :return: 参见返回示例
+        """
+        kwargs.update({
+            'code': code,
+            'card_id': card_id,
+        })
         return self._post(
             'card/membercard/updateuser',
-            data=card_data
+            data=kwargs
         )
 
     def get_membercard_user_info(self, card_id, code):
