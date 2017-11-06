@@ -254,22 +254,39 @@ class WeChatCard(BaseWeChatAPI):
             }
         )
 
-    def activate_membercard(self, membership_number, code, init_bonus=0,
-                            init_balance=0, card_id=None):
+    def activate_membercard(self, membership_number, code, **kwargs):
         """
-        激活/绑定会员卡
-        """
-        card_data = {
-            'membership_number': membership_number,
-            'code': code,
-            'init_bonus': init_bonus,
-            'init_balance': init_balance
+        激活会员卡 - 接口激活方式
+        详情请参见
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+
+        参数示例：
+        {
+            "init_bonus": 100,
+            "init_bonus_record":"旧积分同步",
+            "init_balance": 200,
+            "membership_number": "AAA00000001",
+            "code": "12312313",
+            "card_id": "xxxx_card_id",
+            "background_pic_url": "https://mmbiz.qlogo.cn/mmbiz/0?wx_fmt=jpeg",
+            "init_custom_field_value1": "xxxxx",
+            "init_custom_field_value2": "xxxxx",
+            "init_custom_field_value3": "xxxxx"
         }
-        if card_id:
-            card_data['card_id'] = card_id
+
+        返回示例：
+        {"errcode":0,   "errmsg":"ok"}
+
+        :param membership_number: 必填，会员卡编号，由开发者填入，作为序列号显示在用户的卡包里。可与Code码保持等值
+        :param code: 必填，领取会员卡用户获得的code
+        :param kwargs: 其他非必填字段，包含则更新对应字段。详情参见微信文档 “6 激活会员卡” 部分
+        :return: 参见返回示例
+        """
+        kwargs['membership_number'] = membership_number
+        kwargs['code'] = code
         return self._post(
             'card/membercard/activate',
-            data=card_data
+            data=kwargs
         )
 
     def update_membercard(self, code, card_id, **kwargs):
