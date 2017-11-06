@@ -630,7 +630,7 @@ class WeChatCard(BaseWeChatAPI):
         设置开卡字段接口
         详情请参考
         https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
-        "6 激活会员卡" -> 6.2 一键激活" -> "步骤二：设置开卡字段接口"
+        "6 激活会员卡" -> "6.2 一键激活" -> "步骤二：设置开卡字段接口"
 
         参数示例：
         {
@@ -688,6 +688,7 @@ class WeChatCard(BaseWeChatAPI):
                 ]
             }
         }
+        common_field_id_list 值见常量 `wechatpy.constants.UserFormInfoFlag`
 
         :param card_id: 卡券ID
         :param kwargs: 其他非必填参数，见微信文档
