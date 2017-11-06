@@ -624,3 +624,76 @@ class WeChatCard(BaseWeChatAPI):
             },
             result_processor=lambda x: x['info'],
         )
+
+    def set_activate_user_form(self, card_id, **kwargs):
+        """
+        设置开卡字段接口
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+        "6 激活会员卡" -> 6.2 一键激活" -> "步骤二：设置开卡字段接口"
+
+        参数示例：
+        {
+            "card_id": "pbLatjnrwUUdZI641gKdTMJzHGfc",
+            "service_statement": {
+                "name": "会员守则",
+                "url": "https://www.qq.com"
+            },
+            "bind_old_card": {
+                "name": "老会员绑定",
+                "url": "https://www.qq.com"
+            },
+            "required_form": {
+                "can_modify"：false,
+                "rich_field_list": [
+                    {
+                        "type": "FORM_FIELD_RADIO",
+                        "name": "兴趣",
+                        "values": [
+                            "钢琴",
+                            "舞蹈",
+                            "足球"
+                        ]
+                    },
+                    {
+                        "type": "FORM_FIELD_SELECT",
+                        "name": "喜好",
+                        "values": [
+                            "郭敬明",
+                            "韩寒",
+                            "南派三叔"
+                        ]
+                    },
+                    {
+                        "type": "FORM_FIELD_CHECK_BOX",
+                        "name": "职业",
+                        "values": [
+                            "赛车手",
+                            "旅行家"
+                        ]
+                    }
+                ],
+                "common_field_id_list": [
+                    "USER_FORM_INFO_FLAG_MOBILE"
+                ]
+            },
+            "optional_form": {
+                "can_modify"：false,
+                "common_field_id_list": [
+                    "USER_FORM_INFO_FLAG_LOCATION",
+                    "USER_FORM_INFO_FLAG_BIRTHDAY"
+                ],
+                "custom_field_list": [
+                    "喜欢的电影"
+                ]
+            }
+        }
+
+        :param card_id: 卡券ID
+        :param kwargs: 其他非必填参数，见微信文档
+        """
+        kwargs['card_id'] = card_id
+        return self._post(
+            'card/membercard/activateuserform/set',
+            data=kwargs
+        )
