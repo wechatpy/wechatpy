@@ -391,6 +391,7 @@ class WeChatCard(BaseWeChatAPI):
         return self._post(
             'card/paygiftcard/batchget',
             data={
+                'type': 'RULE_TYPE_PAY_MEMBER_CARD',
                 'effective': effective,
                 'offset': offset,
                 'count': count,
