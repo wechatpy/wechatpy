@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals, print_function
+from __future__ import absolute_import, print_function, unicode_literals
+
 import os
 import unittest
 from datetime import datetime
 
 import six
-from httmock import urlmatch, HTTMock, response
+from httmock import HTTMock, response, urlmatch
 
 from wechatpy import WeChatClient
 from wechatpy.exceptions import WeChatClientException
 from wechatpy.utils import json
-
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')
@@ -41,7 +41,6 @@ def wechat_api_mock(url, request):
 
 
 class WeChatClientTestCase(unittest.TestCase):
-
     app_id = '123456'
     secret = '123456'
 
@@ -153,6 +152,41 @@ class WeChatClientTestCase(unittest.TestCase):
                 'image': 'http://www.qq.com'
             }]
             result = self.client.message.send_articles(1, articles)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_card_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_card(1, '123456')
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_text_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_text([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_image_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_image([1], '123456', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_voice_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_voice([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_video_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_video([1], 'test', title='title', description='desc', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_article_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_article([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_card_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_card([1], 'test', is_to_all=True)
             self.assertEqual(0, result['errcode'])
 
     def test_get_mass_message(self):
@@ -541,7 +575,7 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(
                 self.client.session.get('{0}_jsapi_card_ticket'.format(self.client.appid)),
                 'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',
-                )
+            )
 
     def test_jsapi_get_jsapi_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
