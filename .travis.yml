@@ -44,14 +44,12 @@ after_success:
   - pip install scrutinizer-ocular codecov
   - ocular
   - codecov
-
-deploy:
-  provider: pypi
-  on:
-    tags: true
-    python: 3.6
-    condition: "$TOX_ENV = py36-cryptography"
-  distributions: "sdist bdist_wheel"
+  - |
+    if [[ "${TRAVIS_TAG:-}" != "" && "$TOX_ENV" == "py36-cryptography" ]]; then
+      python3.6 setup.py sdist bdist_wheel;
+      python3.6 -m pip install twine;
+      python3.6 -m twine upload --skip-existing dist/*;
+    fi
 
 notifications:
   webhooks:
