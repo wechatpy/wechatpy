@@ -254,41 +254,93 @@ class WeChatCard(BaseWeChatAPI):
             }
         )
 
-    def activate_membercard(self, membership_number, code, init_bonus=0,
-                            init_balance=0, card_id=None):
+    def activate_membercard(self, membership_number, code, **kwargs):
         """
-        激活/绑定会员卡
-        """
-        card_data = {
-            'membership_number': membership_number,
-            'code': code,
-            'init_bonus': init_bonus,
-            'init_balance': init_balance
+        激活会员卡 - 接口激活方式
+        详情请参见
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+
+        参数示例：
+        {
+            "init_bonus": 100,
+            "init_bonus_record":"旧积分同步",
+            "init_balance": 200,
+            "membership_number": "AAA00000001",
+            "code": "12312313",
+            "card_id": "xxxx_card_id",
+            "background_pic_url": "https://mmbiz.qlogo.cn/mmbiz/0?wx_fmt=jpeg",
+            "init_custom_field_value1": "xxxxx",
+            "init_custom_field_value2": "xxxxx",
+            "init_custom_field_value3": "xxxxx"
         }
-        if card_id:
-            card_data['card_id'] = card_id
+
+        返回示例：
+        {"errcode":0,   "errmsg":"ok"}
+
+        :param membership_number: 必填，会员卡编号，由开发者填入，作为序列号显示在用户的卡包里。可与Code码保持等值
+        :param code: 必填，领取会员卡用户获得的code
+        :param kwargs: 其他非必填字段，包含则更新对应字段。详情参见微信文档 “6 激活会员卡” 部分
+        :return: 参见返回示例
+        """
+        kwargs['membership_number'] = membership_number
+        kwargs['code'] = code
         return self._post(
             'card/membercard/activate',
-            data=card_data
+            data=kwargs
         )
 
-    def update_membercard(self, code, add_bonus=0, record_bonus='',
-                          add_balance=0, record_balance='', card_id=None):
+    def update_membercard(self, code, card_id, **kwargs):
         """
-        会员卡交易更新信息
-        """
-        card_data = {
-            'code': code,
-            'add_bonus': add_bonus,
-            'add_balance': add_balance,
-            'record_bonus': record_bonus,
-            'record_balance': record_balance
+        更新会员信息
+        详情请参见
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+
+        注意事项：
+        1.开发者可以同时传入add_bonus和bonus解决由于同步失败带来的幂等性问题。同时传入add_bonus和bonus时
+            add_bonus作为积分变动消息中的变量值，而bonus作为卡面上的总积分额度显示。余额变动同理。
+        2.开发者可以传入is_notify_bonus控制特殊的积分对账变动不发送消息，余额变动同理。
+
+        参数示例：
+        {
+            "code": "179011264953",
+            "card_id": "p1Pj9jr90_SQRaVqYI239Ka1erkI",
+            "background_pic_url": "https://mmbiz.qlogo.cn/mmbiz/0?wx_fmt=jpeg",
+            "record_bonus": "消费30元，获得3积分",
+            "bonus": 3000,
+            "add_bonus": 30,
+            "balance": 3000,
+            "add_balance": -30,
+            "record_balance": "购买焦糖玛琪朵一杯，扣除金额30元。",
+            "custom_field_value1": "xxxxx"，
+            "custom_field_value2": "xxxxx"，
+            "notify_optional": {
+                "is_notify_bonus": true,
+                "is_notify_balance": true,
+                "is_notify_custom_field1":true
+            }
         }
-        if card_id:
-            card_data['card_id'] = card_id
+
+        返回示例：
+        {
+            "errcode": 0,
+            "errmsg": "ok",
+            "result_bonus": 100,
+            "result_balance": 200,
+            "openid": "oFS7Fjl0WsZ9AMZqrI80nbIq8xrA"
+        }
+
+        :param code: 必填，卡券Code码
+        :param card_id: 必填，卡券ID
+        :param kwargs: 其他非必填字段，包含则更新对应字段。详情参见微信文档 “7 更新会员信息” 部分
+        :return: 参见返回示例
+        """
+        kwargs.update({
+            'code': code,
+            'card_id': card_id,
+        })
         return self._post(
             'card/membercard/updateuser',
-            data=card_data
+            data=kwargs
         )
 
     def get_membercard_user_info(self, card_id, code):
@@ -391,6 +443,7 @@ class WeChatCard(BaseWeChatAPI):
         return self._post(
             'card/paygiftcard/batchget',
             data={
+                'type': 'RULE_TYPE_PAY_MEMBER_CARD',
                 'effective': effective,
                 'offset': offset,
                 'count': count,
@@ -570,4 +623,78 @@ class WeChatCard(BaseWeChatAPI):
                 'activate_ticket': activate_ticket,
             },
             result_processor=lambda x: x['info'],
+        )
+
+    def set_activate_user_form(self, card_id, **kwargs):
+        """
+        设置开卡字段接口
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+        "6 激活会员卡" -> "6.2 一键激活" -> "步骤二：设置开卡字段接口"
+
+        参数示例：
+        {
+            "card_id": "pbLatjnrwUUdZI641gKdTMJzHGfc",
+            "service_statement": {
+                "name": "会员守则",
+                "url": "https://www.qq.com"
+            },
+            "bind_old_card": {
+                "name": "老会员绑定",
+                "url": "https://www.qq.com"
+            },
+            "required_form": {
+                "can_modify"：false,
+                "rich_field_list": [
+                    {
+                        "type": "FORM_FIELD_RADIO",
+                        "name": "兴趣",
+                        "values": [
+                            "钢琴",
+                            "舞蹈",
+                            "足球"
+                        ]
+                    },
+                    {
+                        "type": "FORM_FIELD_SELECT",
+                        "name": "喜好",
+                        "values": [
+                            "郭敬明",
+                            "韩寒",
+                            "南派三叔"
+                        ]
+                    },
+                    {
+                        "type": "FORM_FIELD_CHECK_BOX",
+                        "name": "职业",
+                        "values": [
+                            "赛车手",
+                            "旅行家"
+                        ]
+                    }
+                ],
+                "common_field_id_list": [
+                    "USER_FORM_INFO_FLAG_MOBILE"
+                ]
+            },
+            "optional_form": {
+                "can_modify"：false,
+                "common_field_id_list": [
+                    "USER_FORM_INFO_FLAG_LOCATION",
+                    "USER_FORM_INFO_FLAG_BIRTHDAY"
+                ],
+                "custom_field_list": [
+                    "喜欢的电影"
+                ]
+            }
+        }
+        common_field_id_list 值见常量 `wechatpy.constants.UserFormInfoFlag`
+
+        :param card_id: 卡券ID
+        :param kwargs: 其他非必填参数，见微信文档
+        """
+        kwargs['card_id'] = card_id
+        return self._post(
+            'card/membercard/activateuserform/set',
+            data=kwargs
         )

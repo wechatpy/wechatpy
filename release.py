@@ -11,7 +11,7 @@ except ImportError:
     sys.exit()
 
 rst = pypandoc.convert('README.md', 'rst')
-with open('README.rst', 'w+') as f:
+with open('README.rst', 'wb') as f:
     f.write(rst.encode('utf-8'))
 os.system("python setup.py release")
 os.remove('README.rst')

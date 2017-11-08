@@ -217,26 +217,28 @@ class WeChatMessage(BaseWeChatAPI):
             }
         return self._send_custom_message(data, account=account)
 
-    def send_card(self, user_id, card_id, card_ext, account=None):
+    def send_card(self, user_id, card_id, card_ext=None, account=None):
         """
         发送卡券消息
 
         详情请参参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param card_id: 卡券 ID
-        :param card_ext: 卡券扩展信息
+        :param card_ext: 可选，卡券扩展信息
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
+        wxcard = {
+            'card_id': card_id,
+        }
+        if card_ext:
+            wxcard['card_ext'] = card_ext
         data = {
             'touser': user_id,
             'msgtype': 'wxcard',
-            'wxcard': {
-                'card_id': card_id,
-                'card_ext': card_ext
-            }
+            'wxcard': wxcard,
         }
         return self._send_custom_message(data, account=account)
 

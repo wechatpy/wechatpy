@@ -417,7 +417,7 @@ class WeChatComponent(BaseWeChatComponent):
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
         o = ComponentVerifyTicketMessage(message)
-        self.session.set(o.type, o.verify_ticket, 600)
+        self.session.set(o.type, o.verify_ticket, 1200)
 
     def get_unauthorized(self, msg, signature, timestamp, nonce):
         """
