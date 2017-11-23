@@ -463,4 +463,4 @@ class WeChatWxa(BaseWeChatAPI):
         data = {
             'template_id': template_id,
         }
-        return self._get('wxa/deletetemplate', data=data)
+        return self._post('wxa/deletetemplate', data=data)
