@@ -429,7 +429,7 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=zh_CN
         """
-        return self._get('wxa/gettemplatedraftlist')
+        return self._get('wxa/gettemplatedraftlist', result_processor=lambda x: x['draft_list'])
 
     def get_template_list(self):
         """
@@ -437,7 +437,7 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=zh_CN
         """
-        return self._get('wxa/gettemplatelist')
+        return self._get('wxa/gettemplatelist', result_processor=lambda x: x['template_list'])
 
     def add_draft_to_template(self, draft_id):
         """
