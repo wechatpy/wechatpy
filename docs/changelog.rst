@@ -6,6 +6,11 @@ master
 
 Unreleased
 
+Version 1.5.4
+-------------------
+
++ 修复第三方平台重新获取 access token 代码 typo
+
 Version 1.5.3
 -------------------
 
