@@ -452,7 +452,6 @@ class WeChatWxa(BaseWeChatAPI):
         }
         return self._post('wxa/addtotemplate', data=data)
 
-
     def delete_template(self, template_id):
         """
         删除指定小程序代码模版
