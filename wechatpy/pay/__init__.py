@@ -66,7 +66,7 @@ class WeChatPay(object):
         return self
 
     def __init__(self, appid, api_key, mch_id, sub_mch_id=None,
-                 mch_cert=None, mch_key=None):
+                 mch_cert=None, mch_key=None, sandbox=False):
         """
         :param appid: 微信公众号 appid
         :param api_key: 商户 key
@@ -81,10 +81,13 @@ class WeChatPay(object):
         self.sub_mch_id = sub_mch_id
         self.mch_cert = mch_cert
         self.mch_key = mch_key
+        self.sandbox = sandbox
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
             api_base_url = kwargs.pop('api_base_url', self.API_BASE_URL)
+            if self.sandbox:
+                api_base_url = '{url}sandboxnew/'.format(url=api_base_url)
             url = '{base}{endpoint}'.format(
                 base=api_base_url,
                 endpoint=url_or_endpoint
