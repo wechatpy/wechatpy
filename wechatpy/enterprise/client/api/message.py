@@ -43,6 +43,25 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
+    def send_text_card(self, agent_id, user_ids, title, description, url='', btntxt='详情',
+                       party_ids='', tag_ids=''):
+        """ https://work.weixin.qq.com/api/doc#10167/文本卡片消息 """
+        return self._send_message(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
+            msg={
+                'msgtype': 'textcard',
+                'textcard': {
+                    'title': title,
+                    'description': description,
+                    'url': url,
+                    'btntxt': btntxt,
+                },
+            }
+        )
+
     def send_image(self, agent_id, user_ids, media_id,
                    party_ids='', tag_ids='', safe=0):
         return self._send_message(
