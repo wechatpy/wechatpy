@@ -11,18 +11,19 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 class WeChatWithhold(BaseWeChatPayAPI):
 
-    def apply_signing(self, plan_id, contract_code, request_serial, contract_display_account, notify_url,
+    def apply_signing(self, plan_id, contract_code, contract_display_account, notify_url,
               version="1.0", clientip=None, deviceid=None, mobile=None, email=None, qq=None,
-              openid=None, creid=None, outerid=None):
+              request_serial=None, openid=None, creid=None, outerid=None):
         """
         申请签约api
-
+        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_1&index=1
+        
         :param plan_id: 模板id 协议模板id，设置路径见开发步骤。
         :param contract_code: 签约协议号 商户侧的签约协议号，由商户生成
-        :param request_serial: 请求序列号 商户请求签约时的序列号，商户侧须唯一。序列号主要用于排序，不作为查询条件
         :param contract_display_account: 用户账户展示名称 签约用户的名称，用于页面展示，页面样例可见案例与规范
         :param notify_url: 回调通知url 用于接收签约成功消息的回调通知地址，以http或https开头。
         :param version: 版本号 固定值1.0
+        :param request_serial: 可选 请求序列号 商户请求签约时的序列号，商户侧须唯一。序列号主要用于排序，不作为查询条件
         :param clientip: 可选 客户端 IP 点分IP格式(客户端IP)
         :param deviceid: 可选 设备ID android填imei的一次md5; ios填idfa的一次md5
         :param mobile: 可选 手机号 用户手机号
@@ -34,6 +35,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :return: 返回的结果数据字典
         """
         timestamp = int(time.time())
+        if request_serial is None:
+            request_serial = int(time.time() * 1000)
         data = {
             "plan_id": plan_id,
             "contract_code": contract_code,
@@ -51,11 +54,12 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "creid": creid,
             "outerid": outerid,
         }
-        return self._post('papay/entrustweb', data=data)
+        return self._get('papay/entrustweb', data=data)
 
     def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
         """
-        查询签约结果 api
+        查询签约关系 api
+        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_2&index=3
         
         :param contract_id: 可选 委托代扣协议id 委托代扣签约成功后由微信返回的委托代扣协议id，选择contract_id查询，则此参数必填
         :param plan_id: 可选 模板id 商户在微信商户平台配置的代扣模版id，选择plan_id+contract_code查询，则此参数必填
@@ -64,6 +68,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param version: 版本号 固定值1.0
         :return: 
         """
+        if not contract_id and not (plan_id and contract_code):
+            raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
         data = {
             "contract_id": contract_id,
             "plan_id": plan_id,
@@ -78,6 +84,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
                mobile=None, email=None, qq=None, openid=None, creid=None, outerid=None):
         """
         申请扣款 api
+        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_3&index=4
         
         :param body: 商品描述 商品或支付单简要描述
         :param out_trade_no: 可选 商户订单号 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
@@ -136,12 +143,13 @@ class WeChatWithhold(BaseWeChatPayAPI):
     def query_deduct(self, transaction_id=None, out_trade_no=None):
         """
         查询订单 api
+        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_10&index=11
         
         :param transaction_id: 二选一 微信订单号 微信的订单号，优先使用
         :param out_trade_no: 二选一 商户订单号 商户系统内部的订单号，当没提供transaction_id时需要传这个。
         :return: 
         """
-        if not (transaction_id and out_trade_no):
+        if not transaction_id and not out_trade_no:
             raise ValueError("transaction_id and out_trade_no must be a choice.")
         data = {
             "transaction_id": transaction_id,

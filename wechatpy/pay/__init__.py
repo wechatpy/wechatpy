@@ -53,6 +53,8 @@ class WeChatPay(object):
     """工具类接口"""
     jsapi = api.WeChatJSAPI()
     """公众号网页 JS 支付接口"""
+    withhold = api.WeChatWithhold()
+    """代扣接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
