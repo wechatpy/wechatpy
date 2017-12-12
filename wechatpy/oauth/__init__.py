@@ -26,7 +26,7 @@ class WeChatOAuth(object):
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
     def __init__(self, app_id, secret, redirect_uri,
-                 scope='snsapi_base', state=''):
+                 scope='snsapi_base', state='', is_wxopen=False):
         """
 
         :param app_id: 微信公众号 app_id
@@ -40,6 +40,7 @@ class WeChatOAuth(object):
         self.redirect_uri = redirect_uri
         self.scope = scope
         self.state = state
+        self.is_wxopen = is_wxopen
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -140,8 +141,12 @@ class WeChatOAuth(object):
         :param code: 授权完成跳转回来后 URL 中的 code 参数
         :return: JSON 数据包
         """
+        if self.is_wxopen:
+            oauth2_url = 'sns/jscode2session'       # 小程序请求路由
+        else:
+            oauth2_url = 'sns/oauth2/access_token'  # 普通公众号请求路由
         res = self._get(
-            'sns/oauth2/access_token',
+            oauth2_url,
             params={
                 'appid': self.app_id,
                 'secret': self.secret,
