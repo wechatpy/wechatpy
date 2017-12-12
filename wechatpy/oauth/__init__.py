@@ -141,10 +141,7 @@ class WeChatOAuth(object):
         :param code: 授权完成跳转回来后 URL 中的 code 参数
         :return: JSON 数据包
         """
-        if self.is_wxopen:
-            oauth2_url = 'sns/jscode2session'       # 小程序请求路由
-        else:
-            oauth2_url = 'sns/oauth2/access_token'  # 普通公众号请求路由
+        oauth2_url = 'sns/jscode2session' if self.is_wxopen else 'sns/oauth2/access_token'
         res = self._get(
             oauth2_url,
             params={
