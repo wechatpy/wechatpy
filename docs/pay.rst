@@ -67,3 +67,11 @@ WeChatPay
 .. autoclass:: WeChatJSAPI
    :members:
    :inherited-members:
+
+
+代扣接口
+-------------------------------------
+
+.. autoclass:: WeChatWithhold
+   :members:
+   :inherited-members:
