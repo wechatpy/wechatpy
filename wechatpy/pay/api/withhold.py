@@ -59,7 +59,6 @@ class WeChatWithhold(BaseWeChatPayAPI):
     def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
         """
         查询签约关系 api
-        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_2&index=3
 
         :param contract_id: 可选 委托代扣协议id 委托代扣签约成功后由微信返回的委托代扣协议id，选择contract_id查询，则此参数必填
         :param plan_id: 可选 模板id 商户在微信商户平台配置的代扣模版id，选择plan_id+contract_code查询，则此参数必填
@@ -84,7 +83,6 @@ class WeChatWithhold(BaseWeChatPayAPI):
                      mobile=None, email=None, qq=None, openid=None, creid=None, outerid=None):
         """
         申请扣款 api
-        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_3&index=4
 
         :param body: 商品描述 商品或支付单简要描述
         :param out_trade_no: 可选 商户订单号 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
@@ -140,10 +138,9 @@ class WeChatWithhold(BaseWeChatPayAPI):
         }
         return self._post("pay/pappayapply", data=data)
 
-    def query_deduct(self, transaction_id=None, out_trade_no=None):
+    def query_order(self, transaction_id=None, out_trade_no=None):
         """
         查询订单 api
-        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_10&index=11
 
         :param transaction_id: 二选一 微信订单号 微信的订单号，优先使用
         :param out_trade_no: 二选一 商户订单号 商户系统内部的订单号，当没提供transaction_id时需要传这个。

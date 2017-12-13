@@ -73,9 +73,9 @@ class WeChatPayTestCase(unittest.TestCase):
             )
             self.assertEqual(response["result_code"], "SUCCESS")
 
-    def test_query_deduct(self):
+    def test_query_order(self):
         with HTTMock(wechat_api_mock):
-            response = self.client.withhold.query_deduct(
+            response = self.client.withhold.query_order(
                 out_trade_no='217752501201407033233368018'
             )
             self.assertEqual(response["result_code"], "SUCCESS")
