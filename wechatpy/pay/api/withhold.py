@@ -54,7 +54,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "creid": creid,
             "outerid": outerid,
         }
-        return self._post('papay/entrustweb', data=data)
+        return self._get('papay/entrustweb', params=data)
 
     def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
         """
