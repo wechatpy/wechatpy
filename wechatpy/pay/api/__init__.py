@@ -8,3 +8,4 @@ from wechatpy.pay.api.refund import WeChatRefund  # NOQA
 from wechatpy.pay.api.tools import WeChatTools  # NOQA
 from wechatpy.pay.api.jsapi import WeChatJSAPI  # NOQA
 from wechatpy.pay.api.micropay import WeChatMicroPay  # NOQA
+from wechatpy.pay.api.withhold import WeChatWithhold  # NOQA
