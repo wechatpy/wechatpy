@@ -12,12 +12,12 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 class WeChatWithhold(BaseWeChatPayAPI):
 
     def apply_signing(self, plan_id, contract_code, contract_display_account, notify_url,
-              version="1.0", clientip=None, deviceid=None, mobile=None, email=None, qq=None,
-              request_serial=None, openid=None, creid=None, outerid=None):
+                      version="1.0", clientip=None, deviceid=None, mobile=None, email=None, qq=None,
+                      request_serial=None, openid=None, creid=None, outerid=None):
         """
-        申请签约api
+        申请签约 api
         https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_1&index=1
-        
+
         :param plan_id: 模板id 协议模板id，设置路径见开发步骤。
         :param contract_code: 签约协议号 商户侧的签约协议号，由商户生成
         :param contract_display_account: 用户账户展示名称 签约用户的名称，用于页面展示，页面样例可见案例与规范
@@ -54,19 +54,19 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "creid": creid,
             "outerid": outerid,
         }
-        return self._get('papay/entrustweb', data=data)
+        return self._post('papay/entrustweb', data=data)
 
     def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
         """
         查询签约关系 api
         https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_2&index=3
-        
+
         :param contract_id: 可选 委托代扣协议id 委托代扣签约成功后由微信返回的委托代扣协议id，选择contract_id查询，则此参数必填
         :param plan_id: 可选 模板id 商户在微信商户平台配置的代扣模版id，选择plan_id+contract_code查询，则此参数必填
         :param contract_code: 可选 签约协议号 商户请求签约时传入的签约协议号，商户侧须唯一。选择plan_id+contract_code查询，则此参数必填
         :param openid: 可选 openid 用户标识，必须保证与传入appid对应
         :param version: 版本号 固定值1.0
-        :return: 
+        :return: 返回的结果信息
         """
         if not contract_id and not (plan_id and contract_code):
             raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
@@ -79,17 +79,16 @@ class WeChatWithhold(BaseWeChatPayAPI):
         }
         return self._post('papay/querycontract', data=data)
 
-    def apply_deduct(self, body, total_fee, trade_type, contract_id, notify_url, out_trade_no=None,
-               detail=None, attach=None, fee_type='CNY', goods_tag=None, clientip=None, deviceid=None,
-               mobile=None, email=None, qq=None, openid=None, creid=None, outerid=None):
+    def apply_deduct(self, body, total_fee, contract_id, notify_url, out_trade_no=None,
+                     detail=None, attach=None, fee_type='CNY', goods_tag=None, clientip=None, deviceid=None,
+                     mobile=None, email=None, qq=None, openid=None, creid=None, outerid=None):
         """
         申请扣款 api
         https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_3&index=4
-        
+
         :param body: 商品描述 商品或支付单简要描述
         :param out_trade_no: 可选 商户订单号 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
         :param total_fee: 总金额 订单总金额，单位为分，只能为整数，详见支付金额
-        :param trade_type: 交易类型 交易类型PAP-微信委托代扣支付
         :param contract_id: 委托代扣协议id 签约成功后，微信返回的委托代扣协议id
         :param notify_url: 回调通知url 接受扣款结果异步回调通知的url
         :param detail: 可选 商品详情 商品名称明细列表
@@ -104,8 +103,9 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param openid: 可选 微信open ID 用户微信open ID
         :param creid: 可选 身份证号 用户身份证号
         :param outerid: 可选 商户侧用户标识 用户在商户侧的标识
-        :return: 
+        :return: 返回的结果信息
         """
+        trade_type = 'PAP'  # 交易类型 交易类型PAP-微信委托代扣支付
         timestamp = int(time.time())  # 10位时间戳
         spbill_create_ip = get_external_ip()  # 终端IP 调用微信支付API的机器IP
         if not out_trade_no:
@@ -144,10 +144,10 @@ class WeChatWithhold(BaseWeChatPayAPI):
         """
         查询订单 api
         https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_10&index=11
-        
+
         :param transaction_id: 二选一 微信订单号 微信的订单号，优先使用
         :param out_trade_no: 二选一 商户订单号 商户系统内部的订单号，当没提供transaction_id时需要传这个。
-        :return: 
+        :return: 返回的结果信息
         """
         if not transaction_id and not out_trade_no:
             raise ValueError("transaction_id and out_trade_no must be a choice.")
