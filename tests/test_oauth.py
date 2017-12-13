@@ -65,6 +65,11 @@ class WeChatOAuthTestCase(unittest.TestCase):
             res = self.oauth.fetch_access_token('123456')
             self.assertEqual('ACCESS_TOKEN', res['access_token'])
 
+        with HTTMock(wechat_api_mock):
+            self.oauth.js_code = True
+            res = self.oauth.fetch_access_token('123456')
+            self.assertEqual('ACCESS_TOKEN', res['access_token'])
+
     def test_refresh_access_token(self):
         with HTTMock(wechat_api_mock):
             res = self.oauth.refresh_access_token('123456')
