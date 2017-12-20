@@ -5,6 +5,7 @@ import hashlib
 import socket
 
 import six
+from six.moves.urllib.parse import urlencode as url_encode, urljoin as url_join
 
 from wechatpy.utils import to_binary, to_text
 
@@ -52,3 +53,7 @@ def get_external_ip():
         return addr
     except socket.error:
         return '127.0.0.1'
+
+
+def urljoin(base_url, data):
+    return url_join(base_url, url_encode(data))

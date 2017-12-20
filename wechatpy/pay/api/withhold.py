@@ -4,8 +4,10 @@ import time
 import random
 from datetime import datetime
 
+from optionaldict import optionaldict
+
 from wechatpy.utils import timezone
-from wechatpy.pay.utils import get_external_ip
+from wechatpy.pay.utils import get_external_ip, calculate_signature
 from wechatpy.pay.base import BaseWeChatPayAPI
 
 
@@ -38,6 +40,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         if request_serial is None:
             request_serial = int(time.time() * 1000)
         data = {
+            "mch_id": self.mch_id,
+            "sub_mch_id": self.sub_mch_id,
             "plan_id": plan_id,
             "contract_code": contract_code,
             "request_serial": request_serial,
@@ -54,7 +58,13 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "creid": creid,
             "outerid": outerid,
         }
-        return self._get('papay/entrustweb', params=data)
+        data = optionaldict(data)
+        sign = calculate_signature(data, self._client.api_key)
+        data["sign"] = sign
+        return {
+            "url": "{}papay/entrustweb".format(self._client.API_BASE_URL),
+            "data": data
+        }
 
     def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
         """
