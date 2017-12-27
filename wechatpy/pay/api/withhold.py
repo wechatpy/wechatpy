@@ -40,6 +40,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         if request_serial is None:
             request_serial = int(time.time() * 1000)
         data = {
+            "appid": self.appid,
             "mch_id": self.mch_id,
             "sub_mch_id": self.sub_mch_id,
             "plan_id": plan_id,
