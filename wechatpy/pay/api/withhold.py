@@ -62,7 +62,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         sign = calculate_signature(data, self._client.api_key)
         data["sign"] = sign
         return {
-            "url": "{}papay/entrustweb".format(self._client.API_BASE_URL),
+            "base_url": "{}papay/entrustweb".format(self._client.API_BASE_URL),
             "data": data
         }
 
@@ -77,8 +77,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param version: 版本号 固定值1.0
         :return: 返回的结果信息
         """
-        if not contract_id and not (plan_id and contract_code):
-            raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
+        if not contract_id and not (plan_id and contract_code) and not (plan_id and openid):
+            raise ValueError("contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice.")
         data = {
             "contract_id": contract_id,
             "plan_id": plan_id,
