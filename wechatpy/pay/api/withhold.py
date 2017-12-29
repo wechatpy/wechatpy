@@ -81,6 +81,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         if not contract_id and not (plan_id and contract_code) and not (plan_id and openid):
             raise ValueError("contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice.")
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
             "contract_id": contract_id,
             "plan_id": plan_id,
             "contract_code": contract_code,
@@ -126,6 +128,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
             )
 
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
             "body": body,
             "out_trade_no": out_trade_no,
             "total_fee": total_fee,
@@ -160,6 +164,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         if not transaction_id and not out_trade_no:
             raise ValueError("transaction_id and out_trade_no must be a choice.")
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
             "transaction_id": transaction_id,
             "out_trade_no": out_trade_no,
         }
