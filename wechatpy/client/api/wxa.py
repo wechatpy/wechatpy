@@ -39,7 +39,8 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
-    def get_wxa_code_unlimited(self, scene, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}):
+    def get_wxa_code_unlimited(self, scene, page, width=430, auto_color=False,
+                               line_color={"r": "0", "g": "0", "b": "0"}):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
@@ -49,6 +50,7 @@ class WeChatWxa(BaseWeChatAPI):
             'wxa/getwxacodeunlimit',
             data={
                 'scene': scene,
+                'page': page,
                 'width': width,
                 'auto_color': auto_color,
                 'line_color': line_color,
