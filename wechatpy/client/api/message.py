@@ -242,6 +242,24 @@ class WeChatMessage(BaseWeChatAPI):
         }
         return self._send_custom_message(data, account=account)
 
+    def send_mini_program_page(self, user_id, miniprogrampage, account=None):
+        """发送小程序卡片（要求小程序与公众号已关联）
+
+        详情请参参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
+
+        :param user_id: 用户 ID openid
+        :param miniprogrampage: 小程序卡片信息
+        :param account: 可选，客服账号
+        :return: 返回的 JSON 数据包
+        """
+        data = {
+            'touser': user_id,
+            'msgtype': 'miniprogrampage',
+            'miniprogrampage': miniprogrampage
+        }
+        return self._send_custom_message(data, account=account)
+
     def delete_mass(self, msg_id):
         """
         删除群发消息
