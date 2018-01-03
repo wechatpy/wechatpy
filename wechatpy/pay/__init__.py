@@ -34,6 +34,7 @@ class WeChatPay(object):
     :param sub_mch_id: 可选，子商户号，受理模式下必填
     :param mch_cert: 必填，商户证书路径
     :param mch_key: 必填，商户证书私钥路径
+    :param timeout: 可选，请求超时时间，单位秒，默认无超时设置
     """
     _http = requests.Session()
 
@@ -68,21 +69,14 @@ class WeChatPay(object):
         return self
 
     def __init__(self, appid, api_key, mch_id, sub_mch_id=None,
-                 mch_cert=None, mch_key=None):
-        """
-        :param appid: 微信公众号 appid
-        :param api_key: 商户 key
-        :param mch_id: 商户号
-        :param sub_mch_id: 可选，子商户号，受理模式下必填
-        :param mch_cert: 商户证书路径
-        :param mch_key: 商户证书私钥路径
-        """
+                 mch_cert=None, mch_key=None, timeout=None):
         self.appid = appid
         self.api_key = api_key
         self.mch_id = mch_id
         self.sub_mch_id = sub_mch_id
         self.mch_cert = mch_cert
         self.mch_key = mch_key
+        self.timeout = timeout
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -110,6 +104,7 @@ class WeChatPay(object):
         if self.mch_cert and self.mch_key:
             kwargs['cert'] = (self.mch_cert, self.mch_key)
 
+        kwargs['timeout'] = kwargs.get('timeout', self.timeout)
         res = self._http.request(
             method=method,
             url=url,
