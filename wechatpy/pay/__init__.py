@@ -16,7 +16,6 @@ from wechatpy.pay.utils import (
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -34,6 +33,8 @@ class WeChatPay(object):
     :param sub_mch_id: 可选，子商户号，受理模式下必填
     :param mch_cert: 必填，商户证书路径
     :param mch_key: 必填，商户证书私钥路径
+    :param timeout: 可选，请求超时时间，单位秒，默认无超时设置
+    :param sandbox: 可选，是否启用支付 sandbox 环境，默认不启用
     """
     _http = requests.Session()
 
@@ -53,6 +54,8 @@ class WeChatPay(object):
     """工具类接口"""
     jsapi = api.WeChatJSAPI()
     """公众号网页 JS 支付接口"""
+    withhold = api.WeChatWithhold()
+    """代扣接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
 
@@ -66,7 +69,7 @@ class WeChatPay(object):
         return self
 
     def __init__(self, appid, api_key, mch_id, sub_mch_id=None,
-                 mch_cert=None, mch_key=None, sandbox=False):
+                 mch_cert=None, mch_key=None, timeout=None, sandbox=False):
         """
         :param appid: 微信公众号 appid
         :param api_key: 商户 key
@@ -82,6 +85,7 @@ class WeChatPay(object):
         self.mch_cert = mch_cert
         self.mch_key = mch_key
         self.sandbox = sandbox
+        self.timeout = timeout
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -111,6 +115,7 @@ class WeChatPay(object):
         if self.mch_cert and self.mch_key:
             kwargs['cert'] = (self.mch_cert, self.mch_key)
 
+        kwargs['timeout'] = kwargs.get('timeout', self.timeout)
         res = self._http.request(
             method=method,
             url=url,

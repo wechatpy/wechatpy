@@ -159,6 +159,11 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.message.send_card(1, '123456')
             self.assertEqual(0, result['errcode'])
 
+    def test_send_mini_program_page(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mini_program_page(1, {})
+            self.assertEqual(0, result['errcode'])
+
     def test_send_mass_text_message(self):
         with HTTMock(wechat_api_mock):
             result = self.client.message.send_mass_text([1], 'test', is_to_all=True)

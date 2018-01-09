@@ -80,3 +80,20 @@ py.test -v
 在所有环节完成之后，wechatpy 项目成员会尽快 review 您的 Pull Requests，予以合并或和您进行进一步的讨论。
 
 Thanks.
+
+## 发布新版本
+
+在发布新版本前需要更新 [changelog 文档](../docs/changelog.rst)，使用 [`bumpversion`](https://github.com/peritus/bumpversion)
+工具更新代码中的版本号信息：
+
+1. 对于 bugfix 版本：`bumpversion patch`
+2. 对于小 feature 版本：`bumpversion minor`
+3. 大的 breaking change 版本：`bumpversion major`
+
+大部分情况下使用 `bumpversion patch` 即可。完成后将 master 分支代码改动和 `bumpversion` 自动产生的 tag 一起 push 到 GitHub 仓库中, 如:
+
+```bash
+git push origin master --tags
+```
+
+tag 分支在 CI 测试通过后将会被自动发布到 [PyPi](https://pypi.python.org/pypi/wechatpy) 上。
