@@ -53,7 +53,7 @@ class WeChatPayTestCase(unittest.TestCase):
             contract_display_account='测试',
             notify_url=''
         )
-        self.assertIn("url", response)
+        self.assertIn("base_url", response)
         self.assertIn("data", response)
 
     def test_query_signing(self):
