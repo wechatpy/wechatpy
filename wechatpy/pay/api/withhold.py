@@ -88,6 +88,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "contract_code": contract_code,
             "openid": openid,
             "version": version,
+            "nonce_str": None,
         }
         return self._post('papay/querycontract', data=data)
 
@@ -138,7 +139,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "notify_url": notify_url,
             "detail": detail,
             "attach": attach,
-            "fee_type=": fee_type,
+            "fee_type": fee_type,
             "goods_tag": goods_tag,
             "clientip": clientip,
             "deviceid": deviceid,
