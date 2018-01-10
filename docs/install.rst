@@ -27,4 +27,4 @@
 
 如果需要安装 GitHub 上的最新代码::
 
-    pip install https://github.com/messense/wechatpy/archive/master.zip
+    pip install https://github.com/jxtech/wechatpy/archive/master.zip

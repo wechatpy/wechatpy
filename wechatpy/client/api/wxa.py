@@ -39,7 +39,12 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
-    def get_wxa_code_unlimited(self, scene, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}):
+    def get_wxa_code_unlimited(self,
+                               scene,
+                               width=430,
+                               auto_color=False,
+                               line_color={"r": "0", "g": "0", "b": "0"},
+                               page=None):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
@@ -47,12 +52,13 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post(
             'wxa/getwxacodeunlimit',
-            data={
-                'scene': scene,
-                'width': width,
-                'auto_color': auto_color,
-                'line_color': line_color,
-            }
+            data=optionaldict(
+                scene=scene,
+                page=page,
+                width=width,
+                auto_color=auto_color,
+                line_color=line_color,
+            )
         )
 
     def send_template_message(self, user_id, template_id, data, form_id, page=None, color=None, emphasis_keyword=None):
