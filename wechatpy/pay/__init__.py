@@ -89,14 +89,13 @@ class WeChatPay(object):
             url = url_or_endpoint
 
         if isinstance(kwargs.get('data', ''), dict):
-            exist_nonce_str = 'nonce_str' in kwargs['data']
-            data = optionaldict(kwargs['data'])
+            data = kwargs['data']
             if 'mchid' not in data:
                 # Fuck Tencent
                 data.setdefault('mch_id', self.mch_id)
             data.setdefault('sub_mch_id', self.sub_mch_id)
-            if not exist_nonce_str:
-                data.setdefault('nonce_str', random_string(32))
+            data.setdefault('nonce_str', random_string(32))
+            data = optionaldict(data)
             sign = calculate_signature(data, self.api_key)
             body = dict_to_xml(data, sign)
             body = body.encode('utf-8')

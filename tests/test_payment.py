@@ -55,6 +55,7 @@ class WeChatPayTestCase(unittest.TestCase):
         )
         self.assertIn("base_url", response)
         self.assertIn("data", response)
+        self.assertNotIn('nonce_str', response['data'])
 
     def test_query_signing(self):
         with HTTMock(wechat_api_mock):
