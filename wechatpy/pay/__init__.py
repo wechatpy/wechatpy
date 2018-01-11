@@ -34,7 +34,7 @@ class WeChatPay(object):
     :param mch_cert: 必填，商户证书路径
     :param mch_key: 必填，商户证书私钥路径
     :param timeout: 可选，请求超时时间，单位秒，默认无超时设置
-    :param sandbox: 可选，是否启用支付 sandbox 环境，默认不启用
+    :param sandbox: 可选，是否使用测试环境，默认为 False
     """
     _http = requests.Session()
 
@@ -71,14 +71,6 @@ class WeChatPay(object):
 
     def __init__(self, appid, api_key, mch_id, sub_mch_id=None,
                  mch_cert=None, mch_key=None, timeout=None, sandbox=False):
-        """
-        :param appid: 微信公众号 appid
-        :param api_key: 商户 key
-        :param mch_id: 商户号
-        :param sub_mch_id: 可选，子商户号，受理模式下必填
-        :param mch_cert: 商户证书路径
-        :param mch_key: 商户证书私钥路径
-        """
         self.appid = appid
         self.api_key = api_key
         self.mch_id = mch_id
@@ -87,6 +79,7 @@ class WeChatPay(object):
         self.mch_key = mch_key
         self.sandbox = sandbox
         self.timeout = timeout
+        self.sandbox = sandbox
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
