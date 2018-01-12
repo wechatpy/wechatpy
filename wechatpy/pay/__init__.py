@@ -11,11 +11,10 @@ from optionaldict import optionaldict
 from wechatpy.utils import random_string
 from wechatpy.exceptions import WeChatPayException, InvalidSignatureException
 from wechatpy.pay.utils import (
-    calculate_signature, _check_signature, dict_to_xml
+    calculate_signature, _check_signature, dict_to_xml, dict2xml, xml2dict
 )
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
-
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +58,7 @@ class WeChatPay(object):
     """代扣接口"""
 
     API_BASE_URL = 'https://api.mch.weixin.qq.com/'
+    API_SANDBOX_SIGNKEY_URL = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey'
 
     def __new__(cls, *args, **kwargs):
         self = super(WeChatPay, cls).__new__(cls)
@@ -77,6 +77,7 @@ class WeChatPay(object):
         self.sub_mch_id = sub_mch_id
         self.mch_cert = mch_cert
         self.mch_key = mch_key
+        self.sandbox = sandbox
         self.timeout = timeout
         self.sandbox = sandbox
 
@@ -94,13 +95,22 @@ class WeChatPay(object):
 
         if isinstance(kwargs.get('data', ''), dict):
             data = kwargs['data']
+            nonce_str = random_string(32)
+            sand_api_key = None
             if 'mchid' not in data:
                 # Fuck Tencent
                 data.setdefault('mch_id', self.mch_id)
             data.setdefault('sub_mch_id', self.sub_mch_id)
-            data.setdefault('nonce_str', random_string(32))
+            data.setdefault('nonce_str', nonce_str)
             data = optionaldict(data)
-            sign = calculate_signature(data, self.api_key)
+            if self.sandbox:
+                _sign = calculate_signature({'mch_id': self.mch_id, 'nonce_str': nonce_str}, self.api_key)
+                payload = dict2xml({'mch_id': self.mch_id, 'nonce_str': nonce_str, 'sign': _sign})
+                headers = {'Content-Type': "text/xml", 'Cache-Control': "no-cache"}
+                response = requests.request("POST", self.API_SANDBOX_SIGNKEY_URL, data=payload, headers=headers)
+                sand_api_key = xml2dict(response.text).get('sandbox_signkey', None)
+
+            sign = calculate_signature(data, sand_api_key if sand_api_key else self.api_key)
             body = dict_to_xml(data, sign)
             body = body.encode('utf-8')
             kwargs['data'] = body

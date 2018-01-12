@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import copy
 import hashlib
 import socket
+import xml.etree.ElementTree as ElementTree
 
 import six
 
@@ -52,3 +53,25 @@ def get_external_ip():
         return addr
     except socket.error:
         return '127.0.0.1'
+
+
+def dict2xml(data):
+    # return to_text( xmltodict.unparse({'xml': data_dict}, pretty=True) )
+    root = ElementTree.Element('xml')
+    for k in data:
+        v = data[k]
+        child = ElementTree.SubElement(root, k)
+        child.text = str(v)
+    return to_text(ElementTree.tostring(root, encoding='utf-8'))
+
+
+def xml2dict(xml_str):
+    # return xmltodict.parse(xml_str)['xml']
+    root = ElementTree.fromstring(xml_str)
+    assert to_text(root.tag) == to_text('xml')
+    result = {}
+    for child in root:
+        tag = child.tag
+        text = child.text
+        result[tag] = text
+    return result
