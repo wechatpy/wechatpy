@@ -47,14 +47,15 @@ class WeChatPayTestCase(unittest.TestCase):
         )
 
     def test_apply_signing(self):
-        with HTTMock(wechat_api_mock):
-            response = self.client.withhold.apply_signing(
-                plan_id='t1234',
-                contract_code='w1111',
-                contract_display_account='测试',
-                notify_url=''
-            )
-            self.assertEqual(response["result_code"], "SUCCESS")
+        response = self.client.withhold.apply_signing(
+            plan_id='t1234',
+            contract_code='w1111',
+            contract_display_account='测试',
+            notify_url=''
+        )
+        self.assertIn("base_url", response)
+        self.assertIn("data", response)
+        self.assertNotIn('nonce_str', response['data'])
 
     def test_query_signing(self):
         with HTTMock(wechat_api_mock):

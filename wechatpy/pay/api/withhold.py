@@ -4,8 +4,10 @@ import time
 import random
 from datetime import datetime
 
+from optionaldict import optionaldict
+
 from wechatpy.utils import timezone
-from wechatpy.pay.utils import get_external_ip
+from wechatpy.pay.utils import get_external_ip, calculate_signature
 from wechatpy.pay.base import BaseWeChatPayAPI
 
 
@@ -38,6 +40,9 @@ class WeChatWithhold(BaseWeChatPayAPI):
         if request_serial is None:
             request_serial = int(time.time() * 1000)
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
+            "sub_mch_id": self.sub_mch_id,
             "plan_id": plan_id,
             "contract_code": contract_code,
             "request_serial": request_serial,
@@ -54,7 +59,13 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "creid": creid,
             "outerid": outerid,
         }
-        return self._get('papay/entrustweb', params=data)
+        data = optionaldict(data)
+        sign = calculate_signature(data, self._client.api_key)
+        data["sign"] = sign
+        return {
+            "base_url": "{}papay/entrustweb".format(self._client.API_BASE_URL),
+            "data": data
+        }
 
     def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
         """
@@ -67,14 +78,17 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param version: 版本号 固定值1.0
         :return: 返回的结果信息
         """
-        if not contract_id and not (plan_id and contract_code):
-            raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
+        if not contract_id and not (plan_id and contract_code) and not (plan_id and openid):
+            raise ValueError("contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice.")
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
             "contract_id": contract_id,
             "plan_id": plan_id,
             "contract_code": contract_code,
             "openid": openid,
             "version": version,
+            "nonce_str": None,
         }
         return self._post('papay/querycontract', data=data)
 
@@ -115,6 +129,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
             )
 
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
             "body": body,
             "out_trade_no": out_trade_no,
             "total_fee": total_fee,
@@ -123,7 +139,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "notify_url": notify_url,
             "detail": detail,
             "attach": attach,
-            "fee_type=": fee_type,
+            "fee_type": fee_type,
             "goods_tag": goods_tag,
             "clientip": clientip,
             "deviceid": deviceid,
@@ -149,6 +165,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         if not transaction_id and not out_trade_no:
             raise ValueError("transaction_id and out_trade_no must be a choice.")
         data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
             "transaction_id": transaction_id,
             "out_trade_no": out_trade_no,
         }

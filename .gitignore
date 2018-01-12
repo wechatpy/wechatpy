@@ -59,3 +59,5 @@ docs/_build/
 .idea/
 
 .python-version
+
+.DS_Store
