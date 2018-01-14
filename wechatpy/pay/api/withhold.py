@@ -171,3 +171,28 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "out_trade_no": out_trade_no,
         }
         return self._post("pay/paporderquery", data=data)
+
+    def apply_cancel_signing(self, contract_id=None, plan_id=None, contract_code=None,
+                             contract_termination_remark=None, version="1.0"):
+        """
+        申请解约 https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_4&index=6
+        :param contract_id: 合同ID
+        :param plan_id: 模板ID
+        :param contract_code: 合同号
+        :param contract_termination_remark: 解约原因
+        :param version: 版本号
+        :return:
+        """
+        if not (contract_id or plan_id and contract_code):
+            raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
+        data = {
+            "appid": self.appid,
+            "mch_id": self.mch_id,
+            "plan_id": plan_id,
+            "contract_code": contract_code,
+            "contract_id": contract_id,
+            "contract_termination_remark": contract_termination_remark,
+            "version": version,
+            "nonce_str": None,
+        }
+        return self._post("papay/deletecontract", data=data)

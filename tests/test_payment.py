@@ -80,3 +80,11 @@ class WeChatPayTestCase(unittest.TestCase):
                 out_trade_no='217752501201407033233368018'
             )
             self.assertEqual(response["result_code"], "SUCCESS")
+
+    def test_apply_cancel_signing(self):
+        with HTTMock(wechat_api_mock):
+            response = self.client.withhold.apply_cancel_signing(
+                plan_id='t1234',
+                contract_code='w1111',
+            )
+            self.assertEqual(response["result_code"], "SUCCESS")
