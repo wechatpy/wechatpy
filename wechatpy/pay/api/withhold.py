@@ -18,6 +18,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
                       request_serial=None, openid=None, creid=None, outerid=None):
         """
         申请签约 api
+
         https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_1&index=1
 
         :param plan_id: 模板id 协议模板id，设置路径见开发步骤。
@@ -175,7 +176,10 @@ class WeChatWithhold(BaseWeChatPayAPI):
     def apply_cancel_signing(self, contract_id=None, plan_id=None, contract_code=None,
                              contract_termination_remark=None, version="1.0"):
         """
-        申请解约 https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_4&index=6
+        申请解约
+
+        https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_4&index=6
+
         :param contract_id: 合同ID
         :param plan_id: 模板ID
         :param contract_code: 合同号
@@ -183,7 +187,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param version: 版本号
         :return:
         """
-        if not (contract_id or plan_id and contract_code):
+        if not (contract_id or (plan_id and contract_code)):
             raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
         data = {
             "appid": self.appid,
