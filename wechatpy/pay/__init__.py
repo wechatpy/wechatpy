@@ -86,8 +86,7 @@ class WeChatPay(object):
         payload = dict_to_xml({
             'mch_id': self.mch_id,
             'nonce_str': nonce_str,
-            'sign': sign
-        })
+        }, sign=sign)
         headers = {'Content-Type': 'text/xml'}
         api_url = '{base}sandboxnew/pay/getsignkey'.format(base=self.API_BASE_URL)
         response = self._http.post(api_url, data=payload, headers=headers)
