@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals, print_function
+from __future__ import absolute_import, print_function, unicode_literals
+
 import os
 import unittest
 
-from httmock import urlmatch, HTTMock, response
+from httmock import HTTMock, response, urlmatch
 
-from wechatpy import WeChatOAuth
+from wechatpy import ComponentOAuth, WeChatOAuth
 from wechatpy.exceptions import WeChatClientException
 from wechatpy.utils import json
-
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')
@@ -34,7 +34,6 @@ def wechat_api_mock(url, request):
 
 
 class WeChatOAuthTestCase(unittest.TestCase):
-
     app_id = '123456'
     secret = '123456'
     redirect_uri = 'http://localhost'
@@ -49,14 +48,16 @@ class WeChatOAuthTestCase(unittest.TestCase):
     def test_get_authorize_url(self):
         authorize_url = self.oauth.authorize_url
         self.assertEqual(
-            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=snsapi_base#wechat_redirect',  # NOQA
+            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A%2F%2Flocalhost'
+            '&response_type=code&scope=snsapi_base#wechat_redirect',
             authorize_url
         )
 
     def test_get_qrconnect_url(self):
         url = self.oauth.qrconnect_url
         self.assertEqual(
-            'https://open.weixin.qq.com/connect/qrconnect?appid=123456&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=snsapi_login#wechat_redirect',  # NOQA
+            'https://open.weixin.qq.com/connect/qrconnect?appid=123456&redirect_uri=http%3A%2F%2Flocalhost'
+            '&response_type=code&scope=snsapi_login#wechat_redirect',
             url
         )
 
@@ -81,6 +82,56 @@ class WeChatOAuthTestCase(unittest.TestCase):
             self.oauth.fetch_access_token('123456')
             res = self.oauth.check_access_token()
             self.assertEqual(True, res)
+
+    def test_reraise_requests_exception(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
+        def _wechat_api_mock(url, request):
+            return {'status_code': 404, 'content': '404 not found'}
+
+        try:
+            with HTTMock(_wechat_api_mock):
+                self.oauth.fetch_access_token('123456')
+        except WeChatClientException as e:
+            self.assertEqual(404, e.response.status_code)
+
+
+class ComponentOAuthTestCase(unittest.TestCase):
+    app_id = '123456'
+    component_appid = '456789'
+    component_access_token = '654321'
+    redirect_uri = 'http://localhost'
+
+    def setUp(self):
+        self.oauth = ComponentOAuth(
+            self.app_id,
+            self.component_appid,
+            self.component_access_token,
+            self.redirect_uri
+        )
+
+    def test_get_authorize_url(self):
+        authorize_url = self.oauth.authorize_url
+        self.assertEqual(
+            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A%2F%2Flocalhost'
+            '&response_type=code&scope=snsapi_base&component_appid=456789#wechat_redirect',
+            authorize_url
+        )
+
+    def test_fetch_access_token(self):
+        with HTTMock(wechat_api_mock):
+            res = self.oauth.fetch_access_token('123456')
+            self.assertEqual('ACCESS_TOKEN', res['access_token'])
+
+    def test_refresh_access_token(self):
+        with HTTMock(wechat_api_mock):
+            res = self.oauth.refresh_access_token('123456')
+            self.assertEqual('ACCESS_TOKEN', res['access_token'])
+
+    def test_get_user_info(self):
+        with HTTMock(wechat_api_mock):
+            self.oauth.fetch_access_token('123456')
+            res = self.oauth.get_user_info()
+            self.assertEqual('OPENID', res['openid'])
 
     def test_reraise_requests_exception(self):
         @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
