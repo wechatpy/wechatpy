@@ -15,7 +15,7 @@
 微信开放平台 代公众号 OAuth 网页授权接入
 -----------------------------------
 
-.. module:: wechatpy.oauth
+.. module:: wechatpy.component
 
 .. autoclass:: ComponentOAuth
    :members:
