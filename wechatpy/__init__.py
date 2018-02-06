@@ -7,11 +7,11 @@ from wechatpy.replies import create_reply  # NOQA
 from wechatpy.client import WeChatClient  # NOQA
 from wechatpy.exceptions import WeChatException  # NOQA
 from wechatpy.exceptions import WeChatClientException  # NOQA
-from wechatpy.oauth import WeChatOAuth, ComponentOAuth  # NOQA
+from wechatpy.oauth import WeChatOAuth  # NOQA
 from wechatpy.exceptions import WeChatOAuthException  # NOQA
 from wechatpy.pay import WeChatPay  # NOQA
 from wechatpy.exceptions import WeChatPayException  # NOQA
-from wechatpy.component import WeChatComponent  # NOQA
+from wechatpy.component import WeChatComponent, ComponentOAuth # NOQA
 
 
 __version__ = '1.6.0'
