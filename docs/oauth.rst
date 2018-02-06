@@ -12,6 +12,15 @@
    :members:
    :inherited-members:
 
+微信开放平台 代公众号 OAuth 网页授权接入
+-----------------------------------
+
+.. module:: wechatpy.component
+
+.. autoclass:: ComponentOAuth
+   :members:
+   :inherited-members:
+
 企业号 OAuth 网页授权接入
 -----------------------------------
 
