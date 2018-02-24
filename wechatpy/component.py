@@ -28,6 +28,15 @@ from wechatpy.utils import get_querystring, json, to_binary, to_text
 
 logger = logging.getLogger(__name__)
 
+COMPONENT_MESSAGE_TYPES = {}
+
+
+def register_component_message(msg_type):
+    def register(cls):
+        COMPONENT_MESSAGE_TYPES[msg_type] = cls
+        return cls
+    return register
+
 
 class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
     """Base class for all component messages and events"""
@@ -49,6 +58,7 @@ class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
             return to_text(_repr)
 
 
+@register_component_message('component_verify_ticket')
 class ComponentVerifyTicketMessage(BaseComponentMessage):
     """
     component_verify_ticket协议
@@ -57,12 +67,39 @@ class ComponentVerifyTicketMessage(BaseComponentMessage):
     verify_ticket = StringField('ComponentVerifyTicket')
 
 
+@register_component_message('unauthorized')
 class ComponentUnauthorizedMessage(BaseComponentMessage):
     """
     取消授权通知
     """
     type = 'unauthorized'
     authorizer_appid = StringField('AuthorizerAppid')
+
+
+@register_component_message('authorized')
+class ComponentAuthorizedMessage(ComponentUnauthorizedMessage):
+    """
+    新增授权通知
+    """
+    type = 'authorized'
+    authorization_code = StringField('AuthorizationCode')
+    authorization_code_expired_time = StringField('AuthorizationCodeExpiredTime')
+    pre_auth_code = StringField('PreAuthCode')
+
+
+@register_component_message('updateauthorized')
+class ComponentUpdateauthorizedMessage(ComponentAuthorizedMessage):
+    """
+    更新授权通知
+    """
+    type = 'updateauthorized'
+
+
+class ComponentUnknownMessage(BaseComponentMessage):
+    """
+    未知通知
+    """
+    type = 'unknown'
 
 
 class BaseWeChatComponent(object):
@@ -366,17 +403,17 @@ class WeChatComponent(BaseWeChatComponent):
 
     def get_client_by_authorization_code(self, authorization_code):
         """
+        该函数建议废弃，直接只用 get_client_by_appid
         通过授权码直接获取 Client 对象
 
         :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
         result = self.query_auth(authorization_code)
-        access_token = result['authorization_info']['authorizer_access_token']
-        refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
+        # access_token = result['authorization_info']['authorizer_access_token']
+        # refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
         authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
         return WeChatComponentClient(
-            authorizer_appid, self, access_token, refresh_token,
-            session=self.session
+            authorizer_appid, self, session=self.session
         )
 
     def get_client_by_appid(self, authorizer_appid):
@@ -401,13 +438,52 @@ class WeChatComponent(BaseWeChatComponent):
         return WeChatComponentClient(
             authorizer_appid,
             self,
-            access_token,
-            refresh_token,
             session=self.session
         )
 
+    def parse_message(self, msg, msg_signature, timestamp, nonce):
+        """
+        处理 wecaht server 推送消息
+
+        :params msg: 加密内容
+        :params msg_signature: 消息签名
+        :params timestamp: 时间戳
+        :params nonce: 随机数
+        """
+        content = self.crypto.decrypt_message(msg, msg_signature, timestamp, nonce)
+        message = xmltodict.parse(to_text(content))['xml']
+        message_type = message['InfoType'].lower()
+        message_class = COMPONENT_MESSAGE_TYPES.get(message_type, ComponentUnknownMessage)
+        msg = message_class(message)
+        if msg.type == 'component_verify_ticket':
+            self.session.set(msg.type, msg.verify_ticket)
+        elif msg.type in ('authorized', 'updateauthorized'):
+            result = self.query_auth(msg.authorization_code)
+
+            assert result is not None \
+                and 'authorization_info' in result \
+                and 'authorizer_appid' in result['authorization_info']
+
+            authorizer_appid = result['authorization_info']['authorizer_appid']
+            if 'authorizer_access_token' in result['authorization_info'] \
+                    and result['authorization_info']['authorizer_access_token']:
+                access_token = result['authorization_info']['authorizer_access_token']
+                access_token_key = '{0}_access_token'.format(authorizer_appid)
+                expires_in = 7200
+                if 'expires_in' in result['authorization_info']:
+                    expires_in = result['authorization_info']['expires_in']
+                self.session.set(access_token_key, access_token, expires_in)
+            if 'authorizer_refresh_token' in result['authorization_info'] \
+                    and result['authorization_info']['authorizer_refresh_token']:
+                refresh_token = result['authorization_info']['authorizer_refresh_token']
+                refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
+                self.session.set(refresh_token_key, refresh_token)  # refresh_token 需要永久储存，不建议使用内存储存，否则每次重启服务需要重新扫码授权
+            msg.query_auth_result = result
+        return msg
+
     def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
         """
+        该函数建议废弃，使用 parse_message
         处理 wechat server 推送的 component_verify_ticket消息
 
         :params msg: 加密内容
@@ -418,10 +494,11 @@ class WeChatComponent(BaseWeChatComponent):
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
         o = ComponentVerifyTicketMessage(message)
-        self.session.set(o.type, o.verify_ticket, 1200)
+        self.session.set(o.type, o.verify_ticket)
 
     def get_unauthorized(self, msg, signature, timestamp, nonce):
         """
+        该函数建议废弃，使用 parse_message
         处理取消授权通知
 
         :params msg: 加密内容
