@@ -200,7 +200,7 @@ class WeChatPay(object):
 
         data = data['xml']
         sign = data.pop('sign', None)
-        real_sign = calculate_signature(data, self.api_key)
+        real_sign = calculate_signature(data, self.api_key if not self.sandbox else self.sandbox_api_key)
         if sign != real_sign:
             raise InvalidSignatureException()
 
