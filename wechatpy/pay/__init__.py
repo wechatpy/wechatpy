@@ -186,7 +186,7 @@ class WeChatPay(object):
         )
 
     def check_signature(self, params):
-        return _check_signature(params, self.api_key)
+        return _check_signature(params, self.api_key if not self.sandbox else self.sandbox_api_key)
 
     def parse_payment_result(self, xml):
         """解析微信支付结果通知"""
