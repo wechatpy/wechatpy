@@ -32,7 +32,7 @@ def dict_to_xml(d, sign):
     for k in sorted(d):
         # use sorted to avoid test error on Py3k
         v = d[k]
-        if isinstance(v, six.integer_types) or v.isdigit():
+        if isinstance(v, six.integer_types) or (isinstance(v, six.string_types) and v.isdigit()):
             xml.append('<{0}>{1}</{0}>\n'.format(to_text(k), to_text(v)))
         else:
             xml.append(
