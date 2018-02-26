@@ -12,6 +12,7 @@ from __future__ import absolute_import, unicode_literals
 
 import logging
 import time
+import warnings
 
 import requests
 import six
@@ -409,11 +410,12 @@ class WeChatComponent(BaseWeChatComponent):
         :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
         result = self.query_auth(authorization_code)
-        # access_token = result['authorization_info']['authorizer_access_token']
-        # refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
+        access_token = result['authorization_info']['authorizer_access_token']
+        refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
         authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
         return WeChatComponentClient(
-            authorizer_appid, self, session=self.session
+            authorizer_appid, self, authorizer_appid, access_token, refresh_token,
+            session=self.session
         )
 
     def get_client_by_appid(self, authorizer_appid):
@@ -426,6 +428,7 @@ class WeChatComponent(BaseWeChatComponent):
         refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
         access_token = self.session.get(access_token_key)
         refresh_token = self.session.get(refresh_token_key)
+        assert refresh_token
 
         if not access_token:
             ret = self.refresh_authorizer_token(
@@ -434,6 +437,11 @@ class WeChatComponent(BaseWeChatComponent):
             )
             access_token = ret['authorizer_access_token']
             refresh_token = ret['authorizer_refresh_token']
+            access_token_key = '{0}_access_token'.format(authorizer_appid)
+            expires_in = 7200
+            if 'expires_in' in ret['authorization_info']:
+                expires_in = ret['authorization_info']['expires_in']
+            self.session.set(access_token_key, access_token, expires_in)
 
         return WeChatComponentClient(
             authorizer_appid,
@@ -443,7 +451,7 @@ class WeChatComponent(BaseWeChatComponent):
 
     def parse_message(self, msg, msg_signature, timestamp, nonce):
         """
-        处理 wecaht server 推送消息
+        处理 wechat server 推送消息
 
         :params msg: 加密内容
         :params msg_signature: 消息签名
@@ -491,6 +499,9 @@ class WeChatComponent(BaseWeChatComponent):
         :params timestamp: 时间戳
         :params nonce: 随机数
         """
+        warnings.warn('`cache_component_verify_ticket` method of `WeChatComponent` is deprecated,'
+                      'Use `parse_message` instead',
+                      DeprecationWarning, stacklevel=2)
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
         o = ComponentVerifyTicketMessage(message)
@@ -506,6 +517,9 @@ class WeChatComponent(BaseWeChatComponent):
         :params timestamp: 时间戳
         :params nonce: 随机数
         """
+        warnings.warn('`get_unauthorized` method of `WeChatComponent` is deprecated,'
+                      'Use `parse_message` instead',
+                      DeprecationWarning, stacklevel=2)
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
         return ComponentUnauthorizedMessage(message)
