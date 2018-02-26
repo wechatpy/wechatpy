@@ -404,11 +404,14 @@ class WeChatComponent(BaseWeChatComponent):
 
     def get_client_by_authorization_code(self, authorization_code):
         """
-        该函数建议废弃，直接只用 get_client_by_appid
         通过授权码直接获取 Client 对象
 
         :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
+        warnings.warn('`get_client_by_authorization_code` method of `WeChatComponent` is deprecated,'
+                      'Use `parse_message` parse message and '
+                      'Use `get_client_by_appid` instead',
+                      DeprecationWarning, stacklevel=2)
         result = self.query_auth(authorization_code)
         access_token = result['authorization_info']['authorizer_access_token']
         refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
@@ -491,7 +494,6 @@ class WeChatComponent(BaseWeChatComponent):
 
     def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
         """
-        该函数建议废弃，使用 parse_message
         处理 wechat server 推送的 component_verify_ticket消息
 
         :params msg: 加密内容
@@ -509,7 +511,6 @@ class WeChatComponent(BaseWeChatComponent):
 
     def get_unauthorized(self, msg, signature, timestamp, nonce):
         """
-        该函数建议废弃，使用 parse_message
         处理取消授权通知
 
         :params msg: 加密内容
