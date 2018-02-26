@@ -417,7 +417,7 @@ class WeChatComponent(BaseWeChatComponent):
         refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
         authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
         return WeChatComponentClient(
-            authorizer_appid, self, authorizer_appid, access_token, refresh_token,
+            authorizer_appid, self, access_token, refresh_token,
             session=self.session
         )
 
