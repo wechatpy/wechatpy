@@ -130,11 +130,5 @@ class WeChatComponentClient(WeChatClient):
             result['authorizer_access_token'],
             expires_in
         )
-        # refresh_token 永久有效，不需要每次储存，更不能设置过期时间
-        # self.session.set(
-        #     self.refresh_token_key,
-        #     result['authorizer_refresh_token'],
-        #     expires_in
-        # )
         self.expires_at = int(time.time()) + expires_in
         return result
