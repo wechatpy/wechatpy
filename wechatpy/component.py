@@ -311,6 +311,14 @@ class BaseWeChatComponent(object):
 
 class WeChatComponent(BaseWeChatComponent):
 
+    PRE_AUTH_URL = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage'
+
+    def get_pre_auth_url(self, redirect_uri):
+        redirect_uri = quote(redirect_uri, safe='')
+        return "{0}?component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
+                self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
+            )
+
     def create_preauthcode(self):
         """
         获取预授权码
@@ -322,7 +330,7 @@ class WeChatComponent(BaseWeChatComponent):
             }
         )
 
-    def query_auth(self, authorization_code):
+    def _query_auth(self, authorization_code):
         """
         使用授权码换取公众号的授权信息
 
@@ -335,6 +343,34 @@ class WeChatComponent(BaseWeChatComponent):
                 'authorization_code': authorization_code
             }
         )
+
+    def query_auth(self, authorization_code):
+        """
+        使用授权码换取公众号的授权信息,同时储存token信息
+
+        :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
+        """
+        result = self._query_auth(authorization_code)
+
+        assert result is not None \
+            and 'authorization_info' in result \
+            and 'authorizer_appid' in result['authorization_info']
+
+        authorizer_appid = result['authorization_info']['authorizer_appid']
+        if 'authorizer_access_token' in result['authorization_info'] \
+                and result['authorization_info']['authorizer_access_token']:
+            access_token = result['authorization_info']['authorizer_access_token']
+            access_token_key = '{0}_access_token'.format(authorizer_appid)
+            expires_in = 7200
+            if 'expires_in' in result['authorization_info']:
+                expires_in = result['authorization_info']['expires_in']
+            self.session.set(access_token_key, access_token, expires_in)
+        if 'authorizer_refresh_token' in result['authorization_info'] \
+                and result['authorization_info']['authorizer_refresh_token']:
+            refresh_token = result['authorization_info']['authorizer_refresh_token']
+            refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
+            self.session.set(refresh_token_key, refresh_token)  # refresh_token 需要永久储存，不建议使用内存储存，否则每次重启服务需要重新扫码授权
+        return result
 
     def refresh_authorizer_token(
             self, authorizer_appid, authorizer_refresh_token):
@@ -469,27 +505,7 @@ class WeChatComponent(BaseWeChatComponent):
         if msg.type == 'component_verify_ticket':
             self.session.set(msg.type, msg.verify_ticket)
         elif msg.type in ('authorized', 'updateauthorized'):
-            result = self.query_auth(msg.authorization_code)
-
-            assert result is not None \
-                and 'authorization_info' in result \
-                and 'authorizer_appid' in result['authorization_info']
-
-            authorizer_appid = result['authorization_info']['authorizer_appid']
-            if 'authorizer_access_token' in result['authorization_info'] \
-                    and result['authorization_info']['authorizer_access_token']:
-                access_token = result['authorization_info']['authorizer_access_token']
-                access_token_key = '{0}_access_token'.format(authorizer_appid)
-                expires_in = 7200
-                if 'expires_in' in result['authorization_info']:
-                    expires_in = result['authorization_info']['expires_in']
-                self.session.set(access_token_key, access_token, expires_in)
-            if 'authorizer_refresh_token' in result['authorization_info'] \
-                    and result['authorization_info']['authorizer_refresh_token']:
-                refresh_token = result['authorization_info']['authorizer_refresh_token']
-                refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
-                self.session.set(refresh_token_key, refresh_token)  # refresh_token 需要永久储存，不建议使用内存储存，否则每次重启服务需要重新扫码授权
-            msg.query_auth_result = result
+            msg.query_auth_result = self.query_auth(msg.authorization_code)
         return msg
 
     def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
