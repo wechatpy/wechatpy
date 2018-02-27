@@ -65,6 +65,24 @@ class ComponentUnauthorizedMessage(BaseComponentMessage):
     authorizer_appid = StringField('AuthorizerAppid')
 
 
+class ComponentAuthorizedMessage(BaseComponentMessage):
+    """
+    授权成功通知
+    """
+    type = 'authorized'
+    authorizer_appid = StringField('AuthorizerAppid')
+    authorization_code = StringField('AuthorizationCode')
+    expired_time = StringField('AuthorizationCodeExpiredTime')
+    pre_auth_Code = StringField('PreAuthCode')
+
+
+class ComponentUpdateAuthorizedMessage(ComponentAuthorizedMessage):
+    """
+    授权更新通知
+    """
+    type = 'updateauthorized'
+
+
 class BaseWeChatComponent(object):
 
     _http = requests.Session()
@@ -406,6 +424,10 @@ class WeChatComponent(BaseWeChatComponent):
             session=self.session
         )
 
+    def __parse_message(self, msg, signature, timestamp, nonce):
+        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
+        return xmltodict.parse(to_text(content))['xml']
+
     def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
         """
         处理 wechat server 推送的 component_verify_ticket消息
@@ -415,8 +437,7 @@ class WeChatComponent(BaseWeChatComponent):
         :params timestamp: 时间戳
         :params nonce: 随机数
         """
-        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
-        message = xmltodict.parse(to_text(content))['xml']
+        message = self.__parse_message(msg, signature, timestamp, nonce)
         o = ComponentVerifyTicketMessage(message)
         self.session.set(o.type, o.verify_ticket, 1200)
 
@@ -429,9 +450,32 @@ class WeChatComponent(BaseWeChatComponent):
         :params timestamp: 时间戳
         :params nonce: 随机数
         """
-        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
-        message = xmltodict.parse(to_text(content))['xml']
+        message = self.__parse_message(msg, signature, timestamp, nonce)
         return ComponentUnauthorizedMessage(message)
+
+    def get_authorized(self, msg, signature, timestamp, nonce):
+        """
+        处理授权成功通知
+
+        :params msg: 加密内容
+        :params signature: 消息签名
+        :params timestamp: 时间戳
+        :params nonce: 随机数
+        """
+        message = self.__parse_message(msg, signature, timestamp, nonce)
+        return ComponentAuthorizedMessage(message)
+
+    def get_updateauthorized(self, msg, signature, timestamp, nonce):
+        """
+        处理授权更新通知
+
+        :params msg: 加密内容
+        :params signature: 消息签名
+        :params timestamp: 时间戳
+        :params nonce: 随机数
+        """
+        message = self.__parse_message(msg, signature, timestamp, nonce)
+        return ComponentUpdateAuthorizedMessage(message)
 
 
 class ComponentOAuth(object):
