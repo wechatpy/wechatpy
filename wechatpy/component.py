@@ -478,8 +478,8 @@ class WeChatComponent(BaseWeChatComponent):
             refresh_token = ret['authorizer_refresh_token']
             access_token_key = '{0}_access_token'.format(authorizer_appid)
             expires_in = 7200
-            if 'expires_in' in ret['authorization_info']:
-                expires_in = ret['authorization_info']['expires_in']
+            if 'expires_in' in ret:
+                expires_in = ret['expires_in']
             self.session.set(access_token_key, access_token, expires_in)
 
         return WeChatComponentClient(
@@ -541,6 +541,14 @@ class WeChatComponent(BaseWeChatComponent):
         message = xmltodict.parse(to_text(content))['xml']
         return ComponentUnauthorizedMessage(message)
 
+    def get_component_oauth(self, authorizer_appid):
+        """
+        代公众号 OAuth 网页授权
+
+        :params authorizer_appid: 授权公众号appid
+        """
+        return ComponentOAuth(authorizer_appid, self)
+
 
 class ComponentOAuth(object):
     """ 微信开放平台 代公众号 OAuth 网页授权
@@ -554,34 +562,23 @@ class ComponentOAuth(object):
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
-    def __init__(self, app_id, component_appid, component_access_token, redirect_uri, scope='snsapi_base', state=''):
+    def __init__(self, app_id, component):
         """
 
         :param app_id: 微信公众号 app_id
-        :param component_appid: 服务方的appid
-        :param component_access_token: 服务方的access_token
+        :param component: WeChatComponent
+        """
+        self.app_id = app_id
+        self.component = component
+
+    def get_authorize_url(self, redirect_uri, scope='snsapi_base', state=''):
+        """
+
         :param redirect_uri: 重定向地址，需要urlencode，这里填写的应是服务开发方的回调地址
         :param scope: 可选，微信公众号 OAuth2 scope，默认为 ``snsapi_base``
         :param state: 可选，重定向后会带上state参数，开发者可以填写任意参数值，最多128字节
         """
-        self.app_id = app_id
-        self.component_appid = component_appid
-        self.component_access_token = component_access_token
-        self.redirect_uri = redirect_uri
-        self.scope = scope
-        self.state = state
-
-    @property
-    def authorize_url(self):
-        """ 获取授权跳转地址
-
-        严格按照以下格式，包括顺序和大小写，并请将参数替换为实际内容。
-        https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&
-        response_type=code&scope=SCOPE&state=STATE&component_appid=component_appid#wechat_redirect
-
-        :return: URL 地址
-        """
-        redirect_uri = quote(self.redirect_uri, safe='')
+        redirect_uri = quote(redirect_uri, safe='')
         url_list = [
             self.OAUTH_BASE_URL,
             'oauth2/authorize?appid=',
@@ -589,13 +586,13 @@ class ComponentOAuth(object):
             '&redirect_uri=',
             redirect_uri,
             '&response_type=code&scope=',
-            self.scope,
+            scope,
         ]
-        if self.state:
-            url_list.extend(['&state=', self.state])
+        if state:
+            url_list.extend(['&state=', state])
         url_list.extend([
             '&component_appid=',
-            self.component_appid,
+            self.component.component_appid,
         ])
         url_list.append('#wechat_redirect')
         return ''.join(url_list)
@@ -610,8 +607,8 @@ class ComponentOAuth(object):
             'sns/oauth2/component/access_token',
             params={
                 'appid': self.app_id,
-                'component_appid': self.component_appid,
-                'component_access_token': self.component_access_token,
+                'component_appid': self.component.component_appid,
+                'component_access_token': self.component.access_token,
                 'code': code,
                 'grant_type': 'authorization_code',
             }
@@ -635,8 +632,8 @@ class ComponentOAuth(object):
                 'appid': self.app_id,
                 'grant_type': 'refresh_token',
                 'refresh_token': refresh_token,
-                'component_appid': self.component_appid,
-                'component_access_token': self.component_access_token,
+                'component_appid': self.component.component_appid,
+                'component_access_token': self.component.access_token,
             }
         )
         self.access_token = res['access_token']
