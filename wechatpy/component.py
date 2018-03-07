@@ -580,7 +580,7 @@ class ComponentOAuth(object):
         if redirect_uri is not None:
             warnings.warn('found `redirect_uri` param of `ComponentOAuth` `__init__` method,'
                           'Use `ComponentOAuth.get_authorize_url` instead',
-                           DeprecationWarning, stacklevel=2)
+                          DeprecationWarning, stacklevel=2)
             self.authorize_url = self.get_authorize_url(redirect_uri, scope, state)
 
     def get_authorize_url(self, redirect_uri, scope='snsapi_base', state=''):
