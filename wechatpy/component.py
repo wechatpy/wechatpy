@@ -576,7 +576,7 @@ class ComponentOAuth(object):
                           'Use `WeChatComponent.get_component_oauth` instead',
                           DeprecationWarning, stacklevel=2)
 
-            self.component = ObjectDict({'component_appid': component_appid, 'access_token':component_access_token})
+            self.component = ObjectDict({'component_appid': component_appid, 'access_token': component_access_token})
         if redirect_uri is not None:
             warnings.warn('found `redirect_uri` param of `ComponentOAuth` `__init__` method,'
                           'Use `ComponentOAuth.get_authorize_url` instead',
