@@ -25,7 +25,7 @@ from wechatpy.exceptions import APILimitedException, WeChatClientException, WeCh
 from wechatpy.fields import DateTimeField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy.utils import get_querystring, json, to_binary, to_text
+from wechatpy.utils import get_querystring, json, to_binary, to_text, ObjectDict
 
 logger = logging.getLogger(__name__)
 
@@ -547,7 +547,7 @@ class WeChatComponent(BaseWeChatComponent):
 
         :params authorizer_appid: 授权公众号appid
         """
-        return ComponentOAuth(authorizer_appid, self)
+        return ComponentOAuth(authorizer_appid, component=self)
 
 
 class ComponentOAuth(object):
@@ -562,7 +562,7 @@ class ComponentOAuth(object):
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
-    def __init__(self, app_id, component):
+    def __init__(self, app_id, component_appid=None, component_access_token=None, redirect_uri=None, scope='snsapi_base', state='', component=None):
         """
 
         :param app_id: 微信公众号 app_id
@@ -570,6 +570,17 @@ class ComponentOAuth(object):
         """
         self.app_id = app_id
         self.component = component
+        if self.component is None:
+            warnings.warn('cannot found `component` param of `ComponentOAuth` `__init__` method,'
+                          'Use `WeChatComponent.get_component_oauth` instead',
+                           DeprecationWarning, stacklevel=2)
+
+            self.component = ObjectDict({'component_appid': component_appid, 'access_token':component_access_token})
+        if redirect_uri is not None:
+            warnings.warn('found `redirect_uri` param of `ComponentOAuth` `__init__` method,'
+                          'Use `ComponentOAuth.get_authorize_url` instead',
+                           DeprecationWarning, stacklevel=2)
+            self.authorize_url = self.get_authorize_url(redirect_uri, scope, state)
 
     def get_authorize_url(self, redirect_uri, scope='snsapi_base', state=''):
         """
