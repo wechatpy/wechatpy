@@ -574,7 +574,7 @@ class ComponentOAuth(object):
         if self.component is None:
             warnings.warn('cannot found `component` param of `ComponentOAuth` `__init__` method,'
                           'Use `WeChatComponent.get_component_oauth` instead',
-                           DeprecationWarning, stacklevel=2)
+                          DeprecationWarning, stacklevel=2)
 
             self.component = ObjectDict({'component_appid': component_appid, 'access_token':component_access_token})
         if redirect_uri is not None:
