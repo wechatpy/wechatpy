@@ -562,7 +562,7 @@ class ComponentOAuth(object):
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
-    def __init__(self, app_id, component_appid=None, component_access_token=None, 
+    def __init__(self, app_id, component_appid=None, component_access_token=None,
                     redirect_uri=None, scope='snsapi_base', state='', component=None):
         """
 
