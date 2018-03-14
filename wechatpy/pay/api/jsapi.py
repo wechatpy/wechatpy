@@ -25,7 +25,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
             'signType': 'MD5',
             'package': 'prepay_id={0}'.format(prepay_id),
         }
-        return calculate_signature(data, self._client.api_key)
+        return calculate_signature(data, self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key)
 
     def get_jsapi_params(self, prepay_id, timestamp=None, nonce_str=None, jssdk=False):
         """
