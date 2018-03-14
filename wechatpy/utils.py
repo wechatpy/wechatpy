@@ -100,7 +100,7 @@ def to_binary(value, encoding='utf-8'):
         return value
     if isinstance(value, six.text_type):
         return value.encode(encoding)
-    return to_text(value).encoding(encoding)
+    return to_text(value).encode(encoding)
 
 
 def timezone(zone):
