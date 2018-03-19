@@ -12,7 +12,6 @@ from wechatpy.client.api.merchant.common import MerchantCommon
 
 
 class WeChatMerchant(BaseWeChatAPI):
-
     API_BASE_URL = 'https://api.weixin.qq.com/'
 
     def __init__(self, *args, **kwargs):
@@ -129,8 +128,8 @@ class WeChatMerchant(BaseWeChatAPI):
         return self._post(
             'merchant/stock/add',
             data={
-                "product_id": product_id, 
-                "sku_info": sku_info, 
+                "product_id": product_id,
+                "sku_info": sku_info,
                 "quantity": quantity
             }
         )
@@ -146,8 +145,8 @@ class WeChatMerchant(BaseWeChatAPI):
         return self._post(
             'merchant/stock/reduce',
             data={
-                "product_id": product_id, 
-                "sku_info": sku_info, 
+                "product_id": product_id,
+                "sku_info": sku_info,
                 "quantity": quantity
             }
         )
@@ -162,7 +161,7 @@ class WeChatMerchant(BaseWeChatAPI):
             'merchant/express/add',
             data=product_data
         )
-    
+
     def del_express(self, template_id):
         """
         增加邮费模板
@@ -172,7 +171,7 @@ class WeChatMerchant(BaseWeChatAPI):
         return self._post(
             'merchant/express/del',
             data={
-                'template_id':template_id
+                'template_id': template_id
             }
         )
 
@@ -222,7 +221,7 @@ class WeChatMerchant(BaseWeChatAPI):
             'merchant/group/add',
             data=group_detail
         )
-    
+
     def del_group(self, group_id):
         """
         删除分组
@@ -250,7 +249,7 @@ class WeChatMerchant(BaseWeChatAPI):
                 'group_name': group_name
             }
         )
-    
+
     def update_group_product(self, group_id, product_data):
         """
         修改分组商品
