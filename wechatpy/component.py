@@ -12,6 +12,7 @@ from __future__ import absolute_import, unicode_literals
 
 import logging
 import time
+import warnings
 
 import requests
 import six
@@ -24,9 +25,18 @@ from wechatpy.exceptions import APILimitedException, WeChatClientException, WeCh
 from wechatpy.fields import DateTimeField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy.utils import get_querystring, json, to_binary, to_text
+from wechatpy.utils import get_querystring, json, to_binary, to_text, ObjectDict
 
 logger = logging.getLogger(__name__)
+
+COMPONENT_MESSAGE_TYPES = {}
+
+
+def register_component_message(msg_type):
+    def register(cls):
+        COMPONENT_MESSAGE_TYPES[msg_type] = cls
+        return cls
+    return register
 
 
 class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
@@ -49,6 +59,7 @@ class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
             return to_text(_repr)
 
 
+@register_component_message('component_verify_ticket')
 class ComponentVerifyTicketMessage(BaseComponentMessage):
     """
     component_verify_ticket协议
@@ -57,12 +68,39 @@ class ComponentVerifyTicketMessage(BaseComponentMessage):
     verify_ticket = StringField('ComponentVerifyTicket')
 
 
+@register_component_message('unauthorized')
 class ComponentUnauthorizedMessage(BaseComponentMessage):
     """
     取消授权通知
     """
     type = 'unauthorized'
     authorizer_appid = StringField('AuthorizerAppid')
+
+
+@register_component_message('authorized')
+class ComponentAuthorizedMessage(ComponentUnauthorizedMessage):
+    """
+    新增授权通知
+    """
+    type = 'authorized'
+    authorization_code = StringField('AuthorizationCode')
+    authorization_code_expired_time = StringField('AuthorizationCodeExpiredTime')
+    pre_auth_code = StringField('PreAuthCode')
+
+
+@register_component_message('updateauthorized')
+class ComponentUpdateauthorizedMessage(ComponentAuthorizedMessage):
+    """
+    更新授权通知
+    """
+    type = 'updateauthorized'
+
+
+class ComponentUnknownMessage(BaseComponentMessage):
+    """
+    未知通知
+    """
+    type = 'unknown'
 
 
 class BaseWeChatComponent(object):
@@ -273,6 +311,14 @@ class BaseWeChatComponent(object):
 
 class WeChatComponent(BaseWeChatComponent):
 
+    PRE_AUTH_URL = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage'
+
+    def get_pre_auth_url(self, redirect_uri):
+        redirect_uri = quote(redirect_uri, safe='')
+        return "{0}?component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
+                self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
+            )
+
     def create_preauthcode(self):
         """
         获取预授权码
@@ -284,7 +330,7 @@ class WeChatComponent(BaseWeChatComponent):
             }
         )
 
-    def query_auth(self, authorization_code):
+    def _query_auth(self, authorization_code):
         """
         使用授权码换取公众号的授权信息
 
@@ -297,6 +343,34 @@ class WeChatComponent(BaseWeChatComponent):
                 'authorization_code': authorization_code
             }
         )
+
+    def query_auth(self, authorization_code):
+        """
+        使用授权码换取公众号的授权信息,同时储存token信息
+
+        :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
+        """
+        result = self._query_auth(authorization_code)
+
+        assert result is not None \
+            and 'authorization_info' in result \
+            and 'authorizer_appid' in result['authorization_info']
+
+        authorizer_appid = result['authorization_info']['authorizer_appid']
+        if 'authorizer_access_token' in result['authorization_info'] \
+                and result['authorization_info']['authorizer_access_token']:
+            access_token = result['authorization_info']['authorizer_access_token']
+            access_token_key = '{0}_access_token'.format(authorizer_appid)
+            expires_in = 7200
+            if 'expires_in' in result['authorization_info']:
+                expires_in = result['authorization_info']['expires_in']
+            self.session.set(access_token_key, access_token, expires_in)
+        if 'authorizer_refresh_token' in result['authorization_info'] \
+                and result['authorization_info']['authorizer_refresh_token']:
+            refresh_token = result['authorization_info']['authorizer_refresh_token']
+            refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
+            self.session.set(refresh_token_key, refresh_token)  # refresh_token 需要永久储存，不建议使用内存储存，否则每次重启服务需要重新扫码授权
+        return result
 
     def refresh_authorizer_token(
             self, authorizer_appid, authorizer_refresh_token):
@@ -370,6 +444,10 @@ class WeChatComponent(BaseWeChatComponent):
 
         :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
         """
+        warnings.warn('`get_client_by_authorization_code` method of `WeChatComponent` is deprecated,'
+                      'Use `parse_message` parse message and '
+                      'Use `get_client_by_appid` instead',
+                      DeprecationWarning, stacklevel=2)
         result = self.query_auth(authorization_code)
         access_token = result['authorization_info']['authorizer_access_token']
         refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
@@ -389,6 +467,7 @@ class WeChatComponent(BaseWeChatComponent):
         refresh_token_key = '{0}_refresh_token'.format(authorizer_appid)
         access_token = self.session.get(access_token_key)
         refresh_token = self.session.get(refresh_token_key)
+        assert refresh_token
 
         if not access_token:
             ret = self.refresh_authorizer_token(
@@ -397,14 +476,37 @@ class WeChatComponent(BaseWeChatComponent):
             )
             access_token = ret['authorizer_access_token']
             refresh_token = ret['authorizer_refresh_token']
+            access_token_key = '{0}_access_token'.format(authorizer_appid)
+            expires_in = 7200
+            if 'expires_in' in ret:
+                expires_in = ret['expires_in']
+            self.session.set(access_token_key, access_token, expires_in)
 
         return WeChatComponentClient(
             authorizer_appid,
             self,
-            access_token,
-            refresh_token,
             session=self.session
         )
+
+    def parse_message(self, msg, msg_signature, timestamp, nonce):
+        """
+        处理 wechat server 推送消息
+
+        :params msg: 加密内容
+        :params msg_signature: 消息签名
+        :params timestamp: 时间戳
+        :params nonce: 随机数
+        """
+        content = self.crypto.decrypt_message(msg, msg_signature, timestamp, nonce)
+        message = xmltodict.parse(to_text(content))['xml']
+        message_type = message['InfoType'].lower()
+        message_class = COMPONENT_MESSAGE_TYPES.get(message_type, ComponentUnknownMessage)
+        msg = message_class(message)
+        if msg.type == 'component_verify_ticket':
+            self.session.set(msg.type, msg.verify_ticket)
+        elif msg.type in ('authorized', 'updateauthorized'):
+            msg.query_auth_result = self.query_auth(msg.authorization_code)
+        return msg
 
     def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
         """
@@ -415,10 +517,13 @@ class WeChatComponent(BaseWeChatComponent):
         :params timestamp: 时间戳
         :params nonce: 随机数
         """
+        warnings.warn('`cache_component_verify_ticket` method of `WeChatComponent` is deprecated,'
+                      'Use `parse_message` instead',
+                      DeprecationWarning, stacklevel=2)
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
         o = ComponentVerifyTicketMessage(message)
-        self.session.set(o.type, o.verify_ticket, 1200)
+        self.session.set(o.type, o.verify_ticket)
 
     def get_unauthorized(self, msg, signature, timestamp, nonce):
         """
@@ -429,9 +534,20 @@ class WeChatComponent(BaseWeChatComponent):
         :params timestamp: 时间戳
         :params nonce: 随机数
         """
+        warnings.warn('`get_unauthorized` method of `WeChatComponent` is deprecated,'
+                      'Use `parse_message` instead',
+                      DeprecationWarning, stacklevel=2)
         content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
         message = xmltodict.parse(to_text(content))['xml']
         return ComponentUnauthorizedMessage(message)
+
+    def get_component_oauth(self, authorizer_appid):
+        """
+        代公众号 OAuth 网页授权
+
+        :params authorizer_appid: 授权公众号appid
+        """
+        return ComponentOAuth(authorizer_appid, component=self)
 
 
 class ComponentOAuth(object):
@@ -446,34 +562,35 @@ class ComponentOAuth(object):
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
-    def __init__(self, app_id, component_appid, component_access_token, redirect_uri, scope='snsapi_base', state=''):
+    def __init__(self, app_id, component_appid=None, component_access_token=None,
+                 redirect_uri=None, scope='snsapi_base', state='', component=None):
         """
 
         :param app_id: 微信公众号 app_id
-        :param component_appid: 服务方的appid
-        :param component_access_token: 服务方的access_token
+        :param component: WeChatComponent
+        """
+        self.app_id = app_id
+        self.component = component
+        if self.component is None:
+            warnings.warn('cannot found `component` param of `ComponentOAuth` `__init__` method,'
+                          'Use `WeChatComponent.get_component_oauth` instead',
+                          DeprecationWarning, stacklevel=2)
+
+            self.component = ObjectDict({'component_appid': component_appid, 'access_token': component_access_token})
+        if redirect_uri is not None:
+            warnings.warn('found `redirect_uri` param of `ComponentOAuth` `__init__` method,'
+                          'Use `ComponentOAuth.get_authorize_url` instead',
+                          DeprecationWarning, stacklevel=2)
+            self.authorize_url = self.get_authorize_url(redirect_uri, scope, state)
+
+    def get_authorize_url(self, redirect_uri, scope='snsapi_base', state=''):
+        """
+
         :param redirect_uri: 重定向地址，需要urlencode，这里填写的应是服务开发方的回调地址
         :param scope: 可选，微信公众号 OAuth2 scope，默认为 ``snsapi_base``
         :param state: 可选，重定向后会带上state参数，开发者可以填写任意参数值，最多128字节
         """
-        self.app_id = app_id
-        self.component_appid = component_appid
-        self.component_access_token = component_access_token
-        self.redirect_uri = redirect_uri
-        self.scope = scope
-        self.state = state
-
-    @property
-    def authorize_url(self):
-        """ 获取授权跳转地址
-
-        严格按照以下格式，包括顺序和大小写，并请将参数替换为实际内容。
-        https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&
-        response_type=code&scope=SCOPE&state=STATE&component_appid=component_appid#wechat_redirect
-
-        :return: URL 地址
-        """
-        redirect_uri = quote(self.redirect_uri, safe='')
+        redirect_uri = quote(redirect_uri, safe='')
         url_list = [
             self.OAUTH_BASE_URL,
             'oauth2/authorize?appid=',
@@ -481,13 +598,13 @@ class ComponentOAuth(object):
             '&redirect_uri=',
             redirect_uri,
             '&response_type=code&scope=',
-            self.scope,
+            scope,
         ]
-        if self.state:
-            url_list.extend(['&state=', self.state])
+        if state:
+            url_list.extend(['&state=', state])
         url_list.extend([
             '&component_appid=',
-            self.component_appid,
+            self.component.component_appid,
         ])
         url_list.append('#wechat_redirect')
         return ''.join(url_list)
@@ -502,8 +619,8 @@ class ComponentOAuth(object):
             'sns/oauth2/component/access_token',
             params={
                 'appid': self.app_id,
-                'component_appid': self.component_appid,
-                'component_access_token': self.component_access_token,
+                'component_appid': self.component.component_appid,
+                'component_access_token': self.component.access_token,
                 'code': code,
                 'grant_type': 'authorization_code',
             }
@@ -527,8 +644,8 @@ class ComponentOAuth(object):
                 'appid': self.app_id,
                 'grant_type': 'refresh_token',
                 'refresh_token': refresh_token,
-                'component_appid': self.component_appid,
-                'component_access_token': self.component_access_token,
+                'component_appid': self.component.component_appid,
+                'component_access_token': self.component.access_token,
             }
         )
         self.access_token = res['access_token']

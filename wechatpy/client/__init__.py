@@ -75,17 +75,19 @@ class WeChatComponentClient(WeChatClient):
                  refresh_token=None, session=None, timeout=None):
         # 未用到secret，所以这里没有
         super(WeChatComponentClient, self).__init__(
-            appid, '', access_token, session, timeout
+            appid, '', '', session, timeout
         )
         self.appid = appid
         self.component = component
         # 如果公众号是刚授权，外部还没有缓存access_token和refresh_token
         # 可以传入这两个值，session 会缓存起来。
         # 如果外部已经缓存，这里只需要传入 appid，component和session即可
-        if access_token:
+        cache_access_token = self.session.get(self.access_token_key)
+
+        if access_token and (not cache_access_token or cache_access_token != access_token):
             self.session.set(self.access_token_key, access_token, 7200)
         if refresh_token:
-            self.session.set(self.refresh_token_key, refresh_token, 7200)
+            self.session.set(self.refresh_token_key, refresh_token)
 
     @property
     def access_token_key(self):
@@ -126,11 +128,6 @@ class WeChatComponentClient(WeChatClient):
         self.session.set(
             self.access_token_key,
             result['authorizer_access_token'],
-            expires_in
-        )
-        self.session.set(
-            self.refresh_token_key,
-            result['authorizer_refresh_token'],
             expires_in
         )
         self.expires_at = int(time.time()) + expires_in
