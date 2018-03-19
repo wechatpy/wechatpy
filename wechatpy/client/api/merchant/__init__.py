@@ -414,7 +414,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def upload_image(self, media_file):
         """
         上传图片
-        
+
         :param media_file: 要上传的文件，一个 File-object
         :return: 上传成功时返回图片 URL
         """
