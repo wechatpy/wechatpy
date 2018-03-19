@@ -1,6 +1,13 @@
 Changelog
 ================
 
+Version 1.6.1
+------------------
+
++ 增加微信开放平台代公众号 OAuth 网页授权相关接口
++ 微信支付 sandbox 环境 API 问题i修复
++ 增加微信支付 jssdk 的 sandbox API 支持
+
 Version 1.6.0
 ------------------
 
