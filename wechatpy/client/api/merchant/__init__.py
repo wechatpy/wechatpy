@@ -81,6 +81,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_category_getsub(self, cate_id):
         """
         获取指定分类的所有子分类
+
         :param cate_id: 大分类ID(根节点分类id为1)
         :return: 返回的 JSON 数据包
         """
@@ -94,6 +95,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_category_getsku(self, cate_id):
         """
         获取指定子分类的所有SKU
+
         :param cate_id: 商品子分类ID
         :return: 返回的 JSON 数据包
         """
@@ -107,6 +109,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_category_getproperty(self, cate_id):
         """
         获取指定分类的所有属性
+
         :param cate_id: 商品子分类ID
         :return: 返回的 JSON 数据包
         """
@@ -120,6 +123,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def add_stock(self, product_id, sku_info, quantity):
         """
         增加库存
+
         :param product_id: 商品ID
         :param sku_info: sku信息,格式"id1:vid1;id2:vid2",如商品为统一规格，则此处赋值为空字符串即可
         :param quantity: 增加的库存数量
@@ -137,6 +141,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def reduce_stock(self, product_id, sku_info, quantity):
         """
         减少库存
+
         :param product_id: 商品ID
         :param sku_info: sku信息,格式"id1:vid1;id2:vid2",如商品为统一规格，则此处赋值为空字符串即可
         :param quantity: 减少的库存数量
@@ -154,6 +159,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def add_express(self, product_data):
         """
         增加邮费模板
+
         :param product_data: 邮费信息
         :return: 返回的 JSON 数据包
         """
@@ -165,6 +171,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def del_express(self, template_id):
         """
         增加邮费模板
+
         :param template_id: 邮费模板ID
         :return: 返回的 JSON 数据包
         """
@@ -178,6 +185,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def update_express(self, template_id, delivery_template):
         """
         增加邮费模板
+
         :param template_id: 邮费模板ID
         :param delivery_template: 邮费模板信息(字段说明详见增加邮费模板)
         :return: 返回的 JSON 数据包
@@ -191,6 +199,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_express(self, template_id):
         """
         获取指定ID的邮费模板
+
         :param template_id: 邮费模板ID
         :return: 返回的 JSON 数据包
         """
@@ -204,6 +213,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_all_express(self):
         """
         获取所有邮费模板
+
         :param template_id: 邮费模板ID
         :return: 返回的 JSON 数据包
         """
@@ -214,6 +224,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def add_group(self, group_detail):
         """
         增加分组
+
         :param group_detail: 商品分组信息
         :return: 返回的 JSON 数据包
         """
@@ -225,6 +236,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def del_group(self, group_id):
         """
         删除分组
+
         :param group_id: 商品分组ID
         :return: 返回的 JSON 数据包
         """
@@ -238,6 +250,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def update_group_name(self, group_id, group_name):
         """
         修改分组属性
+
         :param group_id: 商品分组ID
         :param group_name: 商品分组名称
         :return: 返回的 JSON 数据包
@@ -253,6 +266,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def update_group_product(self, group_id, product_data):
         """
         修改分组商品
+
         :param group_id: 商品分组ID
         :param product_data: 分组商品信息
         :return: 返回的 JSON 数据包
@@ -266,6 +280,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_all_group(self):
         """
         获取所有分组
+
         :return: 返回的 JSON 数据包
         """
         return self._get(
@@ -275,6 +290,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_group(self, group_id):
         """
         根据分组ID获取分组信息
+
         :param group_id: 商品分组ID
         :return: 返回的 JSON 数据包
         """
@@ -288,6 +304,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def add_shelf(self, shelf_data):
         """
         增加货架
+
         :param shelf_data: 货架详情信息
         :return: 返回的 JSON 数据包
         """
@@ -299,6 +316,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def del_shelf(self, shelf_id):
         """
         删除货架
+
         :param shelf_id: 货架ID
         :return: 返回的 JSON 数据包
         """
@@ -312,6 +330,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def update_shelf(self, shelf_id, shelf_data):
         """
         修改货架
+
         :param shelf_id: 货架ID
         :param shelf_data: 货架详情
         :return: 返回的 JSON 数据包
@@ -325,6 +344,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_all_shelf(self):
         """
         获取所有货架
+
         :return: 返回的 JSON 数据包
         """
         return self._get(
@@ -334,6 +354,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_shelf(self, shelf_id):
         """
         根据货架ID获取货架信息
+
         :param shelf_id: 货架ID
         :return: 返回的 JSON 数据包
         """
@@ -347,6 +368,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def get_order(self, order_id):
         """
         根据订单ID获取订单详情
+
         :param order_id: 订单ID
         :return: 返回的 JSON 数据包
         """
@@ -360,6 +382,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def query_order(self, status=None, begintime=None, endtime=None):
         """
         根据订单状态/创建时间获取订单详情
+
         :param status: 订单状态(不带该字段-全部状态, 2-待发货, 3-已发货, 5-已完成, 8-维权中, )
         :param begintime: 订单创建时间起始时间(不带该字段则不按照时间做筛选)
         :param endtime: 订单创建时间终止时间(不带该字段则不按照时间做筛选)
@@ -377,6 +400,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def set_delivery(self, order_id, delivery_data):
         """
         修改货架
+
         :param order_id: 订单ID
         :param delivery_data: 商品物流信息
         :return: 返回的 JSON 数据包
@@ -390,6 +414,7 @@ class WeChatMerchant(BaseWeChatAPI):
     def upload_image(self, media_file):
         """
         上传图片
+        
         :param media_file: 要上传的文件，一个 File-object
         :return: 上传成功时返回图片 URL
         """
