@@ -247,20 +247,18 @@ class WeChatMerchant(BaseWeChatAPI):
             }
         )
 
-    def update_group_property(self, group_id, group_name):
+    def update_group_property(self, group_id, group_propertys):
         """
         修改分组属性
 
         :param group_id: 商品分组ID
-        :param group_name: 商品分组名称
+        :param group_propertys: 商品分组属性
         :return: 返回的 JSON 数据包
         """
+        group_propertys['group_id'] = group_id
         return self._post(
             'merchant/group/propertymod',
-            data={
-                'group_id': group_id,
-                'group_name': group_name
-            }
+            data=group_propertys
         )
 
     def update_group_product(self, group_id, product_data):
