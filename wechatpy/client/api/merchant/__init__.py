@@ -78,7 +78,7 @@ class WeChatMerchant(BaseWeChatAPI):
             }
         )
 
-    def get_category_getsub(self, cate_id):
+    def get_subcategories(self, cate_id):
         """
         获取指定分类的所有子分类
 
@@ -92,7 +92,7 @@ class WeChatMerchant(BaseWeChatAPI):
             }
         )
 
-    def get_category_getsku(self, cate_id):
+    def get_category_sku(self, cate_id):
         """
         获取指定子分类的所有SKU
 
@@ -106,7 +106,7 @@ class WeChatMerchant(BaseWeChatAPI):
             }
         )
 
-    def get_category_getproperty(self, cate_id):
+    def get_category_property(self, cate_id):
         """
         获取指定分类的所有属性
 
@@ -277,7 +277,7 @@ class WeChatMerchant(BaseWeChatAPI):
             data=product_data
         )
 
-    def get_all_group(self):
+    def get_all_groups(self):
         """
         获取所有分组
 
@@ -341,7 +341,7 @@ class WeChatMerchant(BaseWeChatAPI):
             data=shelf_data
         )
 
-    def get_all_shelf(self):
+    def get_all_shelves(self):
         """
         获取所有货架
 
