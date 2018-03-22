@@ -247,7 +247,7 @@ class WeChatMerchant(BaseWeChatAPI):
             }
         )
 
-    def group_properties(self, group_id, group_propertys):
+    def update_group_property(self, group_id, group_propertys):
         """
         修改分组属性
 
