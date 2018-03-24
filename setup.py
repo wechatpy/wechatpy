@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import with_statement, print_function
+from __future__ import print_function
 
 try:
     # python setup.py test
@@ -49,10 +49,10 @@ setup(
     version='1.6.1',
     author='messense',
     author_email='messense@icloud.com',
-    url='https://github.com/messense/wechatpy',
+    url='https://github.com/jxtech/wechatpy',
     packages=find_packages(),
-    keywords='WeChat, wexin, SDK',
-    description='wechatpy: WeChat SDK for Python',
+    keywords='WeChat, weixin, SDK',
+    description='WeChat SDK for Python',
     long_description=long_description,
     install_requires=requirements,
     include_package_data=True,
