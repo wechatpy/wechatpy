@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import unittest
 
 from wechatpy.utils import ObjectDict, check_signature
@@ -43,3 +44,11 @@ class UtilityTestCase(unittest.TestCase):
         signature = signer.signature
 
         self.assertEqual('f7c3bc1d808e04732adf679965ccc34ca7ae3441', signature)
+
+    def test_rsa_encrypt_decrypt(self):
+        target_string = 'hello world'
+        from wechatpy.pay.utils import rsa_encrypt, rsa_decrypt
+        with open('../certs/rsa_public_key.pem', 'rb') as public_fp:
+            with open('../certs/rsa_private_key.pem', 'rb') as private_fp:
+                encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)
+                self.assertEqual(rsa_decrypt(encrypted_string, private_fp.read()), target_string)
