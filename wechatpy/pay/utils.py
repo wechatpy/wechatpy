@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
+import base64
 import copy
 import hashlib
 import socket
 
 import six
+from Crypto.PublicKey import RSA
 
 from wechatpy.utils import to_binary, to_text
+from Crypto.Cipher import PKCS1_OAEP
 
 
 def format_url(params, api_key=None):
@@ -52,3 +56,15 @@ def get_external_ip():
         return addr
     except socket.error:
         return '127.0.0.1'
+
+
+def rsa_encrypt(data, pem):
+    """
+    加密
+    :param data: 待加密字符串
+    :param pem: RSA key 内容
+    :return:
+    """
+    rsakey = RSA.importKey(pem)
+    cipher = PKCS1_OAEP.new(rsakey)
+    return base64.b64encode(cipher.encrypt(data.encode())).decode()
