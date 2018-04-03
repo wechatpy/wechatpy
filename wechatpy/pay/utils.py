@@ -7,10 +7,8 @@ import hashlib
 import socket
 
 import six
-from Crypto.PublicKey import RSA
 
 from wechatpy.utils import to_binary, to_text
-from Crypto.Cipher import PKCS1_OAEP
 
 
 def format_url(params, api_key=None):
@@ -65,6 +63,29 @@ def rsa_encrypt(data, pem):
     :param pem: RSA key 内容
     :return:
     """
-    rsakey = RSA.importKey(pem)
-    cipher = PKCS1_OAEP.new(rsakey)
-    return base64.b64encode(cipher.encrypt(data.encode())).decode()
+    encoded_data = data.encode() if not isinstance(data, bytes) else data
+    try:
+        from Crypto.PublicKey import RSA
+        from Crypto.Cipher import PKCS1_OAEP
+        rsakey = RSA.importKey(pem)
+        cipher = PKCS1_OAEP.new(rsakey)
+        encrypted_data = cipher.encrypt(encoded_data)
+    except ModuleNotFoundError:
+        from cryptography.hazmat.backends import default_backend
+        from cryptography.hazmat.primitives import serialization
+        from cryptography.hazmat.primitives import hashes
+        from cryptography.hazmat.primitives.asymmetric import padding
+
+        private_key = serialization.load_pem_private_key(pem, password=None, backend=default_backend())
+        encrypted_data = private_key.sign(
+            data=encoded_data,
+            padding=padding.OAEP(
+                mgf=padding.MGF1(hashes.SHA1()),
+                algorithm=hashes.SHA1(),
+                label=None,
+            ),
+            algorithm=hashes.SHA1()
+        )
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError('either crypto or cryptography is required')
+    return base64.b64encode(encrypted_data).decode()
