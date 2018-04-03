@@ -28,3 +28,7 @@ class BaseWeChatPayAPI(object):
     @property
     def sub_mch_id(self):
         return self._client.sub_mch_id
+
+    @property
+    def rsa_key(self):
+        return self._client.rsa_key

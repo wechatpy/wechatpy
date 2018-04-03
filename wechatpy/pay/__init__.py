@@ -42,6 +42,8 @@ class WeChatPay(object):
     """红包接口"""
     transfer = api.WeChatTransfer()
     """企业付款接口"""
+    transfer_bankcard = api.WeChatTransferBankCard()
+    """企业付款到银行卡接口"""
     coupon = api.WeChatCoupon()
     """代金券接口"""
     order = api.WeChatOrder()
@@ -79,6 +81,7 @@ class WeChatPay(object):
         self.timeout = timeout
         self.sandbox = sandbox
         self.sandbox_api_key = None
+        self.rsa_key = None
 
     def _fetch_sanbox_api_key(self):
         nonce_str = random_string(32)
