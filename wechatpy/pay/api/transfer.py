@@ -115,6 +115,6 @@ class WeChatTransfer(BaseWeChatPayAPI):
         return self._post('https://fraud.mch.weixin.qq.com/risk/getpublickey', data=data)
 
     def _rsa_encrypt(self, data):
-        if not self.rsa_key:
-            self._client.rsa_key = self.get_rsa_public_key()['pub_key']
-        return rsa_encrypt(data, self.rsa_key)
+        if not getattr(self, '_rsa_public_key', None):
+            self._rsa_public_key = self.get_rsa_public_key()['pub_key']
+        return rsa_encrypt(data, self._rsa_public_key)

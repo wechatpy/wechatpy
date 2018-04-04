@@ -62,7 +62,7 @@ def rsa_encrypt(data, pem, b64_encode=True):
     :param data: 待加密字符串
     :param pem: RSA public key 内容
     :param b64_encode: 是否对输出进行 base64 encode
-    :return:
+    :return: 加密后的 string
     """
     from cryptography.hazmat.backends import default_backend
     from cryptography.hazmat.primitives import serialization
@@ -80,8 +80,8 @@ def rsa_encrypt(data, pem, b64_encode=True):
         )
     )
     if b64_encode:
-        encrypted_data = base64.b64encode(encrypted_data).decode('utf-8')
-    return encrypted_data
+        encrypted_data = base64.b64encode(encrypted_data)
+    return encrypted_data.decode('utf-8')
 
 
 def rsa_decrypt(encrypted_data, pem, password=None):
@@ -90,13 +90,14 @@ def rsa_decrypt(encrypted_data, pem, password=None):
     :param encrypted_data: 待解密 bytes
     :param pem: RSA private key 内容
     :param password: RSA private key pass phrase
-    :return:
+    :return: 解密后的 string
     """
     from cryptography.hazmat.backends import default_backend
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.asymmetric import padding
 
+    encrypted_data = encrypted_data.encode('utf-8') if not isinstance(encrypted_data, bytes) else encrypted_data
     pem = pem.encode('utf-8') if not isinstance(pem, bytes) else pem
     private_key = serialization.load_pem_private_key(pem, password, backend=default_backend())
     data = private_key.decrypt(
@@ -107,4 +108,4 @@ def rsa_decrypt(encrypted_data, pem, password=None):
             label=b'',
         )
     )
-    return data
+    return data.decode('utf-8')
