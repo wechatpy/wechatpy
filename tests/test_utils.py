@@ -52,8 +52,11 @@ class UtilityTestCase(unittest.TestCase):
         self.assertEqual('f7c3bc1d808e04732adf679965ccc34ca7ae3441', signature)
 
     def test_rsa_encrypt_decrypt(self):
+        try:
+            from wechatpy.pay.utils import rsa_encrypt, rsa_decrypt
+        except ImportError:
+            return
         target_string = 'hello world'
-        from wechatpy.pay.utils import rsa_encrypt, rsa_decrypt
         with open(os.path.join(_CERTS_PATH, 'rsa_public_key.pem'), 'rb') as public_fp:
             with open(os.path.join(_CERTS_PATH, 'rsa_private_key.pem'), 'rb') as private_fp:
                 encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)

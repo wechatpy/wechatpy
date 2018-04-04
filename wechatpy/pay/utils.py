@@ -7,11 +7,6 @@ import hashlib
 import socket
 
 import six
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
-
 
 from wechatpy.utils import to_binary, to_text
 
@@ -69,6 +64,10 @@ def rsa_encrypt(data, pem, b64_encode=True):
     :param b64_encode: 是否对输出进行 base64 encode
     :return:
     """
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import padding
     encoded_data = data.encode('utf-8') if not isinstance(data, bytes) else data
     pem = pem.encode('utf-8') if not isinstance(pem, bytes) else pem
     public_key = serialization.load_pem_public_key(pem, backend=default_backend())
@@ -93,6 +92,11 @@ def rsa_decrypt(encrypted_data, pem, password=None):
     :param password: RSA private key pass phrase
     :return:
     """
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import padding
+
     pem = pem.encode('utf-8') if not isinstance(pem, bytes) else pem
     private_key = serialization.load_pem_private_key(pem, password, backend=default_backend())
     data = private_key.decrypt(
