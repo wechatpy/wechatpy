@@ -68,15 +68,15 @@ def rsa_encrypt(data, pem, b64_encode=True):
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.asymmetric import padding
-    encoded_data = data.encode('utf-8') if not isinstance(data, bytes) else data
-    pem = pem.encode('utf-8') if not isinstance(pem, bytes) else pem
+    encoded_data = to_binary(data)
+    pem = to_binary(pem)
     public_key = serialization.load_pem_public_key(pem, backend=default_backend())
     encrypted_data = public_key.encrypt(
         encoded_data,
         padding=padding.OAEP(
             mgf=padding.MGF1(hashes.SHA1()),
             algorithm=hashes.SHA1(),
-            label=b'',
+            label=None,
         )
     )
     if b64_encode:
@@ -97,15 +97,15 @@ def rsa_decrypt(encrypted_data, pem, password=None):
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.asymmetric import padding
 
-    encrypted_data = encrypted_data.encode('utf-8') if not isinstance(encrypted_data, bytes) else encrypted_data
-    pem = pem.encode('utf-8') if not isinstance(pem, bytes) else pem
+    encrypted_data = to_binary(encrypted_data)
+    pem = to_binary(pem)
     private_key = serialization.load_pem_private_key(pem, password, backend=default_backend())
     data = private_key.decrypt(
         encrypted_data,
         padding=padding.OAEP(
             mgf=padding.MGF1(hashes.SHA1()),
             algorithm=hashes.SHA1(),
-            label=b'',
+            label=None,
         )
     )
     return data.decode('utf-8')

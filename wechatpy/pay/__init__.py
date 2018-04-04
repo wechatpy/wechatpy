@@ -79,7 +79,6 @@ class WeChatPay(object):
         self.timeout = timeout
         self.sandbox = sandbox
         self.sandbox_api_key = None
-        self.rsa_key = None
 
     def _fetch_sanbox_api_key(self):
         nonce_str = random_string(32)
