@@ -107,7 +107,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
         }
         return self._post('mmpaysptrans/query_bank', data=data)
 
-    def get_rsa_key(self):
+    def get_rsa_public_key(self):
         data = {
             'mch_id': self.mch_id,
             'sign_type': 'MD5',
@@ -116,5 +116,5 @@ class WeChatTransfer(BaseWeChatPayAPI):
 
     def _rsa_encrypt(self, data):
         if not self.rsa_key:
-            self._client.rsa_key = self.get_rsa_key()['pub_key']
+            self._client.rsa_key = self.get_rsa_public_key()['pub_key']
         return rsa_encrypt(data, self.rsa_key)

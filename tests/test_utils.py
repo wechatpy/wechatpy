@@ -5,8 +5,10 @@ import unittest
 
 import os
 
-from wechatpy.utils import ObjectDict, check_signature
+import pytest
 
+from . import skip_conditions
+from wechatpy.utils import ObjectDict, check_signature
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _CERTS_PATH = os.path.join(_TESTS_PATH, 'certs')
@@ -51,13 +53,10 @@ class UtilityTestCase(unittest.TestCase):
 
         self.assertEqual('f7c3bc1d808e04732adf679965ccc34ca7ae3441', signature)
 
+    @pytest.mark.skipif(skip_conditions.skip_if_no_cryptography(), reason='cryptography not installed')
     def test_rsa_encrypt_decrypt(self):
-        try:
-            from wechatpy.pay.utils import rsa_encrypt, rsa_decrypt
-        except ImportError:
-            return
+        from wechatpy.pay.utils import rsa_encrypt, rsa_decrypt
         target_string = 'hello world'
-        with open(os.path.join(_CERTS_PATH, 'rsa_public_key.pem'), 'rb') as public_fp:
-            with open(os.path.join(_CERTS_PATH, 'rsa_private_key.pem'), 'rb') as private_fp:
-                encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)
-                self.assertEqual(rsa_decrypt(encrypted_string, private_fp.read()), target_string.encode('utf-8'))
+        with open(os.path.join(_CERTS_PATH, 'rsa_public_key.pem'), 'rb') as public_fp, open(os.path.join(_CERTS_PATH, 'rsa_private_key.pem'), 'rb') as private_fp:
+            encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)
+            self.assertEqual(rsa_decrypt(encrypted_string, private_fp.read()), target_string.encode('utf-8'))
