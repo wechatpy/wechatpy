@@ -67,4 +67,4 @@ class UtilityTestCase(unittest.TestCase):
         with open(os.path.join(_CERTS_PATH, 'rsa_public_key.pem'), 'rb') as public_fp, \
                 open(os.path.join(_CERTS_PATH, 'rsa_private_key.pem'), 'rb') as private_fp:
             encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)
-            self.assertEqual(rsa_decrypt(encrypted_string, private_fp.read()), target_string)
+            self.assertEqual(rsa_decrypt(encrypted_string, private_fp.read()), target_string.encode('utf-8'))
