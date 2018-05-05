@@ -35,10 +35,7 @@ class PyTest(TestCommand):
 cmdclass = {}
 cmdclass['test'] = PyTest
 
-readme = 'README.md'
-if os.path.exists('README.rst'):
-    readme = 'README.rst'
-with open(readme, 'rb') as f:
+with open('README.md', 'rb') as f:
     long_description = f.read().decode('utf-8')
 
 with open('requirements.txt') as f:
@@ -54,6 +51,7 @@ setup(
     keywords='WeChat, weixin, SDK',
     description='WeChat SDK for Python',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     install_requires=requirements,
     include_package_data=True,
     tests_require=[

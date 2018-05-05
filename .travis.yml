@@ -1,9 +1,5 @@
 language: python
 
-addons:
-  apt_packages:
-    - pandoc
-
 # Use container-based infrastructure
 sudo: false
 
@@ -50,7 +46,6 @@ after_success:
   - codecov
   - |
     if [[ "${TRAVIS_TAG:-}" != "" && "$TOX_ENV" == "py36-cryptography" ]]; then
-      pandoc --from markdown --to rst --output=README.rst README.md;
       python3.6 setup.py sdist bdist_wheel;
       python3.6 -m pip install twine;
       python3.6 -m twine upload --skip-existing dist/*;
