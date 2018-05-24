@@ -80,7 +80,7 @@ class WeChatPay(object):
         self.sandbox = sandbox
         self.sandbox_api_key = None
 
-    def _fetch_sanbox_api_key(self):
+    def _fetch_sandbox_api_key(self):
         nonce_str = random_string(32)
         sign = calculate_signature({'mch_id': self.mch_id, 'nonce_str': nonce_str}, self.api_key)
         payload = dict_to_xml({
@@ -113,7 +113,7 @@ class WeChatPay(object):
             data.setdefault('nonce_str', random_string(32))
             data = optionaldict(data)
             if self.sandbox and self.sandbox_api_key is None:
-                self.sandbox_api_key = self._fetch_sanbox_api_key()
+                self.sandbox_api_key = self._fetch_sandbox_api_key()
 
             sign = calculate_signature(data, self.sandbox_api_key if self.sandbox else self.api_key)
             body = dict_to_xml(data, sign)
