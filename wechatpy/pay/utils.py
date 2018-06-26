@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 import base64
 import copy
 import hashlib
+import hmac
 import socket
 
 import six
@@ -21,6 +22,13 @@ def format_url(params, api_key=None):
 def calculate_signature(params, api_key):
     url = format_url(params, api_key)
     return to_text(hashlib.md5(url).hexdigest().upper())
+
+
+def calculate_signature_hmac(params, api_key):
+    url = format_url(params, api_key)
+    sign = to_text(hmac.new(api_key.encode(), msg=url,
+                            digestmod=hashlib.sha256).hexdigest().upper())
+    return sign
 
 
 def _check_signature(params, api_key):

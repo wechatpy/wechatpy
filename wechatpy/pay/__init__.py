@@ -11,7 +11,7 @@ from optionaldict import optionaldict
 from wechatpy.utils import random_string
 from wechatpy.exceptions import WeChatPayException, InvalidSignatureException
 from wechatpy.pay.utils import (
-    calculate_signature, _check_signature, dict_to_xml
+    calculate_signature, calculate_signature_hmac, _check_signature, dict_to_xml
 )
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
@@ -115,7 +115,10 @@ class WeChatPay(object):
             if self.sandbox and self.sandbox_api_key is None:
                 self.sandbox_api_key = self._fetch_sandbox_api_key()
 
-            sign = calculate_signature(data, self.sandbox_api_key if self.sandbox else self.api_key)
+            if data.get('sign_type', 'MD5') == 'HMAC-SHA256':
+                sign = calculate_signature_hmac(data, self.sandbox_api_key if self.sandbox else self.api_key)
+            else:
+                sign = calculate_signature(data, self.sandbox_api_key if self.sandbox else self.api_key)
             body = dict_to_xml(data, sign)
             body = body.encode('utf-8')
             kwargs['data'] = body
