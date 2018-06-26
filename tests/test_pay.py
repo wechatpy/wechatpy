@@ -17,6 +17,18 @@ class WeChatPayTestCase(unittest.TestCase):
         sign = calculate_signature(params, api_key)
         self.assertEqual(expected, sign)
 
+    def test_calculate_signature_hmac(self):
+        from wechatpy.pay import calculate_signature_hmac
+
+        api_key = '192006250b4c09247ec02edce69f6a2d'
+        params = {
+            'test1': 'test1',
+            'test2': 'test2',
+        }
+        expected = 'EDAC6D70D2FDF5A2382F8204FC96A1918017E46ACC5297F565ED1A7610ACF659'
+        sign = calculate_signature_hmac(params, api_key)
+        self.assertEqual(expected, sign)
+
     def test_dict_to_xml(self):
         from wechatpy.pay import dict_to_xml
 
