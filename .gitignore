@@ -59,5 +59,6 @@ docs/_build/
 .idea/
 
 .python-version
+.pytest_cache/
 
 .DS_Store
