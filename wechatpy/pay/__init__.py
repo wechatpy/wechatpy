@@ -78,7 +78,7 @@ class WeChatPay(object):
         self.mch_key = mch_key
         self.timeout = timeout
         self.sandbox = sandbox
-        self.sandbox_api_key = None
+        self._sandbox_api_key = None
 
     def _fetch_sandbox_api_key(self):
         nonce_str = random_string(32)
@@ -112,8 +112,6 @@ class WeChatPay(object):
             data.setdefault('sub_mch_id', self.sub_mch_id)
             data.setdefault('nonce_str', random_string(32))
             data = optionaldict(data)
-            if self.sandbox and self.sandbox_api_key is None:
-                self.sandbox_api_key = self._fetch_sandbox_api_key()
 
             if data.get('sign_type', 'MD5') == 'HMAC-SHA256':
                 sign = calculate_signature_hmac(data, self.sandbox_api_key if self.sandbox else self.api_key)
@@ -212,3 +210,10 @@ class WeChatPay(object):
                 data[key] = int(data[key])
         data['sign'] = sign
         return data
+
+    @property
+    def sandbox_api_key(self):
+        if self.sandbox and self._sandbox_api_key is None:
+            self._sandbox_api_key = self._fetch_sandbox_api_key()
+
+        return self._sandbox_api_key
