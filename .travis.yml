@@ -21,6 +21,10 @@ matrix:
       python: 3.6
     - env: TOX_ENV=py36-pycrypto
       python: 3.6
+    - env: TOX_ENV=py37-cryptography
+      python: 3.7
+    - env: TOX_ENV=py37-pycrypto
+      python: 3.7
     - env: TOX_ENV=pypy-cryptography
       python: "pypy-5.3.1"
     # - env: TOX_ENV=pypy-pycrypto
