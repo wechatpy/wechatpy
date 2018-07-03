@@ -11,7 +11,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/sluy95tvbe090af1/branch/master?svg=true)](https://ci.appveyor.com/project/messense/wechatpy-den93/branch/master)
 [![codecov.io](http://codecov.io/github/jxtech/wechatpy/coverage.svg?branch=master)](http://codecov.io/github/jxtech/wechatpy?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jxtech/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master)
-[![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.python.org/pypi/wechatpy)
+[![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.org/project/wechatpy)
 [![Downloads](http://pepy.tech/badge/wechatpy)](http://pepy.tech/project/wechatpy)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjxtech%2Fwechatpy.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjxtech%2Fwechatpy?ref=badge_shield)
 
