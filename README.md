@@ -9,15 +9,15 @@
 
 [![Build Status](https://travis-ci.org/jxtech/wechatpy.svg?branch=master)](https://travis-ci.org/jxtech/wechatpy)
 [![Build status](https://ci.appveyor.com/api/projects/status/sluy95tvbe090af1/branch/master?svg=true)](https://ci.appveyor.com/project/messense/wechatpy-den93/branch/master)
-[![codecov.io](http://codecov.io/github/jxtech/wechatpy/coverage.svg?branch=master)](http://codecov.io/github/jxtech/wechatpy?branch=master)
+[![codecov.io](https://codecov.io/github/jxtech/wechatpy/coverage.svg?branch=master)](https://codecov.io/github/jxtech/wechatpy?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jxtech/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master)
 [![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.org/project/wechatpy)
-[![Downloads](http://pepy.tech/badge/wechatpy)](http://pepy.tech/project/wechatpy)
+[![Downloads](https://pepy.tech/badge/wechatpy)](https://pepy.tech/project/wechatpy)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjxtech%2Fwechatpy.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjxtech%2Fwechatpy?ref=badge_shield)
 
 微信(WeChat) 公众平台第三方 Python SDK。
 
-[【阅读文档】](http://wechatpy.readthedocs.org/zh_CN/master/) [【快速入门】](http://wechatpy.readthedocs.org/zh_CN/master/quickstart.html)
+[【阅读文档】](https://wechatpy.readthedocs.org/zh_CN/master/) [【快速入门】](https://wechatpy.readthedocs.org/zh_CN/master/quickstart.html)
 
 [![Join the chat at https://gitter.im/messense/wechatpy](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/messense/wechatpy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
