@@ -301,7 +301,7 @@ class DeviceStatusReply(BaseReply):
     type = 'device_status'
     device_type = StringField('DeviceType')
     device_id = StringField('DeviceID')
-    status = StringField('DeviceStatus')
+    status = IntegerField('DeviceStatus')
 
 
 @register_reply('hardware')
