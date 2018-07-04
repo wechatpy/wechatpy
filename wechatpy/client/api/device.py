@@ -29,7 +29,7 @@ class WeChatDevice(BaseWeChatAPI):
             data={
                 'device_type': device_type,
                 'device_id': device_id,
-                'openid': user_id,
+                'open_id': user_id,
                 'content': content
             }
         )
