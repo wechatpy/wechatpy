@@ -70,7 +70,7 @@ pip install wechatpy[pycrypto]
 
 QQ 群：176596300
 
-![wechatpy QQ 群](docs/_static/images/qq-group.png)
+![wechatpy QQ 群](https://raw.githubusercontent.com/jxtech/wechatpy/master/docs/_static/images/qq-group.png)
 
 
 ## License
