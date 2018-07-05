@@ -23,7 +23,12 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
-    def get_wxa_code(self, path, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}):
+    def get_wxa_code(self,
+                     path,
+                     width=430,
+                     auto_color=False,
+                     line_color={"r": "0", "g": "0", "b": "0"},
+                     is_hyaline=False):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
         详情请参考
@@ -36,6 +41,7 @@ class WeChatWxa(BaseWeChatAPI):
                 'width': width,
                 'auto_color': auto_color,
                 'line_color': line_color,
+                'is_hyaline': is_hyaline,
             }
         )
 
@@ -44,7 +50,8 @@ class WeChatWxa(BaseWeChatAPI):
                                width=430,
                                auto_color=False,
                                line_color={"r": "0", "g": "0", "b": "0"},
-                               page=None):
+                               page=None,
+                               is_hyaline=False):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
@@ -58,6 +65,7 @@ class WeChatWxa(BaseWeChatAPI):
                 width=width,
                 auto_color=auto_color,
                 line_color=line_color,
+                is_hyaline=is_hyaline,
             )
         )
 
