@@ -314,7 +314,7 @@ class WeChatComponent(BaseWeChatComponent):
     PRE_AUTH_URL = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage'
 
     def get_pre_auth_url(self, redirect_uri):
-        redirect_uri = quote(redirect_uri, safe='')
+        redirect_uri = quote(redirect_uri, safe=b'')
         return "{0}?component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
                 self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
             )
@@ -590,7 +590,7 @@ class ComponentOAuth(object):
         :param scope: 可选，微信公众号 OAuth2 scope，默认为 ``snsapi_base``
         :param state: 可选，重定向后会带上state参数，开发者可以填写任意参数值，最多128字节
         """
-        redirect_uri = quote(redirect_uri, safe='')
+        redirect_uri = quote(redirect_uri, safe=b'')
         url_list = [
             self.OAUTH_BASE_URL,
             'oauth2/authorize?appid=',

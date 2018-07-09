@@ -101,7 +101,7 @@ class WeChatOAuth(object):
 
         :return: URL 地址
         """
-        redirect_uri = quote(self.redirect_uri, safe='')
+        redirect_uri = quote(self.redirect_uri, safe=b'')
         url_list = [
             self.OAUTH_BASE_URL,
             'oauth2/authorize?appid=',
@@ -122,7 +122,7 @@ class WeChatOAuth(object):
 
         :return: URL 地址
         """
-        redirect_uri = quote(self.redirect_uri, safe='')
+        redirect_uri = quote(self.redirect_uri, safe=b'')
         url_list = [
             self.OAUTH_BASE_URL,
             'qrconnect?appid=',
