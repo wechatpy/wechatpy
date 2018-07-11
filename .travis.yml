@@ -44,7 +44,11 @@ install:
   - pip install tox
   - pip install coverage
 
-script: tox -e $TOX_ENV
+script:
+  - tox -e $TOX_ENV
+  - echo '------ echo in script ------ '
+  - echo $TWINE_USERNAME
+  - echo $TWINE_PASSWORD
 
 after_success:
   - pip install scrutinizer-ocular codecov

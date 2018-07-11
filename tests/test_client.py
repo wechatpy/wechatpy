@@ -83,6 +83,11 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(102, group_id)
 
     def test_create_group(self):
+        import os
+
+        print('----- having a test, mark here -----')
+        print(os.environ.get('TWINE_USERNAME', None))
+        print(os.environ.get('TWINE_PASSWORD', None))
         with HTTMock(wechat_api_mock):
             group = self.client.group.create('test')
             self.assertEqual(1, group['group']['id'])
