@@ -28,7 +28,8 @@ class WeChatPay(object):
     微信支付接口
 
     :param appid: 微信公众号 appid
-    :param api_key: 商户 key
+    :param sub_appid: 当前调起支付的小程序APPID
+    :param api_key: 商户 key,不要在这里使用小程序的密钥
     :param mch_id: 商户号
     :param sub_mch_id: 可选，子商户号，受理模式下必填
     :param mch_cert: 必填，商户证书路径
@@ -69,8 +70,9 @@ class WeChatPay(object):
         return self
 
     def __init__(self, appid, api_key, mch_id, sub_mch_id=None,
-                 mch_cert=None, mch_key=None, timeout=None, sandbox=False):
+                 mch_cert=None, mch_key=None, timeout=None, sandbox=False, sub_appid=None):
         self.appid = appid
+        self.sub_appid = sub_appid
         self.api_key = api_key
         self.mch_id = mch_id
         self.sub_mch_id = sub_mch_id
@@ -126,6 +128,7 @@ class WeChatPay(object):
             kwargs['cert'] = (self.mch_cert, self.mch_key)
 
         kwargs['timeout'] = kwargs.get('timeout', self.timeout)
+        logger.debug('Request to WeChat API: %s %s\n%s', method, url, kwargs)
         res = self._http.request(
             method=method,
             url=url,
@@ -146,6 +149,7 @@ class WeChatPay(object):
     def _handle_result(self, res):
         res.encoding = 'utf-8'
         xml = res.text
+        logger.debug('Response from WeChat API \n %s', xml)
         try:
             data = xmltodict.parse(xml)['xml']
         except (xmltodict.ParsingInterrupted, ExpatError):

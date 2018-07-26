@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import time
-
+import logging
 from wechatpy.utils import random_string, to_text
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay.utils import calculate_signature
 
+logger = logging.getLogger(__name__)
 
 class WeChatJSAPI(BaseWeChatPayAPI):
 
@@ -19,7 +20,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         :return: 签名
         """
         data = {
-            'appId': self.appid,
+            'appId': self.sub_appid or self.appid,
             'timeStamp': timestamp or to_text(int(time.time())),
             'nonceStr': nonce_str or random_string(32),
             'signType': 'MD5',
@@ -43,7 +44,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         :return: 参数
         """
         data = {
-            'appId': self.appid,
+            'appId': self.sub_appid or self.appid,
             'timeStamp': timestamp or to_text(int(time.time())),
             'nonceStr': nonce_str or random_string(32),
             'signType': 'MD5',
@@ -53,6 +54,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
             data,
             self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key
         )
+        logger.debug('JSAPI payment parameters: data = %s, sign = %s', data, sign)
         data['paySign'] = sign
         if jssdk:
             data['timestamp'] = data.pop('timeStamp')

@@ -6,11 +6,12 @@ import copy
 import hashlib
 import hmac
 import socket
-
+import logging
 import six
 
 from wechatpy.utils import to_binary, to_text
 
+logger = logging.getLogger(__name__)
 
 def format_url(params, api_key=None):
     data = [to_binary('{0}={1}'.format(k, params[k])) for k in sorted(params) if params[k]]
@@ -21,6 +22,7 @@ def format_url(params, api_key=None):
 
 def calculate_signature(params, api_key):
     url = format_url(params, api_key)
+    logger.debug("Calculate Signature URL: %s", url)
     return to_text(hashlib.md5(url).hexdigest().upper())
 
 

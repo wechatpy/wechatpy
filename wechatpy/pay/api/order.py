@@ -16,7 +16,7 @@ class WeChatOrder(BaseWeChatPayAPI):
     def create(self, trade_type, body, total_fee, notify_url, client_ip=None,
                user_id=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', time_start=None, time_expire=None, goods_tag=None,
-               product_id=None, device_info=None, limit_pay=None, scene_info=None):
+               product_id=None, device_info=None, limit_pay=None, scene_info=None, sub_user_id=None):
         """
         统一下单接口
 
@@ -25,7 +25,8 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param total_fee: 总金额，单位分
         :param notify_url: 接收微信支付异步通知回调地址
         :param client_ip: 可选，APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
-        :param user_id: 可选，用户在商户appid下的唯一标识。trade_type=JSAPI，此参数必传
+        :param user_id: 可选，用户在商户appid下的唯一标识。trade_type=JSAPI和appid已设定，此参数必传
+        :param sub_user_id: 可选，小程序appid下的唯一标识。trade_type=JSAPI和sub_appid已设定，此参数必传
         :param out_trade_no: 可选，商户订单号，默认自动生成
         :param detail: 可选，商品详情
         :param attach: 可选，附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
@@ -56,6 +57,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             scene_info = json.dumps(scene_info, ensure_ascii=False)
         data = {
             'appid': self.appid,
+            'sub_appid': self.sub_appid,
             'device_info': device_info,
             'body': body,
             'detail': detail,
@@ -72,6 +74,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'limit_pay': limit_pay,
             'product_id': product_id,
             'openid': user_id,
+            'sub_openid': sub_user_id,
             'scene_info': scene_info,
         }
         return self._post('pay/unifiedorder', data=data)
