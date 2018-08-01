@@ -145,3 +145,19 @@ class WeChatUser(BaseWeChatAPI):
             result_processor=lambda x: x['user_info_list']
         )
         return res
+
+    def change_openid(self, from_appid, openid_list):
+        '''微信公众号主体变更迁移用户 openid
+
+        详情请参考
+        http://kf.qq.com/faq/170221aUnmmU170221eUZJNf.html
+
+        :param from_appid: 原公众号的 appid
+        :param openid_list: 需要转换的openid，这些必须是旧账号目前关注的才行，否则会出错；一次最多100个
+        :return: 转换后的 openid 信息列表
+        '''
+        return self._post(
+            'changeopenid',
+            data={'from_appid': from_appid, 'openid_list': openid_list},
+            result_processor=lambda x: x['result_list']
+        )
