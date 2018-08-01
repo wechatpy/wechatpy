@@ -1,6 +1,16 @@
 Changelog
 ================
 
+Version 1.7.5
+-----------------
+
+Released on 2018-08-01
+
++ 修复 OAuth URL 生成可能触发 UnicodeDecodeError 的问题
++ 依赖 xmltodict 版本要求 >= 0.11.0
++ 微信支付接口增加 `sub_appid` 参数以支持小程序支付功能
++ 增加帐号迁移转换 openid API
+
 Version 1.7.4
 -----------------
 
