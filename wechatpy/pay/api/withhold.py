@@ -73,7 +73,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         查询签约关系 api
 
         :param contract_id: 可选 委托代扣协议id 委托代扣签约成功后由微信返回的委托代扣协议id，选择contract_id查询，则此参数必填
-        :param plan_id: 可选 模板id 商户在微信商户平台配置的代扣模版id，选择plan_id+contract_code查询，则此参数必填
+        :param plan_id: 可选 模板id 商户在微信商户平台配置的代扣模板id，选择plan_id+contract_code查询，则此参数必填
         :param contract_code: 可选 签约协议号 商户请求签约时传入的签约协议号，商户侧须唯一。选择plan_id+contract_code查询，则此参数必填
         :param openid: 可选 openid 用户标识，必须保证与传入appid对应
         :param version: 版本号 固定值1.0

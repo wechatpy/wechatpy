@@ -148,7 +148,7 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
 
-        :param template_id: 代码库中的代码模版 ID
+        :param template_id: 代码库中的代码模板 ID
         :param ext_json: 第三方自定义的配置
         :param version: 代码版本号，开发者可自定义
         :param description: 代码描述，开发者可自定义
