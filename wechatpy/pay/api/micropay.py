@@ -8,7 +8,7 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatMicroPay(BaseWeChatPayAPI):
-    def create(self, body, total_fee, auth_code, client_ip=None, out_trade_no=None, detail=None, attach=None,
+    def create(self, body, total_fee, auth_code, client_ip=None, spbill_create_ip=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', goods_tag=None, device_info=None, limit_pay=None):
         """
         刷卡支付接口
@@ -16,7 +16,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         :param body: 商品描述
         :param detail: 可选，商品详情
         :param attach: 可选，附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-        :param client_ip: 可选，APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
+        :param spbill_create_ip: 可选，APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
         :param out_trade_no: 可选，商户订单号，默认自动生成
         :param total_fee: 总金额，单位分
         :param fee_type: 可选，符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -41,7 +41,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
             'out_trade_no': out_trade_no,
             'total_fee': total_fee,
             'fee_type': fee_type,
-            'spbill_create_ip': client_ip or get_external_ip(),
+            'spbill_create_ip': spbill_create_ip or client_ip or get_external_ip(),
             'goods_tag': goods_tag,
             'limit_pay': limit_pay,
             'auth_code': auth_code,

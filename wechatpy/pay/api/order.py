@@ -13,7 +13,7 @@ from wechatpy.pay.utils import calculate_signature
 
 class WeChatOrder(BaseWeChatPayAPI):
 
-    def create(self, trade_type, body, total_fee, notify_url, client_ip=None,
+    def create(self, trade_type, body, total_fee, notify_url, client_ip=None, spbill_create_ip=None,
                user_id=None, out_trade_no=None, detail=None, attach=None,
                fee_type='CNY', time_start=None, time_expire=None, goods_tag=None,
                product_id=None, device_info=None, limit_pay=None, scene_info=None, sub_user_id=None):
@@ -24,7 +24,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param body: 商品描述
         :param total_fee: 总金额，单位分
         :param notify_url: 接收微信支付异步通知回调地址
-        :param client_ip: 可选，APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
+        :param spbill_create_ip: 可选，APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
         :param user_id: 可选，用户在商户appid下的唯一标识。trade_type=JSAPI和appid已设定，此参数必传
         :param sub_user_id: 可选，小程序appid下的唯一标识。trade_type=JSAPI和sub_appid已设定，此参数必传
         :param out_trade_no: 可选，商户订单号，默认自动生成
@@ -65,7 +65,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'out_trade_no': out_trade_no,
             'fee_type': fee_type,
             'total_fee': total_fee,
-            'spbill_create_ip': client_ip or get_external_ip(),
+            'spbill_create_ip': spbill_create_ip or client_ip or get_external_ip(),
             'time_start': time_start.strftime('%Y%m%d%H%M%S'),
             'time_expire': time_expire.strftime('%Y%m%d%H%M%S'),
             'goods_tag': goods_tag,
