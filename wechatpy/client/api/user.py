@@ -76,7 +76,7 @@ class WeChatUser(BaseWeChatAPI):
             from wechatpy import WeChatClient
 
             client = WeChatClient('appid', 'secret')
-            for openid in client.user.get_followers():
+            for openid in client.user.iter_followers():
                 print(openid)
 
         """
