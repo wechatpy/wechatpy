@@ -80,18 +80,18 @@ class WeChatUser(BaseWeChatAPI):
                 print(openid)
 
         """
+        first_user_id = None
         while True:
-            first_user_id = getattr(self, "_current_iter_openid", None)
             follower_data = self.get_followers(first_user_id)
+            first_user_id = follower_data["next_openid"]
             # 微信有个bug(或者叫feature)，没有下一页，也返回next_openid这个字段
             # 所以要通过total_count和data的长度比较判断(比较麻烦，并且不稳定)
             # 或者获得结果前先判断data是否存在
             if 'data' not in follower_data:
                 raise StopIteration
-            self._current_iter_openid = follower_data["next_openid"]
             for openid in follower_data['data']['openid']:
                 yield openid
-            if not follower_data['next_openid']:
+            if not first_user_id:
                 raise StopIteration
 
     def update_remark(self, user_id, remark):
