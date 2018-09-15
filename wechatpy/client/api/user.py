@@ -38,7 +38,7 @@ class WeChatUser(BaseWeChatAPI):
 
     def get_followers(self, first_user_id=None):
         """
-        获取用户列表
+        获取一页用户列表(当关注用户过多的情况下，这个接口只会返回一部分用户)
 
         详情请参考
         https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840
@@ -61,6 +61,38 @@ class WeChatUser(BaseWeChatAPI):
             'user/get',
             params=params
         )
+
+    def iter_followers(self):
+        """
+        获取所有的用户openid列表
+
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840
+
+        :return: 返回一个迭代器，可以用for进行循环，得到openid
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            for openid in client.user.iter_followers():
+                print(openid)
+
+        """
+        first_user_id = None
+        while True:
+            follower_data = self.get_followers(first_user_id)
+            first_user_id = follower_data["next_openid"]
+            # 微信有个bug(或者叫feature)，没有下一页，也返回next_openid这个字段
+            # 所以要通过total_count和data的长度比较判断(比较麻烦，并且不稳定)
+            # 或者获得结果前先判断data是否存在
+            if 'data' not in follower_data:
+                raise StopIteration
+            for openid in follower_data['data']['openid']:
+                yield openid
+            if not first_user_id:
+                raise StopIteration
 
     def update_remark(self, user_id, remark):
         """
