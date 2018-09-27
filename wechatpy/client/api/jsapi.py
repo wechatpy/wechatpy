@@ -83,7 +83,7 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         ticket = self.session.get(jsapi_card_ticket_key)
         expires_at = self.session.get(jsapi_card_ticket_expire_at_key, 0)
-        if not ticket or expires_at < int(time.time()):
+        if not ticket or int(expires_at) < int(time.time()):
             ticket_response = self.get_ticket('wx_card')
             ticket = ticket_response['ticket']
             expires_at = int(time.time()) + int(ticket_response['expires_in'])
