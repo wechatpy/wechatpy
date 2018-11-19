@@ -689,3 +689,4 @@ class UserEnterTempSessionEvent(BaseEvent):
     """
     event = 'user_enter_tempsession'
     session_from = StringField('SessionFrom')
+    
