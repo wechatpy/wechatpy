@@ -319,6 +319,16 @@ class WeChatComponent(BaseWeChatComponent):
                 self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
             )
 
+    def get_pre_auth_url_m(self, redirect_uri):
+        """
+        快速获取pre auth url，可以直接微信中发送该链接，直接授权
+        """
+        url = "https://mp.weixin.qq.com/safe/bindcomponent"
+        redirect_uri = quote(redirect_uri, safe='')
+        return "{0}?action=bindcomponent&auth_type=3&no_scan=1&component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
+            url, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
+        )
+
     def create_preauthcode(self):
         """
         获取预授权码
