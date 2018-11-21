@@ -323,9 +323,9 @@ class WeChatComponent(BaseWeChatComponent):
         """
         快速获取pre auth url，可以直接微信中发送该链接，直接授权
         """
-        url = "https://mp.weixin.qq.com/safe/bindcomponent"
+        url = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&auth_type=3&no_scan=1&"
         redirect_uri = quote(redirect_uri, safe='')
-        return "{0}?action=bindcomponent&auth_type=3&no_scan=1&component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
+        return "{0}component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
             url, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
         )
 
