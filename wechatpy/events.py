@@ -692,7 +692,7 @@ class UserEnterTempSessionEvent(BaseEvent):
 
 
 @register_event('view_miniprogram')
-class ViewMiniprogramEvent(BaseEvent):
+class ViewMiniProgramEvent(BaseEvent):
     """
     从菜单进入小程序事件
     """
