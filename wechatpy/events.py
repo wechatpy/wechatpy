@@ -690,3 +690,10 @@ class UserEnterTempSessionEvent(BaseEvent):
     event = 'user_enter_tempsession'
     session_from = StringField('SessionFrom')
 
+
+@register_event('view_miniprogram')
+class ViewMiniprogramEvent(BaseEvent):
+    """
+    从菜单进入小程序事件
+    """
+    event = 'view_miniprogram'
