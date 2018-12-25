@@ -20,6 +20,7 @@ import xmltodict
 from six.moves.urllib.parse import quote
 
 from wechatpy.client import WeChatComponentClient
+from wechatpy.constants import WeChatErrorCode
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.exceptions import APILimitedException, WeChatClientException, WeChatOAuthException
 from wechatpy.fields import DateTimeField, StringField
@@ -114,7 +115,8 @@ class BaseWeChatComponent(object):
                  component_appsecret,
                  component_token,
                  encoding_aes_key,
-                 session=None):
+                 session=None,
+                 auto_retry=True):
         """
         :param component_appid: 第三方平台appid
         :param component_appsecret: 第三方平台appsecret
@@ -127,6 +129,7 @@ class BaseWeChatComponent(object):
         self.crypto = WeChatCrypto(
             component_token, encoding_aes_key, component_appid)
         self.session = session or MemoryStorage()
+        self.auto_retry = auto_retry
 
         if isinstance(session, six.string_types):
             from shove import Shove
@@ -187,8 +190,11 @@ class BaseWeChatComponent(object):
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
-            errmsg = result['errmsg']
-            if errcode == 42001:
+            errmsg = result.get('errmsg', errcode)
+            if self.auto_retry and errcode in (
+                    WeChatErrorCode.INVALID_CREDENTIAL.value,
+                    WeChatErrorCode.INVALID_ACCESS_TOKEN.value,
+                    WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value):
                 logger.info('Component access token expired, fetch a new one and retry request')
                 self.fetch_access_token()
                 kwargs['params']['component_access_token'] = self.session.get(
@@ -199,7 +205,7 @@ class BaseWeChatComponent(object):
                     url_or_endpoint=url,
                     **kwargs
                 )
-            elif errcode == 45009:
+            elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
                 raise APILimitedException(
                     errcode,
@@ -216,7 +222,6 @@ class BaseWeChatComponent(object):
                     request=res.request,
                     response=res
                 )
-
         return result
 
     def fetch_access_token(self):
