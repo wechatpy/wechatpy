@@ -80,6 +80,10 @@ class WeChatOAuthException(WeChatClientException):
     """WeChat OAuth API exception class"""
     pass
 
+class WeChatComponentOAuthException(WeChatClientException):
+    """WeChat Component OAuth API exception class"""
+    pass
+
 
 class WeChatPayException(WeChatClientException):
     """WeChat Pay API exception class"""

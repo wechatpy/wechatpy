@@ -22,7 +22,8 @@ from six.moves.urllib.parse import quote
 from wechatpy.client import WeChatComponentClient
 from wechatpy.constants import WeChatErrorCode
 from wechatpy.crypto import WeChatCrypto
-from wechatpy.exceptions import APILimitedException, WeChatClientException, WeChatOAuthException
+from wechatpy.exceptions import APILimitedException, WeChatClientException, WeChatOAuthException, \
+    WeChatComponentOAuthException
 from wechatpy.fields import DateTimeField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
@@ -720,19 +721,46 @@ class ComponentOAuth(object):
                 request=reqe.request,
                 response=reqe.response
             )
+
+        return self._handle_result(res, method=method, url=url, **kwargs)
+
+    def _handle_result(self, res, method=None, url=None, **kwargs):
         result = json.loads(res.content.decode('utf-8', 'ignore'), strict=False)
+        if 'errcode' in result:
+            result['errcode'] = int(result['errcode'])
 
         if 'errcode' in result and result['errcode'] != 0:
             errcode = result['errcode']
-            errmsg = result['errmsg']
-            raise WeChatOAuthException(
-                errcode,
-                errmsg,
-                client=self,
-                request=res.request,
-                response=res
-            )
-
+            errmsg = result.get('errmsg', errcode)
+            if self.component.auto_retry and errcode in (
+                    WeChatErrorCode.INVALID_CREDENTIAL.value,
+                    WeChatErrorCode.INVALID_ACCESS_TOKEN.value,
+                    WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value):
+                logger.info('Component access token expired, fetch a new one and retry request')
+                self.component.fetch_access_token()
+                kwargs['params']['component_access_token'] = self.component.access_token
+                return self._request(
+                    method=method,
+                    url_or_endpoint=url,
+                    **kwargs
+                )
+            elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
+                # api freq out of limit
+                raise APILimitedException(
+                    errcode,
+                    errmsg,
+                    client=self,
+                    request=res.request,
+                    response=res
+                )
+            else:
+                raise WeChatComponentOAuthException(
+                    errcode,
+                    errmsg,
+                    client=self,
+                    request=res.request,
+                    response=res
+                )
         return result
 
     def _get(self, url, **kwargs):
