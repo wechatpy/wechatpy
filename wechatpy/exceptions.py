@@ -81,6 +81,11 @@ class WeChatOAuthException(WeChatClientException):
     pass
 
 
+class WeChatComponentOAuthException(WeChatClientException):
+    """WeChat Component OAuth API exception class"""
+    pass
+
+
 class WeChatPayException(WeChatClientException):
     """WeChat Pay API exception class"""
     def __init__(self, return_code, result_code=None, return_msg=None,
