@@ -77,7 +77,7 @@ class WeChatDepartment(BaseWeChatAPI):
                     'id': id
                 }
             )
-        return res['department'] 
+        return res['department']
 
     def get_users(self, id, status=0, fetch_child=0):
         """
