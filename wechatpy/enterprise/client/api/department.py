@@ -68,7 +68,7 @@ class WeChatDepartment(BaseWeChatAPI):
         详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理部门
         :return: 部门列表
         """
-        if id == None:
+        if id is None:
             res = self._get('department/list')
         else:
             res = self._get(
