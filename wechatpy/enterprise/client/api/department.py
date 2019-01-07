@@ -62,14 +62,21 @@ class WeChatDepartment(BaseWeChatAPI):
             }
         )
 
-    def get(self):
+    def get(self, id=None):
         """
-        获取部门列表
+        获取指定部门列表
         详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=管理部门
-
         :return: 部门列表
         """
-        res = self._get('department/list')
+        if id is None:
+            res = self._get('department/list')
+        else:
+            res = self._get(
+                'department/list',
+                params={
+                    'id': id
+                }
+            )
         return res['department']
 
     def get_users(self, id, status=0, fetch_child=0):
