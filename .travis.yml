@@ -10,12 +10,6 @@ matrix:
     - env: TOX_ENV=py27-pycrypto
       dist: trusty
       python: 2.7
-    - env: TOX_ENV=py34-cryptography
-      dist: trusty
-      python: 3.4
-    - env: TOX_ENV=py34-pycrypto
-      dist: trusty
-      python: 3.4
     - env: TOX_ENV=py35-cryptography
       python: 3.5
     - env: TOX_ENV=py35-pycrypto
