@@ -12,7 +12,7 @@ except ImportError:
     try:
         from wechatpy.crypto.pycrypto import WeChatCipher
     except ImportError:
-        raise Exception('You must install either cryptography or PyCrypto!')
+        raise Exception('You must install either cryptography or pycryptodome!')
 
 
 class BasePrpCrypto(object):
