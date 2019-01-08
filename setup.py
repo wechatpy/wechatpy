@@ -82,6 +82,6 @@ setup(
     ],
     extras_require={
         'cryptography': ['cryptography'],
-        'pycrypto': ['pycrypto'],
+        'pycrypto': ['pycryptodome'],
     }
 )
