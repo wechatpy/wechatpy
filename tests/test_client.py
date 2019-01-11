@@ -854,3 +854,11 @@ class WeChatClientTestCase(unittest.TestCase):
         self.assertEqual(2, len(res))
         self.assertEqual('o2FwqwI9xCsVadFah_HtpPfaR-X4', res[0]['new_openid'])
         self.assertEqual('ori_openid error', res[1]['err_msg'])
+
+    def test_code_to_session(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wxa.code_to_session('023dUeGW1oeGOZ0JXvHW1SDVFW1dUeGu')
+        self.assertIn('session_key', res)
+        self.assertEqual('D1ZWEygStjuLCnZ9IN2l4Q==', res['session_key'])
+        self.assertEqual('o16wA0b4AZKzgVJR3MBwoUdTfU_E', res['openid'])
+        self.assertEqual('or4zX05h_Ykt4ju0TUfx3CQsvfTo', res['unionid'])
