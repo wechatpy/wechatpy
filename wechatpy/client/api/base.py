@@ -28,3 +28,7 @@ class BaseWeChatAPI(object):
     @property
     def appid(self):
         return self._client.appid
+
+    @property
+    def secret(self):
+        return self._client.secret
