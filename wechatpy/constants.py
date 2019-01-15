@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from enum import Enum
+from enum import Enum, IntEnum, unique
 
 
+@unique
 class UserFormInfoFlag(Enum):
     """ 微信卡券会员卡格式化的选项类型 """
     MOBILE = 'USER_FORM_INFO_FLAG_MOBILE'  # 手机号
@@ -19,18 +20,16 @@ class UserFormInfoFlag(Enum):
     HABIT = 'USER_FORM_INFO_FLAG_HABIT'  # 兴趣爱好
 
 
-class ReimburseStatus(object):
+@unique
+class ReimburseStatus(Enum):
     """ 发票报销状态 """
     INIT = 'INVOICE_REIMBURSE_INIT'  # 初始状态，未锁定，可提交报销
     LOCK = 'INVOICE_REIMBURSE_LOCK'  # 已锁定，无法重复提交报销
     CLOSURE = 'INVOICE_REIMBURSE_CLOSURE'  # 已核销，从用户卡包中移除
 
-    @classmethod
-    def values(cls):
-        return {cls.INIT, cls.LOCK, cls.CLOSURE}
 
-
-class WeChatErrorCode(Enum):
+@unique
+class WeChatErrorCode(IntEnum):
     """
     微信接口返回码，全局返回码请参考 https://mp.weixin.qq.com/wiki?id=mp1433747234
     """
