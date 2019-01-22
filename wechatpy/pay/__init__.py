@@ -37,7 +37,6 @@ class WeChatPay(object):
     :param timeout: 可选，请求超时时间，单位秒，默认无超时设置
     :param sandbox: 可选，是否使用测试环境，默认为 False
     """
-    _http = requests.Session()
 
     redpack = api.WeChatRedpack()
     """红包接口"""
@@ -81,6 +80,7 @@ class WeChatPay(object):
         self.timeout = timeout
         self.sandbox = sandbox
         self._sandbox_api_key = None
+        self._http = requests.Session()
 
     def _fetch_sandbox_api_key(self):
         nonce_str = random_string(32)
