@@ -38,6 +38,31 @@ class WeChatJSAPI(BaseWeChatAPI):
             self.session.set(expires_at_key, expires_at)
         return ticket
 
+    def get_agent_jsapi_ticket(self):
+        """
+        获取企业微信 JS-SDK 应用 ticket
+
+        该方法会通过 session 对象自动缓存管理 ticket
+
+        :return: ticket
+        """
+        ticket_key = '{}_agent_jsapi_ticket'.format(self._client.corp_id)
+        expires_at_key = '{}_agent_jsapi_ticket_expires_at'.format(self._client.corp_id)
+        ticket = self.session.get(ticket_key)
+        expires_at = self.session.get(expires_at_key, 0)
+        if not ticket or expires_at < int(time.time()):
+            jsapi_ticket = self._get(
+                'https://qyapi.weixin.qq.com/cgi-bin/ticket/get',
+                params={
+                    'type': 'agent_config'
+                }
+            )
+            ticket = jsapi_ticket['ticket']
+            expires_at = int(time.time()) + int(jsapi_ticket['expires_in'])
+            self.session.set(ticket_key, ticket)
+            self.session.set(expires_at_key, expires_at)
+        return ticket
+
     def get_jsapi_signature(self, noncestr, ticket, timestamp, url):
         """
         获取 JSAPI 签名
