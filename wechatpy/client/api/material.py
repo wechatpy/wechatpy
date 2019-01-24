@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from wechatpy._compat import json
+from wechatpy.utils import json
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -10,9 +10,10 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         新增永久图文素材
         详情请参考
-        http://mp.weixin.qq.com/wiki/14/7e6c03263063f4813141c3e17dd4350a.html
+        https://mp.weixin.qq.com/wiki?id=mp1494572718_WzHIY
 
         :param articles: 图文素材数组
+        :type articles: list[dict]
         :return: 返回的 JSON 数据包
         """
         articles_data = []
@@ -24,7 +25,9 @@ class WeChatMaterial(BaseWeChatAPI):
                 'author': article.get('author', ''),
                 'content_source_url': article.get('content_source_url', ''),
                 'digest': article.get('digest', ''),
-                'show_cover_pic': article.get('show_cover_pic', 0)
+                'show_cover_pic': article.get('show_cover_pic', 0),
+                'need_open_comment': int(article.get('need_open_comment', False)),
+                'only_fans_can_comment': int(article.get('only_fans_can_comment', False)),
             })
         return self._post(
             'material/add_news',
@@ -76,8 +79,9 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         def _processor(res):
             if isinstance(res, dict):
-                # 图文素材
-                return res.get('news_item', [])
+                if 'news_item' in res:
+                    # 图文素材
+                    return res['news_item']
             return res
 
         res = self._post(
@@ -105,6 +109,35 @@ class WeChatMaterial(BaseWeChatAPI):
             }
         )
 
+    def update_article(self, media_id, index, article):
+        """
+        修改永久图文素材
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738732
+
+        :param media_id: 要修改的图文消息的 id
+        :param index: 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为 0
+        :param article: 图文素材
+        :return: 返回的 JSON 数据包
+        """
+        article_data = {
+            'thumb_media_id': article['thumb_media_id'],
+            'title': article['title'],
+            'content': article['content'],
+            'author': article.get('author', ''),
+            'content_source_url': article.get('content_source_url', ''),
+            'digest': article.get('digest', ''),
+            'show_cover_pic': article.get('show_cover_pic', 0)
+        }
+        return self._post(
+            'material/update_news',
+            data={
+                'media_id': media_id,
+                'index': index,
+                'articles': article_data
+            }
+        )
+
     def update_articles(self, media_id, index, articles):
         """
         修改永久图文素材
@@ -116,25 +149,7 @@ class WeChatMaterial(BaseWeChatAPI):
         :param articles: 图文素材数组
         :return: 返回的 JSON 数据包
         """
-        articles_data = []
-        for article in articles:
-            articles_data.append({
-                'thumb_media_id': article['thumb_media_id'],
-                'title': article['title'],
-                'content': article['content'],
-                'author': article.get('author', ''),
-                'content_source_url': article.get('content_source_url', ''),
-                'digest': article.get('digest', ''),
-                'show_cover_pic': article.get('show_cover_pic', 0)
-            })
-        return self._post(
-            'material/update_news',
-            data={
-                'media_id': media_id,
-                'index': index,
-                'articles': articles_data
-            }
-        )
+        return self.update_article(media_id, index, articles[index])
 
     def batchget(self, media_type, offset=0, count=20):
         """
@@ -165,3 +180,101 @@ class WeChatMaterial(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get('material/get_materialcount')
+
+    def open_comment(self, msg_data_id, index=1):
+        """
+        打开已群发文章评论
+        https://mp.weixin.qq.com/wiki?id=mp1494572718_WzHIY
+        """
+        return self._post(
+            'comment/open',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+            })
+
+    def close_comment(self, msg_data_id, index=1):
+        """
+        关闭已群发文章评论
+        """
+        return self._post(
+            'comment/close',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+            })
+
+    def list_comment(self, msg_data_id, index=1, begin=0, count=50, type=0):
+        """
+        查看指定文章的评论数据
+        """
+        return self._post(
+            'comment/list',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'begin': begin,
+                'count': count,
+                'type': type
+            })
+
+    def markelect_comment(self, msg_data_id, index, user_comment_id):
+        """
+        将评论标记精选
+        """
+        return self._post(
+            'comment/markelect',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
+
+    def unmarkelect_comment(self, msg_data_id, index, user_comment_id):
+        """
+        将评论取消精选
+        """
+        return self._post(
+            'comment/unmarkelect',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
+
+    def delete_comment(self, msg_data_id, index, user_comment_id):
+        """
+        删除评论
+        """
+        return self._post(
+            'comment/delete',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })
+
+    def add_reply_comment(self, msg_data_id, index, user_comment_id, content):
+        """
+        回复评论
+        """
+        return self._post(
+            'comment/reply/add',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+                'content': content
+            })
+
+    def delete_reply_comment(self, msg_data_id, index, user_comment_id):
+        """
+        删除回复
+        """
+        return self._post(
+            'comment/reply/delete',
+            data={
+                'msg_data_id': msg_data_id,
+                'index': index,
+                'user_comment_id': user_comment_id,
+            })

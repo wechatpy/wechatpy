@@ -22,6 +22,10 @@ class BaseWeChatPayAPI(object):
         return self._client.appid
 
     @property
+    def sub_appid(self):
+        return self._client.sub_appid
+
+    @property
     def mch_id(self):
         return self._client.mch_id
 

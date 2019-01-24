@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-try:
-    from pkgutil import extend_path
-    __path__ = extend_path(__path__, __name__)
-except ImportError:
-    from pkg_resources import declare_namespace
-    declare_namespace(__name__)
 
 import time
 
@@ -22,30 +16,34 @@ class WeChatClient(BaseWeChatClient):
 
     API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
 
-    menu = api.WeChatMenu()
-    user = api.WeChatUser()
-    group = api.WeChatGroup()
-    media = api.WeChatMedia()
     card = api.WeChatCard()
-    qrcode = api.WeChatQRCode()
-    message = api.WeChatMessage()
-    misc = api.WeChatMisc()
-    merchant = api.WeChatMerchant()
     customservice = api.WeChatCustomService()
     datacube = api.WeChatDataCube()
+    device = api.WeChatDevice()
+    group = api.WeChatGroup()
+    invoice = api.WeChatInvoice()
     jsapi = api.WeChatJSAPI()
     material = api.WeChatMaterial()
+    media = api.WeChatMedia()
+    menu = api.WeChatMenu()
+    merchant = api.WeChatMerchant()
+    message = api.WeChatMessage()
+    misc = api.WeChatMisc()
+    poi = api.WeChatPoi()
+    qrcode = api.WeChatQRCode()
+    scan = api.WeChatScan()
     semantic = api.WeChatSemantic()
     shakearound = api.WeChatShakeAround()
-    device = api.WeChatDevice()
+    tag = api.WeChatTag()
     template = api.WeChatTemplate()
-    poi = api.WeChatPoi()
+    user = api.WeChatUser()
     wifi = api.WeChatWiFi()
+    wxa = api.WeChatWxa()
 
     def __init__(self, appid, secret, access_token=None,
-                 session=None, timeout=None):
+                 session=None, timeout=None, auto_retry=True):
         super(WeChatClient, self).__init__(
-            appid, access_token, session, timeout
+            appid, access_token, session, timeout, auto_retry
         )
         self.appid = appid
         self.secret = secret
@@ -77,17 +75,19 @@ class WeChatComponentClient(WeChatClient):
                  refresh_token=None, session=None, timeout=None):
         # 未用到secret，所以这里没有
         super(WeChatComponentClient, self).__init__(
-            appid, '', access_token, session, timeout
+            appid, '', '', session, timeout
         )
         self.appid = appid
         self.component = component
         # 如果公众号是刚授权，外部还没有缓存access_token和refresh_token
         # 可以传入这两个值，session 会缓存起来。
         # 如果外部已经缓存，这里只需要传入 appid，component和session即可
-        if access_token:
+        cache_access_token = self.session.get(self.access_token_key)
+
+        if access_token and (not cache_access_token or cache_access_token != access_token):
             self.session.set(self.access_token_key, access_token, 7200)
         if refresh_token:
-            self.session.set(self.refresh_token_key, refresh_token, 7200)
+            self.session.set(self.refresh_token_key, refresh_token)
 
     @property
     def access_token_key(self):
@@ -128,11 +128,6 @@ class WeChatComponentClient(WeChatClient):
         self.session.set(
             self.access_token_key,
             result['authorizer_access_token'],
-            expires_in
-        )
-        self.session.set(
-            self.refresh_token_key,
-            result['authorizer_refresh_token'],
             expires_in
         )
         self.expires_at = int(time.time()) + expires_in

@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals, print_function
+from __future__ import absolute_import, print_function, unicode_literals
+
 import os
 import unittest
 from datetime import datetime
 
 import six
-from httmock import urlmatch, HTTMock, response
+from httmock import HTTMock, response, urlmatch
 
 from wechatpy import WeChatClient
 from wechatpy.exceptions import WeChatClientException
-from wechatpy._compat import json
-
+from wechatpy.utils import json
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')
@@ -41,7 +41,6 @@ def wechat_api_mock(url, request):
 
 
 class WeChatClientTestCase(unittest.TestCase):
-
     app_id = '123456'
     secret = '123456'
 
@@ -155,6 +154,46 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.message.send_articles(1, articles)
             self.assertEqual(0, result['errcode'])
 
+    def test_send_card_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_card(1, '123456')
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mini_program_page(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mini_program_page(1, {})
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_text_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_text([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_image_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_image([1], '123456', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_voice_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_voice([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_video_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_video([1], 'test', title='title', description='desc', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_article_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_article([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
+    def test_send_mass_card_message(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.message.send_mass_card([1], 'test', is_to_all=True)
+            self.assertEqual(0, result['errcode'])
+
     def test_get_mass_message(self):
         with HTTMock(wechat_api_mock):
             result = self.client.message.get_mass(201053012)
@@ -241,6 +280,17 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(user_list[0]['openid'], result[0]['openid'])
             self.assertEqual('iWithery', result[0]['nickname'])
             self.assertEqual(user_list[1]['openid'], result[1]['openid'])
+
+    def test_get_user_info_batch_openid_list(self):
+        user_list = [
+            'otvxTs4dckWG7imySrJd6jSi0CWE',
+            'otvxTs_JZ6SEiP0imdhpi50fuSZg'
+        ]
+        with HTTMock(wechat_api_mock):
+            result = self.client.user.get_batch(user_list)
+            self.assertEqual(user_list[0], result[0]['openid'])
+            self.assertEqual('iWithery', result[0]['nickname'])
+            self.assertEqual(user_list[1], result[1]['openid'])
 
     def test_create_qrcode(self):
         data = {
@@ -354,7 +404,7 @@ class WeChatClientTestCase(unittest.TestCase):
                 987654321,
                 1
             )
-            self.assertEqual(2, len(result))
+            self.assertEqual(2, len(result['recordlist']))
 
     def test_datacube_get_user_summary(self):
         with HTTMock(wechat_api_mock):
@@ -492,7 +542,7 @@ class WeChatClientTestCase(unittest.TestCase):
             )
             self.assertEqual(1, len(result))
 
-    def test_jsapi_get_ticket(self):
+    def test_jsapi_get_ticket_response(self):
         with HTTMock(wechat_api_mock):
             result = self.client.jsapi.get_ticket()
             self.assertEqual(
@@ -515,6 +565,39 @@ class WeChatClientTestCase(unittest.TestCase):
         self.assertEqual(
             '0f9de62fce790f9a083d5c99e95740ceb90c27ed',
             signature
+        )
+
+    def test_jsapi_get_jsapi_card_ticket(self):
+        """card_ticket 与 jsapi_ticket 的 api 都相同，除了请求参数 type 为 wx_card
+        所以这里使用与 `test_jsapi_get_ticket` 相同的测试文件"""
+        with HTTMock(wechat_api_mock):
+            ticket = self.client.jsapi.get_jsapi_card_ticket()
+            self.assertEqual(
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
+                ticket
+            )
+            self.assertTrue(7200 < self.client.session.get('{0}_jsapi_card_ticket_expires_at'.format(self.client.appid)))
+            self.assertEqual(
+                self.client.session.get('{0}_jsapi_card_ticket'.format(self.client.appid)),
+                'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',
+            )
+
+    def test_jsapi_get_jsapi_card_params(self):
+        """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
+        noncestr = 'Wm3WZYTPz0wzccnW'
+        card_ticket = 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg'
+        timestamp = 1414587457
+        signature_dict = self.client.jsapi.get_jsapi_card_params(
+            noncestr=noncestr,
+            card_ticket=card_ticket,
+            timestamp=timestamp,
+            card_type='GROUPON',
+        )
+        self.assertEqual(
+            {'card_type': 'GROUPON', 'noncestr': 'Wm3WZYTPz0wzccnW',
+             'api_ticket': 'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg',
+             'appid': '123456', 'timestamp': 1414587457, 'sign': 'c47b1fb500eb35d8f2f9b9375b4491089df953e2'},
+            signature_dict
         )
 
     def test_menu_get_menu_info(self):
@@ -655,6 +738,12 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(16, res['totalcount'])
             self.assertEqual(1, res['pageindex'])
 
+    def test_wifi_get_shop(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wifi.get_shop(1)
+            self.assertEqual(1, res['bar_type'])
+            self.assertEqual(2, res['ap_count'])
+
     def test_wifi_add_device(self):
         with HTTMock(wechat_api_mock):
             res = self.client.wifi.add_device(
@@ -702,3 +791,74 @@ class WeChatClientTestCase(unittest.TestCase):
             'http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0',  # NOQA
             res
         )
+
+    def test_scan_get_merchant_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.get_merchant_info()
+        self.assertEqual(8888, res['verified_firm_code_list'][0])
+
+    def test_scan_create_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.create_product({
+                "keystandard": "ean13",
+                "keystr": "6900000000000",
+            })
+        self.assertEqual('5g0B4A90aqc', res['pid'])
+
+    def test_scan_publish_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.publish_product('ean13', '6900873042720')
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_unpublish_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.unpublish_product('ean13', '6900873042720')
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_set_test_whitelist(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.set_test_whitelist(['openid1'], ['messense'])
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_get_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.get_product('ean13', '6900873042720')
+        assert 'brand_info' in res
+
+    def test_scan_list_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.list_product()
+        self.assertEqual(2, res['total'])
+
+    def test_scan_update_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.update_product({
+                "keystandard": "ean13",
+                "keystr": "6900000000000",
+            })
+        self.assertEqual('5g0B4A90aqc', res['pid'])
+
+    def test_scan_clear_product(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.clear_product('ean13', '6900873042720')
+        self.assertEqual(0, res['errcode'])
+
+    def test_scan_check_ticket(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.scan.check_ticket('Ym1haDlvNXJqY3Ru1')
+        self.assertEqual('otAzGjrS4AYCmeJM1GhEOcHXXTAo', res['openid'])
+
+    def test_change_openid(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.user.change_openid('xxxxx', ['oEmYbwN-n24jxvk4Sox81qedINkQ', 'oEmYbwH9uVd4RKJk7ZZg6SzL6tTo'])
+        self.assertEqual(2, len(res))
+        self.assertEqual('o2FwqwI9xCsVadFah_HtpPfaR-X4', res[0]['new_openid'])
+        self.assertEqual('ori_openid error', res[1]['err_msg'])
+
+    def test_code_to_session(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wxa.code_to_session('023dUeGW1oeGOZ0JXvHW1SDVFW1dUeGu')
+        self.assertIn('session_key', res)
+        self.assertEqual('D1ZWEygStjuLCnZ9IN2l4Q==', res['session_key'])
+        self.assertEqual('o16wA0b4AZKzgVJR3MBwoUdTfU_E', res['openid'])
+        self.assertEqual('or4zX05h_Ykt4ju0TUfx3CQsvfTo', res['unionid'])

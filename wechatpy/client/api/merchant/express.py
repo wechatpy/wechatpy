@@ -5,6 +5,8 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class MerchantExpress(BaseWeChatAPI):
 
+    API_BASE_URL = 'https://api.weixin.qq.com/'
+
     def add(self, delivery_template):
         return self._post(
             'merchant/express/add',

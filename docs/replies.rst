@@ -1,7 +1,7 @@
-回复
-====
+.. _replies:
 
-目前 wechatpy 支持以下几种回复类型：`TextReply`, `ImageReply`, `VoiceReply`, `VideoReply`, `MusicReply`, `ArticlesReply` 和 `TransferCustomerServiceReply`
+回复
+======
 
 公共属性
 ----------
@@ -17,7 +17,9 @@ target  回复的目标用户
 time    回复的发送时间
 ======= ===============================
 
-每一种类型的回复都有一个 ``render`` 方法将回复转换成 XML 字符串 ::
+每一种类型的回复都有一个 ``render`` 方法将回复转换成 XML 字符串:
+
+.. code-block:: python
 
     from wechatpy.replies import TextReply
 
@@ -28,12 +30,21 @@ time    回复的发送时间
 
     xml = reply.render()
 
-你可以在构建 Reply 时传入一个合法的 Message 对象来自动生成 source 和 target ::
+你可以在构建 Reply 时传入一个合法的 Message 对象来自动生成 source 和 target:
+
+.. code-block:: python
 
     reply = TextReply(content='test', message=message)
 
-TextReply 文本回复
+
+.. module:: wechatpy.replies
+
+文本回复
 ------------------------
+
+.. autoclass:: TextReply
+   :members:
+   :inherited-members:
 
 ======= ===============================
 name    value
@@ -42,8 +53,12 @@ type    text
 content 回复正文
 ======= ===============================
 
-ImageReply 图片回复
+图片回复
 ------------------------
+
+.. autoclass:: ImageReply
+   :members:
+   :inherited-members:
 
 ========= ===============================
 name      value
@@ -52,8 +67,12 @@ type      image
 media_id  通过上传多媒体文件，得到的 id
 ========= ===============================
 
-VoiceReply 语音回复
+语音回复
 ------------------------
+
+.. autoclass:: VoiceReply
+   :members:
+   :inherited-members:
 
 ========= ===============================
 name      value
@@ -62,8 +81,12 @@ type      voice
 media_id  通过上传多媒体文件，得到的 id
 ========= ===============================
 
-VideoReply 视频回复
+视频回复
 ------------------------
+
+.. autoclass:: VideoReply
+   :members:
+   :inherited-members:
 
 ============= ===============================
 name          value
@@ -74,8 +97,12 @@ title         视频回复的标题
 description   视频回复的描述
 ============= ===============================
 
-MusicReply 音乐回复
+音乐回复
 -----------------------
+
+.. autoclass:: MusicReply
+   :members:
+   :inherited-members:
 
 ================ =======================================
 name             value
@@ -88,8 +115,12 @@ music_url        音乐链接
 hq_music_url     高质量音乐链接，WiFi 环境优先使用该链接播放音乐
 ================ =======================================
 
-ArticlesReply 图文回复
+图文回复
 -------------------------
+
+.. autoclass:: ArticlesReply
+   :members:
+   :inherited-members:
 
 ============= ===============================
 name          value
@@ -108,7 +139,9 @@ image         图片链接
 url           点击图文消息跳转链接
 ============= ===============================
 
-使用示例 ::
+使用示例:
+
+.. code-block:: python
 
     from wechatpy.replies import ArticlesReply
     from wechatpy.utils import ObjectDict
@@ -130,8 +163,12 @@ url           点击图文消息跳转链接
     reply.add_article(article)
 
 
-TransferCustomerServiceReply 将消息转发到多客服
+将消息转发到多客服
 -----------------------------------------------
+
+.. autoclass:: TransferCustomerServiceReply
+   :members:
+   :inherited-members:
 
 ============= ===============================
 name          value
@@ -139,12 +176,25 @@ name          value
 type          transfer_customer_service
 ============= ===============================
 
+回复空串
+-----------------------------------------------
+
+.. autoclass:: EmptyReply
+   :members:
+
+微信服务器不会对此作任何处理，并且不会发起重试,
+可以使用客服消息接口进行异步回复。
+
 快速构建回复
 -------------
 
-wechatpy 提供了一个便捷的 create_reply 函数用来快速构建回复 ::
+wechatpy 提供了一个便捷的 create_reply 函数用来快速构建回复 :
+
+.. code-block:: python
 
     from wechatpy import create_reply
+
+    empty_reply = create_reply('')
 
     text_reply = create_reply('text reply', message=message)
 

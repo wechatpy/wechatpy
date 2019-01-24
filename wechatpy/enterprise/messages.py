@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from wechatpy.fields import IntegerField
+from wechatpy.fields import IntegerField, StringField
 from wechatpy import messages
 
 
@@ -43,3 +43,9 @@ class VideoMessage(messages.VideoMessage):
 @register_message('location')
 class LocationMessage(messages.LocationMessage):
     agent = IntegerField('AgentID', 0)
+
+
+@register_message('link')
+class LinkMessage(messages.LinkMessage):
+    agent = IntegerField('AgentID', 0)
+    pic_url = StringField('PicUrl')

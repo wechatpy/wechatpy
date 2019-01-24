@@ -1,24 +1,30 @@
+dist: xenial
+sudo: required
 language: python
-
-# Use container-based infrastructure
-sudo: false
 
 matrix:
   include:
-    - env: TOX_ENV=py26-cryptography
-    - env: TOX_ENV=py26-pycrypto
     - env: TOX_ENV=py27-cryptography
+      dist: trusty
+      python: 2.7
     - env: TOX_ENV=py27-pycrypto
-    - env: TOX_ENV=py33-cryptography
-    - env: TOX_ENV=py33-pycrypto
-    - env: TOX_ENV=py34-cryptography
-    - env: TOX_ENV=py34-pycrypto
+      dist: trusty
+      python: 2.7
     - env: TOX_ENV=py35-cryptography
       python: 3.5
     - env: TOX_ENV=py35-pycrypto
       python: 3.5
+    - env: TOX_ENV=py36-cryptography
+      python: 3.6
+    - env: TOX_ENV=py36-pycrypto
+      python: 3.6
+    - env: TOX_ENV=py37-cryptography
+      python: 3.7
+    - env: TOX_ENV=py37-pycrypto
+      python: 3.7
     - env: TOX_ENV=pypy-cryptography
-    - env: TOX_ENV=pypy-pycrypto
+      dist: trusty
+      python: "pypy-5.3.1"
 
 services:
   - redis-server
@@ -38,6 +44,12 @@ after_success:
   - pip install scrutinizer-ocular codecov
   - ocular
   - codecov
+  - |
+    if [[ "${TRAVIS_TAG:-}" != "" && "$TOX_ENV" == "py36-cryptography" ]]; then
+      python3.6 -m pip install -U twine wheel;
+      python3.6 setup.py sdist bdist_wheel;
+      python3.6 -m twine upload --skip-existing dist/*;
+    fi
 
 notifications:
   webhooks:

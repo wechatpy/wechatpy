@@ -12,7 +12,15 @@ from __future__ import absolute_import, unicode_literals
 import string
 import random
 import hashlib
+
+try:
+    '''Use simplejson if we can, fallback to json otherwise.'''
+    import simplejson as json
+except ImportError:
+    import json  # NOQA
+
 import six
+import six.moves.urllib.parse as urlparse
 
 
 class ObjectDict(dict):
@@ -92,7 +100,7 @@ def to_binary(value, encoding='utf-8'):
         return value
     if isinstance(value, six.text_type):
         return value.encode(encoding)
-    return six.binary_type(value)
+    return to_text(value).encode(encoding)
 
 
 def timezone(zone):
@@ -117,3 +125,19 @@ def random_string(length=16):
     rule = string.ascii_letters + string.digits
     rand_list = random.sample(rule, length)
     return ''.join(rand_list)
+
+
+def get_querystring(uri):
+    """Get Querystring information from uri.
+
+    :param uri: uri
+    :return: querystring info or {}
+    """
+    parts = urlparse.urlsplit(uri)
+    return urlparse.parse_qs(parts.query)
+
+
+def byte2int(c):
+    if six.PY2:
+        return ord(c)
+    return c

@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import re
+
 import six
+from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
+from wechatpy.utils import random_string
 
 
 class WeChatMessage(BaseWeChatAPI):
@@ -30,6 +34,14 @@ class WeChatMessage(BaseWeChatAPI):
         :param content: 消息正文
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_text('openid', 'text')
+
         """
         data = {
             'touser': user_id,
@@ -49,6 +61,14 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 图片的媒体ID。 可以通过 :func:`upload_media` 上传。
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_image('openid', 'media_id')
+
         """
         data = {
             'touser': user_id,
@@ -70,6 +90,14 @@ class WeChatMessage(BaseWeChatAPI):
         :param media_id: 发送的语音的媒体ID。 可以通过 :func:`upload_media` 上传。
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_voice('openid', 'media_id')
+
         """
         data = {
             'touser': user_id,
@@ -94,6 +122,13 @@ class WeChatMessage(BaseWeChatAPI):
         :param description: 视频消息的描述
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.send_video('openid', 'media_id', 'title', 'description')
         """
         video_data = {
             'media_id': media_id,
@@ -182,26 +217,46 @@ class WeChatMessage(BaseWeChatAPI):
             }
         return self._send_custom_message(data, account=account)
 
-    def send_card(self, user_id, card_id, card_ext, account=None):
+    def send_card(self, user_id, card_id, card_ext=None, account=None):
         """
         发送卡券消息
 
         详情请参参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param card_id: 卡券 ID
-        :param card_ext: 卡券扩展信息
+        :param card_ext: 可选，卡券扩展信息
+        :param account: 可选，客服账号
+        :return: 返回的 JSON 数据包
+        """
+        wxcard = {
+            'card_id': card_id,
+        }
+        if card_ext:
+            wxcard['card_ext'] = card_ext
+        data = {
+            'touser': user_id,
+            'msgtype': 'wxcard',
+            'wxcard': wxcard,
+        }
+        return self._send_custom_message(data, account=account)
+
+    def send_mini_program_page(self, user_id, miniprogrampage, account=None):
+        """发送小程序卡片（要求小程序与公众号已关联）
+
+        详情请参参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
+
+        :param user_id: 用户 ID openid
+        :param miniprogrampage: 小程序卡片信息
         :param account: 可选，客服账号
         :return: 返回的 JSON 数据包
         """
         data = {
             'touser': user_id,
-            'msgtype': 'wxcard',
-            'wxcard': {
-                'card_id': card_id,
-                'card_ext': card_ext
-            }
+            'msgtype': 'miniprogrampage',
+            'miniprogrampage': miniprogrampage
         }
         return self._send_custom_message(data, account=account)
 
@@ -210,10 +265,18 @@ class WeChatMessage(BaseWeChatAPI):
         删除群发消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param msg_id: 要删除的群发消息 ID
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.delete_mass('message id')
+
         """
         return self._post(
             'message/mass/delete',
@@ -223,10 +286,14 @@ class WeChatMessage(BaseWeChatAPI):
         )
 
     def _send_mass_message(self, group_or_users, msg_type, msg,
-                           is_to_all=False, preview=False):
+                           is_to_all=False, preview=False,
+                           send_ignore_reprint=0, client_msg_id=None):
         data = {
-            'msgtype': msg_type
+            'msgtype': msg_type,
+            'send_ignore_reprint': send_ignore_reprint,
         }
+        if client_msg_id is not None:
+            data['clientmsgid'] = client_msg_id
         if not preview:
             if isinstance(group_or_users, (tuple, list)):
                 # send by user ids
@@ -258,18 +325,29 @@ class WeChatMessage(BaseWeChatAPI):
         )
 
     def send_mass_text(self, group_or_users, content,
-                       is_to_all=False, preview=False):
+                       is_to_all=False, preview=False,
+                       send_ignore_reprint=0, client_msg_id=None):
         """
         群发文本消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param content: 消息正文
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
+        :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
+                                    当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+                                    当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+                                    send_ignore_reprint 默认为0。
+        :type send_ignore_reprint: int
+        :param client_msg_id: 开发者侧群发 msgid，长度限制 64 字节
+        :type client_msg_id: str
 
         :return: 返回的 JSON 数据包
         """
@@ -282,22 +360,35 @@ class WeChatMessage(BaseWeChatAPI):
                 }
             },
             is_to_all,
-            preview
+            preview,
+            send_ignore_reprint,
+            client_msg_id,
         )
 
     def send_mass_image(self, group_or_users, media_id,
-                        is_to_all=False, preview=False):
+                        is_to_all=False, preview=False,
+                        send_ignore_reprint=0, client_msg_id=None):
         """
         群发图片消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 图片的媒体 ID。 可以通过 :func:`upload_media` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
+        :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
+                                    当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+                                    当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+                                    send_ignore_reprint 默认为0。
+        :type send_ignore_reprint: int
+        :param client_msg_id: 开发者侧群发 msgid，长度限制 64 字节
+        :type client_msg_id: str
 
         :return: 返回的 JSON 数据包
         """
@@ -310,22 +401,35 @@ class WeChatMessage(BaseWeChatAPI):
                 }
             },
             is_to_all,
-            preview
+            preview,
+            send_ignore_reprint,
+            client_msg_id,
         )
 
     def send_mass_voice(self, group_or_users, media_id,
-                        is_to_all=False, preview=False):
+                        is_to_all=False, preview=False,
+                        send_ignore_reprint=0, client_msg_id=None):
         """
         群发语音消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 语音的媒体 ID。可以通过 :func:`upload_media` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
+        :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
+                                    当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+                                    当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+                                    send_ignore_reprint 默认为0。
+        :type send_ignore_reprint: int
+        :param client_msg_id: 开发者侧群发 msgid，长度限制 64 字节
+        :type client_msg_id: str
 
         :return: 返回的 JSON 数据包
         """
@@ -338,24 +442,37 @@ class WeChatMessage(BaseWeChatAPI):
                 }
             },
             is_to_all,
-            preview
+            preview,
+            send_ignore_reprint,
+            client_msg_id,
         )
 
     def send_mass_video(self, group_or_users, media_id, title=None,
-                        description=None, is_to_all=False, preview=False):
+                        description=None, is_to_all=False, preview=False,
+                        send_ignore_reprint=0, client_msg_id=None):
         """
         群发视频消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 视频的媒体 ID。可以通过 :func:`upload_video` 上传。
         :param title: 视频标题
         :param description: 视频描述
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
+        :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
+                                    当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+                                    当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+                                    send_ignore_reprint 默认为0。
+        :type send_ignore_reprint: int
+        :param client_msg_id: 开发者侧群发 msgid，长度限制 64 字节
+        :type client_msg_id: str
 
         :return: 返回的 JSON 数据包
         """
@@ -373,22 +490,35 @@ class WeChatMessage(BaseWeChatAPI):
                 'mpvideo': video_data
             },
             is_to_all,
-            preview
+            preview,
+            send_ignore_reprint,
+            client_msg_id,
         )
 
     def send_mass_article(self, group_or_users, media_id,
-                          is_to_all=False, preview=False):
+                          is_to_all=False, preview=False,
+                          send_ignore_reprint=0, client_msg_id=None):
         """
         群发图文消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 图文的媒体 ID。可以通过 :func:`upload_articles` 上传。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
+        :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
+                                    当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+                                    当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+                                    send_ignore_reprint 默认为0。
+        :type send_ignore_reprint: int
+        :param client_msg_id: 开发者侧群发 msgid，长度限制 64 字节
+        :type client_msg_id: str
 
         :return: 返回的 JSON 数据包
         """
@@ -401,7 +531,9 @@ class WeChatMessage(BaseWeChatAPI):
                 }
             },
             is_to_all,
-            preview
+            preview,
+            send_ignore_reprint,
+            client_msg_id,
         )
 
     def get_mass(self, msg_id):
@@ -409,10 +541,18 @@ class WeChatMessage(BaseWeChatAPI):
         查询群发消息发送状态
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param msg_id: 群发消息后返回的消息id
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.message.get_mass('mass message id')
+
         """
         return self._post(
             'message/mass/get',
@@ -421,30 +561,30 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def send_template(self, user_id, template_id, url, top_color, data):
+    def send_template(self, user_id, template_id, data, url=None, mini_program=None):
         """
         发送模板消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html
+        https://mp.weixin.qq.com/wiki?id=mp1445241432&lang=zh_CN
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param template_id: 模板 ID。在公众平台线上模板库中选用模板获得
         :param url: 链接地址
-        :param top_color: 消息顶部颜色
         :param data: 模板消息数据
-
+        :param mini_program: 跳小程序所需数据, 如：`{'appid': 'appid', 'pagepath': 'index?foo=bar'}`
         :return: 返回的 JSON 数据包
         """
+        tpl_data = optionaldict(
+            touser=user_id,
+            template_id=template_id,
+            url=url,
+            miniprogram=mini_program,
+            data=data,
+        )
         return self._post(
             'message/template/send',
-            data={
-                'touser': user_id,
-                'template_id': template_id,
-                'url': url,
-                'topcolor': top_color,
-                'data': data
-            }
+            data=tpl_data
         )
 
     def get_autoreply_info(self):
@@ -455,22 +595,41 @@ class WeChatMessage(BaseWeChatAPI):
         http://mp.weixin.qq.com/wiki/7/7b5789bb1262fb866d01b4b40b0efecb.html
 
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            info = client.message.get_autoreply_info()
+
         """
         return self._get('get_current_autoreply_info')
 
     def send_mass_card(self, group_or_users, card_id,
-                       is_to_all=False, preview=False):
+                       is_to_all=False, preview=False,
+                       send_ignore_reprint=0, client_msg_id=None):
         """
         群发卡券消息
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/15/5380a4e6f02f2ffdc7981a8ed7a40753.html
+        https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
         :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param card_id: 卡券 ID
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
+        :type is_to_all: bool
         :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :type preview: bool
+        :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
+                                    当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+                                    当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+                                    send_ignore_reprint 默认为0。
+        :type send_ignore_reprint: int
+        :param client_msg_id: 开发者侧群发 msgid，长度限制 64 字节
+        :type client_msg_id: str
 
         :return: 返回的 JSON 数据包
         """
@@ -483,5 +642,64 @@ class WeChatMessage(BaseWeChatAPI):
                 }
             },
             is_to_all,
-            preview
+            preview,
+            send_ignore_reprint,
+            client_msg_id,
+        )
+
+    def get_subscribe_authorize_url(self, scene, template_id, redirect_url, reserved=None):
+        """
+        构造请求用户授权的url
+        详情请参阅：
+        https://mp.weixin.qq.com/wiki?id=mp1500374289_66bvB
+
+        :param scene: 订阅场景值，开发者可以填0-10000的整形值，用来标识订阅场景值
+        :type scene: int
+        :param template_id: 订阅消息模板ID，登录公众平台后台，在接口权限列表处可查看订阅模板ID
+        :param redirect_url: 授权后重定向的回调地址
+        :param reserved: 用于保持请求和回调的状态，授权请后原样带回给第三方。该参数可用于防止csrf攻击。若不指定则随机生成。
+        """
+        if reserved is None:
+            reserved = random_string()
+        base_url = 'https://mp.weixin.qq.com/mp/subscribemsg'
+        params = [
+            ('action', 'get_confirm'),
+            ('appid', self.appid),
+            ('scene', scene),
+            ('template_id', template_id),
+            ('redirect_url', redirect_url),
+            ('reserved', reserved),
+        ]
+        encoded_params = six.moves.urllib.parse.urlencode(params)
+        url = '{base}?{params}#wechat_redirect'.format(base=base_url, params=encoded_params)
+        return url
+
+    def send_subscribe_template(self, openid, template_id, scene, title, data, url=None):
+        """
+        一次性订阅消息，通过API推送订阅模板消息给到授权微信用户。
+        详情请参阅：
+        https://mp.weixin.qq.com/wiki?id=mp1500374289_66bvB
+
+        :param openid: 填接收消息的用户openid
+        :param template_id: 订阅消息模板ID
+        :param scene: 订阅场景值，开发者可以填0-10000的整形值，用来标识订阅场景值
+        :type scene: int
+        :param title: 消息标题，15字以内
+        :param data: 消息正文，value为消息内容，color为颜色，200字以内
+        :type data: dict
+        :param url: 点击消息跳转的链接，需要有ICP备案
+        """
+        post_data = {
+            'touser': openid,
+            'template_id': template_id,
+            'url': url,
+            'scene': scene,
+            'title': title,
+            'data': data,
+        }
+        if url is not None:
+            post_data['url'] = url
+        return self._post(
+            'message/template/subscribe',
+            data=post_data,
         )

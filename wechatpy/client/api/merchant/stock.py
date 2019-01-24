@@ -5,6 +5,8 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class MerchantStock(BaseWeChatAPI):
 
+    API_BASE_URL = 'https://api.weixin.qq.com/'
+
     def add(self, product_id, quantity, sku_info=''):
         return self._post(
             'merchant/stock/add',

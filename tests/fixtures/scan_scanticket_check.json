@@ -1,0 +1,10 @@
+{    
+ "errcode":0,
+ "errmsg":"ok",
+ "keystandard":"ean13",
+ "keystr":"6901481811083",
+ "openid":"otAzGjrS4AYCmeJM1GhEOcHXXTAo",
+ "scene":"scan",
+ "is_check": false,
+ "is_contact": false
+}

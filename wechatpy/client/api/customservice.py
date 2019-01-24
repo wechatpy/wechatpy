@@ -207,18 +207,15 @@ class WeChatCustomService(BaseWeChatAPI):
             'https://api.weixin.qq.com/customservice/kfsession/getwaitcase'
         )
 
-    def get_records(self, start_time, end_time, page_index,
-                    page_size=10, user_id=None):
+    def get_records(self, start_time, end_time, msgid=1,
+                    number=10000):
         """
         获取客服聊天记录
-        详情请参考
-        http://mp.weixin.qq.com/wiki/19/7c129ec71ddfa60923ea9334557e8b23.html
 
         :param start_time: 查询开始时间，UNIX 时间戳
         :param end_time: 查询结束时间，UNIX 时间戳，每次查询不能跨日查询
-        :param page_index: 查询第几页，从 1 开始
-        :param page_size: 每页大小，每页最多拉取 1000 条
-        :param user_id: 普通用户的标识，对当前公众号唯一
+        :param msgid: 消息id顺序从小到大，从1开始
+        :param number: 每次获取条数，最多10000条
 
         :return: 返回的 JSON 数据包
         """
@@ -229,14 +226,11 @@ class WeChatCustomService(BaseWeChatAPI):
         record_data = {
             'starttime': int(start_time),
             'endtime': int(end_time),
-            'pageindex': page_index,
-            'pagesize': page_size
+            'msgid': msgid,
+            'number': number
         }
-        if user_id:
-            record_data['openid'] = user_id
         res = self._post(
-            'https://api.weixin.qq.com/customservice/msgrecord/getrecord',
+            'https://api.weixin.qq.com/customservice/msgrecord/getmsglist',
             data=record_data,
-            result_processor=lambda x: x['recordlist']
         )
         return res

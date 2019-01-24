@@ -1,10 +1,9 @@
 -r requirements.txt
 pytest
 pytest-cov
+pytest-sugar
 httmock
 coverage
 redis
 pymemcache
 shove
-cryptography
-pycrypto

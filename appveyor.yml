@@ -9,14 +9,12 @@ environment:
       TESTENV: "py27-cryptography"
     - PYTHON: "C:/Python27-x64"
       TESTENV: "py27-pycrypto"
-    - PYTHON: "C:/Python34"
-      TESTENV: "py34-cryptography"
-    - PYTHON: "C:/Python34"
-      TESTENV: "py34-pycrypto"
     - PYTHON: "C:/Python35"
       TESTENV: "py35-cryptography"
     - PYTHON: "C:/Python35"
       TESTENV: "py35-pycrypto"
+    - PYTHON: "C:/Python36"
+      TESTENV: "py36-cryptography"
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:/Python*"
@@ -32,4 +30,8 @@ install:
   - C:\Python27\python -m pip install tox
 
 test_script:
-  - C:\Python27\python -m tox -c tox-win.ini -e %TESTENV%
+  - C:\Python27\python -m tox -e %TESTENV%
+
+after_test:
+  - pip install codecov
+  - codecov

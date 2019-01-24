@@ -13,6 +13,14 @@ class WeChatMisc(BaseWeChatAPI):
 
         :param long_url: 长链接地址
         :return: 返回的 JSON 数据包
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            res = client.misc.short_url('http://www.qq.com')
+
         """
         return self._post(
             'shorturl',
@@ -27,6 +35,14 @@ class WeChatMisc(BaseWeChatAPI):
         获取微信服务器 IP 地址列表
 
         :return: IP 地址列表
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            ips = client.misc.get_wechat_ips()
+
         """
         res = self._get(
             'getcallbackip',

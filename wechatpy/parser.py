@@ -17,24 +17,35 @@ from wechatpy.utils import to_text
 
 def parse_message(xml):
     """
-    Parse WeChat XML format messages
-    :param xml: XML format messages
-    :return: Parsed messages or events
+    解析微信服务器推送的 XML 消息
+
+    :param xml: XML 消息
+    :return: 解析成功返回对应的消息或事件，否则返回 ``UnknownMessage``
     """
     if not xml:
         return
     message = xmltodict.parse(to_text(xml))['xml']
     message_type = message['MsgType'].lower()
-    if message_type in ('event', 'device_event'):
-        event_type = message['Event'].lower()
+    event_type = None
+    if message_type == 'event' or message_type.startswith('device_'):
+        if 'Event' in message:
+            event_type = message['Event'].lower()
         # special event type for device_event
-        if message_type == 'device_event':
+        if event_type is None and message_type.startswith('device_'):
+            event_type = message_type
+        elif message_type.startswith('device_'):
             event_type = 'device_{event}'.format(event=event_type)
+
         if event_type == 'subscribe' and message.get('EventKey'):
-            # Scan to subscribe with scene id event
-            event_type = 'subscribe_scan'
-            message['Event'] = event_type
-            message['EventKey'] = message['EventKey'].replace('qrscene_', '')
+            event_key = message['EventKey']
+            if event_key.startswith(('scanbarcode|', 'scanimage|')):
+                event_type = 'subscribe_scan_product'
+                message['Event'] = event_type
+            elif event_key.startswith('qrscene_'):
+                # Scan to subscribe with scene id event
+                event_type = 'subscribe_scan'
+                message['Event'] = event_type
+                message['EventKey'] = event_key.replace('qrscene_', '')
         message_class = EVENT_TYPES.get(event_type, UnknownMessage)
     else:
         message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)

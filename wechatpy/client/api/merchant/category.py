@@ -5,6 +5,8 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class MerchantCategory(BaseWeChatAPI):
 
+    API_BASE_URL = 'https://api.weixin.qq.com/'
+
     def get_sub_categories(self, cate_id):
         res = self._post(
             'merchant/category/getsub',

@@ -1,4 +1,4 @@
-``wechatpy.WeChatPay`` - 微信支付 API 操作类
+微信支付接口
 ===========================================
 
 WeChatPay
@@ -8,47 +8,70 @@ WeChatPay
 
 .. autoclass:: WeChatPay
    :members:
+   :inherited-members:
 
 
 .. module:: wechatpy.pay.api
 
-WeChatRedpack 现金红包接口
+现金红包接口
 ---------------------------------
 
 .. autoclass:: WeChatRedpack
    :members:
+   :inherited-members:
 
 
-WeChatTransfer 企业付款接口
+企业付款接口
 ---------------------------------
 
 .. autoclass:: WeChatTransfer
    :members:
+   :inherited-members:
 
 
-WeChatCoupon 代金券接口
+代金券接口
 ---------------------------------
 
 .. autoclass:: WeChatCoupon
    :members:
+   :inherited-members:
 
 
-WeChatOrder 订单接口
+订单接口
 ---------------------------------
 
 .. autoclass:: WeChatOrder
    :members:
+   :inherited-members:
 
 
-WeChatTools 工具类接口
+退款接口
+-------------------------
+
+.. autoclass:: WeChatRefund
+   :members:
+   :inherited-members:
+
+
+工具类接口
 ---------------------------------
 
 .. autoclass:: WeChatTools
    :members:
+   :inherited-members:
 
 
-WeChatJSAPI 公众号网页 JS 支付接口
+公众号网页 JS 支付接口
 -------------------------------------
 
 .. autoclass:: WeChatJSAPI
    :members:
+   :inherited-members:
+
+
+代扣接口
+-------------------------------------
+
+.. autoclass:: WeChatWithhold
+   :members:
+   :inherited-members:

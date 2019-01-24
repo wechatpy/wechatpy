@@ -1,7 +1,15 @@
 #!/usr/bin/env python
-from __future__ import with_statement
+from __future__ import print_function
+
+try:
+    # python setup.py test
+    import multiprocessing  # NOQA
+except ImportError:
+    pass
+
 import os
 import sys
+
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
@@ -24,10 +32,10 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-readme = 'README.md'
-if os.path.exists('README.rst'):
-    readme = 'README.rst'
-with open(readme, 'rb') as f:
+cmdclass = {}
+cmdclass['test'] = PyTest
+
+with open('README.md', 'rb') as f:
     long_description = f.read().decode('utf-8')
 
 with open('requirements.txt') as f:
@@ -35,17 +43,17 @@ with open('requirements.txt') as f:
 
 setup(
     name='wechatpy',
-    version='1.2.5',
+    version='1.7.6',
     author='messense',
     author_email='messense@icloud.com',
-    url='https://github.com/messense/wechatpy',
+    url='https://github.com/jxtech/wechatpy',
     packages=find_packages(),
-    keywords='WeChat, wexin, SDK',
-    description='wechatpy: WeChat SDK for Python',
+    keywords='WeChat, weixin, SDK',
+    description='WeChat SDK for Python',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     install_requires=requirements,
     include_package_data=True,
-    # namespace_packages=['wechatpy'],
     tests_require=[
         'pytest',
         'httmock',
@@ -53,18 +61,18 @@ setup(
         'pymemcache',
         'shove',
     ],
-    cmdclass={'test': PyTest},
+    cmdclass=cmdclass,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: MIT License',
         'Operating System :: MacOS',
         'Operating System :: POSIX',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Intended Audience :: Developers',
@@ -74,6 +82,6 @@ setup(
     ],
     extras_require={
         'cryptography': ['cryptography'],
-        'pycrypto': ['pycrypto'],
+        'pycrypto': ['pycryptodome'],
     }
 )

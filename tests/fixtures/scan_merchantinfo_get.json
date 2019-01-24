@@ -1,0 +1,15 @@
+{
+ "errcode": 0,
+ "errmsg": "ok",
+ "verified_cate_list":[
+  {
+   "verified_cate_id": 200531967,
+   "verified_cate_name": "调味品"
+  }
+ ],
+ "verified_firm_code_list":[8888],
+ "brand_tag_list":[
+  "小耿哥8",
+  "testtag"
+ ]
+}

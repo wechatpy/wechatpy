@@ -1,7 +1,7 @@
-消息
-=====
+.. _messages:
 
-目前 wechatpy 共支持以下几种类型的消息：`TextMessage`，`ImageMessage`，`VoiceMessage`，`VideoMessage`，`LocationMessage`，`LinkMessage`。
+推送消息
+==========
 
 公共属性
 --------
@@ -20,11 +20,12 @@ type        消息的类型
 
 .. module:: wechatpy.messages
 
-TextMessage 文本消息
+文本消息
 --------------------
 
 .. autoclass:: TextMessage
    :members:
+   :inherited-members:
 
 TextMessage 的属性:
 
@@ -35,10 +36,11 @@ type    text
 content 消息的内容
 ======= =================================
 
-ImageMessage 图片消息
+图片消息
 ---------------------
 .. autoclass:: ImageMessage
    :members:
+   :inherited-members:
 
 ImageMessage 的属性:
 
@@ -49,11 +51,12 @@ type    image
 image   图片的 URL 地址
 ======= =================================
 
-VoiceMessage 语音消息
+语音消息
 ---------------------
 
 .. autoclass:: VoiceMessage
    :members:
+   :inherited-members:
 
 VoiceMessage 的属性:
 
@@ -66,11 +69,12 @@ format       声音文件格式
 recognition  语音识别结果(启用了语音识别时才有)
 ============ ===================================
 
-VideoMessage 视频消息
+视频消息
 ---------------------
 
 .. autoclass:: VideoMessage
    :members:
+   :inherited-members:
 
 VideoMessage 的属性:
 
@@ -82,11 +86,12 @@ media_id          微信内部的一个文件 ID
 thumb_media_id    视频缩略图文件 ID
 ================= =================================
 
-LocationMessage 地理位置消息
+地理位置消息
 ----------------------------
 
 .. autoclass:: LocationMessage
    :members:
+   :inherited-members:
 
 LocationMessage 的属性:
 
@@ -101,11 +106,12 @@ label        地理位置信息
 location     (纬度, 经度) 元组
 ============ =================================
 
-LinkMessage 链接消息
+链接消息
 --------------------
 
 .. autoclass:: LinkMessage
    :members:
+   :inherited-members:
 
 LinkMessage 的属性:
 
@@ -118,10 +124,11 @@ description  链接描述
 url          链接地址
 ============ =================================
 
-ShortVideoMessage 短视频消息
+短视频消息
 ----------------------------
 .. autoclass:: ShortVideoMessage
    :members:
+   :inherited-members:
 
 =============== =================================
 name            value
@@ -132,9 +139,11 @@ thumb_media_id  短视频缩略图 media_id
 =============== =================================
 
 解析消息
---------
+-------------
 
-wechatpy 提供了一个便捷的函数 ``parse_message`` 来处理由微信服务器发送过来的 XML 消息并解析生成对应的消息类::
+wechatpy 提供了一个便捷的函数 ``parse_message`` 来处理由微信服务器发送过来的 XML 消息并解析生成对应的消息类:
+
+.. code-block:: python
 
     from wechatpy import parse_message
 

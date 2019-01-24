@@ -71,7 +71,7 @@ class BaseWeChatCrypto(object):
 </xml>"""
         if isinstance(msg, BaseReply):
             msg = msg.render()
-        timestamp = timestamp or to_binary(int(time.time()))
+        timestamp = timestamp or to_text(int(time.time()))
         pc = crypto_class(self.key)
         encrypt = to_text(pc.encrypt(msg, self._id))
         signature = _get_signature(self.token, timestamp, nonce, encrypt)

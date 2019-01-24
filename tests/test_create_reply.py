@@ -21,10 +21,6 @@ class CreateReplyTestCase(unittest.TestCase):
         reply = create_reply(text, render=True)
         self.assertTrue(isinstance(reply, six.text_type))
 
-    def test_create_reply_should_return_none(self):
-        reply = create_reply(None)
-        self.assertTrue(reply is None)
-
     def test_create_reply_with_message(self):
         from wechatpy.messages import TextMessage
 
@@ -140,3 +136,15 @@ class CreateReplyTestCase(unittest.TestCase):
             },
         ]
         self.assertRaises(AttributeError, create_reply, articles)
+
+    def test_create_empty_reply(self):
+        from wechatpy.replies import EmptyReply
+
+        reply = create_reply('')
+        self.assertTrue(isinstance(reply, EmptyReply))
+
+        reply = create_reply(None)
+        self.assertTrue(isinstance(reply, EmptyReply))
+
+        reply = create_reply(False)
+        self.assertTrue(isinstance(reply, EmptyReply))

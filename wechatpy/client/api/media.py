@@ -17,7 +17,7 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            url='http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            url='media/upload',
             params={
                 'type': media_type
             },
@@ -37,7 +37,7 @@ class WeChatMedia(BaseWeChatAPI):
         :return: requests 的 Response 实例
         """
         return self._get(
-            'http://file.api.weixin.qq.com/cgi-bin/media/get',
+            'media/get',
             params={
                 'media_id': media_id
             }
@@ -51,7 +51,7 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 临时素材下载地址
         """
         parts = (
-            'http://file.api.weixin.qq.com/cgi-bin/media/get',
+            'https://api.weixin.qq.com/cgi-bin/media/get',
             '?access_token=',
             self.access_token,
             '&media_id=',
@@ -72,7 +72,7 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            url='https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo',
+            url='media/uploadvideo',
             data={
                 'media_id': media_id,
                 'title': title,
@@ -107,7 +107,7 @@ class WeChatMedia(BaseWeChatAPI):
             }
         )
 
-    def upload_mass_image(self, media_file):
+    def upload_image(self, media_file):
         """
         上传群发消息内的图片
         详情请参考
@@ -117,10 +117,12 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 上传成功时返回图片 URL
         """
         res = self._post(
-            url='https://api.weixin.qq.com/cgi-bin/media/uploadimg',
+            url='media/uploadimg',
             files={
                 'media': media_file
             },
             result_processor=lambda x: x['url']
         )
         return res
+
+    upload_mass_image = upload_image

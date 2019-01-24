@@ -31,6 +31,23 @@ class WeChatWiFi(BaseWeChatAPI):
         )
         return res
 
+    def get_shop(self, shop_id=0):
+        """
+        查询门店的WiFi信息
+        http://mp.weixin.qq.com/wiki/15/bcfb5d4578ea818b89913472cf2bbf8f.html
+
+        :param shop_id: 门店 ID
+        :return: 返回的 JSON 数据包
+        """
+        res = self._post(
+            'shop/get',
+            data={
+                'shop_id': shop_id,
+            },
+            result_processor=lambda x: x['data']
+        )
+        return res
+
     def add_device(self, shop_id, ssid, password, bssid):
         """
         添加设备
