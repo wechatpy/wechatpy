@@ -55,6 +55,10 @@ class BaseField(object):
 
     def to_xml(self, value):
         raise NotImplementedError()
+    
+    @classmethod
+    def from_xml(cls, value):
+        raise NotImplementedError()
 
     def __repr__(self):
         _repr = '{klass}({name})'.format(
@@ -83,6 +87,10 @@ class StringField(BaseField):
         value = self.converter(value)
         tpl = '<{name}><![CDATA[{value}]]></{name}>'
         return tpl.format(name=self.name, value=value)
+    
+    @classmethod
+    def from_xml(cls, value):
+        return value
 
 
 class IntegerField(BaseField):
@@ -92,6 +100,10 @@ class IntegerField(BaseField):
         value = self.converter(value) if value is not None else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
+
+    @classmethod
+    def from_xml(cls, value):
+        return cls.converter(value)
 
 
 class DateTimeField(BaseField):
@@ -106,6 +118,10 @@ class DateTimeField(BaseField):
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 
+    @classmethod
+    def from_xml(cls, value):
+        return cls.converter(None, value)
+
 
 class FloatField(BaseField):
     converter = float
@@ -114,6 +130,10 @@ class FloatField(BaseField):
         value = self.converter(value) if value is not None else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
+
+    @classmethod
+    def from_xml(cls, value):
+        return cls.converter(value)
 
 
 class ImageField(StringField):
@@ -125,6 +145,10 @@ class ImageField(StringField):
         </Image>"""
         return tpl.format(value=value)
 
+    @classmethod
+    def from_xml(cls, value):
+        return value["MediaId"]
+
 
 class VoiceField(StringField):
 
@@ -134,6 +158,10 @@ class VoiceField(StringField):
         <MediaId><![CDATA[{value}]]></MediaId>
         </Voice>"""
         return tpl.format(value=value)
+
+    @classmethod
+    def from_xml(cls, value):
+        return value["MediaId"]
 
 
 class VideoField(StringField):
@@ -153,6 +181,14 @@ class VideoField(StringField):
             media_id=media_id,
             title=title,
             description=description
+        )
+
+    @classmethod
+    def from_xml(cls, value):
+        return dict(
+            media_id=value["MediaId"],
+            title=value.get("Title"),
+            description=value.get("Description")
         )
 
 
@@ -181,6 +217,16 @@ class MusicField(StringField):
             description=description,
             music_url=music_url,
             hq_music_url=hq_music_url
+        )
+
+    @classmethod
+    def from_xml(cls, value):
+        return dict(
+            thumb_media_id=value["ThumbMediaId"],
+            title=value.get("Title"),
+            description=value.get("Description"),
+            music_url=value.get("MusicUrl"),
+            hq_music_url=value.get("HQMusicUrl")
         )
 
 
@@ -214,6 +260,15 @@ class ArticlesField(StringField):
             article_count=article_count,
             items=items_str
         )
+    
+    @classmethod
+    def from_xml(cls, value):
+        return [dict(
+            title=item["Title"],
+            description=item["Description"],
+            image=item["PicUrl"],
+            url=item["Url"]
+        ) for item in value["item"]]
 
 
 class Base64EncodeField(StringField):
