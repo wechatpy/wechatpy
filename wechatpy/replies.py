@@ -341,6 +341,7 @@ def create_reply(reply, message=None, render=False):
         return r.render()
     return r
 
+
 def deserialize_reply(xml, update_time=False):
     """
     反序列化被动回复
@@ -355,7 +356,7 @@ def deserialize_reply(xml, update_time=False):
     try:
         reply_dict = xmltodict.parse(xml)["xml"]
         msg_type = reply_dict["MsgType"]
-    except:
+    except (xmltodict.expat.ExpatError, KeyError):
         raise ValueError("bad reply xml")
     if msg_type not in REPLY_TYPES:
         raise ValueError("unknown reply type")

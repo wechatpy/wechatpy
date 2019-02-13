@@ -55,7 +55,7 @@ class BaseField(object):
 
     def to_xml(self, value):
         raise NotImplementedError()
-    
+
     @classmethod
     def from_xml(cls, value):
         raise NotImplementedError()
@@ -87,7 +87,7 @@ class StringField(BaseField):
         value = self.converter(value)
         tpl = '<{name}><![CDATA[{value}]]></{name}>'
         return tpl.format(name=self.name, value=value)
-    
+
     @classmethod
     def from_xml(cls, value):
         return value
@@ -260,7 +260,7 @@ class ArticlesField(StringField):
             article_count=article_count,
             items=items_str
         )
-    
+
     @classmethod
     def from_xml(cls, value):
         return [dict(
