@@ -4,6 +4,7 @@ import unittest
 
 from wechatpy import replies
 
+
 def create_reply(cls, **kwargs):
     return cls(
         source="source",
@@ -11,6 +12,7 @@ def create_reply(cls, **kwargs):
         time=123456789,
         **kwargs
     )
+
 
 class DeserializeReplyTestCase(unittest.TestCase):
 
