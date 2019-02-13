@@ -217,7 +217,7 @@ wechatpy 提供一个deserialize_reply方法来反序列化xml回复为 ``wechat
 
 .. code-block:: python
 
-    from wechatpy import deserialize_reply
+    from wechatpy.replies import deserialize_reply
 
     origin_reply = create_reply('text reply', message=message)
     xml = origin_reply.render()
