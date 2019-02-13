@@ -213,7 +213,7 @@ wechatpy 提供了一个便捷的 create_reply 函数用来快速构建回复 :
 反序列化回复
 -------------
 
-wechatpy 提供一个deserialize_reply方法来反序列化xml回复为``wechatpy.replies.BaseReply`` :
+wechatpy 提供一个deserialize_reply方法来反序列化xml回复为 ``wechatpy.replies.BaseReply`` :
 
 .. code-block:: python
 
