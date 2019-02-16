@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import base64
 from datetime import datetime
 import unittest
+import xmltodict
 
 from wechatpy.utils import to_text
 
@@ -93,7 +94,7 @@ class FieldsTestCase(unittest.TestCase):
         )
 
         field = VideoField('Video')
-        self.assertEqual(expected, field.to_xml(value))
+        self.assertXMLEqual(expected, field.to_xml(value))
 
     def test_music_field_to_xml(self):
         from wechatpy.fields import MusicField
@@ -120,7 +121,7 @@ class FieldsTestCase(unittest.TestCase):
         )
 
         field = MusicField('Music')
-        self.assertEqual(expected, field.to_xml(value))
+        self.assertXMLEqual(expected, field.to_xml(value))
 
     def test_article_field_to_xml(self):
         from wechatpy.fields import ArticlesField
@@ -179,3 +180,8 @@ class FieldsTestCase(unittest.TestCase):
         field = DateTimeField('ExpiredTime')
         expected = '<ExpiredTime>1442401156</ExpiredTime>'
         self.assertEqual(expected, field.to_xml(content))
+
+    def assertXMLEqual(self, expected, xml):
+        expected = xmltodict.unparse(xmltodict.parse(expected))
+        xml = xmltodict.unparse(xmltodict.parse(xml))
+        self.assertEqual(expected, xml)

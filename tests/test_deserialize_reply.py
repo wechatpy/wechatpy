@@ -37,16 +37,19 @@ class DeserializeReplyTestCase(unittest.TestCase):
             replies.VideoReply, media_id="media_id",
             title="title", description="说个中文呗")
         self._test_deserialize(reply)
-        # !! wechatpy有bug 单元测试不通过
-        # reply = create_reply(replies.VideoReply, media_id="media_id",
-        #     title="无描述")
-        # self._test_deserialize(reply)
+        # 非必填字段
+        reply = create_reply(
+            replies.VideoReply, media_id="media_id", title="无描述")
+        self._test_deserialize(reply)
 
     def test_music_reply_deserialize(self):
         reply = create_reply(
             replies.MusicReply, title="title", description="desc",
             music_url="music_url", hq_music_url="hq_music_url",
             thumb_media_id="thumb_media_id")
+        self._test_deserialize(reply)
+        # 非必填字段
+        reply = create_reply(replies.MusicReply, thumb_media_id="media_id")
         self._test_deserialize(reply)
 
     def test_article_reply_deserialize(self):
