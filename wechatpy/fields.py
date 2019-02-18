@@ -56,6 +56,10 @@ class BaseField(object):
     def to_xml(self, value):
         raise NotImplementedError()
 
+    @classmethod
+    def from_xml(cls, value):
+        raise NotImplementedError()
+
     def __repr__(self):
         _repr = '{klass}({name})'.format(
             klass=self.__class__.__name__,
@@ -84,6 +88,10 @@ class StringField(BaseField):
         tpl = '<{name}><![CDATA[{value}]]></{name}>'
         return tpl.format(name=self.name, value=value)
 
+    @classmethod
+    def from_xml(cls, value):
+        return value
+
 
 class IntegerField(BaseField):
     converter = int
@@ -92,6 +100,10 @@ class IntegerField(BaseField):
         value = self.converter(value) if value is not None else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
+
+    @classmethod
+    def from_xml(cls, value):
+        return cls.converter(value)
 
 
 class DateTimeField(BaseField):
@@ -106,6 +118,10 @@ class DateTimeField(BaseField):
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
 
+    @classmethod
+    def from_xml(cls, value):
+        return cls.converter(None, value)
+
 
 class FloatField(BaseField):
     converter = float
@@ -114,6 +130,10 @@ class FloatField(BaseField):
         value = self.converter(value) if value is not None else self.default
         tpl = '<{name}>{value}</{name}>'
         return tpl.format(name=self.name, value=value)
+
+    @classmethod
+    def from_xml(cls, value):
+        return cls.converter(value)
 
 
 class ImageField(StringField):
@@ -125,6 +145,10 @@ class ImageField(StringField):
         </Image>"""
         return tpl.format(value=value)
 
+    @classmethod
+    def from_xml(cls, value):
+        return value["MediaId"]
+
 
 class VoiceField(StringField):
 
@@ -135,53 +159,71 @@ class VoiceField(StringField):
         </Voice>"""
         return tpl.format(value=value)
 
+    @classmethod
+    def from_xml(cls, value):
+        return value["MediaId"]
+
 
 class VideoField(StringField):
 
     def to_xml(self, value):
-        media_id = self.converter(value['media_id'])
+        kwargs = dict(media_id=self.converter(value['media_id']))
+        content = '<MediaId><![CDATA[{media_id}]]></MediaId>'
         if 'title' in value:
-            title = self.converter(value['title'])
+            kwargs['title'] = self.converter(value['title'])
+            content += '<Title><![CDATA[{title}]]></Title>'
         if 'description' in value:
-            description = self.converter(value['description'])
+            kwargs['description'] = self.converter(value['description'])
+            content += '<Description><![CDATA[{description}]]></Description>'
         tpl = """<Video>
-        <MediaId><![CDATA[{media_id}]]></MediaId>
-        <Title><![CDATA[{title}]]></Title>
-        <Description><![CDATA[{description}]]></Description>
-        </Video>"""
-        return tpl.format(
-            media_id=media_id,
-            title=title,
-            description=description
-        )
+        {content}
+        </Video>""".format(content=content)
+        return tpl.format(**kwargs)
+
+    @classmethod
+    def from_xml(cls, value):
+        rv = dict(media_id=value['MediaId'])
+        if 'Title' in value:
+            rv["title"] = value['Title']
+        if 'Description' in value:
+            rv['description'] = value['Description']
+        return rv
 
 
 class MusicField(StringField):
 
     def to_xml(self, value):
-        thumb_media_id = self.converter(value['thumb_media_id'])
+        kwargs = dict(thumb_media_id=self.converter(value['thumb_media_id']))
+        content = '<ThumbMediaId><![CDATA[{thumb_media_id}]]></ThumbMediaId>'
         if 'title' in value:
-            title = self.converter(value['title'])
+            kwargs['title'] = self.converter(value['title'])
+            content += '<Title><![CDATA[{title}]]></Title>'
         if 'description' in value:
-            description = self.converter(value['description'])
+            kwargs['description'] = self.converter(value['description'])
+            content += '<Description><![CDATA[{description}]]></Description>'
         if 'music_url' in value:
-            music_url = self.converter(value['music_url'])
+            kwargs['music_url'] = self.converter(value['music_url'])
+            content += '<MusicUrl><![CDATA[{music_url}]]></MusicUrl>'
         if 'hq_music_url' in value:
-            hq_music_url = self.converter(value['hq_music_url'])
+            kwargs['hq_music_url'] = self.converter(value['hq_music_url'])
+            content += '<HQMusicUrl><![CDATA[{hq_music_url}]]></HQMusicUrl>'
         tpl = """<Music>
-        <ThumbMediaId><![CDATA[{thumb_media_id}]]></ThumbMediaId>
-        <Title><![CDATA[{title}]]></Title>
-        <Description><![CDATA[{description}]]></Description>
-        <MusicUrl><![CDATA[{music_url}]]></MusicUrl>
-        <HQMusicUrl><![CDATA[{hq_music_url}]]></HQMusicUrl>
-        </Music>"""
-        return tpl.format(
-            thumb_media_id=thumb_media_id,
-            title=title,
-            description=description,
-            music_url=music_url,
-            hq_music_url=hq_music_url
-        )
+        {content}
+        </Music>""".format(content=content)
+        return tpl.format(**kwargs)
+
+    @classmethod
+    def from_xml(cls, value):
+        rv = dict(thumb_media_id=value['ThumbMediaId'])
+        if 'Title' in value:
+            rv['title'] = value['Title']
+        if 'Description' in value:
+            rv['description'] = value['Description']
+        if 'MusicUrl' in value:
+            rv['music_url'] = value['MusicUrl']
+        if 'HQMusicUrl' in value:
+            rv['hq_music_url'] = value['HQMusicUrl']
+        return rv
 
 
 class ArticlesField(StringField):
@@ -214,6 +256,15 @@ class ArticlesField(StringField):
             article_count=article_count,
             items=items_str
         )
+
+    @classmethod
+    def from_xml(cls, value):
+        return [dict(
+            title=item["Title"],
+            description=item["Description"],
+            image=item["PicUrl"],
+            url=item["Url"]
+        ) for item in value["item"]]
 
 
 class Base64EncodeField(StringField):

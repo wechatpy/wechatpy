@@ -209,3 +209,16 @@ wechatpy 提供了一个便捷的 create_reply 函数用来快速构建回复 :
     ]
 
     articles_reply = create_reply(articles, message=message)
+
+反序列化回复
+-------------
+
+wechatpy 提供一个deserialize_reply方法来反序列化xml回复为 ``wechatpy.replies.BaseReply`` :
+
+.. code-block:: python
+
+    from wechatpy.replies import deserialize_reply
+
+    origin_reply = create_reply('text reply', message=message)
+    xml = origin_reply.render()
+    deserialized_reply = deserialize_reply(xml)

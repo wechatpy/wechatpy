@@ -10,6 +10,7 @@
 from __future__ import absolute_import, unicode_literals
 import time
 import six
+import xmltodict
 
 from wechatpy.fields import (
     StringField,
@@ -339,3 +340,35 @@ def create_reply(reply, message=None, render=False):
     if r and render:
         return r.render()
     return r
+
+
+def deserialize_reply(xml, update_time=False):
+    """
+    反序列化被动回复
+    :param xml: 待反序列化的xml
+    :param update_time: 是否用当前时间替换xml中的时间
+    :raises ValueError: 不能辨识的reply xml
+    :rtype: wechatpy.replies.BaseReply
+    """
+    if not xml:
+        return EmptyReply()
+
+    try:
+        reply_dict = xmltodict.parse(xml)["xml"]
+        msg_type = reply_dict["MsgType"]
+    except (xmltodict.expat.ExpatError, KeyError):
+        raise ValueError("bad reply xml")
+    if msg_type not in REPLY_TYPES:
+        raise ValueError("unknown reply type")
+
+    cls = REPLY_TYPES[msg_type]
+    kwargs = dict()
+    for attr, field in cls._fields.items():
+        if field.name in reply_dict:
+            str_value = reply_dict[field.name]
+            kwargs[attr] = field.from_xml(str_value)
+
+    if update_time:
+        kwargs["time"] = time.time()
+
+    return cls(**kwargs)
