@@ -24,6 +24,7 @@ class WeChatClient(BaseWeChatClient):
     shakearound = api.WeChatShakeAround()
     service = api.WeChatService()
     chat = api.WeChatChat()
+    appchat = api.WeChatAppChat()
 
     def __init__(self, corp_id, secret, access_token=None,
                  session=None, timeout=None, auto_retry=True):
