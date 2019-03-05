@@ -135,7 +135,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return super(WeChatMenu, self).create(menu_data)
+        self.create(menu_data)
 
     def delete(self):
         """
