@@ -75,7 +75,7 @@ class WeChatMenu(BaseWeChatAPI):
             })
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/13/43de8269be54a0a6f64413e4dfa94f39.html
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013
 
         :param menu_data: Python 字典
 
@@ -86,7 +86,56 @@ class WeChatMenu(BaseWeChatAPI):
             data=menu_data
         )
 
-    update = create
+    def update(self, menu_data):
+        """
+        更新自定义菜单 ::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient("appid", "secret")
+            client.menu.update({
+                "button":[
+                    {
+                        "type":"click",
+                        "name":"今日歌曲",
+                        "key":"V1001_TODAY_MUSIC"
+                    },
+                    {
+                        "type":"click",
+                        "name":"歌手简介",
+                        "key":"V1001_TODAY_SINGER"
+                    },
+                    {
+                        "name":"菜单",
+                        "sub_button":[
+                            {
+                                "type":"view",
+                                "name":"搜索",
+                                "url":"http://www.soso.com/"
+                            },
+                            {
+                                "type":"view",
+                                "name":"视频",
+                                "url":"http://v.qq.com/"
+                            },
+                            {
+                                "type":"click",
+                                "name":"赞一下我们",
+                                "key":"V1001_GOOD"
+                            }
+                        ]
+                    }
+                ]
+            })
+
+        详情请参考
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013
+
+        :param menu_data: Python 字典
+
+        :return: 返回的 JSON 数据包
+        """
+        self.create(menu_data)
 
     def delete(self):
         """
