@@ -24,7 +24,7 @@ matrix:
       python: 3.7
     - env: TOX_ENV=pypy-cryptography
       dist: trusty
-      python: "pypy-5.3.1"
+      python: "pypy3"
 
 services:
   - redis-server
