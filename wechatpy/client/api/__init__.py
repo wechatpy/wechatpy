@@ -24,3 +24,4 @@ from wechatpy.client.api.template import WeChatTemplate  # NOQA
 from wechatpy.client.api.user import WeChatUser  # NOQA
 from wechatpy.client.api.wifi import WeChatWiFi  # NOQA
 from wechatpy.client.api.wxa import WeChatWxa  # NOQA
+from wechatpy.client.api.marketing import WeChatMarketing  # NOQA
