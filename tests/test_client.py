@@ -257,6 +257,26 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(2, result['total'])
             self.assertEqual(2, result['count'])
 
+    def test_iter_followers(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$', query=r'.*next_openid=[^&]+')
+        def next_openid_mock(url, request):
+            """伪造第二页的请求"""
+            content = {
+                "total":2,
+                "count":0,
+                "next_openid": ""
+            }
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            return response(200, content, headers, request=request)
+
+        with HTTMock(next_openid_mock, wechat_api_mock):
+            users = list(self.client.user.iter_followers())
+            self.assertEqual(2, len(users))
+            self.assertIn("OPENID1", users)
+            self.assertIn("OPENID2", users)
+
     def test_update_user_remark(self):
         with HTTMock(wechat_api_mock):
             openid = 'openid'
@@ -291,6 +311,34 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(user_list[0], result[0]['openid'])
             self.assertEqual('iWithery', result[0]['nickname'])
             self.assertEqual(user_list[1], result[1]['openid'])
+
+    def test_get_tag_users(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.tag.get_tag_users(101)
+            self.assertEqual(2, result['count'])
+
+    def test_iter_tag_users(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$', path=r'.*user/tag/get')
+        def next_openid_mock(url, request):
+            """伪造第二页的请求"""
+            data = json.loads(request.body.decode())
+            if not data.get('next_openid'):
+                return wechat_api_mock(url, request)
+
+            # 根据拿到的第二页请求响应 是没有data和next_openid的
+            content = {
+                "count":0
+            }
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            return response(200, content, headers, request=request)
+
+        with HTTMock(next_openid_mock, wechat_api_mock):
+            users = list(self.client.tag.iter_tag_users(101))
+            self.assertEqual(2, len(users))
+            self.assertIn("OPENID1", users)
+            self.assertIn("OPENID2", users)
 
     def test_create_qrcode(self):
         data = {
