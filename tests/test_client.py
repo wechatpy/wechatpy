@@ -262,8 +262,8 @@ class WeChatClientTestCase(unittest.TestCase):
         def next_openid_mock(url, request):
             """伪造第二页的请求"""
             content = {
-                "total":2,
-                "count":0,
+                "total": 2,
+                "count": 0,
                 "next_openid": ""
             }
             headers = {
@@ -327,7 +327,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
             # 根据拿到的第二页请求响应 是没有data和next_openid的
             content = {
-                "count":0
+                "count": 0
             }
             headers = {
                 'Content-Type': 'application/json'
