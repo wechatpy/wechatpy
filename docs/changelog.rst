@@ -1,6 +1,23 @@
 Changelog
 ================
 
+Version 1.8.0
+-----------------
+
+Released on 2019-03-15
+
++ 企业号部门 get 接口增加 `id` 默认参数
++ 移除了对 Python 3.4 的支持
++ 替换不再维护的 pycrypto 依赖为更安全的 pycryptodome
++ 增加小程序 `wx.login` 获取登录用户信息 API
++ `_http` 变为 `WeChatPay` 实例的属性，解决创建多个实例，发送请求时数据会串的问题
++ 增加获取企业微信应用 `jsapi_ticket` API
++ 增加反序列化被动响应接口
++ 增加企业微信群聊相关操作，如创建、发送群聊消息等
++ 增加营销接口
++ `iter_followers` API `first_user_id` 变为传参,当用户持有 `last_openid` 时,可选增量获取用户，用 `return` 代替 `StopIteration` 以避免在 Python 3.7 中出现 `RuntimeError`
++ 增加 `iter_tag_users` 方法,获取所有某标签下用户列表
+
 Version 1.7.6
 -----------------
 
