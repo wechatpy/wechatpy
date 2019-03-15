@@ -106,9 +106,6 @@ class ComponentUnknownMessage(BaseComponentMessage):
 
 
 class BaseWeChatComponent(object):
-
-    _http = requests.Session()
-
     API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin'
 
     def __init__(self,
@@ -124,6 +121,7 @@ class BaseWeChatComponent(object):
         :param component_token: 公众号消息校验Token
         :param encoding_aes_key: 公众号消息加解密Key
         """
+        self._http = requests.Session()
         self.component_appid = component_appid
         self.component_appsecret = component_appsecret
         self.expires_at = None
@@ -572,9 +570,6 @@ class ComponentOAuth(object):
     详情请参考
     https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318590
     """
-
-    _http = requests.Session()
-
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
@@ -585,6 +580,7 @@ class ComponentOAuth(object):
         :param app_id: 微信公众号 app_id
         :param component: WeChatComponent
         """
+        self._http = requests.Session()
         self.app_id = app_id
         self.component = component
         if self.component is None:

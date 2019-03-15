@@ -23,9 +23,6 @@ def _is_api_endpoint(obj):
 
 
 class BaseWeChatClient(object):
-
-    _http = requests.Session()
-
     API_BASE_URL = ''
 
     def __new__(cls, *args, **kwargs):
@@ -38,6 +35,7 @@ class BaseWeChatClient(object):
         return self
 
     def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
+        self._http = requests.Session()
         self.appid = appid
         self.expires_at = None
         self.session = session or MemoryStorage()
