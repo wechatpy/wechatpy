@@ -7,3 +7,4 @@ coverage
 redis
 pymemcache
 shove
+pycrypto==2.6.1

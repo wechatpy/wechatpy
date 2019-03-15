@@ -17,7 +17,7 @@ from wechatpy.exceptions import (
     InvalidAppIdException,
     InvalidSignatureException
 )
-from wechatpy.crypto.base import BasePrpCrypto
+from wechatpy.crypto.base import BasePrpCrypto, BaseWxaCrypto
 
 
 def _get_signature(token, timestamp, nonce, encrypt):
@@ -117,4 +117,49 @@ class WeChatCrypto(BaseWeChatCrypto):
             timestamp,
             nonce,
             PrpCrypto
+        )
+
+
+class BaseWeChatWxaCrypto(object):
+
+    def __init__(self, iv, session_key, _id):
+        self.key = session_key
+        self.iv = iv
+        self._id = _id
+
+    def _encrypt_data(self, data, timestamp=None, crypto_class=None):
+        pass
+
+    def _decrypt_data(self, data, crypto_class=None):
+        encrypt = data
+        pc = crypto_class(self.key, self.iv)
+        return pc.decrypt(encrypt, self._id)
+
+
+class WxaCrypto(BaseWxaCrypto):
+
+    def encrypt(self, data, app_id):
+        pass
+
+    def decrypt(self, data, app_id):
+        return self._decrypt(data, app_id)
+
+
+class WeChatWxaCrypto(BaseWeChatWxaCrypto):
+    """ 微信小程序开放数据校验与解密
+
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html
+    """
+
+    def __init__(self, iv, session_key, app_id):
+        super(WeChatWxaCrypto, self).__init__(iv, session_key, app_id)
+
+    def encrypt_message(self, data, timestamp=None):
+        pass
+
+    def decrypt_message(self, data):
+        return self._decrypt_data(
+            data,
+            WxaCrypto
         )

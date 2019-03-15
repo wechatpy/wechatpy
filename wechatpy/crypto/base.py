@@ -7,7 +7,7 @@ import base64
 from wechatpy.utils import to_text, to_binary, random_string, byte2int
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
 try:
-    from wechatpy.crypto.cryptography import WeChatCipher
+    from wechatpy.crypto.cryptography import WeChatCipher, WeChatWxaCipher
 except ImportError:
     try:
         from wechatpy.crypto.pycrypto import WeChatCipher
@@ -50,3 +50,18 @@ class BasePrpCrypto(object):
             exception = exception or Exception
             raise exception()
         return xml_content
+
+
+class BaseWxaCrypto(object):
+
+    def __init__(self, key, iv):
+        self.cipher = WeChatWxaCipher(base64.b64decode(key), base64.b64decode(iv))
+
+    def _encrypt(self, data, _id):
+        pass
+
+    def _decrypt(self, data, _id):
+        decrypted = self.cipher.decrypt(base64.b64decode(data))
+        if decrypted['watermark']['appid'] != _id:
+            raise Exception('Invalid Buffer')
+        return decrypted
