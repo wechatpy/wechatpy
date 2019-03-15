@@ -141,6 +141,31 @@ class WeChatTag(BaseWeChatAPI):
             data=data
         )
 
+    def iter_tag_users(self, tag_id, first_user_id=None):
+        """
+        获取标签下粉丝openid列表
+
+        :return: 返回一个迭代器，可以用for进行循环，得到openid
+
+        使用示例::
+
+            from wechatpy import WeChatClient
+
+            client = WeChatClient('appid', 'secret')
+            for openid in client.tag.iter_tag_users(0):
+                print(openid)
+
+        """
+        while True:
+            follower_data = self.get_tag_users(tag_id, first_user_id)
+            if 'data' not in follower_data:
+                return
+            for openid in follower_data['data']['openid']:
+                yield openid
+            first_user_id = follower_data.get('next_openid')
+            if not first_user_id:
+                return
+
     def get_black_list(self, begin_openid=None):
         """
         获取公众号的黑名单列表

@@ -62,7 +62,7 @@ class WeChatUser(BaseWeChatAPI):
             params=params
         )
 
-    def iter_followers(self):
+    def iter_followers(self, first_user_id=None):
         """
         获取所有的用户openid列表
 
@@ -80,7 +80,6 @@ class WeChatUser(BaseWeChatAPI):
                 print(openid)
 
         """
-        first_user_id = None
         while True:
             follower_data = self.get_followers(first_user_id)
             first_user_id = follower_data["next_openid"]
@@ -88,11 +87,11 @@ class WeChatUser(BaseWeChatAPI):
             # 所以要通过total_count和data的长度比较判断(比较麻烦，并且不稳定)
             # 或者获得结果前先判断data是否存在
             if 'data' not in follower_data:
-                raise StopIteration
+                return
             for openid in follower_data['data']['openid']:
                 yield openid
             if not first_user_id:
-                raise StopIteration
+                return
 
     def update_remark(self, user_id, remark):
         """
