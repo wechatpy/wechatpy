@@ -45,7 +45,7 @@ def parse_message(xml):
                 # Scan to subscribe with scene id event
                 event_type = 'subscribe_scan'
                 message['Event'] = event_type
-                message['EventKey'] = event_key.replace('qrscene_', '')
+                message['EventKey'] = event_key[len('qrscene_'):]
         message_class = EVENT_TYPES.get(event_type, UnknownMessage)
     else:
         message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)
