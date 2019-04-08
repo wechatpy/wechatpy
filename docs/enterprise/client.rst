@@ -104,6 +104,14 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
+身份验证(OAuth2)
+--------------------------
+
+.. autoclass:: WeChatOAuth
+   :members:
+   :inherited-members:
+
+
 用户接口
 ----------------------
 
