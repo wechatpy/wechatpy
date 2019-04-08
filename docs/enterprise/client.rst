@@ -42,6 +42,12 @@ WeChatClient
    :members:
    :inherited-members:
 
+异步任务
+----------------------
+.. autoclass:: WeChatBatch
+   :members:
+   :inherited-members:
+
 用户接口
 ----------------------
 

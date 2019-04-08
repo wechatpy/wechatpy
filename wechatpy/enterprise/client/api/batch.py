@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -7,13 +8,17 @@ from wechatpy.utils import to_text
 
 
 class WeChatBatch(BaseWeChatAPI):
+    """
+    https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
+    """
 
     def invite_user(self, url, token, encoding_aes_key, user_ids=None,
                     party_ids=None, tag_ids=None, invite_tips=None):
         """
         邀请成员关注
+
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
+        https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
         :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
@@ -49,7 +54,7 @@ class WeChatBatch(BaseWeChatAPI):
         """
         增量更新成员
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
+        https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
         :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
@@ -72,8 +77,9 @@ class WeChatBatch(BaseWeChatAPI):
     def replace_user(self, url, token, encoding_aes_key, media_id):
         """
         全量覆盖成员
+
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
+        https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
         :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
@@ -96,8 +102,9 @@ class WeChatBatch(BaseWeChatAPI):
     def replace_party(self, url, token, encoding_aes_key, media_id):
         """
         全量覆盖部门
+
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
+        https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
         :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
@@ -120,8 +127,9 @@ class WeChatBatch(BaseWeChatAPI):
     def get_result(self, job_id):
         """
         获取异步任务结果
+
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
+        https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
         :param job_id: 异步任务id，最大长度为64字符
         :return: 返回的 JSON 数据包
