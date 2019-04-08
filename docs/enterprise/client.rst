@@ -43,7 +43,7 @@ WeChatClient
    :members:
    :inherited-members:
 
-异步任务(旧接口，建议更换)
+异步任务
 ----------------------
 .. autoclass:: WeChatBatch
    :members:
