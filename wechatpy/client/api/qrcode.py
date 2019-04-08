@@ -29,6 +29,13 @@ class WeChatQRCode(BaseWeChatAPI):
                     'scene': {'scene_id': 123},
                 }
             })
+            # 创建永久的二维码, 参数使用字符串而不是数字id
+            res = client.qrcode.create({
+                'action_name': 'QR_LIMIT_STR_SCENE',
+                'action_info': {
+                    'scene': {'scene_str': "scan_qrcode_from_scene"},
+                }
+            })
 
         """
         return self._post(
