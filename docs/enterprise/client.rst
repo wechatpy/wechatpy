@@ -97,6 +97,13 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
+工具类接口
+--------------------------
+
+.. autoclass:: WeChatMisc
+   :members:
+   :inherited-members:
+
 用户接口
 ----------------------
 
@@ -108,13 +115,6 @@ JS-SDK 接口
 ----------------------
 
 .. autoclass:: WeChatTag
-   :members:
-   :inherited-members:
-
-工具类接口
---------------------------
-
-.. autoclass:: WeChatMisc
    :members:
    :inherited-members:
 
