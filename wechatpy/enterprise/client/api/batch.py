@@ -15,7 +15,7 @@ class WeChatBatch(BaseWeChatAPI):
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
-        :param url: 企业应用接收企业号推送请求的访问协议和地址，支持http或https协议
+        :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
         :param encoding_aes_key: 用于消息体的加密，是AES密钥的Base64编码
         :param user_ids: 可选，成员ID列表，多个接收者用‘|’分隔，最多支持1000个。
@@ -51,7 +51,7 @@ class WeChatBatch(BaseWeChatAPI):
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
-        :param url: 企业应用接收企业号推送请求的访问协议和地址，支持http或https协议
+        :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
         :param encoding_aes_key: 用于消息体的加密，是AES密钥的Base64编码
         :param media_id: 上传的csv文件的media_id
@@ -75,7 +75,7 @@ class WeChatBatch(BaseWeChatAPI):
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
-        :param url: 企业应用接收企业号推送请求的访问协议和地址，支持http或https协议
+        :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
         :param encoding_aes_key: 用于消息体的加密，是AES密钥的Base64编码
         :param media_id: 上传的csv文件的media_id
@@ -99,7 +99,7 @@ class WeChatBatch(BaseWeChatAPI):
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
 
-        :param url: 企业应用接收企业号推送请求的访问协议和地址，支持http或https协议
+        :param url: 企业应用接收企业微信推送请求的访问协议和地址，支持http或https协议
         :param token: 用于生成签名
         :param encoding_aes_key: 用于消息体的加密，是AES密钥的Base64编码
         :param media_id: 上传的csv文件的media_id

@@ -131,7 +131,7 @@ class WeChatUser(BaseWeChatAPI):
         详情请参考
         http://qydev.weixin.qq.com/wiki/index.php?title=Userid%E4%B8%8Eopenid%E4%BA%92%E6%8D%A2%E6%8E%A5%E5%8F%A3
 
-        :param user_id: 企业号内的成员 ID
+        :param user_id: 企业微信内的成员 ID
         :param agent_id: 可选，需要发送红包的应用ID，若只是使用微信支付和企业转账，则无需该参数
         :return: 返回的 JSON 数据包
         """
@@ -148,7 +148,7 @@ class WeChatUser(BaseWeChatAPI):
         http://qydev.weixin.qq.com/wiki/index.php?title=Userid%E4%B8%8Eopenid%E4%BA%92%E6%8D%A2%E6%8E%A5%E5%8F%A3
 
         :param openid: 在使用微信支付、微信红包和企业转账之后，返回结果的openid
-        :return: 该 openid 在企业号中对应的成员 user_id
+        :return: 该 openid 在企业微信中对应的成员 user_id
         """
         res = self._post(
             'user/convert_to_userid',

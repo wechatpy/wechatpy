@@ -25,13 +25,13 @@ class WeChatService(BaseWeChatAPI):
 
     def get_login_info(self, auth_code, provider_access_token=None):
         """
-        获取企业号登录用户信息
+        获取企业微信登录用户信息
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=获取企业号登录用户信息
+        http://qydev.weixin.qq.com/wiki/index.php?title=获取企业微信登录用户信息
 
         :param provider_access_token: 服务提供商的 accesstoken
-        :param auth_code: OAuth 2.0 授权企业号管理员登录产生的 code
+        :param auth_code: OAuth 2.0 授权企业微信管理员登录产生的 code
         :return: 返回的 JSON 数据包
         """
         return self._post(
@@ -46,14 +46,14 @@ class WeChatService(BaseWeChatAPI):
 
     def get_login_url(self, login_ticket, target, agentid=None, provider_access_token=None):
         """
-        获取登录企业号官网的url
+        获取登录企业微信官网的url
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=获取登录企业号官网的url
+        http://qydev.weixin.qq.com/wiki/index.php?title=获取登录企业微信官网的url
 
         :param provider_access_token: 服务提供商的 accesstoken
         :param login_ticket: 通过get_login_info得到的login_ticket, 10小时有效
-        :param target: 登录跳转到企业号后台的目标页面
+        :param target: 登录跳转到企业微信后台的目标页面
         :param agentid: 可选，授权方应用id
         :return: 返回的 JSON 数据包
         """

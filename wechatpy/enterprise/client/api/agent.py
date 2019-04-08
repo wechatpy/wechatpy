@@ -9,8 +9,8 @@ class WeChatAgent(BaseWeChatAPI):
 
     def get(self, agent_id):
         """
-        获取企业号应用
-        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=获取企业号应用
+        获取企业微信应用
+        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=获取企业微信应用
 
         :param agent_id: 授权方应用 id
         :return: 返回的 JSON 数据包
@@ -32,8 +32,8 @@ class WeChatAgent(BaseWeChatAPI):
             is_report_user=True,
             is_report_enter=True):
         """
-        设置企业号应用
-        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=设置企业号应用
+        设置企业微信应用
+        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=设置企业微信应用
 
         :param agent_id: 企业应用的 id
         :param name: 企业应用名称
