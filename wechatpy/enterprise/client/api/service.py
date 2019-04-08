@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -7,12 +8,11 @@ class WeChatService(BaseWeChatAPI):
 
     def get_provider_token(self, provider_secret):
         """
-        获取应用提供商凭证
+        获取服务商凭证
 
-        详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=获取应用提供商凭证
+        https://work.weixin.qq.com/api/doc#90001/90143/91200
 
-        :param provider_secret: 提供商的secret，在提供商管理页面可见
+        :param provider_secret: 服务商的secret，在服务商管理后台可见
         :return: 返回的 JSON 数据包
         """
         return self._post(
@@ -20,6 +20,26 @@ class WeChatService(BaseWeChatAPI):
             data={
                 'corpid': self._client.corp_id,
                 'provider_secret': provider_secret,
+            }
+        )
+
+    def get_suite_token(self, suite_id, suite_secret, suite_ticket):
+        """
+        获取第三方应用凭证
+
+        https://work.weixin.qq.com/api/doc#90001/90143/9060
+
+        :param suite_id: 以ww或wx开头应用id（对应于旧的以tj开头的套件id）
+        :param suite_secret:  应用secret
+        :param suite_ticket: 企业微信后台推送的ticket
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            'service/get_suite_token',
+            data={
+                'suite_id': suite_id,
+                'suite_secret': suite_secret,
+                'suite_ticket': suite_ticket
             }
         )
 

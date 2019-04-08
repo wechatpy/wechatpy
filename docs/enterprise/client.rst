@@ -111,6 +111,12 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
+服务商接口(第三方应用)
+--------------------------
+
+.. autoclass:: WeChatService
+   :members:
+   :inherited-members:
 
 用户接口
 ----------------------
