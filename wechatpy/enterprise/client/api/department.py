@@ -17,7 +17,7 @@ class WeChatDepartment(BaseWeChatAPI):
 
         https://work.weixin.qq.com/api/doc#90000/90135/90205
 
-        :param name: 部门名称。长度限制为1~32个字符，字符不能包括\:?”<>｜
+        :param name: 部门名称。长度限制为1~32个字符，字符不能包括\\:?”<>｜
         :param parent_id: 父部门id，32位整型
         :param order: 在父部门中的次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
         :param id: 部门id，32位整型，指定时必须大于1。若不填该参数，将自动生成id
@@ -38,7 +38,7 @@ class WeChatDepartment(BaseWeChatAPI):
         https://work.weixin.qq.com/api/doc#90000/90135/90206
 
         :param id: 部门 id
-        :param name: 部门名称。长度限制为1~32个字符，字符不能包括\:?”<>｜
+        :param name: 部门名称。长度限制为1~32个字符，字符不能包括\\:?”<>｜
         :param parent_id: 父亲部门id
         :param order: 在父部门中的次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
         :return: 返回的 JSON 数据包
