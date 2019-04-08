@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -9,10 +10,10 @@ class WeChatAgent(BaseWeChatAPI):
 
     def get(self, agent_id):
         """
-        获取企业微信应用
-        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=获取企业微信应用
+        获取指定的应用详情
+        https://work.weixin.qq.com/api/doc#90001/90143/90363/获取指定的应用详情/
 
-        :param agent_id: 授权方应用 id
+        :param agent_id: 应用id
         :return: 返回的 JSON 数据包
         """
         return self._get(
@@ -21,6 +22,16 @@ class WeChatAgent(BaseWeChatAPI):
                 'agentid': agent_id
             }
         )
+
+    def list(self):
+        """
+        获取access_token对应的应用列表
+        https://work.weixin.qq.com/api/doc#90001/90143/90363/获取access_token对应的应用列表/
+
+        :return: 应用概况列表
+        """
+        res = self._get('agent/list')
+        return res['agentlist']
 
     def set(self,
             agent_id,
@@ -32,8 +43,8 @@ class WeChatAgent(BaseWeChatAPI):
             is_report_user=True,
             is_report_enter=True):
         """
-        设置企业微信应用
-        详情请参考 http://qydev.weixin.qq.com/wiki/index.php?title=设置企业微信应用
+        设置企业号应用
+        详情请参考 https://qydev.weixin.qq.com/wiki/index.php?title=设置企业号应用
 
         :param agent_id: 企业应用的 id
         :param name: 企业应用名称
@@ -58,14 +69,3 @@ class WeChatAgent(BaseWeChatAPI):
             'agent/set',
             data=agent_data
         )
-
-    def list(self):
-        """
-        获取应用概况列表
-        详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=获取应用概况列表
-
-        :return: 应用概况列表
-        """
-        res = self._get('agent/list')
-        return res['agentlist']
