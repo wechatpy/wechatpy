@@ -12,7 +12,7 @@ class WeChatQRCode(BaseWeChatAPI):
         """
         创建二维码
         详情请参考
-        http://mp.weixin.qq.com/wiki/18/28fc21e7ed87bec960651f0ce873ef8a.html
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
 
         :param data: 你要发送的参数 dict
         :return: 返回的 JSON 数据包
@@ -40,7 +40,7 @@ class WeChatQRCode(BaseWeChatAPI):
         """
         通过ticket换取二维码
         详情请参考
-        http://mp.weixin.qq.com/wiki/18/28fc21e7ed87bec960651f0ce873ef8a.html
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
 
         :param ticket: 二维码 ticket 。可以通过 :func:`create` 获取到
         :return: 返回的 Request 对象
@@ -67,7 +67,7 @@ class WeChatQRCode(BaseWeChatAPI):
         """
         通过ticket换取二维码地址
         详情请参考
-        http://mp.weixin.qq.com/wiki/18/28fc21e7ed87bec960651f0ce873ef8a.html
+        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
 
         :param ticket: 二维码 ticket 。可以通过 :func:`create` 获取到
         :return: 返回的二维码地址
