@@ -118,23 +118,23 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
-用户接口
-----------------------
+摇一摇周边接口(旧接口，建议更换)
+---------------------------------
 
-.. autoclass:: WeChatUser
+.. autoclass:: WeChatShakeAround
    :members:
    :inherited-members:
 
-标签接口
+标签管理
 ----------------------
 
 .. autoclass:: WeChatTag
    :members:
    :inherited-members:
 
-摇一摇周边接口
----------------------------------
+用户管理
+----------------------
 
-.. autoclass:: WeChatShakeAround
+.. autoclass:: WeChatUser
    :members:
    :inherited-members:

@@ -93,13 +93,12 @@ class WeChatDepartment(BaseWeChatAPI):
         :return: 部门成员列表
         """
         url = 'user/simplelist' if simple else 'user/list'
-        fetch_child = 1 if fetch_child else 0
         res = self._get(
             url,
             params={
                 'department_id': id,
                 'status': status,
-                'fetch_child': fetch_child
+                'fetch_child': 1 if fetch_child else 0
             }
         )
         return res['userlist']
