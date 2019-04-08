@@ -5,6 +5,13 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatService(BaseWeChatAPI):
+    """
+    应用授权（服务商、第三方应用开发相关）
+
+    https://work.weixin.qq.com/api/doc#90001/90143/90597
+
+    新的授权体系有部分接口未实现，欢迎提交 PR。
+    """
 
     def get_provider_token(self, provider_secret):
         """
