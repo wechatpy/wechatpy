@@ -9,6 +9,7 @@ from wechatpy.utils import to_text
 
 class WeChatBatch(BaseWeChatAPI):
     """
+    “微信企业号”旧接口。文档见
     https://qydev.weixin.qq.com/wiki/index.php?title=异步任务接口
     """
 
