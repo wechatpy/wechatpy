@@ -30,6 +30,11 @@ WeChatClient
 
 .. module:: wechatpy.enterprise.client.api
 
+应用管理
+----------------------
+.. autoclass:: WeChatAgent
+   :members:
+   :inherited-members:
 
 用户接口
 ----------------------
