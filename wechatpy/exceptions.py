@@ -9,6 +9,7 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+
 import six
 
 from wechatpy.utils import to_binary, to_text
@@ -49,6 +50,7 @@ class WeChatException(Exception):
 
 class WeChatClientException(WeChatException):
     """WeChat API client exception class"""
+
     def __init__(self, errcode, errmsg, client=None,
                  request=None, response=None):
         super(WeChatClientException, self).__init__(errcode, errmsg)
@@ -88,6 +90,7 @@ class WeChatComponentOAuthException(WeChatClientException):
 
 class WeChatPayException(WeChatClientException):
     """WeChat Pay API exception class"""
+
     def __init__(self, return_code, result_code=None, return_msg=None,
                  errcode=None, errmsg=None, client=None,
                  request=None, response=None):

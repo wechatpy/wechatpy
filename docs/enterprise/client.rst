@@ -83,6 +83,13 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
+自定义菜单
+----------------------------
+
+.. autoclass:: WeChatMenu
+   :members:
+   :inherited-members:
+
 用户接口
 ----------------------
 
@@ -101,13 +108,6 @@ JS-SDK 接口
 -----------------------------
 
 .. autoclass:: WeChatMessage
-   :members:
-   :inherited-members:
-
-自定义菜单接口
-----------------------------
-
-.. autoclass:: WeChatMenu
    :members:
    :inherited-members:
 

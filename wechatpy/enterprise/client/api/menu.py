@@ -1,12 +1,24 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.exceptions import WeChatClientException
 
 
 class WeChatMenu(BaseWeChatAPI):
+    """
+    自定义菜单
+
+    https://work.weixin.qq.com/api/doc#90000/90135/90230
+    """
 
     def create(self, agent_id, menu_data):
+        """
+        创建菜单
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90231
+
+        :param agent_id: 应用id
+        """
         return self._post(
             'menu/create',
             params={
@@ -16,21 +28,28 @@ class WeChatMenu(BaseWeChatAPI):
         )
 
     def get(self, agent_id):
-        try:
-            return self._get(
-                'menu/get',
-                params={
-                    'agentid': agent_id
-                }
-            )
-        except WeChatClientException as e:
-            if e.errcode == 46003:
-                # menu not exist
-                return None
-            else:
-                raise e
+        """
+        获取菜单
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90232
+
+        :param agent_id: 应用id
+        """
+        return self._get(
+            'menu/get',
+            params={
+                'agentid': agent_id
+            }
+        )
 
     def delete(self, agent_id):
+        """
+        删除菜单
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90233
+
+        :param agent_id: 应用id
+        """
         return self._get(
             'menu/delete',
             params={
