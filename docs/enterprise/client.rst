@@ -36,6 +36,12 @@ WeChatClient
    :members:
    :inherited-members:
 
+群聊会话
+----------------------
+.. autoclass:: WeChatAppChat
+   :members:
+   :inherited-members:
+
 用户接口
 ----------------------
 

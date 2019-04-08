@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatAppChat(BaseWeChatAPI):
+    """
+    https://work.weixin.qq.com/api/doc#90000/90135/90244
+    """
 
-    def create(self, chat_id, name, owner, user_list):
+    def create(self, chat_id=None, name=None, owner=None, user_list=None):
         """
         创建群聊会话
 
         详情请参考
         https://work.weixin.qq.com/api/doc#90000/90135/90245
+
+        限制说明：
+        只允许企业自建应用调用，且应用的可见范围必须是根部门；
+        群成员人数不可超过管理端配置的“群成员人数上限”，且最大不可超过500人；
+        每企业创建群数不可超过1000/天；
 
         :param chat_id: 群聊的唯一标志，不能与已有的群重复；字符串类型，最长32个字符。只允许字符0-9及字母a-zA-Z。如果不填，系统会随机生成群id
         :param name: 群聊名，最多50个utf8字符，超过将截断
@@ -20,15 +29,13 @@ class WeChatAppChat(BaseWeChatAPI):
         :param user_list: 会话成员列表，成员用userid来标识。至少2人，至多500人
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'appchat/create',
-            data={
-                'chatid': chat_id,
-                'name': name,
-                'owner': owner,
-                'userlist': user_list,
-            }
+        data = optionaldict(
+            chatid=chat_id,
+            name=name,
+            owner=owner,
+            userlist=user_list,
         )
+        return self._post('appchat/create', data=data)
 
     def get(self, chat_id):
         """
@@ -67,7 +74,42 @@ class WeChatAppChat(BaseWeChatAPI):
         )
         return self._post('appchat/update', data=data)
 
-    def __build_msg_content(self, msgtype="text", **kwargs):
+    def send(self, chat_id, msg_type, **kwargs):
+        """
+        应用推送消息
+
+        详情请参考：https://work.weixin.qq.com/api/doc#90000/90135/90248
+        :param chat_id: 群聊id
+        :param msg_type: 消息类型，可以为text/image/voice/video/file/textcard/news/mpnews/markdown
+        :param kwargs: 具体消息类型的扩展参数
+        :return:
+        """
+        data = {
+            'chatid': chat_id,
+            'safe': kwargs.get('safe') or 0
+        }
+        data.update(self._build_msg_content(msg_type, **kwargs))
+
+        return self._post('appchat/send', data=data)
+
+    def send_msg(self, chat_id, msg_type, **kwargs):
+        """ deprecated, use `send` instead """
+        return self.send(chat_id, msg_type, **kwargs)
+
+    def send_text(self, chat_id, content, safe=0):
+        """
+        发送文本消息
+
+        详情请参考：https://work.weixin.qq.com/api/doc#90000/90135/90248/文本消息/
+
+        :param chat_id: 群聊id
+        :param content: 消息内容
+        :param safe: 表示是否是保密消息，0表示否，1表示是，默认0
+        :return:
+        """
+        return self.send(chat_id, 'text', safe=safe, content=content)
+
+    def _build_msg_content(self, msgtype='text', **kwargs):
         """
         构造消息内容
 
@@ -77,24 +119,24 @@ class WeChatAppChat(BaseWeChatAPI):
         :return:
         """
         data = {'msgtype': msgtype}
-        if msgtype == "text":
-            data[msgtype] = {"content": kwargs.get('content')}
-        elif msgtype == "image" or msgtype == "voice" or msgtype == "file":
-            data[msgtype] = {"media_id": kwargs.get("media_id")}
-        elif msgtype == "video":
+        if msgtype == 'text':
+            data[msgtype] = {'content': kwargs.get('content')}
+        elif msgtype == 'image' or msgtype == 'voice' or msgtype == 'file':
+            data[msgtype] = {'media_id': kwargs.get('media_id')}
+        elif msgtype == 'video':
             data[msgtype] = {
-                "media_id": kwargs.get("media_id"),
-                "title": kwargs.get("title"),
-                "description": kwargs.get("description")
+                'media_id': kwargs.get('media_id'),
+                'title': kwargs.get('title'),
+                'description': kwargs.get('description')
             }
-        elif msgtype == "textcard":
+        elif msgtype == 'textcard':
             data[msgtype] = {
-                "title": kwargs.get("title"),
-                "description": kwargs.get("description"),
-                "url": kwargs.get("url"),
-                "btntxt": kwargs.get("btntxt"),
+                'title': kwargs.get('title'),
+                'description': kwargs.get('description'),
+                'url': kwargs.get('url'),
+                'btntxt': kwargs.get('btntxt'),
             }
-        elif msgtype == "news":
+        elif msgtype == 'news':
             # {
             #         "articles" :
             #         [
@@ -107,7 +149,7 @@ class WeChatAppChat(BaseWeChatAPI):
             #         ]
             #     }
             data[msgtype] = kwargs
-        elif msgtype == "mpnews":
+        elif msgtype == 'mpnews':
             # {
             #         "articles":[
             #             {
@@ -121,7 +163,7 @@ class WeChatAppChat(BaseWeChatAPI):
             #          ]
             #     }
             data[msgtype] = kwargs
-        elif msgtype == "markdown":
+        elif msgtype == 'markdown':
             #  {
             #         "content": "您的会议室已经预定，稍后会同步到`邮箱`
             #                 >**事项详情**
@@ -140,33 +182,4 @@ class WeChatAppChat(BaseWeChatAPI):
             data[msgtype] = kwargs
         else:
             raise TypeError('不能识别的msgtype: %s' % msgtype)
-
         return data
-
-    def send_msg(self, chat_id, msg_type, **kwargs):
-        """
-        发送消息
-
-        详情请参考：https://work.weixin.qq.com/api/doc#90000/90135/90248
-        :param chat_id: 群聊id
-        :param msg_type: 消息类型，可以为text/image/voice/video/file/textcard/news/mpnews/markdown
-        :param kwargs: 具体消息类型的扩展参数
-        :return:
-        """
-        data = {
-            'chatid': chat_id,
-            'safe': kwargs.get('safe') or 0
-        }
-        data.update(self.__build_msg_content(msg_type, **kwargs))
-
-        return self._post('appchat/send', data=data)
-
-    def send_text(self, chat_id, content):
-        """
-        发送文本消息
-
-        :param chat_id: 群聊id
-        :param content: 消息内容
-        :return:
-        """
-        return self.send_msg(chat_id, 'text', content=content)
