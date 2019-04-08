@@ -55,6 +55,13 @@ WeChatClient
    :members:
    :inherited-members:
 
+部门管理
+----------------------
+
+.. autoclass:: WeChatDepartment
+   :members:
+   :inherited-members:
+
 用户接口
 ----------------------
 
