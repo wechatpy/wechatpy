@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from wechatpy.fields import IntegerField, BaseField
 from wechatpy import events
-
+from wechatpy.fields import BaseField, IntegerField
 
 EVENT_TYPES = {}
 
@@ -12,6 +11,7 @@ def register_event(event_type):
     def register(cls):
         EVENT_TYPES[event_type] = cls
         return cls
+
     return register
 
 
