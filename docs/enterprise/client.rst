@@ -62,6 +62,13 @@ WeChatClient
    :members:
    :inherited-members:
 
+JS-SDK 接口
+---------------------------
+
+.. autoclass:: WeChatJSAPI
+   :members:
+   :inherited-members:
+
 用户接口
 ----------------------
 
@@ -101,13 +108,6 @@ WeChatClient
 --------------------------
 
 .. autoclass:: WeChatMisc
-   :members:
-   :inherited-members:
-
-JS-SDK 接口
----------------------------
-
-.. autoclass:: WeChatJSAPI
    :members:
    :inherited-members:
 
