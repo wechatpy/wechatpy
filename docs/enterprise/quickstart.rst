@@ -122,7 +122,7 @@ Shove 示例:
 
 .. code-block:: python
 
-    from wechatpy.session.shovestorage import ShoveStorag
+    from wechatpy.session.shovestorage import ShoveStorage
   
 memcached 示例:
 
