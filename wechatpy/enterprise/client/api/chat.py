@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatChat(BaseWeChatAPI):
+    """
+    “微信企业号”旧接口，企业微信请使用 appchat。
+    """
 
     def create(self, chat_id, name, owner, user_list):
         """
         创建会话
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param chat_id: 会话id。字符串类型，最长32个字符。只允许字符0-9及字母a-zA-Z,
                         如果值内容为64bit无符号整型：要求值范围在[1, 2^63)之间，
@@ -37,7 +41,7 @@ class WeChatChat(BaseWeChatAPI):
         获取会话
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param chat_id: 会话 ID
         :return: 会话信息
@@ -51,7 +55,7 @@ class WeChatChat(BaseWeChatAPI):
         修改会话
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param chat_id: 会话 ID
         :param op_user: 操作人 userid
@@ -76,7 +80,7 @@ class WeChatChat(BaseWeChatAPI):
         退出会话
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param chat_id: 会话 ID
         :param op_user: 操作人 userid
@@ -95,7 +99,7 @@ class WeChatChat(BaseWeChatAPI):
         清除会话未读状态
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param op_user: 会话所有者的userid
         :param type: 会话类型：single|group，分别表示：单聊|群聊
@@ -118,7 +122,7 @@ class WeChatChat(BaseWeChatAPI):
         设置成员新消息免打扰
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param user_mute_list: 成员新消息免打扰参数，数组，最大支持10000个成员
         :return: 返回的 JSON 数据包
@@ -133,7 +137,7 @@ class WeChatChat(BaseWeChatAPI):
         发送文本消息
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param sender: 发送人
         :param receiver_type: 接收人类型：single|group，分别表示：单聊|群聊
@@ -181,7 +185,7 @@ class WeChatChat(BaseWeChatAPI):
         发送图片消息
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param sender: 发送人
         :param receiver_type: 接收人类型：single|group，分别表示：单聊|群聊
@@ -229,7 +233,7 @@ class WeChatChat(BaseWeChatAPI):
         发送文件消息
 
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
+        https://qydev.weixin.qq.com/wiki/index.php?title=企业会话接口说明
 
         :param sender: 发送人
         :param receiver_type: 接收人类型：single|group，分别表示：单聊|群聊

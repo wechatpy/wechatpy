@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import xmltodict
 
+from wechatpy.enterprise.events import EVENT_TYPES
+from wechatpy.enterprise.messages import MESSAGE_TYPES
 from wechatpy.messages import UnknownMessage
 from wechatpy.utils import to_text
-from wechatpy.enterprise.messages import MESSAGE_TYPES
-from wechatpy.enterprise.events import EVENT_TYPES
 
 
 def parse_message(xml):

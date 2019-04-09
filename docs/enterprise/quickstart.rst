@@ -1,13 +1,13 @@
-企业号快速上手
+企业微信快速上手
 ===========================================
-基于微信公众号的开发一般分为如下两种
+基于企业微信的开发一般分为如下两种
 
 * 回调模式
     * 用户通过公众号产生的一系列消息（例如普通文本消息、扫码事件消息、微信支付成功事件消息）
-    * 开发者需要根据不同的消息，做出对应的相应
+    * 开发者需要根据不同的消息，做出对应的响应
     * 此模式下，可以理解为微信服务器作为开发者服务器的客户端对开发者服务器发送 HTTP 请求（一般情况下为 POST）
 * 主动调用
-    * 开发者可以通过微信提供的 API 做出一系列操作，例如向用户主动推送消息
+    * 开发者可以通过企业微信提供的 API 做出一系列操作，例如向用户主动推送消息
 
 微信回调模式接入
 -------------------------
@@ -117,24 +117,24 @@ Redis 示例:
         secret,
         session=session_interface
     )
-    
+
 Shove 示例:
 
 .. code-block:: python
 
-    from wechatpy.session.shovestorage import ShoveStorag 
-   
+    from wechatpy.session.shovestorage import ShoveStorag
+  
 memcached 示例:
 
 .. code-block:: python
 
-    from wechatpy.session.memcachedstorage import MemcachedStorage 
-   
+    from wechatpy.session.memcachedstorage import MemcachedStorage
+  
 memory 示例:
 
 .. code-block:: python
 
-    from wechatpy.session.memorystorage import MemoryStorage 
+    from wechatpy.session.memorystorage import MemoryStorage
 
 自定义 Storage
 !!!!!!!!!!!!!!

@@ -1,50 +1,52 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import requests
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMedia(BaseWeChatAPI):
+    """
+    素材管理
+
+    https://work.weixin.qq.com/api/doc#90000/90135/91054
+    """
 
     def upload(self, media_type, media_file):
         """
-        上传临时素材文件
-        详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E4%B8%8A%E4%BC%A0%E4%B8%B4%E6%97%B6%E7%B4%A0%E6%9D%90%E6%96%87%E4%BB%B6
+        上传临时素材
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90253
 
         :param media_type: 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和普通文件（file）
         :param media_file: 要上传的文件，一个 File-object
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'media/upload',
-            params={
-                'type': media_type
-            },
-            files={
-                'media': media_file
-            }
-        )
+        return self._post('media/upload', params={'type': media_type}, files={'media': media_file})
 
-    def download(self, media_id):
+    def upload_img(self, image_file):
         """
-        获取临时素材文件
-        详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E4%B8%B4%E6%97%B6%E7%B4%A0%E6%9D%90%E6%96%87%E4%BB%B6
+        上传永久图片
 
-        :param media_id: 媒体文件 ID
-        :return: requests 的 Response 实例
+        https://work.weixin.qq.com/api/doc#90000/90135/90256
+
+        上传图片得到图片URL，该URL永久有效。
+        返回的图片URL，仅能用于图文消息（mpnews）正文中的图片展示；若用于非企业微信域名下的页面，图片将被屏蔽。
+        每个企业每天最多可上传100张图片。
+        图片文件大小应在 5B ~ 2MB 之间。
+
+        :return: 返回的 JSON 数据包
         """
-        return requests.get(self.get_url(media_id))
+        return self._post('media/uploadimg', files={'media': image_file})
 
     def get_url(self, media_id):
         """
-        获取临时素材下载地址
-        详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E4%B8%B4%E6%97%B6%E7%B4%A0%E6%9D%90%E6%96%87%E4%BB%B6
+        获取临时素材
 
-        :param media_id: 媒体文件 ID
+        https://work.weixin.qq.com/api/doc#90000/90135/90254
+
+        :param media_id: 媒体文件id
         :return: 临时素材下载地址
         """
         parts = (
@@ -55,3 +57,32 @@ class WeChatMedia(BaseWeChatAPI):
             media_id
         )
         return ''.join(parts)
+
+    def get_jssdk_url(self, media_id):
+        """
+        获取高清语音素材
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90255
+
+        :param media_id: 通过JSSDK的uploadVoice接口上传的语音文件id
+        :return: 高清语音素材下载地址
+        """
+        parts = (
+            'https://qyapi.weixin.qq.com/cgi-bin/media/get/jssdk',
+            '?access_token=',
+            self.access_token,
+            '&media_id=',
+            media_id
+        )
+        return ''.join(parts)
+
+    def download(self, media_id):
+        """
+        获取临时素材文件
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90254
+
+        :param media_id: 媒体文件id
+        :return: requests 的 Response 实例
+        """
+        return requests.get(self.get_url(media_id))

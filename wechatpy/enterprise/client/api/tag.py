@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatTag(BaseWeChatAPI):
+    """
+    标签管理
+
+    https://work.weixin.qq.com/api/doc#90000/90135/90209
+    """
 
     def create(self, name):
         return self._post(

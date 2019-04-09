@@ -1,5 +1,6 @@
 # encoding: utf-8
 from __future__ import absolute_import, unicode_literals
+
 import requests
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -11,7 +12,7 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         新增永久图文素材
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E4%B8%8A%E4%BC%A0%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E4%B8%8A%E4%BC%A0%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
 
         :param articles: 图文素材数组
         :return: 返回的 JSON 数据包
@@ -32,15 +33,15 @@ class WeChatMaterial(BaseWeChatAPI):
             data={
                 "mpnews": {
                     "articles": articles_data
-                    }
                 }
+            }
         )
 
     def add(self, agent_id, media_type, media_file):
         """
         新增其它类型永久素材
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E4%B8%8A%E4%BC%A0%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E4%B8%8A%E4%BC%A0%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
 
         :param agent_id: 企业应用的id
         :param media_type: 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）普通文件（file）
@@ -63,7 +64,7 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         获取永久素材下载地址
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
 
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
@@ -84,21 +85,19 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         获取永久素材
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
 
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
         :return: requests 的 Response 实例
         """
-        res = requests.get(self.get_url(agent_id, media_id))
-
-        return res
+        return requests.get(self.get_url(agent_id, media_id))
 
     def get_articles(self, agent_id, media_id):
         """
         获取永久素材：图文消息素材
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
 
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
@@ -116,7 +115,7 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         删除永久素材
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E5%88%A0%E9%99%A4%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E5%88%A0%E9%99%A4%E6%B0%B8%E4%B9%85%E7%B4%A0%E6%9D%90
 
         :param agent_id: 企业应用的id
         :param media_id: 媒体文件 ID
@@ -134,7 +133,7 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         修改永久图文素材
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E4%BF%AE%E6%94%B9%E6%B0%B8%E4%B9%85%E5%9B%BE%E6%96%87%E7%B4%A0%E6%9D%90
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E4%BF%AE%E6%94%B9%E6%B0%B8%E4%B9%85%E5%9B%BE%E6%96%87%E7%B4%A0%E6%9D%90
 
         :param media_id: 要修改的图文消息的 id
         :param index: 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为 0
@@ -165,7 +164,7 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         获取素材总数
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E7%B4%A0%E6%9D%90%E6%80%BB%E6%95%B0
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E7%B4%A0%E6%9D%90%E6%80%BB%E6%95%B0
 
         :param agent_id: 企业应用的id
         :return: 返回的 JSON 数据包
@@ -181,7 +180,7 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         批量获取永久素材列表
         详情请参考
-        http://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E7%B4%A0%E6%9D%90%E5%88%97%E8%A1%A8
+        https://qydev.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E7%B4%A0%E6%9D%90%E5%88%97%E8%A1%A8
 
         :param agent_id: 企业应用的id
         :param media_type: 媒体文件类型，分别有图文（mpnews）、图片（image）、

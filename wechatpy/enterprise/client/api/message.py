@@ -1,14 +1,32 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMessage(BaseWeChatAPI):
+    """
+    发送应用消息
 
-    def _send_message(self, agent_id, user_ids, party_ids='',
-                      tag_ids='', msg=None):
+    https://work.weixin.qq.com/api/doc#90000/90135/90236
+
+    支持：
+    * 文本消息
+    * 图片消息
+    * 语音消息
+    * 视频消息
+    * 文件消息
+    * 文本卡片消息
+    * 图文消息
+    * 图文消息（mpnews）
+    * markdown消息
+    * 小程序通知消息
+    """
+
+    def send(self, agent_id, user_ids, party_ids='',
+             tag_ids='', msg=None):
         msg = msg or {}
         if isinstance(user_ids, (tuple, list)):
             user_ids = '|'.join(user_ids)
@@ -24,14 +42,11 @@ class WeChatMessage(BaseWeChatAPI):
             'agentid': agent_id
         }
         data.update(msg)
-        return self._post(
-            'message/send',
-            data=data
-        )
+        return self._post('message/send', data=data)
 
     def send_text(self, agent_id, user_ids, content,
                   party_ids='', tag_ids='', safe=0):
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -46,7 +61,8 @@ class WeChatMessage(BaseWeChatAPI):
     def send_text_card(self, agent_id, user_ids, title, description, url, btntxt='详情',
                        party_ids='', tag_ids=''):
         """ 文本卡片消息
-        https://work.weixin.qq.com/api/doc#10167/文本卡片消息
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90236/文本卡片消息
 
         请求示例：
         {
@@ -78,7 +94,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param party_ids: 部门ID列表。
         :param tag_ids: 标签ID列表。
         """
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -96,7 +112,7 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send_image(self, agent_id, user_ids, media_id,
                    party_ids='', tag_ids='', safe=0):
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -112,7 +128,7 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send_voice(self, agent_id, user_ids, media_id,
                    party_ids='', tag_ids='', safe=0):
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -133,7 +149,7 @@ class WeChatMessage(BaseWeChatAPI):
         video_data['title'] = title
         video_data['description'] = description
 
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -147,7 +163,7 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send_file(self, agent_id, user_ids, media_id,
                   party_ids='', tag_ids='', safe=0):
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -171,7 +187,7 @@ class WeChatMessage(BaseWeChatAPI):
                 'url': article['url'],
                 'picurl': article['image']
             })
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,
@@ -197,7 +213,7 @@ class WeChatMessage(BaseWeChatAPI):
                 'digest': article['digest'],
                 'show_cover_pic': article['show_cover_pic']
             })
-        return self._send_message(
+        return self.send(
             agent_id,
             user_ids,
             party_ids,

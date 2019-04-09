@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import six
 
 from wechatpy import replies
 from wechatpy.fields import IntegerField
-
 
 REPLY_TYPES = {}
 
@@ -13,6 +13,7 @@ def register_reply(reply_type):
     def register(cls):
         REPLY_TYPES[reply_type] = cls
         return cls
+
     return register
 
 
