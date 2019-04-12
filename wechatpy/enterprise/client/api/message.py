@@ -27,6 +27,19 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send(self, agent_id, user_ids, party_ids='',
              tag_ids='', msg=None):
+        """
+        通用的消息发送接口。msg 内需要指定 msgtype 和对应类型消息必须的字段。
+        如果部分接收人无权限或不存在，发送仍然执行，但会返回无效的部分（即invaliduser或invalidparty或invalidtag），常见的原因是接收人不在应用的可见范围内。
+        user_ids、party_ids、tag_ids 不能同时为空，后面不再强调。
+
+        :param agent_id: 必填，企业应用的id，整型。可在应用的设置页面查看。
+        :param user_ids: 成员ID列表。
+        :param party_ids: 部门ID列表。
+        :param tag_ids: 标签ID列表。
+        :param msg: 发送消息的 dict 对象
+        :type msg: dict | None
+        :return: 接口调用结果
+        """
         msg = msg or {}
         if isinstance(user_ids, (tuple, list)):
             user_ids = '|'.join(user_ids)
