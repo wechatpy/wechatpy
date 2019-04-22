@@ -210,3 +210,37 @@ class WeChatMessage(BaseWeChatAPI):
                 'safe': safe
             }
         )
+
+    def send_markdown(self, agent_id, content, user_ids, party_ids, tag_ids):
+        """markdown消息
+
+        https://work.weixin.qq.com/api/doc#90000/90135/90236/markdown%E6%B6%88%E6%81%AF
+
+        > 目前仅支持markdown语法的子集
+        > 微工作台（原企业号）不支持展示markdown消息
+
+        :param agent_id: 企业应用的id，整型。可在应用的设置页面查看
+        :type agent_id: string
+        :param content: markdown内容，最长不超过2048个字节，必须是utf8编码
+        :type content: string
+        :param user_ids: 成员ID列表（消息接收者，多个接收者用‘|’分隔，最多支持1000个）。
+            特殊情况：指定为@all，则向关注该企业应用的全部成员发送
+        :type user_ids: list or tuple or string
+        :param party_ids: 部门ID列表，最多支持100个。当touser为@all时忽略本参数
+        :type party_ids: list or tuple or string
+        :param tag_ids: 标签ID列表，最多支持100个。当touser为@all时忽略本参数
+        :type tag_ids: list or tuple or string
+        :return: 接口调用结果
+        :rtype: dict
+        """
+        msg = {
+            "msgtype": "markdown",
+            "markdown": {"content": content}
+        }
+        return self._send_message(
+            agent_id=agent_id,
+            user_ids=user_ids,
+            party_ids=party_ids,
+            tag_ids=tag_ids,
+            msg=msg
+        )
