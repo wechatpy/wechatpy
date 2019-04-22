@@ -240,7 +240,7 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def send_markdown(self, agent_id, content, user_ids, party_ids, tag_ids):
+    def send_markdown(self, agent_id, user_ids, content, party_ids='', tag_ids=''):
         """markdown消息
 
         https://work.weixin.qq.com/api/doc#90000/90135/90236/markdown%E6%B6%88%E6%81%AF
