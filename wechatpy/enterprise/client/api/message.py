@@ -263,7 +263,7 @@ class WeChatMessage(BaseWeChatAPI):
         :rtype: dict
         """
         msg = {
-            "msgtype" : "markdown",
+            "msgtype": "markdown",
             "markdown": {"content": content}
         }
         return self._send_message(
