@@ -7,7 +7,7 @@ import os
 
 import pytest
 
-from wechatpy.utils import ObjectDict, check_signature
+from wechatpy.utils import ObjectDict, check_signature, check_wxa_signature
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _CERTS_PATH = os.path.join(_TESTS_PATH, 'certs')
@@ -47,6 +47,25 @@ class UtilityTestCase(unittest.TestCase):
             InvalidSignatureException,
             check_signature,
             token, signature, timestamp, nonce
+        )
+
+    def test_check_wxa_signature(self):
+        import json
+        from wechatpy.exceptions import InvalidSignatureException
+
+        # 微信官方示例
+        raw_data = '{"nickName":"Band","gender":1,"language":"zh_CN","city":"Guangzhou","province":"Guangdong","country":"CN","avatarUrl":"http://wx.qlogo.cn/mmopen/vi_32/1vZvI39NWFQ9XM4LtQpFrQJ1xlgZxx3w7bQxKARol6503Iuswjjn6nIGBiaycAjAtpujxyzYsrztuuICqIM5ibXQ/0"}' # noqa
+        session_key = 'HyVFkGl5F5OQWJZZaNzBBg=='
+        client_signature = '75e81ceda165f4ffa64f4068af58c64b8f54b88c'
+        data = json.loads(raw_data)
+        checked_data = check_wxa_signature(session_key, raw_data, client_signature)
+        self.assertEqual(data, checked_data)
+
+        client_signature = "fake_sign"
+        self.assertRaises(
+            InvalidSignatureException,
+            check_wxa_signature,
+            session_key, raw_data, client_signature
         )
 
     def test_wechat_card_signer(self):
