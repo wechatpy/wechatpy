@@ -266,10 +266,10 @@ class WeChatMessage(BaseWeChatAPI):
             "msgtype": "markdown",
             "markdown": {"content": content}
         }
-        return self._send_message(
-            agent_id=agent_id,
-            user_ids=user_ids,
-            party_ids=party_ids,
-            tag_ids=tag_ids,
+        return self.send(
+            agent_id,
+            user_ids,
+            party_ids,
+            tag_ids,
             msg=msg
         )
