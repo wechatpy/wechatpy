@@ -85,7 +85,7 @@ def check_wxa_signature(session_key, raw_data, client_signature):
     :raises: InvalidSignatureException
     :return: 返回数据dict
     """
-    str2sign = (raw_data + session_key).encode()
+    str2sign = (raw_data + session_key).encode("utf-8")
     signature = hashlib.sha1(str2sign).hexdigest()
     if signature != client_signature:
         from wechatpy.exceptions import InvalidSignatureException
