@@ -92,8 +92,6 @@ def check_wxa_signature(session_key, raw_data, client_signature):
 
         raise InvalidSignatureException()
 
-    return json.loads(raw_data)
-
 
 def to_text(value, encoding='utf-8'):
     """Convert value to unicode, default encoding is utf-8
