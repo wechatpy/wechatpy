@@ -9,6 +9,7 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import json
 import string
 import random
 import hashlib
@@ -68,6 +69,25 @@ def check_signature(token, signature, timestamp, nonce):
     signer = WeChatSigner()
     signer.add_data(token, timestamp, nonce)
     if signer.signature != signature:
+        from wechatpy.exceptions import InvalidSignatureException
+
+        raise InvalidSignatureException()
+
+
+def check_wxa_signature(session_key, raw_data, client_signature):
+    """校验前端传来的rawData签名正确
+    详情请参考
+    https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html # noqa
+
+    :param session_key: code换取的session_key
+    :param raw_data: 前端拿到的rawData
+    :param client_signature: 前端拿到的signature
+    :raises: InvalidSignatureException
+    :return: 返回数据dict
+    """
+    str2sign = (raw_data + session_key).encode("utf-8")
+    signature = hashlib.sha1(str2sign).hexdigest()
+    if signature != client_signature:
         from wechatpy.exceptions import InvalidSignatureException
 
         raise InvalidSignatureException()

@@ -7,7 +7,7 @@ import os
 
 import pytest
 
-from wechatpy.utils import ObjectDict, check_signature
+from wechatpy.utils import ObjectDict, check_signature, check_wxa_signature
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _CERTS_PATH = os.path.join(_TESTS_PATH, 'certs')
@@ -48,6 +48,28 @@ class UtilityTestCase(unittest.TestCase):
             check_signature,
             token, signature, timestamp, nonce
         )
+
+    def test_check_wxa_signature(self):
+        from wechatpy.exceptions import InvalidSignatureException
+
+        # 微信官方示例
+        raw_data = '{"nickName":"Band","gender":1,"language":"zh_CN","city":"Guangzhou","province":"Guangdong","country":"CN","avatarUrl":"http://wx.qlogo.cn/mmopen/vi_32/1vZvI39NWFQ9XM4LtQpFrQJ1xlgZxx3w7bQxKARol6503Iuswjjn6nIGBiaycAjAtpujxyzYsrztuuICqIM5ibXQ/0"}' # noqa
+        session_key = 'HyVFkGl5F5OQWJZZaNzBBg=='
+        client_signature = '75e81ceda165f4ffa64f4068af58c64b8f54b88c'
+        check_wxa_signature(session_key, raw_data, client_signature)
+
+        client_signature = "fake_sign"
+        self.assertRaises(
+            InvalidSignatureException,
+            check_wxa_signature,
+            session_key, raw_data, client_signature
+        )
+
+        # 带中文的示例
+        raw_data = '{"nickName":"Xavier-Lam林","gender":1,"language":"zh_CN","city":"Ningde","province":"Fujian","country":"China","avatarUrl":"https://wx.qlogo.cn/mmopen/vi_32/vTxUxcbjcZ8t9eU6YfXBwRU89KS9uRILEDro01MTYp7UKYsyTjLFMIVhB0AlBuEvLHbhmO3OpaHw5zwlSetuLg/132"}' # noqa
+        session_key = 'GtYYez5b/M5HhT4L7n31gQ=='
+        client_signature = '8fde625b7640734a13c071c05d792b5cef21cf89'
+        check_wxa_signature(session_key, raw_data, client_signature)
 
     def test_wechat_card_signer(self):
         from wechatpy.utils import WeChatSigner
