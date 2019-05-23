@@ -15,8 +15,9 @@ class WeChatOrder(BaseWeChatPayAPI):
 
     def create(self, trade_type, body, total_fee, notify_url, client_ip=None,
                user_id=None, out_trade_no=None, detail=None, attach=None,
-               fee_type='CNY', time_start=None, time_expire=None, goods_tag=None,
-               product_id=None, device_info=None, limit_pay=None, scene_info=None, sub_user_id=None):
+               fee_type='CNY', time_start=None, time_expire=None,
+               goods_tag=None, product_id=None, device_info=None,
+               limit_pay=None, scene_info=None, sub_user_id=None, **kwargs):
         """
         统一下单接口
 
@@ -38,6 +39,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         :param device_info: 可选，终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
         :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :param scene_info: 可选，上报支付的场景信息
+        :param kwargs: 其他未列举在上述参数中的统一下单接口调用参数,例如电子发票入口开放标识receipt
         :type scene_info: dict
         :return: 返回的结果数据
         """
@@ -77,6 +79,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'sub_openid': sub_user_id,
             'scene_info': scene_info,
         }
+        data.update(kwargs)
         return self._post('pay/unifiedorder', data=data)
 
     def query(self, transaction_id=None, out_trade_no=None):
