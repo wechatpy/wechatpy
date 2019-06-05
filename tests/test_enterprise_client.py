@@ -81,6 +81,19 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.department.get_users(2)
             self.assertEqual(1, len(res))
 
+    def test_department_get_users_detail(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.department.get_users(2, simple=False)
+            self.assertEqual(1, len(res))
+
+    def test_department_map_users(self):
+        with HTTMock(wechat_api_mock):
+            users = self.client.department.get_map_users(2, key='email')
+            self.assertEqual(users, {'zhangthree@wechat.com': 'zhangthree-userid'})
+
+            users = self.client.department.get_map_users(key='mobile')
+            self.assertEqual(users, {'15723333333': 'zhangthree-userid'})
+
     def test_tag_create(self):
         with HTTMock(wechat_api_mock):
             res = self.client.tag.create('test')
