@@ -362,3 +362,123 @@ class WeChatClientTestCase(unittest.TestCase):
             )
 
         self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_get_follow_user_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_follow_user_list()
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.list('userid')
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_get(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get('external_userid')
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_add_contact_way(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.add_contact_way(
+                1, 1, 1, 'remark', True, 'state', ['UserID1', 'UserID2'],
+                ['PartyID1', 'PartyID2']
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_get_contact_way(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_contact_way(
+                '42b34949e138eb6e027c123cba77fad7'
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_update_contact_way(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.update_contact_way(
+                '42b34949e138eb6e027c123cba77fad7', '渠道客户', True,
+                1, 'teststate', ['UserID1', 'UserID2', 'UserID3'],
+                ['PartyID1', 'PartyID2']
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_del_contact_way(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.del_contact_way(
+                '42b34949e138eb6e027c123cba77fad7'
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_add_msg_template(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.add_msg_template(
+                {
+                    "external_userid": [
+                        "woAJ2GCAAAXtWyujaWJHDDGi0mACas1w",
+                        "wmqfasd1e1927831291723123109r712"
+                    ],
+                    "sender": "zhangsan",
+                    "text": {
+                        "content": "文本消息内容"
+                    },
+                    "image": {
+                        "media_id": "MEDIA_ID"
+                    }
+                }
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_get_group_msg_result(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_group_msg_result(
+                'msgGCAAAXtWyujaWJHDDGi0mACas1w'
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_get_user_behavior_data(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_user_behavior_data(
+                ["zhangsan", "lisi"], 1536508800, 1536940800
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_send_welcome_msg(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.send_welcome_msg(
+                {
+                    "welcome_code": "CALLBACK_CODE",
+                    "text": {
+                        "content": "文本消息内容"
+                    },
+                    "image": {
+                        "media_id": "MEDIA_ID"
+                    },
+                    "link": {
+                        "title": "消息标题",
+                        "picurl": "https://example.pic.com/path",
+                        "desc": "消息描述",
+                        "url": "https://example.link.com/path"
+                    },
+                    "miniprogram": {
+                        "title": "消息标题",
+                        "pic_media_id": "MEDIA_ID",
+                        "appid": "wx8bd80126147df384",
+                        "page": "/path/index"
+                    }
+                }
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_get_unassigned_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_unassigned_list(
+                0, 100
+            )
+            self.assertEqual(0, res['errcode'])
+
+    def test_external_contact_transfer(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.transfer(
+                "woAJ2GCAAAXtWyujaWJHDDGi0mACH71w", "zhangsan", "lisi"
+            )
+            self.assertEqual(0, res['errcode'])
