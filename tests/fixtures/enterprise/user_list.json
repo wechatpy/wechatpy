@@ -1,0 +1,35 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "userlist": [
+    {
+      "userid": "zhangthree-userid",
+      "name": "张三",
+      "department": [
+        345678
+      ],
+      "position": "CEO",
+      "mobile": "15723333333",
+      "gender": "1",
+      "email": "zhangthree@wechat.com",
+      "avatar": "http://p.qlogo.cn/bizmail/xxxxxx/0",
+      "status": 1,
+      "enable": 1,
+      "isleader": 0,
+      "extattr": {
+        "attrs": []
+      },
+      "hide_mobile": 0,
+      "english_name": "",
+      "telephone": "",
+      "order": [
+        0
+      ],
+      "qr_code": "https://open.work.weixin.qq.com/wwopen/userQRCode?vcode=",
+      "alias": "",
+      "is_leader_in_dept": [
+        0
+      ]
+    }
+  ]
+}
