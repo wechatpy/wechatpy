@@ -80,22 +80,27 @@ class ComponentUnauthorizedMessage(BaseComponentMessage):
 
 
 @register_component_message('authorized')
-class ComponentAuthorizedMessage(ComponentUnauthorizedMessage):
+class ComponentAuthorizedMessage(BaseComponentMessage):
     """
     新增授权通知
     """
     type = 'authorized'
+    authorizer_appid = StringField('AuthorizerAppid')
     authorization_code = StringField('AuthorizationCode')
     authorization_code_expired_time = StringField('AuthorizationCodeExpiredTime')
     pre_auth_code = StringField('PreAuthCode')
 
 
 @register_component_message('updateauthorized')
-class ComponentUpdateauthorizedMessage(ComponentAuthorizedMessage):
+class ComponentUpdateauthorizedMessage(BaseComponentMessage):
     """
     更新授权通知
     """
     type = 'updateauthorized'
+    authorizer_appid = StringField('AuthorizerAppid')
+    authorization_code = StringField('AuthorizationCode')
+    authorization_code_expired_time = StringField('AuthorizationCodeExpiredTime')
+    pre_auth_code = StringField('PreAuthCode')
 
 
 class ComponentUnknownMessage(BaseComponentMessage):
