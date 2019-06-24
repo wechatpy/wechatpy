@@ -372,8 +372,8 @@ class WeChatComponent(BaseWeChatComponent):
         result = self._query_auth(authorization_code)
 
         assert result is not None \
-               and 'authorization_info' in result \
-               and 'authorizer_appid' in result['authorization_info']
+            and 'authorization_info' in result \
+            and 'authorizer_appid' in result['authorization_info']
 
         authorizer_appid = result['authorization_info']['authorizer_appid']
         if 'authorizer_access_token' in result['authorization_info'] \
