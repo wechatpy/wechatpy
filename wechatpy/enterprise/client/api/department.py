@@ -120,7 +120,7 @@ class WeChatDepartment(BaseWeChatAPI):
         :param fetch_child: 1/0：是否递归获取子部门下面的成员
         :return: dict - 部门成员指定字段到 user_id 的 map  ``{ key: user_id }``
         """
-        ids = [id] if id is None else [item['id'] for item in self.get()]
+        ids = [id] if id is not None else [item['id'] for item in self.get()]
         users_info = list(chain(*[
             self.get_users(department, status=status, fetch_child=fetch_child, simple=False)
             for department in ids
