@@ -568,6 +568,33 @@ class WeChatComponent(BaseWeChatComponent):
         """
         return ComponentOAuth(authorizer_appid, component=self)
 
+    def get_template_list(self):
+        """
+        【小程序平台服务商】获取代码模版库中的所有小程序代码模版。
+         详情请参考
+         https://api.weixin.qq.com/wxa/gettemplatelist?access_token=TOKEN
+         返回参数（JSON格式）：
+            {
+                errcode: 0,
+                errmsg: 'ok',
+                template_list: [{
+                        create_time: 1488965944,
+                        user_version: 'VVV',
+                        user_desc: 'AAS',
+                        template_id: 0
+                    },
+                    {
+                        create_time: 1504790906,
+                        user_version: '11',
+                        user_desc: '111111',
+                        template_id: 4
+                    }
+                ]]
+            }
+         """
+        api_base_url = 'https://api.weixin.qq.com/'
+        return self.post('wxa/gettemplatelist', data={}, api_base_url=api_base_url)
+
 
 class ComponentOAuth(object):
     """ 微信开放平台 代公众号 OAuth 网页授权
