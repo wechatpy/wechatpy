@@ -38,6 +38,7 @@ def register_component_message(msg_type):
     def register(cls):
         COMPONENT_MESSAGE_TYPES[msg_type] = cls
         return cls
+
     return register
 
 
@@ -319,14 +320,13 @@ class BaseWeChatComponent(object):
 
 
 class WeChatComponent(BaseWeChatComponent):
-
     PRE_AUTH_URL = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage'
 
     def get_pre_auth_url(self, redirect_uri):
         redirect_uri = quote(redirect_uri, safe=b'')
         return "{0}?component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
-                self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
-            )
+            self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()['pre_auth_code'], redirect_uri
+        )
 
     def get_pre_auth_url_m(self, redirect_uri):
         """
@@ -372,8 +372,8 @@ class WeChatComponent(BaseWeChatComponent):
         result = self._query_auth(authorization_code)
 
         assert result is not None \
-            and 'authorization_info' in result \
-            and 'authorizer_appid' in result['authorization_info']
+               and 'authorization_info' in result \
+               and 'authorizer_appid' in result['authorization_info']
 
         authorizer_appid = result['authorization_info']['authorizer_appid']
         if 'authorizer_access_token' in result['authorization_info'] \
@@ -571,29 +571,117 @@ class WeChatComponent(BaseWeChatComponent):
     def get_template_list(self):
         """
         【小程序平台服务商】获取代码模版库中的所有小程序代码模版。
-         详情请参考
-         https://api.weixin.qq.com/wxa/gettemplatelist?access_token=TOKEN
+         详情请参考:
+            https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=
+         API接口URL:
+            https://api.weixin.qq.com/wxa/gettemplatelist?access_token=TOKEN
          返回参数（JSON格式）：
             {
+                "errcode": 0,
+                "errmsg": "ok",
+                "template_list": [{
+                        "create_time": 1488965944,
+                        "user_version": "VVV",
+                        "user_desc": "AAS",
+                        "draft_id": 0
+                    },
+                    {
+                        "create_time": 1504790906,
+                        "user_version": "11",
+                        "user_desc": "111111",
+                        "draft_id": 4
+                    }
+                ] ]
+            }
+         """
+        api_base_url = 'https://api.weixin.qq.com/'
+        return self.post('wxa/gettemplatelist', data={}, api_base_url=api_base_url)
+
+    def get_template_draft_list(self):
+        """
+        【小程序平台服务商】获取草稿箱内的所有临时代码草稿。
+         详情请参考:
+            https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=
+         API接口URL:
+            https://api.weixin.qq.com/wxa/gettemplatedraftlist?access_token=TOKEN
+
+         返回参数（JSON格式）：
+           {
+                "errcode": 0,
+                "errmsg": "ok",
+                "draft_list": [{
+                        "create_time": 1488965944,
+                        "user_version": "VVV",
+                        "user_desc": "AAS",
+                        "draft_id": 0
+                    },
+                    {
+                        "create_time": 1504790906,
+                        "user_version": "11",
+                        "user_desc": "111111",
+                        "draft_id": 4
+                    }
+                ] ]
+            }
+         """
+        api_base_url = 'https://api.weixin.qq.com/'
+        return self.post('wxa/gettemplatedraftlist', data={}, api_base_url=api_base_url)
+
+    def add_to_template(self, draft_id):
+        """
+        【小程序平台服务商】将草稿箱的草稿选为小程序代码模版。
+         详情请参考
+            https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=
+         接口URL：
+            https://api.weixin.qq.com/wxa/addtotemplate?access_token=TOKEN
+         返回参数（JSON格式）：
+           {
                 errcode: 0,
                 errmsg: 'ok',
+                draft
                 template_list: [{
                         create_time: 1488965944,
                         user_version: 'VVV',
                         user_desc: 'AAS',
-                        template_id: 0
+                        draft_id: 0
                     },
                     {
                         create_time: 1504790906,
                         user_version: '11',
                         user_desc: '111111',
-                        template_id: 4
+                        draft_id: 4
                     }
-                ]]
+                ] ]
             }
          """
         api_base_url = 'https://api.weixin.qq.com/'
-        return self.post('wxa/gettemplatelist', data={}, api_base_url=api_base_url)
+        return self.post('wxa/addtotemplate', data={
+            "draft_id": draft_id
+        }, api_base_url=api_base_url)
+
+    def delete_template(self, template_id):
+        """
+        【小程序平台服务商】将草稿箱的草稿选为小程序代码模版。
+         详情请参考
+            https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=
+         接口URL：
+            https://api.weixin.qq.com/wxa/deletetemplate?access_token=TOKEN
+
+         返回参数（JSON格式）：
+          {
+                "errcode": 0,
+                "errmsg": "ok",
+            }
+
+          错误码说明：
+            返回码	    说明
+            -1	        系统繁忙
+            85064	    找不到草稿
+         """
+        api_base_url = 'https://api.weixin.qq.com/'
+        return self.post('wxa/deletetemplate', data={
+            "template_id": template_id
+        }, api_base_url=api_base_url)
 
 
 class ComponentOAuth(object):
