@@ -1,0 +1,24 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "template_list": [
+    {
+      "create_time": 1561441919,
+      "user_version": "1.0.1",
+      "user_desc": "用户描述",
+      "template_id": 9,
+      "source_miniprogram_appid": "wxabc3b5090b1a6***",
+      "source_miniprogram": "开发小程序名称",
+      "developer": "开发者名称"
+    },
+    {
+      "create_time": 1561028981,
+      "user_version": "1.0.0",
+      "user_desc": "用户描述",
+      "template_id": 6,
+      "source_miniprogram_appid": "wxabc3b5090b1a6***",
+      "source_miniprogram": "开发小程序名称",
+      "developer": "开发者名称"
+    }
+  ]
+}

@@ -568,7 +568,7 @@ class WeChatComponent(BaseWeChatComponent):
         """
         return ComponentOAuth(authorizer_appid, component=self)
 
-    def get_template_list(self):
+    def get_wxa_template_list(self):
         """
         【小程序平台服务商】获取代码模版库中的所有小程序代码模版。
          详情请参考:
@@ -597,7 +597,7 @@ class WeChatComponent(BaseWeChatComponent):
         api_base_url = 'https://api.weixin.qq.com/'
         return self.post('wxa/gettemplatelist', data={}, api_base_url=api_base_url)
 
-    def get_template_draft_list(self):
+    def get_wxa_draft_list(self):
         """
         【小程序平台服务商】获取草稿箱内的所有临时代码草稿。
          详情请参考:
@@ -627,7 +627,7 @@ class WeChatComponent(BaseWeChatComponent):
         api_base_url = 'https://api.weixin.qq.com/'
         return self.post('wxa/gettemplatedraftlist', data={}, api_base_url=api_base_url)
 
-    def add_to_template(self, draft_id):
+    def add_to_wxa_template(self, draft_id):
         """
         【小程序平台服务商】将草稿箱的草稿选为小程序代码模版。
          详情请参考
@@ -659,7 +659,7 @@ class WeChatComponent(BaseWeChatComponent):
             "draft_id": draft_id
         }, api_base_url=api_base_url)
 
-    def delete_template(self, template_id):
+    def delete_wxa_template(self, template_id):
         """
         【小程序平台服务商】将草稿箱的草稿选为小程序代码模版。
          详情请参考
