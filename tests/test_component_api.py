@@ -96,27 +96,22 @@ class WeChatComponentTestCase(unittest.TestCase):
 
     def test_get_wxa_template_list(self):
         with HTTMock(wechat_api_mock):
-            appid = 'wxf8b4f85f3a794e77'
             result = self.client.get_wxa_template_list()
             self.assertEqual(0, result['errcode'])
             self.assertIn('template_list', result)
 
     def test_get_wxa_draft_list(self):
         with HTTMock(wechat_api_mock):
-            appid = 'wxf8b4f85f3a794e77'
             result = self.client.get_wxa_draft_list()
             self.assertEqual(0, result['errcode'])
             self.assertIn('draft_list', result)
 
     def test_delete_wxa_template(self):
         with HTTMock(wechat_api_mock):
-            appid = 'wxf8b4f85f3a794e77'
             result = self.client.delete_wxa_template(12)
             self.assertEqual(0, result['errcode'])
 
     def test_add_to_wxa_templatee(self):
         with HTTMock(wechat_api_mock):
-            appid = 'wxf8b4f85f3a794e77'
             result = self.client.add_to_wxa_template(12)
             self.assertEqual(0, result['errcode'])
-
