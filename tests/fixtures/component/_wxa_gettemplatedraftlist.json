@@ -1,0 +1,24 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "draft_list": [
+    {
+      "create_time": 1561031405,
+      "user_version": "1.0.1",
+      "user_desc": "xxxxx",
+      "draft_id": 5,
+      "source_miniprogram_appid": "wxabc3b5090b1a6***",
+      "source_miniprogram": "***",
+      "developer": "xxx"
+    },
+    {
+      "create_time": 1559012910,
+      "user_version": "1.0.0",
+      "user_desc": "xxxx",
+      "draft_id": 1,
+      "source_miniprogram_appid": "wx66628283ccc10x***",
+      "source_miniprogram": "***",
+      "developer": "xxx"
+    }
+  ]
+}
