@@ -117,7 +117,7 @@ class WeChatOrder(BaseWeChatPayAPI):
             'appid': self.appid,
             'partnerid': self.mch_id,
             'prepayid': prepay_id,
-            'package': 'Sign=WXPay',
+            'package': '{}={}'.format('prepay_id', prepay_id),
             'timestamp': timestamp or to_text(int(time.time())),
             'noncestr': nonce_str or random_string(32)
         }
