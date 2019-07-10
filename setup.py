@@ -42,8 +42,8 @@ with open('requirements.txt') as f:
     requirements = [l for l in f.read().splitlines() if l]
 
 setup(
-    name='wechatpy',
-    version='1.8.3',
+    name='wechatpy-xmov',
+    version='1.8.4',
     author='messense',
     author_email='messense@icloud.com',
     url='https://github.com/jxtech/wechatpy',
