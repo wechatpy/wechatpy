@@ -683,6 +683,22 @@ class WeChatComponent(BaseWeChatComponent):
             "template_id": template_id
         }, api_base_url=api_base_url)
 
+    def code_to_session(self, appid, code):
+        api_base_url = 'https://api.weixin.qq.com/'
+        return self.get(
+            'sns/component/jscode2session',
+            params={
+                'appid': appid,
+                'js_code': code,
+                'grant_type': 'authorization_code',
+                'component_appid': self.component_appid,
+                'component_access_token': self.access_token
+            },
+            data={},  # bug fix. wechatpy封装get请求使用了_reqeust公共方法，_request中直接通过索引方式引用了data参数
+                      # 导致必须传一个空的data字典
+            api_base_url=api_base_url
+        )
+
 
 class ComponentOAuth(object):
     """ 微信开放平台 代公众号 OAuth 网页授权
