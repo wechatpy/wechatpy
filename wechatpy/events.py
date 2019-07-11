@@ -324,6 +324,19 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField('UserCardCode')
 
 
+@register_event('submit_membercard_user_info')
+class SubmitMembercardUserInfo(BaseEvent):
+    """
+    接收会员信息事件通知
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?id=mp1451025274
+    """
+    event = 'submit_membercard_user_info'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+
+
 @register_event('user_consume_card')
 class UserConsumeCardEvent(BaseEvent):
     """
