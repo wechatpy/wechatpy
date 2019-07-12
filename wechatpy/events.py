@@ -336,6 +336,7 @@ class SubmitMembercardUserInfo(BaseEvent):
     card_id = StringField('CardId')
     card_code = StringField('UserCardCode')
 
+
 @register_event('user_view_card')
 class User_View_Card(BaseEvent):
     """
@@ -348,7 +349,7 @@ class User_View_Card(BaseEvent):
     card_id = StringField('CardId')
     card_code = StringField('UserCardCode')
 
-    
+
 @register_event('user_consume_card')
 class UserConsumeCardEvent(BaseEvent):
     """
