@@ -309,6 +309,7 @@ class UserGetCardEvent(BaseEvent):
     code = StringField('UserCardCode')
     old_code = StringField('OldUserCardCode')
     outer_id = StringField('OuterId')
+    outer_str = StringField('OuterStr')
 
 
 @register_event('user_del_card')
