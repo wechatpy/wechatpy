@@ -288,11 +288,13 @@ class CardPassCheckEvent(BaseEvent):
     card_id = StringField('CardId')
 
 
+
 @register_event('card_not_pass_check')
 class CardNotPassCheckEvent(BaseEvent):
     event = 'card_not_pass_check'
     card_id = StringField('CardId')
-
+    refuse_reason = StringField('RefuseReason')
+    
 
 @register_event('user_get_card')
 class UserGetCardEvent(BaseEvent):
@@ -310,6 +312,25 @@ class UserGetCardEvent(BaseEvent):
     old_code = StringField('OldUserCardCode')
     outer_id = StringField('OuterId')
     outer_str = StringField('OuterStr')
+    is_restore_member_card = IntegerField('IsRestoreMemberCard')
+    is_recommend_by_friend = IntegerField('IsRecommendByFriend')
+    union_id = StringField('UnionId')
+    
+
+@register_event('user_gifting_card')
+class UserGiftingCardEvent(BaseEvent):
+    '''
+    转赠事件推送
+    
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    '''
+    event = 'user_gifting_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    is_return_back = IntegerField('IsReturnBack')
+    friend = StringField('FriendUserName')
+    is_chat_room = IntegerField('IsChatRoom')
 
 
 @register_event('user_del_card')
@@ -323,33 +344,8 @@ class UserDeleteCardEvent(BaseEvent):
     event = 'user_del_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
-
-
-@register_event('submit_membercard_user_info')
-class SubmitMembercardUserInfo(BaseEvent):
-    """
-    接收会员信息事件通知
-
-    详情请参阅
-    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
-    """
-    event = 'submit_membercard_user_info'
-    card_id = StringField('CardId')
-    card_code = StringField('UserCardCode')
-
-
-@register_event('user_view_card')
-class User_View_Card(BaseEvent):
-    """
-    进入会员卡事件推送
-
-    详情请参阅
-    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
-    """
-    event = 'user_view_card'
-    card_id = StringField('CardId')
-    card_code = StringField('UserCardCode')
-
+    
+    
 
 @register_event('user_consume_card')
 class UserConsumeCardEvent(BaseEvent):
@@ -363,8 +359,127 @@ class UserConsumeCardEvent(BaseEvent):
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
     consume_source = StringField('ConsumeSource')
-    location_id = StringField('LocationId')
+    location_name = StringField('LocationName')
     staff = StringField('StaffOpenId')
+    verify_code = StringField('VerifyCode')
+    remark_amount = StringField('RemarkAmount')
+    outer_str = StringField('OuterStr')
+
+
+    
+@register_event('user_pay_from_pay_cell')
+class UserPayFromPayCell(BaseEvent):
+    """
+    卡券买单事件推送
+    
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?id=mp1451025274
+    """
+    event = 'user_pay_from_pay_cell'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    trans_id = StringField('TransId')
+    location_id = IntegerField('LocationId')
+    fee = IntegerField('Fee')
+    original_fee = IntegerField('OriginalFee')
+
+
+
+@register_event('user_view_card')
+class UserViewCard(BaseEvent):
+    """
+    进入会员卡事件推送
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    """
+    event = 'user_view_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    outer_str = StringField('OuterStr')
+
+
+    
+@register_event('user_enter_session_from_card')
+class UserEnterSessionFromCardEvent(BaseEvent):
+    '''
+    从卡券进入公众号会话事件推送
+    
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    '''
+    event = 'user_enter_session_from_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    
+
+@register_event('update_member_card')
+class UpdateMemberCard(BaseEvent):
+    '''
+    会员卡内容更新事件
+    
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    '''
+    event = 'update_member_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    modify_bonus = IntegerField('ModifyBonus')
+    modify_balance = IntegerField('ModifyBalance')
+
+
+
+    
+@register_event('card_sku_remind')
+class CardSkuRemindEvent(BaseEvent):
+    '''
+    卡券库存报警事件
+    
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?id=mp1451025274
+    '''
+    event = 'card_sku_remind'
+    card_id = StringField('CardId')
+    detail = StringField('Detail')
+
+
+
+@register_event('card_pay_order')
+class CardPayOrderEvent(BaseEvent):
+    '''
+    朋友的券券点流水详情事件
+    
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?id=mp1451025274
+    '''
+    event = 'card_pay_order'
+    order_id = IntegerField('OrderId')
+    status = StringField('Status')
+    create_order_time = IntegerField('CreateOrderTime')
+    pay_finish_time = IntegerField('PayFinishTime')
+    description = StringField('Desc')
+    free_coin_count = IntegerField('FreeCoinCount')
+    pay_coin_count = IntegerField('PayCoinCount')
+    refund_free_coin_count = IntegerField('RefundFreeCoinCount')
+    refund_pay_coin_count = IntegerField('RefundPayCoinCount')
+    order_type = StringField('OrderType')
+    memo = StringField('Memo')
+    receipt_info = StringField('ReceiptInfo')
+    
+    
+
+@register_event('submit_membercard_user_info')
+class SubmitMembercardUserInfo(BaseEvent):
+    """
+    会员卡激活事件推送
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    """
+    event = 'submit_membercard_user_info'
+    card_id = StringField('CardId')
+    card_code = StringField('UserCardCode')
+
 
 
 @register_event('merchant_order')
