@@ -293,7 +293,7 @@ class CardNotPassCheckEvent(BaseEvent):
     event = 'card_not_pass_check'
     card_id = StringField('CardId')
     refuse_reason = StringField('RefuseReason')
-    
+
 
 @register_event('user_get_card')
 class UserGetCardEvent(BaseEvent):
@@ -314,7 +314,7 @@ class UserGetCardEvent(BaseEvent):
     is_restore_member_card = IntegerField('IsRestoreMemberCard')
     is_recommend_by_friend = IntegerField('IsRecommendByFriend')
     union_id = StringField('UnionId')
-    
+
 
 @register_event('user_gifting_card')
 class UserGiftingCardEvent(BaseEvent):
@@ -343,8 +343,8 @@ class UserDeleteCardEvent(BaseEvent):
     event = 'user_del_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
-    
-    
+
+
 @register_event('user_consume_card')
 class UserConsumeCardEvent(BaseEvent):
     """
@@ -406,7 +406,7 @@ class UserEnterSessionFromCardEvent(BaseEvent):
     event = 'user_enter_session_from_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
-    
+
 
 @register_event('update_member_card')
 class UpdateMemberCard(BaseEvent):
@@ -457,7 +457,7 @@ class CardPayOrderEvent(BaseEvent):
     order_type = StringField('OrderType')
     memo = StringField('Memo')
     receipt_info = StringField('ReceiptInfo')
-    
+
 
 @register_event('submit_membercard_user_info')
 class SubmitMembercardUserInfo(BaseEvent):
