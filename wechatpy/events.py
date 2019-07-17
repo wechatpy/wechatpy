@@ -288,7 +288,6 @@ class CardPassCheckEvent(BaseEvent):
     card_id = StringField('CardId')
 
 
-
 @register_event('card_not_pass_check')
 class CardNotPassCheckEvent(BaseEvent):
     event = 'card_not_pass_check'
@@ -346,7 +345,6 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField('UserCardCode')
     
     
-
 @register_event('user_consume_card')
 class UserConsumeCardEvent(BaseEvent):
     """
@@ -366,7 +364,6 @@ class UserConsumeCardEvent(BaseEvent):
     outer_str = StringField('OuterStr')
 
 
-    
 @register_event('user_pay_from_pay_cell')
 class UserPayFromPayCell(BaseEvent):
     """
@@ -384,7 +381,6 @@ class UserPayFromPayCell(BaseEvent):
     original_fee = IntegerField('OriginalFee')
 
 
-
 @register_event('user_view_card')
 class UserViewCard(BaseEvent):
     """
@@ -399,7 +395,6 @@ class UserViewCard(BaseEvent):
     outer_str = StringField('OuterStr')
 
 
-    
 @register_event('user_enter_session_from_card')
 class UserEnterSessionFromCardEvent(BaseEvent):
     '''
@@ -428,8 +423,6 @@ class UpdateMemberCard(BaseEvent):
     modify_balance = IntegerField('ModifyBalance')
 
 
-
-    
 @register_event('card_sku_remind')
 class CardSkuRemindEvent(BaseEvent):
     '''
@@ -441,7 +434,6 @@ class CardSkuRemindEvent(BaseEvent):
     event = 'card_sku_remind'
     card_id = StringField('CardId')
     detail = StringField('Detail')
-
 
 
 @register_event('card_pay_order')
@@ -466,7 +458,6 @@ class CardPayOrderEvent(BaseEvent):
     memo = StringField('Memo')
     receipt_info = StringField('ReceiptInfo')
     
-    
 
 @register_event('submit_membercard_user_info')
 class SubmitMembercardUserInfo(BaseEvent):
@@ -479,7 +470,6 @@ class SubmitMembercardUserInfo(BaseEvent):
     event = 'submit_membercard_user_info'
     card_id = StringField('CardId')
     card_code = StringField('UserCardCode')
-
 
 
 @register_event('merchant_order')
