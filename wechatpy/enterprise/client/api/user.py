@@ -17,7 +17,7 @@ class WeChatUser(BaseWeChatAPI):
 
     def create(self, user_id, name, department=None, position=None,
                mobile=None, gender=0, tel=None, email=None,
-               weixin_id=None, extattr=None):
+               weixin_id=None, extattr=None, **kwargs):
         """
         创建成员
 
@@ -34,6 +34,7 @@ class WeChatUser(BaseWeChatAPI):
         user_data['email'] = email
         user_data['weixinid'] = weixin_id
         user_data['extattr'] = extattr
+        user_data.update(kwargs)
 
         return self._post(
             'user/create',
@@ -55,7 +56,7 @@ class WeChatUser(BaseWeChatAPI):
 
     def update(self, user_id, name=None, department=None, position=None,
                mobile=None, gender=None, tel=None, email=None,
-               weixin_id=None, enable=None, extattr=None):
+               weixin_id=None, enable=None, extattr=None, **kwargs):
         """
         更新成员
 
@@ -73,6 +74,7 @@ class WeChatUser(BaseWeChatAPI):
         user_data['weixinid'] = weixin_id
         user_data['extattr'] = extattr
         user_data['enable'] = enable
+        user_data.update(kwargs)
 
         return self._post(
             'user/update',
