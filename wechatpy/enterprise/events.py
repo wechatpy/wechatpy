@@ -78,7 +78,7 @@ class ScanCodePushEvent(events.ScanCodePushEvent):
     http://qydev.weixin.qq.com/wiki/index.php?title=接收事件#.E6.89.AB.E7.A0.81.E6.8E.A8.E4.BA.8B.E4.BB.B6.E7.9A.84.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
     """
     agent = IntegerField('AgentID', 0)
-    event = 'scan_code_push'
+    event = 'scancode_push'
 
 
 @register_event('scancode_waitmsg')
@@ -89,7 +89,7 @@ class ScanCodeWaitMsgEvent(events.ScanCodeWaitMsgEvent):
     http://qydev.weixin.qq.com/wiki/index.php?title=接收事件#.E6.89.AB.E7.A0.81.E6.8E.A8.E4.BA.8B.E4.BB.B6.E4.B8.94.E5.BC.B9.E5.87.BA.E2.80.9C.E6.B6.88.E6.81.AF.E6.8E.A5.E6.94.B6.E4.B8.AD.E2.80.9D.E6.8F.90.E7.A4.BA.E6.A1.86.E7.9A.84.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
     """
     agent = IntegerField('AgentID', 0)
-    event = 'scan_code_wait_msg'
+    event = 'scancode_waitmsg'
 
 
 @register_event('pic_sysphoto')
@@ -100,7 +100,7 @@ class PicSysPhotoEvent(events.PicSysPhotoEvent):
     http://qydev.weixin.qq.com/wiki/index.php?title=接收事件#.E5.BC.B9.E5.87.BA.E7.B3.BB.E7.BB.9F.E6.8B.8D.E7.85.A7.E5.8F.91.E5.9B.BE.E7.9A.84.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
     """
     agent = IntegerField('AgentID', 0)
-    event = 'pic_sys_photo'
+    event = 'pic_sysphoto'
 
 
 @register_event('pic_photo_or_album')
@@ -122,7 +122,7 @@ class PicWeChatEvent(events.PicWeChatEvent):
     http://qydev.weixin.qq.com/wiki/index.php?title=接收事件#.E5.BC.B9.E5.87.BA.E5.BE.AE.E4.BF.A1.E7.9B.B8.E5.86.8C.E5.8F.91.E5.9B.BE.E5.99.A8.E7.9A.84.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81
     """
     agent = IntegerField('AgentID', 0)
-    event = 'pic_weChat'
+    event = 'pic_weixin'
 
 
 @register_event('location_select')
