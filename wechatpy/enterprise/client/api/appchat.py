@@ -11,7 +11,7 @@ class WeChatAppChat(BaseWeChatAPI):
     https://work.weixin.qq.com/api/doc#90000/90135/90244
     """
 
-    def create(self, chat_id=None, name=None, owner=None, user_list=None):
+    def create(self, user_list: list, owner=None, name=None, chat_id=None):
         """
         创建群聊会话
 
@@ -23,10 +23,10 @@ class WeChatAppChat(BaseWeChatAPI):
         群成员人数不可超过管理端配置的“群成员人数上限”，且最大不可超过500人；
         每企业创建群数不可超过1000/天；
 
-        :param chat_id: 群聊的唯一标志，不能与已有的群重复；字符串类型，最长32个字符。只允许字符0-9及字母a-zA-Z。如果不填，系统会随机生成群id
+        :param user_list: 会话成员列表，成员用userid来标识。至少2人，至多500人
         :param name: 群聊名，最多50个utf8字符，超过将截断
         :param owner: 指定群主的id。如果不指定，系统会随机从userlist中选一人作为群主
-        :param user_list: 会话成员列表，成员用userid来标识。至少2人，至多500人
+        :param chat_id: 群聊的唯一标志，不能与已有的群重复；字符串类型，最长32个字符。只允许字符0-9及字母a-zA-Z。如果不填，系统会随机生成群id
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(
@@ -36,6 +36,27 @@ class WeChatAppChat(BaseWeChatAPI):
             userlist=user_list,
         )
         return self._post('appchat/create', data=data)
+
+    def create_and_send_text(self, user_list: list, content, owner=None, name=None, chat_id=None):
+        """
+        创建群聊会话并发送一条文字信息，刚创建的群，如果没有下发消息，在企业微信不会出现该群。
+
+        :param user_list: 会话成员列表，成员用userid来标识。至少2人，至多500人
+        :param content: 文本消息
+        :param name: 群聊名，最多50个utf8字符，超过将截断
+        :param owner: 指定群主的id。如果不指定，系统会随机从userlist中选一人作为群主
+        :param chat_id: 群聊的唯一标志，不能与已有的群重复；字符串类型，最长32个字符。只允许字符0-9及字母a-zA-Z。如果不填，系统会随机生成群id
+        :return: 返回的 JSON 数据包
+        """
+        data = optionaldict(
+            chatid=chat_id,
+            name=name,
+            owner=owner,
+            userlist=user_list,
+        )
+        r = self._post('appchat/create', data=data)
+        _ = self.send_text(r['chatid'], content)
+        return r
 
     def get(self, chat_id):
         """
