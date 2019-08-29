@@ -40,6 +40,7 @@ class WeChatClient(BaseWeChatClient):
     wifi = api.WeChatWiFi()
     wxa = api.WeChatWxa()
     marketing = api.WeChatMarketing()
+    wxopen = api.WeChatWeOpen()
 
     def __init__(self, appid, secret, access_token=None,
                  session=None, timeout=None, auto_retry=True):
