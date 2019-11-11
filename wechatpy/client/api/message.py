@@ -219,10 +219,10 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send_link(self, user_id, article, account=None):
         """
-        发送图文消息(只能是单图文)
+        发送图文消息(单图文)
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/7/12a5a320ae96fecdf0e15cb06123de9f.html
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/customer-message/customerServiceMessage.send.html#method-http
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param article:
