@@ -310,6 +310,9 @@ class UserGetCardEvent(BaseEvent):
     old_code = StringField('OldUserCardCode')
     outer_id = StringField('OuterId')
     outer_str = StringField('OuterStr')
+    # 2019-11-26 machan
+    is_restore_member_card = IntegerField('IsRestoreMemberCard')
+    union_id = StringField('UnionId')
 
 
 @register_event('user_del_card')
