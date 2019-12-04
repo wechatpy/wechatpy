@@ -568,16 +568,6 @@ class WeChatComponent(BaseWeChatComponent):
         """
         return ComponentOAuth(authorizer_appid, component=self)
 
-    def get_template_list(self):
-        return self.get(
-            'wxa/gettemplatelist',
-            params={
-                'access_token': self.access_token,
-            },
-            data={}
-        )
-
-
 
 class ComponentOAuth(object):
     """ 微信开放平台 代公众号 OAuth 网页授权
