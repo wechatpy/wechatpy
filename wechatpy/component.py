@@ -572,7 +572,7 @@ class WeChatComponent(BaseWeChatComponent):
         return self.get(
             'wxa/gettemplatelist',
             params={
-                'access_token': self.component.access_token,
+                'access_token': self.access_token,
             }
         )
 
