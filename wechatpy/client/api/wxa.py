@@ -466,9 +466,4 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
-    def get_template_list(self):
-        return self._get(
-            'wxa/gettemplatelist',
-            result_processor=lambda x: x['template_list'],
-        )
 
