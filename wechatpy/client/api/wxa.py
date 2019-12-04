@@ -465,3 +465,10 @@ class WeChatWxa(BaseWeChatAPI):
                 'grant_type': 'authorization_code'
             }
         )
+
+    def get_template_list(self):
+        return self._get(
+            'wxa/gettemplatelist',
+            result_processor=lambda x: x['template_list'],
+        )
+
