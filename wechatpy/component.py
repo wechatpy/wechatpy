@@ -573,8 +573,10 @@ class WeChatComponent(BaseWeChatComponent):
             'wxa/gettemplatelist',
             params={
                 'access_token': self.access_token,
-            }
+            },
+            data={}
         )
+
 
 
 class ComponentOAuth(object):
