@@ -219,6 +219,16 @@ class WeChatWxa(BaseWeChatAPI):
             result_processor=lambda x: x['auditid'],
         )
 
+    def undo_code_audit(self):
+        """
+        https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/undocodeaudit.html
+
+        :return:
+        """
+        return self._get(
+            'wxa/undocodeaudit'
+        )
+
     def get_audit_status(self, auditid):
         """
         查询某个指定版本的审核状态
