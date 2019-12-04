@@ -571,7 +571,9 @@ class WeChatComponent(BaseWeChatComponent):
     def get_template_list(self):
         return self.get(
             'wxa/gettemplatelist',
-            result_processor=lambda x: x['template_list'],
+            params={
+                'access_token': self.component.access_token,
+            }
         )
 
 
