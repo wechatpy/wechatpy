@@ -219,6 +219,14 @@ class WeChatWxa(BaseWeChatAPI):
             result_processor=lambda x: x['auditid'],
         )
 
+    def speed_audit(self, audit_id):
+        return self._post(
+            'wxa/speedupaudit',
+            data={
+                'auditid': audit_id,
+            }
+        )
+
     def undo_code_audit(self):
         """
         https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/undocodeaudit.html
