@@ -106,9 +106,11 @@ class WeChatPay(object):
         else:
             url = url_or_endpoint
 
-        if isinstance(kwargs.get('data'), dict):
+        if isinstance(kwargs.get('data', ''), dict):
             data = kwargs['data']
-            data.setdefault('mch_id', self.mch_id)
+            if 'mchid' not in data:
+                # Fuck Tencent
+                data.setdefault('mch_id', self.mch_id)
             data.setdefault('sub_mch_id', self.sub_mch_id)
             data.setdefault('nonce_str', random_string(32))
             data = optionaldict(data)
