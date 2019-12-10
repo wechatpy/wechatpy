@@ -729,3 +729,13 @@ class ViewMiniProgramEvent(BaseEvent):
     event = 'view_miniprogram'
     page_path = StringField('EventKey')  # 小程序路径
     menu_id = StringField('MenuId')  # 菜单ID
+
+
+@register_event('weapp_audit_success')
+class WeappAuditSuccessEvent(BaseEvent):
+    """
+    从菜单进入小程序事件
+    """
+    event = 'weapp_audit_success'
+    success_time = DateTimeField('SuccTime')  # 小程序路径
+

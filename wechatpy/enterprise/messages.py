@@ -49,3 +49,6 @@ class LocationMessage(messages.LocationMessage):
 class LinkMessage(messages.LinkMessage):
     agent = IntegerField('AgentID', 0)
     pic_url = StringField('PicUrl')
+
+
+
