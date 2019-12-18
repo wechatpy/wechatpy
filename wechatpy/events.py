@@ -328,6 +328,7 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField('UserCardCode')
 
 
+@register_event('user_gifting_card')
 class UserGiftingCardEvent(BaseEvent):
     """
     卡券转赠事件推着
