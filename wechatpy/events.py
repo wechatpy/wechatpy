@@ -328,6 +328,21 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField('UserCardCode')
 
 
+class UserGiftingCardEvent(BaseEvent):
+    """
+    卡券转赠事件推着
+
+    详情请参阅
+    https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Coupons_Vouchers_and_Cards_Event_Push_Messages.html#3
+    """
+    event = 'user_gifting_card'
+    card_id = StringField('CardId')
+    code = StringField('UserCardCode')
+    is_return_back = IntegerField("IsReturnBack")
+    friend_user_name = StringField("FriendUserName")
+    is_chat_room = IntegerField("IsChatRoom")
+
+
 @register_event('submit_membercard_user_info')
 class SubmitMembercardUserInfo(BaseEvent):
     """
