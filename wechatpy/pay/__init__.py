@@ -193,6 +193,27 @@ class WeChatPay(object):
     def check_signature(self, params):
         return _check_signature(params, self.api_key if not self.sandbox else self.sandbox_api_key)
 
+    @classmethod
+    def get_payment_appid(cls, xml):
+        """
+        解析微信支付结果通知，单独返回appid
+
+        使用示例::
+
+            from wechatpy.pay import WeChatPay
+            # 假设你已经获取了微信服务器推送的请求中的xml数据并存入xml变量
+            WeChatPay.get_payment_appid(xml)
+
+        """
+        try:
+            data = xmltodict.parse(xml)
+        except (xmltodict.ParsingInterrupted, ExpatError):
+            raise InvalidSignatureException()
+        if not data or 'xml' not in data:
+            raise InvalidSignatureException()
+        data = data['xml']
+        return data['appid']
+
     def parse_payment_result(self, xml):
         """解析微信支付结果通知"""
         try:
