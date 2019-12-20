@@ -89,6 +89,23 @@ class WeChatWxa(BaseWeChatAPI):
             data=tpl_data
         )
 
+    def send_subscribe_message(self, user_id, template_id, data, page=None):
+        """
+        发送订阅消息
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.send.html
+        """
+        subs_data = optionaldict(
+            touser=user_id,
+            template_id=template_id,
+            page=page,
+            data=data,
+        )
+        return self._post(
+            'cgi-bin/message/subscribe/send',
+            data=subs_data
+        )
+
     def modify_domain(self, action, request_domain=(), wsrequest_domain=(), upload_domain=(), download_domain=()):
         """
         修改小程序服务器授权域名
