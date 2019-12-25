@@ -14,7 +14,6 @@ from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -34,7 +33,8 @@ class BaseWeChatClient(object):
             setattr(self, name, api)
         return self
 
-    def __init__(self, appid, access_token=None, contact_access_token=None, session=None, timeout=None, auto_retry=True):
+    def __init__(self, appid, access_token=None, contact_access_token=None, session=None, timeout=None,
+                 auto_retry=True):
         self._http = requests.Session()
         self.appid = appid
         self.expires_at = None
@@ -62,6 +62,7 @@ class BaseWeChatClient(object):
     @property
     def access_token_key(self):
         return '{0}_access_token'.format(self.appid)
+
     @property
     def contact_access_token_key(self):
         return '{0}_contact_access_token'.format(self.appid)
@@ -253,8 +254,6 @@ class BaseWeChatClient(object):
 
         self.fetch_access_token()
         return self.session.get(self.access_token_key)
-
-
 
     def _fetch_contact_access_token(self, url, params):
         """ The real fetch access token """

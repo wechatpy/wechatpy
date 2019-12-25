@@ -16,6 +16,7 @@ class WeChatExternalContact(BaseWeChatAPI):
     """
     https://work.weixin.qq.com/api/doc#90000/90135/90221
     """
+
     def get_follow_user_list(self):
         """
         获取配置了客户联系功能的成员列表
@@ -329,7 +330,7 @@ class WeChatExternalContact(BaseWeChatAPI):
             tag=tags
         )
 
-        return self._post('externalcontact/add_corp_tag',contact=True, data=data)
+        return self._post('externalcontact/add_corp_tag', contact=True, data=data)
 
     def edit_corp_tag(self, id, name, order):
         """
@@ -346,7 +347,7 @@ class WeChatExternalContact(BaseWeChatAPI):
             name=name,
             order=order
         )
-        return self._post('externalcontact/edit_corp_tag',contact=True, data=data)
+        return self._post('externalcontact/edit_corp_tag', contact=True, data=data)
 
     def del_corp_tag(self, tag_id=None, group_id=None):
         """
@@ -362,9 +363,9 @@ class WeChatExternalContact(BaseWeChatAPI):
             tag_id=tag_id,
             group_id=group_id
         )
-        return self._post('externalcontact/del_corp_tag',contact=True, data=data)
+        return self._post('externalcontact/del_corp_tag', contact=True, data=data)
 
-    def mark_tag(self, userid, external_userid,add_tag=[],remove_tag=[]):
+    def mark_tag(self, userid, external_userid, add_tag=[], remove_tag=[]):
         """
         企业可通过此接口为指定成员的客户添加上由企业统一配置的标签。
         https://work.weixin.qq.com/api/doc/90000/90135/92118
@@ -381,4 +382,4 @@ class WeChatExternalContact(BaseWeChatAPI):
             add_tag=add_tag,
             remove_tag=remove_tag
         )
-        return self._post('externalcontact/mark_tag',contact=True, data=data)
+        return self._post('externalcontact/mark_tag', contact=True, data=data)
