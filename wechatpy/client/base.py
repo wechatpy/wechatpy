@@ -34,7 +34,7 @@ class BaseWeChatClient(object):
             setattr(self, name, api)
         return self
 
-    def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
+    def __init__(self, appid, access_token=None, contact_access_token=None, session=None, timeout=None, auto_retry=True):
         self._http = requests.Session()
         self.appid = appid
         self.expires_at = None
@@ -56,9 +56,15 @@ class BaseWeChatClient(object):
         if access_token:
             self.session.set(self.access_token_key, access_token)
 
+        if contact_access_token:
+            self.session.set(self.contact_access_token_key, contact_access_token)
+
     @property
     def access_token_key(self):
         return '{0}_access_token'.format(self.appid)
+    @property
+    def contact_access_token_key(self):
+        return '{0}_contact_access_token'.format(self.appid)
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(('http://', 'https://')):
@@ -247,3 +253,62 @@ class BaseWeChatClient(object):
 
         self.fetch_access_token()
         return self.session.get(self.access_token_key)
+
+
+
+    def _fetch_contact_access_token(self, url, params):
+        """ The real fetch access token """
+        logger.info('Fetching contact access token')
+        res = self._http.get(
+            url=url,
+            params=params
+        )
+        try:
+            res.raise_for_status()
+        except requests.RequestException as reqe:
+            raise WeChatClientException(
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response
+            )
+        result = res.json()
+        if 'errcode' in result and result['errcode'] != 0:
+            raise WeChatClientException(
+                result['errcode'],
+                result['errmsg'],
+                client=self,
+                request=res.request,
+                response=res
+            )
+
+        expires_in = 7200
+        if 'expires_in' in result:
+            expires_in = result['expires_in']
+        self.session.set(
+            self.contact_access_token_key,
+            result['access_token'],
+            expires_in
+        )
+        self.expires_at = int(time.time()) + expires_in
+        return result
+
+    def fetch_contact_access_token(self):
+        raise NotImplementedError()
+
+    @property
+    def contact_access_token(self):
+        """ WeChat access token """
+        contact_access_token = self.session.get(self.contact_access_token_key)
+        if contact_access_token:
+            if not self.expires_at:
+                # user provided access_token, just return it
+                return contact_access_token
+
+            timestamp = time.time()
+            if self.expires_at - timestamp > 60:
+                return contact_access_token
+
+        self.fetch_contact_access_token()
+        return self.session.get(self.contact_access_token_key)
