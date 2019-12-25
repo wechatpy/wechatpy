@@ -18,24 +18,9 @@ class BaseWeChatAPI(object):
             kwargs['api_base_url'] = self.API_BASE_URL
         return self._client.post(url, **kwargs)
 
-    def _contact_post(self, url, **kwargs):
-        if getattr(self, 'API_BASE_URL', None):
-            kwargs['api_base_url'] = self.API_BASE_URL
-
-        if 'params' not in kwargs:
-            kwargs['params'] = {}
-        if isinstance(kwargs['params'], dict) and \
-                'access_token' not in kwargs['params']:
-            kwargs['params']['access_token'] = self.contact_access_token
-        return self._client.post(url, **kwargs)
-
     @property
     def access_token(self):
         return self._client.access_token
-
-    @property
-    def contact_access_token(self):
-        return self._client.contact_access_token
 
     @property
     def session(self):
