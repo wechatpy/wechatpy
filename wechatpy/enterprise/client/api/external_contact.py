@@ -330,7 +330,7 @@ class WeChatExternalContact(BaseWeChatAPI):
             tag=tags
         )
 
-        return self._post('externalcontact/add_corp_tag', contact=True, data=data)
+        return self._contact_post('externalcontact/add_corp_tag', data=data)
 
     def edit_corp_tag(self, id, name, order):
         """
@@ -347,7 +347,7 @@ class WeChatExternalContact(BaseWeChatAPI):
             name=name,
             order=order
         )
-        return self._post('externalcontact/edit_corp_tag', contact=True, data=data)
+        return self._contact_post('externalcontact/edit_corp_tag', data=data)
 
     def del_corp_tag(self, tag_id=None, group_id=None):
         """
@@ -363,7 +363,7 @@ class WeChatExternalContact(BaseWeChatAPI):
             tag_id=tag_id,
             group_id=group_id
         )
-        return self._post('externalcontact/del_corp_tag', contact=True, data=data)
+        return self._contact_post('externalcontact/del_corp_tag', data=data)
 
     def mark_tag(self, userid, external_userid, add_tag=[], remove_tag=[]):
         """
@@ -382,4 +382,4 @@ class WeChatExternalContact(BaseWeChatAPI):
             add_tag=add_tag,
             remove_tag=remove_tag
         )
-        return self._post('externalcontact/mark_tag', contact=True, data=data)
+        return self._contact_post('externalcontact/mark_tag', data=data)
