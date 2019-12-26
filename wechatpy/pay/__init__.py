@@ -214,9 +214,9 @@ class WeChatPay(object):
         try:
             data = xmltodict.parse(xml)
         except (xmltodict.ParsingInterrupted, ExpatError):
-            raise InvalidSignatureException()
+            raise ValueError("invalid xml")
         if not data or 'xml' not in data:
-            raise InvalidSignatureException()
+            raise ValueError("invalid xml")
         return {
             "appid": data["appid"],
             "mch_id": data["mch_id"],
