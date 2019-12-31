@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import base64
+import hashlib
 import inspect
 import logging
 
@@ -193,7 +195,7 @@ class WeChatPay(object):
     def check_signature(self, params):
         return _check_signature(params, self.api_key if not self.sandbox else self.sandbox_api_key)
 
-    def parse_payment_result(self, xml):
+    def parse_payment_result(self, xml, check_sign=True):
         """解析微信支付结果通知"""
         try:
             data = xmltodict.parse(xml)
@@ -204,15 +206,46 @@ class WeChatPay(object):
             raise InvalidSignatureException()
 
         data = data['xml']
-        sign = data.pop('sign', None)
-        real_sign = calculate_signature(data, self.api_key if not self.sandbox else self.sandbox_api_key)
-        if sign != real_sign:
-            raise InvalidSignatureException()
+
+        if check_sign:
+            sign = data.pop('sign', None)
+            real_sign = calculate_signature(data, self.api_key if not self.sandbox else self.sandbox_api_key)
+            if sign != real_sign:
+                raise InvalidSignatureException()
+            data['sign'] = sign
 
         for key in ('total_fee', 'settlement_total_fee', 'cash_fee', 'coupon_fee', 'coupon_count'):
             if key in data:
                 data[key] = int(data[key])
-        data['sign'] = sign
+        return data
+
+    def _decrypt_refund_req_info(self, req_info):
+        from Cryptodome.Cipher import AES
+        unpad = lambda s: s[0:-ord(s[-1])]
+        req_info = req_info.encode()
+        req_info = base64.decodebytes(req_info)
+        hash = hashlib.md5()
+        hash.update(self.api_key.encode())
+        key = hash.hexdigest().encode()
+
+        cipher = AES.new(key, AES.MODE_ECB)
+        decrypt_bytes = cipher.decrypt(req_info)
+        decrypt_str = decrypt_bytes.decode()
+        decrypt_str = unpad(decrypt_str)
+        info = xmltodict.parse(decrypt_str)['root']
+        return info
+
+    def parse_refund_result(self, xml, decrypt=True):
+        """解析微信退款结果通知"""
+        data = xmltodict.parse(xml)
+        data = data['xml']
+
+        if decrypt:
+            req_info_str = data.get('req_info', None)
+            if req_info_str:
+                req_info = self._decrypt_refund_req_info(req_info_str)
+                data.update(req_info)
+
         return data
 
     @property
