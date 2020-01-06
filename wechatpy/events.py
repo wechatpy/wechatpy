@@ -309,6 +309,7 @@ class UserGetCardEvent(BaseEvent):
     code = StringField('UserCardCode')
     old_code = StringField('OldUserCardCode')
     outer_id = StringField('OuterId')
+    outer_str = StringField('OuterStr')
 
 
 @register_event('user_del_card')
@@ -322,6 +323,32 @@ class UserDeleteCardEvent(BaseEvent):
     event = 'user_del_card'
     card_id = StringField('CardId')
     code = StringField('UserCardCode')
+
+
+@register_event('submit_membercard_user_info')
+class SubmitMembercardUserInfo(BaseEvent):
+    """
+    接收会员信息事件通知
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    """
+    event = 'submit_membercard_user_info'
+    card_id = StringField('CardId')
+    card_code = StringField('UserCardCode')
+
+
+@register_event('user_view_card')
+class User_View_Card(BaseEvent):
+    """
+    进入会员卡事件推送
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    """
+    event = 'user_view_card'
+    card_id = StringField('CardId')
+    card_code = StringField('UserCardCode')
 
 
 @register_event('user_consume_card')

@@ -422,6 +422,22 @@ class WeChatComponent(BaseWeChatComponent):
             }
         )
 
+    def get_authorizer_list(self, offset=0, count=500):
+        """
+        拉取所有已授权的帐号信息
+
+        :params offset: 偏移位置/起始位置
+        :params count: 拉取数量
+        """
+        return self.post(
+            '/component/api_get_authorizer_list',
+            data={
+                'component_appid': self.component_appid,
+                'offset': offset,
+                'count': count,
+            }
+        )
+
     def get_authorizer_option(self, authorizer_appid, option_name):
         """
         获取授权方的选项设置信息
