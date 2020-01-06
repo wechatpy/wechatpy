@@ -8,6 +8,7 @@ import xmltodict
 from xml.parsers.expat import ExpatError
 from optionaldict import optionaldict
 
+from wechatpy.crypto import WeChatRefundCrypto
 from wechatpy.utils import random_string
 from wechatpy.exceptions import WeChatPayException, InvalidSignatureException
 from wechatpy.pay.utils import (
@@ -244,6 +245,15 @@ class WeChatPay(object):
             if key in data:
                 data[key] = int(data[key])
         data['sign'] = sign
+        return data
+
+    def parse_refund_notify_result(self, xml):
+        """解析微信退款结果通知"""
+        refund_crypto = WeChatRefundCrypto(self.api_key if not self.sandbox else self.sandbox_api_key)
+        data = refund_crypto.decrypt_message(xml, self.appid, self.mch_id)
+        for key in ('total_fee', 'settlement_total_fee', 'refund_fee', 'settlement_refund_fee'):
+            if key in data:
+                data[key] = int(data[key])
         return data
 
     @property

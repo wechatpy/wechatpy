@@ -126,3 +126,24 @@ class CryptoTestCase(unittest.TestCase):
         crypto = WeChatWxaCrypto(session_key, iv, appid)
         decrypted = crypto.decrypt_message(encrypted_data)
         self.assertEqual(appid, decrypted['watermark']['appid'])
+
+    def test_refund_notify_decrypt_message(self):
+        from wechatpy.crypto import WeChatRefundCrypto
+
+        appid = 'wx4f4bc4dec97d474b'
+        mch_id = '12345678'
+        api_key = 'OF4Ne3znh8KqL0V4NqmALQa0uXMYKcEk'
+        xml = '''
+<xml>
+<return_code>SUCCESS</return_code>
+<appid><![CDATA[wx4f4bc4dec97d474b]]></appid>
+<mch_id><![CDATA[12345678]]></mch_id>
+<nonce_str><![CDATA[c1c237efc87ee8dfcb3f9124b63a4d94]]></nonce_str>
+<req_info><![CDATA[51A27s9LxbaEv52nBOrqa0FCs3HVIM31Wc3BpNqSCP5MQlS8HL1Vl7mZ21043B7PZy7adtOZGtZv44lGl0U8JXlVFL4Ltxsw6+pACjZBB0Qi1LUDjFlP2IyTxYX4eC57kxnCphDdIyRkU67kOWW/HN/efggTUlaPJkoL5kVe9Y1MZF55IHR4lwGI7WtVLtxATX1tkAVZF+/ri0WlPXo9+GkqeB2/id6Ozw09Tqp8C/TKbmKBpRhTCRU2TzfQoLa6fjbgETFHJ795aEMyUZPQYbbsz6U9Rj9lUzEh8+Oc8KYTXa9zVk+nnFr82+yjffb3d36ylTe0y/VmYf90rf9cbiJQdM00zZ8Qa99SlMTs2wjOO4Mi4Btlg1PebsLF8TkqbSZkRJDGs61UunUB8Km1b/VeBxXuv4D3H7DiVZ9Fj7lq2j07zFDpxxlhhen7kZvMWWO3lrfFpA9c4eFOqfF9SxcU9nBmHfDD1g/dsrMl6+a71xQHJ/gn80fZOefUBv92ggqutsuJ4gd4OqkmO0XUs8e4XQyLpra+LvpmahsU5lBIZuQcMq3FHrqe8hXTfp3+3qym2wGfvPI75jx41VZwmBQy9izB1Id+A5lUeXC5QJy+ryDu/dWkhB+aMjkElaI/Epmcc/IEPaI73W6Hc58hNednOM536rPnn+GDc98PdGszpLTjmaZSu8dtqwPaym66yRqFQowzFoBbooik57iHUFBCeWya7XcXYL9WKhRF3uIZM+Kfv9/Zs2pF+w9/EJpltuzPpT1GP2VTMSHz45zwphFlS2lX8wHyZ+k9n2dptzQqpOCPedt5iQAmAe1oNQMxNdPDH9g68x9UzWD1kfK/dPO+3NPAh0XG+io4x15fIknNf7JLjpAuWicMMzCdwC4hhqeYOzQ+pC9f2xJXi5YViNKIZY69oO8eoHYRitLZrHLgx3oB2zimmqX6BI+DMklKAzAqqgGmbFxcVTvxZB6cMCx+H7TTWXnjAG+6A3SrCcxg0l5+UB93pkAYR7SVJ+VaZoiBqlqnZvb7IM17n9XaaFntlzvbbFCIa7OnOQb5Lvw=]]></req_info>
+</xml>'''
+        refund_crypto = WeChatRefundCrypto(api_key)
+        data = refund_crypto.decrypt_message(xml, appid, mch_id)
+        self.assertEqual('1234', data['out_refund_no'])
+        self.assertEqual('2020010418301551404339261814', data['out_trade_no'])
+        self.assertEqual('4200000483202001042069747825', data['transaction_id'])
+        self.assertEqual('50300103182020010413419046597', data['refund_id'])

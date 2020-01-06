@@ -8,6 +8,7 @@ from wechatpy.pay.utils import calculate_signature
 
 logger = logging.getLogger(__name__)
 
+
 class WeChatJSAPI(BaseWeChatPayAPI):
 
     def get_jsapi_signature(self, prepay_id, timestamp=None, nonce_str=None):

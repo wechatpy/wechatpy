@@ -13,6 +13,7 @@ from wechatpy.utils import to_binary, to_text
 
 logger = logging.getLogger(__name__)
 
+
 def format_url(params, api_key=None):
     data = [to_binary('{0}={1}'.format(k, params[k])) for k in sorted(params) if params[k]]
     if api_key:
