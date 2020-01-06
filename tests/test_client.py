@@ -624,7 +624,9 @@ class WeChatClientTestCase(unittest.TestCase):
                 'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',  # NOQA
                 ticket
             )
-            self.assertTrue(7200 < self.client.session.get('{0}_jsapi_card_ticket_expires_at'.format(self.client.appid)))
+            self.assertTrue(
+                7200 < self.client.session.get('{0}_jsapi_card_ticket_expires_at'.format(self.client.appid))
+            )
             self.assertEqual(
                 self.client.session.get('{0}_jsapi_card_ticket'.format(self.client.appid)),
                 'bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA',
@@ -898,7 +900,9 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_change_openid(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.user.change_openid('xxxxx', ['oEmYbwN-n24jxvk4Sox81qedINkQ', 'oEmYbwH9uVd4RKJk7ZZg6SzL6tTo'])
+            res = self.client.user.change_openid(
+                'xxxxx', ['oEmYbwN-n24jxvk4Sox81qedINkQ', 'oEmYbwH9uVd4RKJk7ZZg6SzL6tTo']
+            )
         self.assertEqual(2, len(res))
         self.assertEqual('o2FwqwI9xCsVadFah_HtpPfaR-X4', res[0]['new_openid'])
         self.assertEqual('ori_openid error', res[1]['err_msg'])
