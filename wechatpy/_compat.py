@@ -9,13 +9,13 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
-import sys
-import six
+import sys  # NOQA
+import six  # NOQA
 import warnings
 
 warnings.warn("Module `wechatpy._compat` is deprecated, will be removed in 2.0"
               "use `wechatpy.utils` instead",
               DeprecationWarning, stacklevel=2)
 
-from wechatpy.utils import get_querystring
-from wechatpy.utils import json
+from wechatpy.utils import get_querystring  # NOQA
+from wechatpy.utils import json  # NOQA

@@ -95,7 +95,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         """
         参数意义见微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
         :param card_ticket: 用于卡券的微信 api_ticket
-        :param card_type: 
+        :param card_type:
         :param kwargs: 非必须参数：noncestr, timestamp, code, openid, fixed_begintimestamp, outer_str
         :return: 包含调用jssdk所有所需参数的 dict
         """
