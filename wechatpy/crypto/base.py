@@ -7,10 +7,10 @@ import base64
 from wechatpy.utils import to_text, to_binary, random_string, byte2int
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
 try:
-    from wechatpy.crypto.cryptography import WeChatCipher
+    from wechatpy.crypto.cryptography import WeChatCipher, AesEcbCipher
 except ImportError:
     try:
-        from wechatpy.crypto.pycrypto import WeChatCipher
+        from wechatpy.crypto.pycrypto import WeChatCipher, AesEcbCipher
     except ImportError:
         raise Exception('You must install either cryptography or pycryptodome!')
 
@@ -50,3 +50,23 @@ class BasePrpCrypto(object):
             exception = exception or Exception
             raise exception()
         return xml_content
+
+
+class BaseRefundCrypto(object):
+
+    def __init__(self, key):
+        self.cipher = AesEcbCipher(key)
+
+    def _encrypt(self, text):
+        text = to_binary(text)
+        text = PKCS7Encoder.encode(text)
+
+        ciphertext = to_binary(self.cipher.encrypt(text))
+        return base64.b64encode(ciphertext)
+
+    def _decrypt(self, text, exception=None):
+        text = to_binary(text)
+        plain_text = self.cipher.decrypt(base64.b64decode(text))
+        padding = byte2int(plain_text[-1])
+        content = plain_text[:-padding]
+        return content

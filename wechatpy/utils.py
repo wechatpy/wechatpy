@@ -9,7 +9,6 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
-import json
 import string
 import random
 import hashlib
