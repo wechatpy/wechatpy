@@ -473,7 +473,7 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
-    def img_sec_check(self, media):
+    def check_image_security(self, media):
         """
         校验一张图片是否含有违法违规内容。
         详情请参考
@@ -489,7 +489,7 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
-    def msg_sec_check(self, content):
+    def check_text_security(self, content):
         """
         检查一段文本是否含有违法违规内容。
         详情请参考
