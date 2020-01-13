@@ -455,3 +455,35 @@ class WeChatWxa(BaseWeChatAPI):
                 'grant_type': 'authorization_code'
             }
         )
+
+    def img_sec_check(self, media):
+        """
+        校验一张图片是否含有违法违规内容。
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.imgSecCheck.html
+
+        :param media: 要检测的图片文件，格式支持PNG、JPEG、JPG、GIF，图片尺寸不超过 750px x 1334px
+        :return:
+        """
+        return self._post(
+            'wxa/img_sec_check',
+            data={
+                'media': open(media),
+            }
+        )
+
+    def msg_sec_check(self, content):
+        """
+        检查一段文本是否含有违法违规内容。
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.msgSecCheck.html
+
+        :param content: 要检测的文本内容，长度不超过 500KB
+        :return:
+        """
+        return self._post(
+            'wxa/msg_sec_check',
+            data={
+                'content': content,
+            }
+        )
