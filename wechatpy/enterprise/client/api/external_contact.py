@@ -365,7 +365,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         )
         return self._post('externalcontact/del_corp_tag', data=data)
 
-    def mark_tag(self, userid, external_userid, add_tag, remove_tag):
+    def mark_tag(self, userid, external_userid, add_tag=None, remove_tag=None):
         """
         企业可通过此接口为指定成员的客户添加上由企业统一配置的标签。
         https://work.weixin.qq.com/api/doc/90000/90135/92118
@@ -376,6 +376,8 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param remove_tag:要移除的标签列表
         :return:返回的 JSON 数据包
         """
+        add_tag = add_tag or []
+        remove_tag = remove_tag or []
         data = optionaldict(
             userid=userid,
             external_userid=external_userid,

@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import os
-import six
 import unittest
 
 from httmock import urlmatch, HTTMock, response
-
 from wechatpy.enterprise import WeChatClient
-from wechatpy.exceptions import WeChatClientException
 from wechatpy.utils import json
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -78,5 +75,5 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_ec_mark_tag(self):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.mark_tag('zm', 'wmm7wjCgAAkLAv_eiVt53eBokOC3_Tww',
-                                                        add_tag=['etm7wjCgAA40ptIZTBWOO0C_RXoY_q3g'], remove_tag=[])
+                                                        add_tag=['etm7wjCgAA40ptIZTBWOO0C_RXoY_q3g'])
         self.assertEqual(0, res['errcode'])
