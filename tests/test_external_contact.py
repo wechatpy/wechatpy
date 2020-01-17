@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
+from __future__ import absolute_import, unicode_literals
 import os
+import six
 import unittest
-from httmock import HTTMock, response, urlmatch
+
+from httmock import urlmatch, HTTMock, response
+
 from wechatpy.enterprise import WeChatClient
+from wechatpy.exceptions import WeChatClientException
 from wechatpy.utils import json
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
-_FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')
+_FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures', 'enterprise')
 
 
-@urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
+@urlmatch(netloc=r'(.*\.)?qyapi\.weixin\.qq\.com$')
 def wechat_api_mock(url, request):
     path = url.path.replace('/cgi-bin/', '').replace('/', '_')
-    if path.startswith('_'):
-        path = path[1:]
     res_file = os.path.join(_FIXTURE_PATH, '%s.json' % path)
     content = {
         'errcode': 99999,
@@ -36,8 +37,8 @@ def wechat_api_mock(url, request):
 
 
 class WeChatClientTestCase(unittest.TestCase):
-    app_id = 'ww0d01b190fc35cb61'
-    secret = 'ohXmYdav4BFG4KIxAoThioyEFUcZKfxd9lXxc5U0UKY'
+    app_id = '123456'
+    secret = '123456'
 
     def setUp(self):
         self.client = WeChatClient(self.app_id, self.secret)
@@ -77,5 +78,5 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_ec_mark_tag(self):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.mark_tag('zm', 'wmm7wjCgAAkLAv_eiVt53eBokOC3_Tww',
-                                                        add_tag=['etm7wjCgAA40ptIZTBWOO0C_RXoY_q3g'])
+                                                        add_tag=['etm7wjCgAA40ptIZTBWOO0C_RXoY_q3g'], remove_tag=[])
         self.assertEqual(0, res['errcode'])

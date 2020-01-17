@@ -365,7 +365,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         )
         return self._post('externalcontact/del_corp_tag', data=data)
 
-    def mark_tag(self, userid, external_userid, add_tag=[], remove_tag=[]):
+    def mark_tag(self, userid, external_userid, add_tag, remove_tag):
         """
         企业可通过此接口为指定成员的客户添加上由企业统一配置的标签。
         https://work.weixin.qq.com/api/doc/90000/90135/92118
