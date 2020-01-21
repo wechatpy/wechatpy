@@ -538,6 +538,28 @@ class WeChatWxa(BaseWeChatAPI):
         服务商可以调用该接口，查询当月平台分配的提审限额和剩余可提审次数，以及当月分配的审核加急次数和剩余加急次数。（所有旗下小程序共用该额度）
         https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/query_quota.html
         """
+        return self._get('wxa/queryquota')
+
+    def get_paid_unionid(self, openid, transaction_id=None, mch_id=None, out_trade_no=None):
+        """
+        用户支付完成后，获取该用户的 UnionId，无需用户授权。
+
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/user-info/auth.getPaidUnionId.html
+
+        :param openid: 支付用户唯一标识
+        :param transaction_id: 微信支付订单号，可选
+        :param mch_id: 微信支付分配的商户号，和商户订单号配合使用，可选
+        :param out_trade_no: 微信支付商户订单号，和商户号配合使用
+        :return: 用户唯一标识 unionid
+        """
         return self._get(
-            'wxa/queryquota'
+            'wxa/getpaidunionid',
+            params={
+                'openid': openid,
+                'transaction_id': transaction_id,
+                'mch_id': mch_id,
+                'out_trade_no': out_trade_no,
+            },
+            result_processor=lambda x: x['unionid']
         )
