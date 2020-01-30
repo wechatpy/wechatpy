@@ -484,8 +484,8 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post(
             'wxa/img_sec_check',
-            data={
-                'media': open(media),
+            files={
+                'media': media,
             }
         )
 
