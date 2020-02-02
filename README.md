@@ -35,9 +35,9 @@
 ```bash
 pip install wechatpy
 # with cryptography (推荐）
-pip install wechatpy[cryptography]
+pip install 'wechatpy[cryptography]'
 # with pycryptodome
-pip install wechatpy[pycrypto]
+pip install 'wechatpy[pycrypto]'
 ```
 
 升级版本：
