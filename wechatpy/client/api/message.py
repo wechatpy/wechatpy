@@ -727,3 +727,22 @@ class WeChatMessage(BaseWeChatAPI):
             'message/template/subscribe',
             data=post_data,
         )
+
+    def send_msg_menu(self, openid, msgmenu, account=None):
+        """
+        发送菜单消息
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
+
+        :param openid: 填接收消息的用户openid
+        :param msgmenu: 菜单字典
+        :param account: 可选，客服账号
+        :return: 返回的 JSON 数据包
+        """
+        data = {
+            'touser': openid,
+            'msgtype': 'msgmenu',
+            'msgmenu': msgmenu
+        }
+        return self._send_custom_message(data, account=account)
