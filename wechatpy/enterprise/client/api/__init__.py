@@ -19,3 +19,4 @@ from wechatpy.enterprise.client.api.tag import WeChatTag  # NOQA
 from wechatpy.enterprise.client.api.user import WeChatUser  # NOQA
 from wechatpy.enterprise.client.api.external_contact import \
     WeChatExternalContact  # NOQA
+from wechatpy.enterprise.client.api.oa import WeChatOa
