@@ -16,6 +16,7 @@ class WeChatExternalContact(BaseWeChatAPI):
     """
     https://work.weixin.qq.com/api/doc#90000/90135/90221
     """
+
     def get_follow_user_list(self):
         """
         获取配置了客户联系功能的成员列表
@@ -293,3 +294,94 @@ class WeChatExternalContact(BaseWeChatAPI):
             takeover_userid=takeover_userid
         )
         return self._post('externalcontact/transfer', data=data)
+
+    def get_corp_tag_list(self, tag_ids=None):
+        """
+        企业可通过此接口获取企业客户标签详情
+        https://work.weixin.qq.com/api/doc/90000/90135/92116
+
+        :param tag_ids:要查询的标签id，如果不填则获取该企业的所有客户标签，目前暂不支持标签组id ,示例：["etXXXXXXXXXX","etYYYYYYYYYY"]
+        :return: 返回的 JSON 数据包
+        """
+        data = optionaldict(
+            tag_id=tag_ids
+        )
+        return self._post('externalcontact/get_corp_tag_list', data=data)
+
+    def add_corp_tag(self, group_id, group_name, order, tags):
+        """
+
+        企业可通过此接口向客户标签库中添加新的标签组和标签。
+        https://work.weixin.qq.com/api/doc/90000/90135/92117
+
+        :param group_id: 标签组id
+        :param group_name: 标签组名称，最长为30个字符
+        :param order: 否	标签组次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
+        :param tags:[
+                    tag.name	是	添加的标签名称，最长为30个字符
+                    tag.order	否	标签次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
+                    ]
+        :return:返回的 JSON 数据包
+        """
+        data = optionaldict(
+            group_id=group_id,
+            group_name=group_name,
+            order=order,
+            tag=tags
+        )
+
+        return self._post('externalcontact/add_corp_tag', data=data)
+
+    def edit_corp_tag(self, id, name, order):
+        """
+        企业可通过此接口编辑客户标签/标签组的名称或次序值。
+        https://work.weixin.qq.com/api/doc/90000/90135/92117
+
+        :param id:标签或标签组的id列表
+        :param name:新的标签或标签组名称，最长为30个字符
+        :param order:标签/标签组的次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
+        :return:返回的 JSON 数据包
+        """
+        data = optionaldict(
+            id=id,
+            name=name,
+            order=order
+        )
+        return self._post('externalcontact/edit_corp_tag', data=data)
+
+    def del_corp_tag(self, tag_id=None, group_id=None):
+        """
+        企业可通过此接口删除客户标签库中的标签，或删除整个标签组。
+        如果一个标签组下所有的标签均被删除，则标签组会被自动删除。
+        https://work.weixin.qq.com/api/doc/90000/90135/92117
+
+        :param tag_id:标签的id列表  tag_id和group_id不可同时为空。
+        :param group_id:标签组的id列表  tag_id和group_id不可同时为空。
+        :return:返回的 JSON 数据包
+        """
+        data = optionaldict(
+            tag_id=tag_id,
+            group_id=group_id
+        )
+        return self._post('externalcontact/del_corp_tag', data=data)
+
+    def mark_tag(self, userid, external_userid, add_tag=None, remove_tag=None):
+        """
+        企业可通过此接口为指定成员的客户添加上由企业统一配置的标签。
+        https://work.weixin.qq.com/api/doc/90000/90135/92118
+
+        :param userid:添加外部联系人的userid
+        :param external_userid:外部联系人userid
+        :param add_tag:要标记的标签列表
+        :param remove_tag:要移除的标签列表
+        :return:返回的 JSON 数据包
+        """
+        add_tag = add_tag or []
+        remove_tag = remove_tag or []
+        data = optionaldict(
+            userid=userid,
+            external_userid=external_userid,
+            add_tag=add_tag,
+            remove_tag=remove_tag
+        )
+        return self._post('externalcontact/mark_tag', data=data)

@@ -217,6 +217,30 @@ class WeChatMessage(BaseWeChatAPI):
             }
         return self._send_custom_message(data, account=account)
 
+    def send_link(self, user_id, article, account=None):
+        """
+        发送图文消息(单图文)
+
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/customer-message/customerServiceMessage.send.html#method-http
+
+        :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
+        :param article:
+        :return: 返回的 JSON 数据包
+        """
+
+        data = {
+            'touser': user_id,
+            'msgtype': 'link',
+            'link': {
+                'title': article['title'],
+                'description': article['description'],
+                'url': article['url'],
+                'picurl': article.get('image', article.get('picurl')),
+            }
+        }
+        return self._send_custom_message(data, account=account)
+
     def send_card(self, user_id, card_id, card_ext=None, account=None):
         """
         发送卡券消息
@@ -703,3 +727,22 @@ class WeChatMessage(BaseWeChatAPI):
             'message/template/subscribe',
             data=post_data,
         )
+
+    def send_msg_menu(self, openid, msgmenu, account=None):
+        """
+        发送菜单消息
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
+
+        :param openid: 填接收消息的用户openid
+        :param msgmenu: 菜单字典
+        :param account: 可选，客服账号
+        :return: 返回的 JSON 数据包
+        """
+        data = {
+            'touser': openid,
+            'msgtype': 'msgmenu',
+            'msgmenu': msgmenu
+        }
+        return self._send_custom_message(data, account=account)

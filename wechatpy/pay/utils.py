@@ -13,6 +13,7 @@ from wechatpy.utils import to_binary, to_text
 
 logger = logging.getLogger(__name__)
 
+
 def format_url(params, api_key=None):
     data = [to_binary('{0}={1}'.format(k, params[k])) for k in sorted(params) if params[k]]
     if api_key:
@@ -39,7 +40,7 @@ def _check_signature(params, api_key):
     return sign == calculate_signature(_params, api_key)
 
 
-def dict_to_xml(d, sign):
+def dict_to_xml(d, sign=None):
     xml = ['<xml>\n']
     for k in sorted(d):
         # use sorted to avoid test error on Py3k
@@ -50,7 +51,10 @@ def dict_to_xml(d, sign):
             xml.append(
                 '<{0}><![CDATA[{1}]]></{0}>\n'.format(to_text(k), to_text(v))
             )
-    xml.append('<sign><![CDATA[{0}]]></sign>\n</xml>'.format(to_text(sign)))
+    if sign:
+        xml.append('<sign><![CDATA[{0}]]></sign>\n</xml>'.format(to_text(sign)))
+    else:
+        xml.append('</xml>')
     return ''.join(xml)
 
 

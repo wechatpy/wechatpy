@@ -73,7 +73,7 @@ class WeChatJSAPI(BaseWeChatAPI):
     def get_jsapi_card_ticket(self):
         """
         获取 api_ticket：是用于调用微信卡券JS API的临时票据，有效期为7200 秒，通过access_token 来获取。
-        微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+        微信文档地址：https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#62
         该方法会通过 session 对象自动缓存管理 ticket
 
         :return: ticket
@@ -93,9 +93,9 @@ class WeChatJSAPI(BaseWeChatAPI):
 
     def get_jsapi_card_params(self, card_ticket, card_type, **kwargs):
         """
-        参数意义见微信文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+        参数意义见微信文档地址：https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#62
         :param card_ticket: 用于卡券的微信 api_ticket
-        :param card_type: 
+        :param card_type:
         :param kwargs: 非必须参数：noncestr, timestamp, code, openid, fixed_begintimestamp, outer_str
         :return: 包含调用jssdk所有所需参数的 dict
         """
