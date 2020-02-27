@@ -25,6 +25,7 @@ class WeChatClient(BaseWeChatClient):
     tag = api.WeChatTag()
     user = api.WeChatUser()
     external_contact = api.WeChatExternalContact()
+    oa = api.WeChatOa()
 
     def __init__(self, corp_id, secret, access_token=None,
                  session=None, timeout=None, auto_retry=True):
