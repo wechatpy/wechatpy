@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from wechatpy.utils import json
+
 from wechatpy.client.api.base import BaseWeChatAPI
+from wechatpy.utils import json
 
 
 class WeChatMaterial(BaseWeChatAPI):
@@ -77,6 +78,7 @@ class WeChatMaterial(BaseWeChatAPI):
         :param media_id: 素材的 media_id
         :return: 图文素材返回图文列表，其它类型为素材的内容
         """
+
         def _processor(res):
             if isinstance(res, dict):
                 if 'news_item' in res:
@@ -84,14 +86,13 @@ class WeChatMaterial(BaseWeChatAPI):
                     return res['news_item']
             return res
 
-        res = self._post(
+        return self._post(
             'material/get_material',
             data={
                 'media_id': media_id
             },
             result_processor=_processor
         )
-        return res
 
     def delete(self, media_id):
         """
@@ -153,7 +154,7 @@ class WeChatMaterial(BaseWeChatAPI):
 
     def batchget(self, media_type, offset=0, count=20):
         """
-        批量获取永久素材列表
+        获取素材列表
         详情请参考
         https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Get_materials_list.html
 
