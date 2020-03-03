@@ -27,6 +27,7 @@ class WeChatClient(BaseWeChatClient):
     shakearound = api.WeChatShakeAround()
     tag = api.WeChatTag()
     user = api.WeChatUser()
+    OA = api.WeChatOA()
 
     def __init__(self, corp_id, secret, access_token=None,
                  session=None, timeout=None, auto_retry=True):
