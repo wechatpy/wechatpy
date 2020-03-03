@@ -5,7 +5,7 @@ from optionaldict import optionaldict
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
-class WeChatOa(BaseWeChatAPI):
+class WeChatOA(BaseWeChatAPI):
     """
     OA管理
 
