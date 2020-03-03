@@ -12,7 +12,7 @@ class WeChatOA(BaseWeChatAPI):
     https://work.weixin.qq.com/api/doc/90000/90135/90264
     """
 
-    def get_template_detail(self, template_id: str) -> dict:
+    def get_template_detail(self, template_id):
         """
         查询审批模板的详情
         https://work.weixin.qq.com/api/doc/90000/90135/91982
@@ -28,8 +28,7 @@ class WeChatOA(BaseWeChatAPI):
             data=data
         )
 
-    def get_approval_info(self, start_time: int, end_time: int, cursor: int, size: int = 100,
-                          filters: dict = None) -> dict:
+    def get_approval_info(self, start_time, end_time, cursor, size=100, filters=None):
         """
         批量获取审批单号
         https://work.weixin.qq.com/api/doc/90000/90135/91816
@@ -54,7 +53,7 @@ class WeChatOA(BaseWeChatAPI):
             data=data
         )
 
-    def get_approval_detail(self, sp_no: int) -> dict:
+    def get_approval_detail(self, sp_no):
         """
         获取审批申请详情
         https://work.weixin.qq.com/api/doc/90000/90135/91983
@@ -70,8 +69,8 @@ class WeChatOA(BaseWeChatAPI):
             data=data
         )
 
-    def apply_event(self, creator_userid: str, template_id: str, use_template_approver: int, approver: list,
-                    apply_data: list, summary_list: list, notifyer: list = None, notify_type: int = None) -> dict:
+    def apply_event(self, creator_userid, template_id, use_template_approver, approver, apply_data, summary_list,
+                    notifyer=None, notify_type=None):
         """
         提交审批申请，这个函数的参数比较复杂，具体请查看官方文档
         https://work.weixin.qq.com/api/doc/90000/90135/91853
