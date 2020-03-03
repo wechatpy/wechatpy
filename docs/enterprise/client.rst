@@ -83,6 +83,20 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
+日程管理
+---------------------------
+
+.. autoclass:: WeChatCalendar
+   :members:
+   :inherited-members:
+
+日历管理
+---------------------------
+
+.. autoclass:: WeChatSchedule
+   :members:
+   :inherited-members:
+
 自定义菜单
 ----------------------------
 
