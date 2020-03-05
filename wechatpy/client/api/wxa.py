@@ -221,7 +221,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         将第三方提交的代码包提交审核
         详情请参考
-        https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
+        https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/submit_audit.html
         """
         return self._post(
             'wxa/submit_audit',
