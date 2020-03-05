@@ -217,23 +217,37 @@ class WeChatWxa(BaseWeChatAPI):
             result_processor=lambda x: x['page_list'],
         )
 
-    def submit_audit(self, item_list):
+    def submit_audit(self, data):
         """
         将第三方提交的代码包提交审核
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1489140610_Uavc4
-
-        :param item_list: 提交审核项的一个列表（至少填写1项，至多填写5项）
-        :type item_list: list[dict]
-        :return: 审核编号
-        :rtype: int
         """
         return self._post(
             'wxa/submit_audit',
-            data={
-                'item_list': item_list,
-            },
-            result_processor=lambda x: x['auditid'],
+            data=data
+        )
+
+    def undo_code_audit(self):
+        """
+        调用本接口可以撤回当前的代码审核单
+        注意： 单个帐号每天审核撤回次数最多不超过 1 次，一个月不超过 10 次。
+        https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/undocodeaudit.html
+        """
+        return self._get(
+            'wxa/undocodeaudit'
+        )
+
+    def revert_code_release(self):
+        """
+        调用本接口可以将小程序的线上版本进行回退
+        注意：
+        1. 如果没有上一个线上版本，将无法回退
+        2. 只能向上回退一个版本，即当前版本回退后，不能再调用版本回退接口
+        https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/revertcoderelease.html
+        """
+        return self._get(
+            'wxa/revertcoderelease'
         )
 
     def get_audit_status(self, auditid):
