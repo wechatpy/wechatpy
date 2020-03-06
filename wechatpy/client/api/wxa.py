@@ -518,3 +518,26 @@ class WeChatWxa(BaseWeChatAPI):
                 'content': content,
             }
         )
+
+    def speed_up_audit(self, auditid):
+        """
+        加急审核申请
+        有加急次数的第三方可以通过该接口，对已经提审的小程序进行加急操作，加急后的小程序预计2-12小时内审完。
+        https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/speedup_audit.html
+        """
+        return self._post(
+            'wxa/speedupaudit',
+            data={
+                "auditid": auditid
+            }
+        )
+
+    def query_quota(self):
+        """
+        查询服务商的当月提审限额（quota）和加急次数
+        服务商可以调用该接口，查询当月平台分配的提审限额和剩余可提审次数，以及当月分配的审核加急次数和剩余加急次数。（所有旗下小程序共用该额度）
+        https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/query_quota.html
+        """
+        return self._get(
+            'wxa/queryquota'
+        )
