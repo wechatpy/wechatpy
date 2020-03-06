@@ -1,0 +1,45 @@
+on: [push, pull_request]
+
+name: Python
+
+jobs:
+  build:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+        crypto_lib: [cryptography, pycrypto]
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+      memcached:
+        image: memcached:alpine
+        ports:
+          - 11211:11211
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install Dependencies
+        run: pip install tox coverage
+      - name: Test with tox
+        env:
+          TOX_ENV: py${{ matrix.python-version }}-${{ matrix.crypto_lib }}
+        run: tox -e $TOX_ENV
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
