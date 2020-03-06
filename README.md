@@ -7,10 +7,8 @@
          \|____________|\|_______|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|__||\___/ /
                                                                                 \|___|/
 
-[![Build Status](https://travis-ci.org/jxtech/wechatpy.svg?branch=master)](https://travis-ci.org/jxtech/wechatpy)
-[![Build status](https://ci.appveyor.com/api/projects/status/sluy95tvbe090af1/branch/master?svg=true)](https://ci.appveyor.com/project/messense/wechatpy-den93/branch/master)
+[![GitHub Actions](https://github.com/jxtech/wechatpy/workflows/CI/badge.svg)](https://github.com/jxtech/wechatpy/actions?query=workflow%3ACI)
 [![codecov.io](https://codecov.io/github/jxtech/wechatpy/coverage.svg?branch=master)](https://codecov.io/github/jxtech/wechatpy?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jxtech/wechatpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master)
 [![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.org/project/wechatpy)
 [![Downloads](https://pepy.tech/badge/wechatpy)](https://pepy.tech/project/wechatpy)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
