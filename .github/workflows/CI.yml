@@ -1,9 +1,9 @@
 on: [push, pull_request]
 
-name: Python
+name: CI
 
 jobs:
-  build:
+  test:
     name: Test
     runs-on: ${{ matrix.os }}
     strategy:
