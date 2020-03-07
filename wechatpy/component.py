@@ -8,8 +8,6 @@
     :copyright: (c) 2015 by hunter007.
     :license: MIT, see LICENSE for more details.
 """
-from __future__ import absolute_import, unicode_literals
-
 import logging
 import time
 import warnings

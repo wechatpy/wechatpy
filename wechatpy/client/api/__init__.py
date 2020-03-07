@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
+
 
 from wechatpy.client.api.card import WeChatCard  # NOQA
 from wechatpy.client.api.customservice import WeChatCustomService  # NOQA

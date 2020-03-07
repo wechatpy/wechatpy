@@ -1,5 +1,6 @@
-from __future__ import absolute_import, unicode_literals
+# -*- coding: utf-8 -*-
 import os
+
 from flask import Flask, request, abort, render_template
 from wechatpy.crypto import WeChatCrypto
 from wechatpy import parse_message, create_reply

@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from __future__ import print_function
-
 try:
     # python setup.py test
     import multiprocessing  # NOQA
