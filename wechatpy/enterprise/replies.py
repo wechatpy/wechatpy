@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-import six
-
 from wechatpy import replies
 from wechatpy.fields import IntegerField
 
@@ -50,7 +48,7 @@ def create_reply(reply, message=None, render=False):
             r.source = message.target
             r.target = message.source
             r.agent = message.agent
-    elif isinstance(reply, six.string_types):
+    elif isinstance(reply, str):
         r = TextReply(
             message=message,
             content=reply

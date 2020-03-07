@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-
 import re
+from urllib.parse import urlencode
 
-import six
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -331,8 +330,8 @@ class WeChatMessage(BaseWeChatAPI):
                 }
                 endpoint = 'message/mass/sendall'
         else:
-            if not isinstance(group_or_users, six.string_types):
-                raise ValueError('group_or_users should be string types')
+            if not isinstance(group_or_users, str):
+                raise ValueError('group_or_users should be str')
             # 预览接口
             if self.OPENID_RE.match(group_or_users):
                 # 按照 openid 预览群发
@@ -694,7 +693,7 @@ class WeChatMessage(BaseWeChatAPI):
             ('redirect_url', redirect_url),
             ('reserved', reserved),
         ]
-        encoded_params = six.moves.urllib.parse.urlencode(params)
+        encoded_params = urlencode(params)
         url = '{base}?{params}#wechat_redirect'.format(base=base_url, params=encoded_params)
         return url
 

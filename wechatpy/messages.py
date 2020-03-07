@@ -10,7 +10,6 @@
 """
 from __future__ import absolute_import, unicode_literals
 import copy
-import six
 
 from wechatpy.fields import (
     BaseField,
@@ -54,7 +53,7 @@ class MessageMetaClass(type):
         return cls
 
 
-class BaseMessage(six.with_metaclass(MessageMetaClass)):
+class BaseMessage(object, metaclass=MessageMetaClass):
     """Base class for all messages and events"""
     type = 'unknown'
     id = IntegerField('MsgId', 0)
@@ -71,10 +70,7 @@ class BaseMessage(six.with_metaclass(MessageMetaClass)):
             klass=self.__class__.__name__,
             msg=repr(self._data)
         )
-        if six.PY2:
-            return to_binary(_repr)
-        else:
-            return to_text(_repr)
+        return _repr
 
 
 @register_message('text')

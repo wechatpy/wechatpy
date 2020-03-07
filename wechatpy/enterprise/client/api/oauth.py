@@ -1,7 +1,6 @@
 # encoding: utf-8
 from __future__ import absolute_import, unicode_literals
-
-import six
+from urllib.parse import quote
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -19,7 +18,7 @@ class WeChatOAuth(BaseWeChatAPI):
         :param state: 重定向后会带上 state 参数
         :return: 返回的 JSON 数据包
         """
-        redirect_uri = six.moves.urllib.parse.quote(redirect_uri, safe=b'')
+        redirect_uri = quote(redirect_uri, safe=b'')
         url_list = [
             self.OAUTH_BASE_URL,
             '?appid=',

@@ -1,5 +1,3 @@
-enum34>=1.1.4; python_version < '3.4'
-six>=1.8.0
 requests>=2.4.3
 xmltodict>=0.11.0
 optionaldict>=0.1.0

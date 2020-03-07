@@ -9,9 +9,9 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+from urllib.parse import quote
 
 import requests
-from six.moves.urllib.parse import quote
 
 from wechatpy.exceptions import WeChatOAuthException
 from wechatpy.utils import json

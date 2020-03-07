@@ -13,11 +13,10 @@ from __future__ import absolute_import, unicode_literals
 import logging
 import time
 import warnings
+from urllib.parse import quote
 
 import requests
-import six
 import xmltodict
-from six.moves.urllib.parse import quote
 
 from wechatpy.client import WeChatComponentClient
 from wechatpy.constants import WeChatErrorCode
@@ -41,7 +40,7 @@ def register_component_message(msg_type):
     return register
 
 
-class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
+class BaseComponentMessage(object, metaclass=MessageMetaClass):
     """Base class for all component messages and events"""
     type = 'unknown'
     appid = StringField('AppId')
@@ -55,10 +54,7 @@ class BaseComponentMessage(six.with_metaclass(MessageMetaClass)):
             klass=self.__class__.__name__,
             msg=repr(self._data)
         )
-        if six.PY2:
-            return to_binary(_repr)
-        else:
-            return to_text(_repr)
+        return to_text(_repr)
 
 
 @register_component_message('component_verify_ticket')
@@ -135,7 +131,7 @@ class BaseWeChatComponent(object):
         self.session = session or MemoryStorage()
         self.auto_retry = auto_retry
 
-        if isinstance(session, six.string_types):
+        if isinstance(session, str):
             from shove import Shove
             from wechatpy.session.shovestorage import ShoveStorage
 
@@ -473,25 +469,6 @@ class WeChatComponent(BaseWeChatComponent):
             }
         )
 
-    def get_client_by_authorization_code(self, authorization_code):
-        """
-        通过授权码直接获取 Client 对象
-
-        :params authorization_code: 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
-        """
-        warnings.warn('`get_client_by_authorization_code` method of `WeChatComponent` is deprecated,'
-                      'Use `parse_message` parse message and '
-                      'Use `get_client_by_appid` instead',
-                      DeprecationWarning, stacklevel=2)
-        result = self.query_auth(authorization_code)
-        access_token = result['authorization_info']['authorizer_access_token']
-        refresh_token = result['authorization_info']['authorizer_refresh_token']  # NOQA
-        authorizer_appid = result['authorization_info']['authorizer_appid']  # noqa
-        return WeChatComponentClient(
-            authorizer_appid, self, access_token, refresh_token,
-            session=self.session
-        )
-
     def get_client_by_appid(self, authorizer_appid):
         """
         通过 authorizer_appid 获取 Client 对象
@@ -542,39 +519,6 @@ class WeChatComponent(BaseWeChatComponent):
         elif msg.type in ('authorized', 'updateauthorized'):
             msg.query_auth_result = self.query_auth(msg.authorization_code)
         return msg
-
-    def cache_component_verify_ticket(self, msg, signature, timestamp, nonce):
-        """
-        处理 wechat server 推送的 component_verify_ticket消息
-
-        :params msg: 加密内容
-        :params signature: 消息签名
-        :params timestamp: 时间戳
-        :params nonce: 随机数
-        """
-        warnings.warn('`cache_component_verify_ticket` method of `WeChatComponent` is deprecated,'
-                      'Use `parse_message` instead',
-                      DeprecationWarning, stacklevel=2)
-        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
-        message = xmltodict.parse(to_text(content))['xml']
-        o = ComponentVerifyTicketMessage(message)
-        self.session.set(o.type, o.verify_ticket)
-
-    def get_unauthorized(self, msg, signature, timestamp, nonce):
-        """
-        处理取消授权通知
-
-        :params msg: 加密内容
-        :params signature: 消息签名
-        :params timestamp: 时间戳
-        :params nonce: 随机数
-        """
-        warnings.warn('`get_unauthorized` method of `WeChatComponent` is deprecated,'
-                      'Use `parse_message` instead',
-                      DeprecationWarning, stacklevel=2)
-        content = self.crypto.decrypt_message(msg, signature, timestamp, nonce)
-        message = xmltodict.parse(to_text(content))['xml']
-        return ComponentUnauthorizedMessage(message)
 
     def get_component_oauth(self, authorizer_appid):
         """
