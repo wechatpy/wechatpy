@@ -2,8 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 import datetime
 
-import six
-
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -15,7 +13,7 @@ class WeChatDataCube(BaseWeChatAPI):
     def _to_date_str(cls, date):
         if isinstance(date, (datetime.datetime, datetime.date)):
             return date.strftime('%Y-%m-%d')
-        elif isinstance(date, six.string_types):
+        elif isinstance(date, str):
             return date
         else:
             raise ValueError('Can not convert %s type to str', type(date))

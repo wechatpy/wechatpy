@@ -7,7 +7,6 @@ import hashlib
 import hmac
 import socket
 import logging
-import six
 
 from wechatpy.utils import to_binary, to_text
 
@@ -45,7 +44,7 @@ def dict_to_xml(d, sign=None):
     for k in sorted(d):
         # use sorted to avoid test error on Py3k
         v = d[k]
-        if isinstance(v, six.integer_types) or (isinstance(v, six.string_types) and v.isdigit()):
+        if isinstance(v, int) or (isinstance(v, str) and v.isdigit()):
             xml.append('<{0}>{1}</{0}>\n'.format(to_text(k), to_text(v)))
         else:
             xml.append(

@@ -9,18 +9,11 @@
     :license: MIT, see LICENSE for more details.
 """
 from __future__ import absolute_import, unicode_literals
+import json
 import string
 import random
 import hashlib
-
-try:
-    '''Use simplejson if we can, fallback to json otherwise.'''
-    import simplejson as json
-except ImportError:
-    import json  # NOQA
-
-import six
-import six.moves.urllib.parse as urlparse
+from urllib.parse import urlparse, urlsplit, parse_qs
 
 
 class ObjectDict(dict):
@@ -100,11 +93,11 @@ def to_text(value, encoding='utf-8'):
     """
     if not value:
         return ''
-    if isinstance(value, six.text_type):
+    if isinstance(value, str):
         return value
-    if isinstance(value, six.binary_type):
+    if isinstance(value, bytes):
         return value.decode(encoding)
-    return six.text_type(value)
+    return str(value)
 
 
 def to_binary(value, encoding='utf-8'):
@@ -115,9 +108,9 @@ def to_binary(value, encoding='utf-8'):
     """
     if not value:
         return b''
-    if isinstance(value, six.binary_type):
+    if isinstance(value, bytes):
         return value
-    if isinstance(value, six.text_type):
+    if isinstance(value, str):
         return value.encode(encoding)
     return to_text(value).encode(encoding)
 
@@ -152,11 +145,5 @@ def get_querystring(uri):
     :param uri: uri
     :return: querystring info or {}
     """
-    parts = urlparse.urlsplit(uri)
-    return urlparse.parse_qs(parts.query)
-
-
-def byte2int(c):
-    if six.PY2:
-        return ord(c)
-    return c
+    parts = urlsplit(uri)
+    return parse_qs(parts.query)

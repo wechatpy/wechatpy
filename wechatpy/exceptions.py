@@ -10,8 +10,6 @@
 """
 from __future__ import absolute_import, unicode_literals
 
-import six
-
 from wechatpy.utils import to_binary, to_text
 
 
@@ -27,14 +25,11 @@ class WeChatException(Exception):
         self.errmsg = errmsg
 
     def __str__(self):
-        _repr = 'Error code: {code}, message: {msg}'.format(
+        s = 'Error code: {code}, message: {msg}'.format(
             code=self.errcode,
             msg=self.errmsg
         )
-        if six.PY2:
-            return to_binary(_repr)
-        else:
-            return to_text(_repr)
+        return s
 
     def __repr__(self):
         _repr = '{klass}({code}, {msg})'.format(
@@ -42,10 +37,7 @@ class WeChatException(Exception):
             code=self.errcode,
             msg=self.errmsg
         )
-        if six.PY2:
-            return to_binary(_repr)
-        else:
-            return to_text(_repr)
+        return _repr
 
 
 class WeChatClientException(WeChatException):
@@ -126,10 +118,7 @@ class WeChatPayException(WeChatClientException):
                 pay_code=self.errcode,
                 pay_msg=self.errmsg
             )
-        if six.PY2:
-            return to_binary(_str)
-        else:
-            return to_text(_str)
+        return _str
 
     def __repr__(self):
         _repr = '{klass}({code}, {msg}). Pay({pay_code}, {pay_msg})'.format(
@@ -139,7 +128,4 @@ class WeChatPayException(WeChatClientException):
             pay_code=self.errcode,
             pay_msg=self.errmsg
         )
-        if six.PY2:
-            return to_binary(_repr)
-        else:
-            return to_text(_repr)
+        return _repr

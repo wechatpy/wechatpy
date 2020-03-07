@@ -3,8 +3,8 @@ from __future__ import absolute_import, unicode_literals
 import hashlib
 import time
 import datetime
+from urllib.parse import quote
 
-from six.moves.urllib.parse import quote
 from optionaldict import optionaldict
 from wechatpy.utils import to_binary
 from wechatpy.client.api.base import BaseWeChatAPI

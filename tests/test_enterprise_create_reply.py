@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import unittest
-import six
 
 
 from wechatpy.enterprise.replies import TextReply, create_reply
@@ -19,7 +18,7 @@ class CreateReplyTestCase(unittest.TestCase):
     def test_create_reply_with_text_render(self):
         text = 'test'
         reply = create_reply(text, render=True)
-        self.assertTrue(isinstance(reply, six.text_type))
+        self.assertTrue(isinstance(reply, str))
 
     def test_create_reply_should_return_none(self):
         reply = create_reply(None)

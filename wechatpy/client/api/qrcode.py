@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from urllib.parse import quote
+
 import requests
-import six
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -90,5 +91,5 @@ class WeChatQRCode(BaseWeChatAPI):
         url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}'
         if isinstance(ticket, dict):
             ticket = ticket['ticket']
-        ticket = six.moves.urllib.parse.quote(ticket)
+        ticket = quote(ticket)
         return url.format(ticket=ticket)

@@ -3,7 +3,6 @@ from __future__ import absolute_import, unicode_literals
 import time
 from datetime import datetime
 
-import six
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -15,7 +14,7 @@ class WeChatShakeAround(BaseWeChatAPI):
 
     @classmethod
     def _to_timestamp(cls, date):
-        if isinstance(date, six.string_types):
+        if isinstance(date, str):
             date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
         if isinstance(date, datetime):
             timestamp = int(time.mktime(date.timetuple()))
