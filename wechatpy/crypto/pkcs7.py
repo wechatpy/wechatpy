@@ -3,7 +3,7 @@
 from wechatpy.utils import to_binary
 
 
-class PKCS7Encoder(object):
+class PKCS7Encoder:
     block_size = 32
 
     @classmethod

@@ -2,7 +2,7 @@
 
 
 
-class BaseWeChatAPI(object):
+class BaseWeChatAPI:
     """ WeChat API base class """
 
     def __init__(self, client=None):

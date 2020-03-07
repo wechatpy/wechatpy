@@ -2,7 +2,7 @@
 
 
 
-class SessionStorage(object):
+class SessionStorage:
 
     def get(self, key, default=None):
         raise NotImplementedError()

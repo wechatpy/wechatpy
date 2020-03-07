@@ -36,7 +36,7 @@ def register_reply(reply_type):
     return register
 
 
-class BaseReply(object, metaclass=MessageMetaClass):
+class BaseReply(metaclass=MessageMetaClass):
     """Base class for all replies"""
     source = StringField('FromUserName')
     target = StringField('ToUserName')

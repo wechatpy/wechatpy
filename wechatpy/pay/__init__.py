@@ -24,7 +24,7 @@ def _is_api_endpoint(obj):
     return isinstance(obj, BaseWeChatPayAPI)
 
 
-class WeChatPay(object):
+class WeChatPay:
     """
     微信支付接口
 

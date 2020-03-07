@@ -19,7 +19,7 @@ from wechatpy.utils import to_text, to_binary, ObjectDict, timezone
 default_timezone = timezone('Asia/Shanghai')
 
 
-class FieldDescriptor(object):
+class FieldDescriptor:
 
     def __init__(self, field):
         self.field = field
@@ -43,7 +43,7 @@ class FieldDescriptor(object):
         instance._data[self.attr_name] = value
 
 
-class BaseField(object):
+class BaseField:
     converter = None
 
     def __init__(self, name, default=None):

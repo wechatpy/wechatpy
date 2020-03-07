@@ -39,7 +39,7 @@ class PrpCrypto(BasePrpCrypto):
         return self._decrypt(text, app_id, InvalidAppIdException)
 
 
-class BaseWeChatCrypto(object):
+class BaseWeChatCrypto:
 
     def __init__(self, token, encoding_aes_key, _id):
         encoding_aes_key = to_binary(encoding_aes_key + '=')
@@ -124,7 +124,7 @@ class WeChatCrypto(BaseWeChatCrypto):
         )
 
 
-class WeChatWxaCrypto(object):
+class WeChatWxaCrypto:
     def __init__(self, key, iv, app_id):
         self.cipher = WeChatCipher(base64.b64decode(key), base64.b64decode(iv))
         self.app_id = app_id
@@ -148,7 +148,7 @@ class RefundCrypto(BaseRefundCrypto):
         return self._decrypt(text)
 
 
-class WeChatRefundCrypto(object):
+class WeChatRefundCrypto:
 
     def __init__(self, key):
         self.key = to_binary(hashlib.md5(to_binary(key)).hexdigest())
