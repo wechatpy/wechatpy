@@ -78,7 +78,6 @@ class WeChatCloud(BaseWeChatAPI):
         https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateExport.html
 
         :param env: 云开发环境 ID
-        :param collection: 导出 collection 名称
         :param file_path: 导出文件路径(导入文件需先上传到同环境的存储中，可使用开发者工具或 HTTP API的上传文件 API上传）
         :param file_type: 导出文件类型，文件格式参考数据库导入指引中的文件格式部分，值为数字，1 为 JSON，2 为 CSV
         :param query: 导出条件
@@ -88,7 +87,6 @@ class WeChatCloud(BaseWeChatAPI):
             'tcb/databasemigrateexport',
             data={
                 'env': env,
-                'collection_name': collection,
                 'file_path': file_path,
                 'file_type': file_type,
                 'query': query,
