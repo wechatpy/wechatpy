@@ -10,6 +10,7 @@
 """
 import logging
 import time
+import json
 import warnings
 from urllib.parse import quote
 
@@ -24,7 +25,7 @@ from wechatpy.exceptions import APILimitedException, WeChatClientException, WeCh
 from wechatpy.fields import DateTimeField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy.utils import get_querystring, to_text, json, ObjectDict
+from wechatpy.utils import get_querystring, to_text, ObjectDict
 
 logger = logging.getLogger(__name__)
 
