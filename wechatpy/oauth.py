@@ -16,7 +16,7 @@ from wechatpy.exceptions import WeChatOAuthException
 from wechatpy.utils import json
 
 
-class WeChatOAuth(object):
+class WeChatOAuth:
     """ 微信公众平台 OAuth 网页授权
 
     详情请参考

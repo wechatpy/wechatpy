@@ -20,7 +20,7 @@ def _is_api_endpoint(obj):
     return isinstance(obj, BaseWeChatAPI)
 
 
-class BaseWeChatClient(object):
+class BaseWeChatClient:
     API_BASE_URL = ''
 
     def __new__(cls, *args, **kwargs):

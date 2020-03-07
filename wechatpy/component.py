@@ -38,7 +38,7 @@ def register_component_message(msg_type):
     return register
 
 
-class BaseComponentMessage(object, metaclass=MessageMetaClass):
+class BaseComponentMessage(metaclass=MessageMetaClass):
     """Base class for all component messages and events"""
     type = 'unknown'
     appid = StringField('AppId')
@@ -104,7 +104,7 @@ class ComponentUnknownMessage(BaseComponentMessage):
     type = 'unknown'
 
 
-class BaseWeChatComponent(object):
+class BaseWeChatComponent:
     API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin'
 
     def __init__(self,
@@ -527,7 +527,7 @@ class WeChatComponent(BaseWeChatComponent):
         return ComponentOAuth(authorizer_appid, component=self)
 
 
-class ComponentOAuth(object):
+class ComponentOAuth:
     """ 微信开放平台 代公众号 OAuth 网页授权
 
     详情请参考

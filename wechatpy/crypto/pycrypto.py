@@ -3,7 +3,7 @@
 from Crypto.Cipher import AES
 
 
-class BaseWeChatCipher(object):
+class BaseWeChatCipher:
 
     def __init__(self, cipher):
         self.cipher = cipher

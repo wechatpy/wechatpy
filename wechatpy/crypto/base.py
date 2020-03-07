@@ -15,7 +15,7 @@ except ImportError:
         raise Exception('You must install either cryptography or pycryptodome!')
 
 
-class BasePrpCrypto(object):
+class BasePrpCrypto:
 
     def __init__(self, key):
         self.cipher = WeChatCipher(key)
@@ -52,7 +52,7 @@ class BasePrpCrypto(object):
         return xml_content
 
 
-class BaseRefundCrypto(object):
+class BaseRefundCrypto:
 
     def __init__(self, key):
         self.cipher = AesEcbCipher(key)

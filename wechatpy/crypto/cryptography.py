@@ -4,7 +4,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
 
-class BaseWeChatCipher(object):
+class BaseWeChatCipher:
 
     def __init__(self, cipher):
         self.cipher = cipher

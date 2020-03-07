@@ -29,7 +29,7 @@ class ObjectDict(dict):
         self[key] = value
 
 
-class WeChatSigner(object):
+class WeChatSigner:
     """WeChat data signer"""
 
     def __init__(self, delimiter=b''):

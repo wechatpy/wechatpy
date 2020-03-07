@@ -52,7 +52,7 @@ class MessageMetaClass(type):
         return cls
 
 
-class BaseMessage(object, metaclass=MessageMetaClass):
+class BaseMessage(metaclass=MessageMetaClass):
     """Base class for all messages and events"""
     type = 'unknown'
     id = IntegerField('MsgId', 0)
