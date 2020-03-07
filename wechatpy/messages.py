@@ -17,7 +17,6 @@ from wechatpy.fields import (
     DateTimeField,
     FieldDescriptor
 )
-from wechatpy.utils import to_text, to_binary
 
 
 MESSAGE_TYPES = {}

@@ -24,7 +24,7 @@ from wechatpy.exceptions import APILimitedException, WeChatClientException, WeCh
 from wechatpy.fields import DateTimeField, StringField
 from wechatpy.messages import MessageMetaClass
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy.utils import get_querystring, json, to_binary, to_text, ObjectDict
+from wechatpy.utils import get_querystring, to_text, json, ObjectDict
 
 logger = logging.getLogger(__name__)
 
@@ -48,11 +48,11 @@ class BaseComponentMessage(metaclass=MessageMetaClass):
         self._data = message
 
     def __repr__(self):
-        _repr = "{klass}({msg})".format(
+        s = "{klass}({msg})".format(
             klass=self.__class__.__name__,
             msg=repr(self._data)
         )
-        return to_text(_repr)
+        return s
 
 
 @register_component_message('component_verify_ticket')

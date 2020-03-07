@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 class BaseWeChatAPI:
     """ WeChat API base class """
 

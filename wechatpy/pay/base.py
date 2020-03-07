@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 class BaseWeChatPayAPI:
     """ WeChat Pay API base class """
     def __init__(self, client=None):

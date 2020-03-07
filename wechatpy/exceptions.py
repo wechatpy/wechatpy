@@ -8,7 +8,6 @@
     :copyright: (c) 2014 by messense.
     :license: MIT, see LICENSE for more details.
 """
-from wechatpy.utils import to_binary, to_text
 
 
 class WeChatException(Exception):

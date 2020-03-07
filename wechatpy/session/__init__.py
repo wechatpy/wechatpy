@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 class SessionStorage:
 
     def get(self, key, default=None):

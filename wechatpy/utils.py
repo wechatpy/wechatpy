@@ -9,11 +9,10 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import json
 import string
 import random
 import hashlib
-from urllib.parse import urlparse, urlsplit, parse_qs
+from urllib.parse import urlsplit, parse_qs
 
 
 class ObjectDict(dict):

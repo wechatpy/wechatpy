@@ -23,7 +23,6 @@ from wechatpy.fields import (
     HardwareField,
 )
 from wechatpy.messages import BaseMessage, MessageMetaClass
-from wechatpy.utils import to_text, to_binary
 
 
 REPLY_TYPES = {}
