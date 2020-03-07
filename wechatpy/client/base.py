@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import json
 import time
 import inspect
 import logging
@@ -7,7 +7,7 @@ import logging
 import requests
 
 from wechatpy.constants import WeChatErrorCode
-from wechatpy.utils import json, get_querystring
+from wechatpy.utils import get_querystring
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI

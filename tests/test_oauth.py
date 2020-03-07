@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 import unittest
 
 from httmock import HTTMock, response, urlmatch
 
 from wechatpy import ComponentOAuth, WeChatOAuth
 from wechatpy.exceptions import WeChatClientException
-from wechatpy.utils import json
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')

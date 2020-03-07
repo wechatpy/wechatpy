@@ -8,9 +8,9 @@
     :copyright: (c) 2015 by hunter007.
     :license: MIT, see LICENSE for more details.
 """
+import json
 import logging
 import time
-import json
 import warnings
 from urllib.parse import quote
 

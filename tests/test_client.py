@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import io
 import os
+import json
 import unittest
 from datetime import datetime
 
@@ -8,7 +9,6 @@ from httmock import HTTMock, response, urlmatch
 
 from wechatpy import WeChatClient
 from wechatpy.exceptions import WeChatClientException
-from wechatpy.utils import json
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures')

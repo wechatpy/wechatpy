@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 import platform
 import unittest
 
 from httmock import urlmatch, HTTMock, response
 
 from wechatpy import WeChatClient
-from wechatpy.utils import json
 
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))

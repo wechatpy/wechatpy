@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
+import json
 
 from wechatpy.session import SessionStorage
 from wechatpy.utils import to_text
-from wechatpy.utils import json
 
 
 class MemcachedStorage(SessionStorage):

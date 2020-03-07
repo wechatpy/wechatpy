@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 import unittest
 
 from httmock import urlmatch, HTTMock, response
 from wechatpy.enterprise import WeChatClient
-from wechatpy.utils import json
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures', 'enterprise')

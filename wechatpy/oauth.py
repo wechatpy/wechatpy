@@ -8,12 +8,12 @@
     :copyright: (c) 2014 by messense.
     :license: MIT, see LICENSE for more details.
 """
+import json
 from urllib.parse import quote
 
 import requests
 
 from wechatpy.exceptions import WeChatOAuthException
-from wechatpy.utils import json
 
 
 class WeChatOAuth:

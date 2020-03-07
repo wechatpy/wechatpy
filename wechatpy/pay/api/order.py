@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import json
 import time
 import random
 from datetime import datetime, timedelta
@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from wechatpy.utils import timezone
 from wechatpy.pay.utils import get_external_ip
 from wechatpy.pay.base import BaseWeChatPayAPI
-from wechatpy.utils import random_string, to_text, json
+from wechatpy.utils import random_string, to_text
 from wechatpy.pay.utils import calculate_signature
 
 

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-
+import json
 
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.utils import json
 
 
 class WeChatMaterial(BaseWeChatAPI):
