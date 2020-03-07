@@ -46,19 +46,19 @@ export FLAKE8_STRICT=True
 tox -l | xargs tox -e
 ```
 
-wechatpy 希望支持的 Python 版本有 2.6, 2.7, 3.3, 3.4, 3.5, 3.6, pypy 和 pypy3.
+wechatpy 希望支持的 Python 版本有 3.5, 3.6, 3.7 和 3.8。
 如果您的本地 Python 环境没有安装全面，请尽可能测试全面您已经安装的 Python 版本。
-如您本地安装了 Python 2.7 和 Python 3.6，则运行：
+如您本地安装了 Python 3.6 和 Python 3.7，则运行：
 
 ```bash
-tox -e py27-pycrypto,py36-cryptography
+tox -e py36-pycrypto,py37-cryptography
 ```
 
-或者您也可以直接用 `py.test` 测试：
+或者您也可以直接用 `pytest` 测试：
 
 ```bash
 pip install -U -r dev-requirements.txt
-py.test -v
+pytest -v
 ```
 
 如果出现测试失败，请检查您的修改过的代码或者检查测试用例的代码是否需要更新。
