@@ -1,5 +1,5 @@
 # encoding: utf-8
-from __future__ import absolute_import, unicode_literals
+
 from urllib.parse import quote
 
 from wechatpy.client.api.base import BaseWeChatAPI

@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+# -*- coding: utf-8 -*-
 from flask import Flask, request, abort
 from wechatpy.enterprise.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException

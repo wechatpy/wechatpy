@@ -5,7 +5,7 @@ author: Beck
 created at: 2019-06-06
 email: beck@ilife.co
 """
-from __future__ import absolute_import, unicode_literals
+
 
 from optionaldict import optionaldict
 

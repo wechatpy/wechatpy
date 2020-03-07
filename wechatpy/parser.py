@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by messense.
     :license: MIT, see LICENSE for more details.
 """
-from __future__ import absolute_import, unicode_literals
 import xmltodict
 
 from wechatpy.messages import MESSAGE_TYPES, UnknownMessage

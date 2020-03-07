@@ -8,7 +8,6 @@
     :copyright: (c) 2014 by messense.
     :license: MIT, see LICENSE for more details.
 """
-from __future__ import absolute_import, unicode_literals
 import time
 from datetime import datetime
 import base64
