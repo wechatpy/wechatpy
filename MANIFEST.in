@@ -1,3 +1,2 @@
-recursive-include tests *
 include README.md
 include requirements.txt
