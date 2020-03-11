@@ -19,10 +19,10 @@ class WeChatCipher(BaseWeChatCipher):
 
     def __init__(self, key, iv=None):
         iv = iv or key[:16]
-        super(WeChatCipher, self).__init__(AES.new(key, AES.MODE_CBC, iv))
+        super().__init__(AES.new(key, AES.MODE_CBC, iv))
 
 
 class AesEcbCipher(BaseWeChatCipher):
 
     def __init__(self, key):
-        super(AesEcbCipher, self).__init__(AES.new(key, AES.MODE_ECB))
+        super().__init__(AES.new(key, AES.MODE_ECB))

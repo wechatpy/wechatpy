@@ -24,7 +24,7 @@ class BaseWeChatClient:
     API_BASE_URL = ''
 
     def __new__(cls, *args, **kwargs):
-        self = super(BaseWeChatClient, cls).__new__(cls)
+        self = super().__new__(cls)
         api_endpoints = inspect.getmembers(self, _is_api_endpoint)
         for name, api in api_endpoints:
             api_cls = type(api)

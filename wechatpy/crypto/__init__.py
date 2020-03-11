@@ -108,7 +108,7 @@ class BaseWeChatCrypto:
 class WeChatCrypto(BaseWeChatCrypto):
 
     def __init__(self, token, encoding_aes_key, app_id):
-        super(WeChatCrypto, self).__init__(token, encoding_aes_key, app_id)
+        super().__init__(token, encoding_aes_key, app_id)
         self.app_id = app_id
 
     def encrypt_message(self, msg, nonce, timestamp=None):

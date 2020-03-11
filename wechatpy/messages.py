@@ -42,7 +42,7 @@ class MessageMetaClass(type):
                 if isinstance(v, FieldDescriptor):
                     attrs[k] = copy.deepcopy(v.field)
 
-        cls = super(MessageMetaClass, cls).__new__(cls, name, bases, attrs)
+        cls = super().__new__(cls, name, bases, attrs)
         cls._fields = {}
 
         for name, field in cls.__dict__.items():

@@ -15,7 +15,7 @@ class WeChatMerchant(BaseWeChatAPI):
     API_BASE_URL = 'https://api.weixin.qq.com/'
 
     def __init__(self, *args, **kwargs):
-        super(WeChatMerchant, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # sub APIs
         self.category = MerchantCategory(self._client)

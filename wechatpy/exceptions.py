@@ -42,7 +42,7 @@ class WeChatClientException(WeChatException):
 
     def __init__(self, errcode, errmsg, client=None,
                  request=None, response=None):
-        super(WeChatClientException, self).__init__(errcode, errmsg)
+        super().__init__(errcode, errmsg)
         self.client = client
         self.request = request
         self.response = response
@@ -52,7 +52,7 @@ class InvalidSignatureException(WeChatException):
     """Invalid signature exception class"""
 
     def __init__(self, errcode=-40001, errmsg='Invalid signature'):
-        super(InvalidSignatureException, self).__init__(errcode, errmsg)
+        super().__init__(errcode, errmsg)
 
 
 class APILimitedException(WeChatClientException):
@@ -64,14 +64,14 @@ class InvalidAppIdException(WeChatException):
     """Invalid app_id exception class"""
 
     def __init__(self, errcode=-40005, errmsg='Invalid AppId'):
-        super(InvalidAppIdException, self).__init__(errcode, errmsg)
+        super().__init__(errcode, errmsg)
 
 
 class InvalidMchIdException(WeChatException):
     """Invalid mch_id exception class"""
 
     def __init__(self, errcode=-40006, errmsg='Invalid MchId'):
-        super(InvalidMchIdException, self).__init__(errcode, errmsg)
+        super().__init__(errcode, errmsg)
 
 
 class WeChatOAuthException(WeChatClientException):
@@ -97,7 +97,7 @@ class WeChatPayException(WeChatClientException):
         :param errcode: 错误代码
         :param errmsg: 错误代码描述
         """
-        super(WeChatPayException, self).__init__(
+        super().__init__(
             errcode,
             errmsg,
             client,

@@ -23,7 +23,7 @@ class WeChatCipher(BaseWeChatCipher):
     def __init__(self, key, iv=None):
         iv = iv or key[:16]
         backend = default_backend()
-        super(WeChatCipher, self).__init__(
+        super().__init__(
             Cipher(
                 algorithms.AES(key),
                 modes.CBC(iv),
@@ -36,7 +36,7 @@ class AesEcbCipher(BaseWeChatCipher):
 
     def __init__(self, key):
         backend = default_backend()
-        super(AesEcbCipher, self).__init__(
+        super().__init__(
             Cipher(
                 algorithms.AES(key),
                 modes.ECB(),

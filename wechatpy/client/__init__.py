@@ -44,9 +44,7 @@ class WeChatClient(BaseWeChatClient):
 
     def __init__(self, appid, secret, access_token=None,
                  session=None, timeout=None, auto_retry=True):
-        super(WeChatClient, self).__init__(
-            appid, access_token, session, timeout, auto_retry
-        )
+        super().__init__(appid, access_token, session, timeout, auto_retry)
         self.appid = appid
         self.secret = secret
 
@@ -76,9 +74,7 @@ class WeChatComponentClient(WeChatClient):
     def __init__(self, appid, component, access_token=None,
                  refresh_token=None, session=None, timeout=None):
         # 未用到secret，所以这里没有
-        super(WeChatComponentClient, self).__init__(
-            appid, '', '', session, timeout
-        )
+        super().__init__(appid, '', '', session, timeout)
         self.appid = appid
         self.component = component
         # 如果公众号是刚授权，外部还没有缓存access_token和refresh_token
