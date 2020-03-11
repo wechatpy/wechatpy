@@ -73,6 +73,19 @@ class WeChatCard(BaseWeChatAPI):
         )
         return result
 
+    def create_qrcode_ext(self, qrcode_data):
+        """
+        创建卡券二维码
+
+        :param qrcode_data: 二维码信息
+        :return: 二维码 ticket，可使用 :func:show_qrcode 换取二维码文件
+        """
+        result = self._post(
+            'card/qrcode/create',
+            data=qrcode_data
+        )
+        return result
+
     def create_landingpage(self, buffer_data):
         """
         创建货架
