@@ -235,7 +235,7 @@ class WeChatMessage(BaseWeChatAPI):
                 'title': article['title'],
                 'description': article['description'],
                 'url': article['url'],
-                'picurl': article.get('image', article.get('picurl')),
+                'thumb_url': article.get('image', article.get('picurl', article.get('thumb_url'))),
             }
         }
         return self._send_custom_message(data, account=account)
