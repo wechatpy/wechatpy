@@ -164,32 +164,32 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_send_mass_text_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_text([1], 'test', is_to_all=True)
+            result = self.client.message.send_mass_text('test', [1])
             self.assertEqual(0, result['errcode'])
 
     def test_send_mass_image_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_image([1], '123456', is_to_all=True)
+            result = self.client.message.send_mass_image('123456', [1])
             self.assertEqual(0, result['errcode'])
 
     def test_send_mass_voice_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_voice([1], 'test', is_to_all=True)
+            result = self.client.message.send_mass_voice('test', [1])
             self.assertEqual(0, result['errcode'])
 
     def test_send_mass_video_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_video([1], 'test', title='title', description='desc', is_to_all=True)
+            result = self.client.message.send_mass_video('test', [1], title='title', description='desc')
             self.assertEqual(0, result['errcode'])
 
     def test_send_mass_article_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_article([1], 'test', is_to_all=True)
+            result = self.client.message.send_mass_article('test', [1])
             self.assertEqual(0, result['errcode'])
 
     def test_send_mass_card_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_card([1], 'test', is_to_all=True)
+            result = self.client.message.send_mass_card('test', [1])
             self.assertEqual(0, result['errcode'])
 
     def test_get_mass_message(self):
