@@ -308,7 +308,7 @@ class WeChatMessage(BaseWeChatAPI):
             }
         )
 
-    def _send_mass_message(self, group_or_users, msg_type, msg,
+    def _send_mass_message(self, tag_or_users, msg_type, msg,
                            is_to_all=False, preview=False,
                            send_ignore_reprint=0, client_msg_id=None):
         data = {
@@ -318,27 +318,27 @@ class WeChatMessage(BaseWeChatAPI):
         if client_msg_id is not None:
             data['clientmsgid'] = client_msg_id
         if not preview:
-            if isinstance(group_or_users, (tuple, list)):
+            if isinstance(tag_or_users, (tuple, list)):
                 # send by user ids
-                data['touser'] = group_or_users
+                data['touser'] = tag_or_users
                 endpoint = 'message/mass/send'
             else:
-                # send by group id
+                # send by tag_id
                 data['filter'] = {
-                    'group_id': group_or_users,
+                    'tag_id': tag_or_users,
                     'is_to_all': is_to_all,
                 }
                 endpoint = 'message/mass/sendall'
         else:
-            if not isinstance(group_or_users, str):
-                raise ValueError('group_or_users should be str')
+            if not isinstance(tag_or_users, str):
+                raise ValueError('tag_or_users should be str')
             # 预览接口
-            if self.OPENID_RE.match(group_or_users):
+            if self.OPENID_RE.match(tag_or_users):
                 # 按照 openid 预览群发
-                data['touser'] = group_or_users
+                data['touser'] = tag_or_users
             else:
                 # 按照微信号预览群发
-                data['towxname'] = group_or_users
+                data['towxname'] = tag_or_users
             endpoint = 'message/mass/preview'
 
         data.update(msg)
@@ -347,7 +347,7 @@ class WeChatMessage(BaseWeChatAPI):
             data=data
         )
 
-    def send_mass_text(self, group_or_users, content,
+    def send_mass_text(self, content, tag_or_users=None,
                        is_to_all=False, preview=False,
                        send_ignore_reprint=0, client_msg_id=None):
         """
@@ -356,13 +356,13 @@ class WeChatMessage(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
-        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
-                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param content: 消息正文
+        :param tag_or_users: 值为整型数字时为按标签群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，默认不传或传入 None 即对所有用户发送。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
         :type is_to_all: bool
-        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :param preview: 是否发送预览，此时 tag_or_users 参数应为一个openid字符串
         :type preview: bool
         :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
                                     当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
@@ -375,7 +375,7 @@ class WeChatMessage(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._send_mass_message(
-            group_or_users,
+            tag_or_users,
             'text',
             {
                 'text': {
@@ -388,7 +388,7 @@ class WeChatMessage(BaseWeChatAPI):
             client_msg_id,
         )
 
-    def send_mass_image(self, group_or_users, media_id,
+    def send_mass_image(self, media_id, tag_or_users=None,
                         is_to_all=False, preview=False,
                         send_ignore_reprint=0, client_msg_id=None):
         """
@@ -397,13 +397,13 @@ class WeChatMessage(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
-        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
-                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 图片的媒体 ID。 可以通过 :func:`upload_media` 上传。
+        :param tag_or_users: 值为整型数字时为按标签群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，默认不传或传入 None 即对所有用户发送。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
         :type is_to_all: bool
-        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :param preview: 是否发送预览，此时 tag_or_users 参数应为一个openid字符串
         :type preview: bool
         :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
                                     当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
@@ -416,7 +416,7 @@ class WeChatMessage(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._send_mass_message(
-            group_or_users,
+            tag_or_users,
             'image',
             {
                 'image': {
@@ -429,7 +429,7 @@ class WeChatMessage(BaseWeChatAPI):
             client_msg_id,
         )
 
-    def send_mass_voice(self, group_or_users, media_id,
+    def send_mass_voice(self, media_id, tag_or_users=None,
                         is_to_all=False, preview=False,
                         send_ignore_reprint=0, client_msg_id=None):
         """
@@ -438,13 +438,13 @@ class WeChatMessage(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
-        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
-                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 语音的媒体 ID。可以通过 :func:`upload_media` 上传。
+        :param tag_or_users: 值为整型数字时为按标签群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，默认不传或传入 None 即对所有用户发送。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
         :type is_to_all: bool
-        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :param preview: 是否发送预览，此时 tag_or_users 参数应为一个openid字符串
         :type preview: bool
         :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
                                     当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
@@ -457,7 +457,7 @@ class WeChatMessage(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._send_mass_message(
-            group_or_users,
+            tag_or_users,
             'voice',
             {
                 'voice': {
@@ -470,7 +470,7 @@ class WeChatMessage(BaseWeChatAPI):
             client_msg_id,
         )
 
-    def send_mass_video(self, group_or_users, media_id, title=None,
+    def send_mass_video(self, media_id, tag_or_users=None, title=None,
                         description=None, is_to_all=False, preview=False,
                         send_ignore_reprint=0, client_msg_id=None):
         """
@@ -479,15 +479,15 @@ class WeChatMessage(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
-        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
-                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 视频的媒体 ID。可以通过 :func:`upload_video` 上传。
+        :param tag_or_users: 值为整型数字时为按标签群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，默认不传或传入 None 即对所有用户发送。
         :param title: 视频标题
         :param description: 视频描述
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
         :type is_to_all: bool
-        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :param preview: 是否发送预览，此时 tag_or_users 参数应为一个openid字符串
         :type preview: bool
         :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
                                     当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
@@ -507,7 +507,7 @@ class WeChatMessage(BaseWeChatAPI):
         if description:
             video_data['description'] = description
         return self._send_mass_message(
-            group_or_users,
+            tag_or_users,
             'mpvideo',
             {
                 'mpvideo': video_data
@@ -518,7 +518,7 @@ class WeChatMessage(BaseWeChatAPI):
             client_msg_id,
         )
 
-    def send_mass_article(self, group_or_users, media_id,
+    def send_mass_article(self, media_id, tag_or_users=None,
                           is_to_all=False, preview=False,
                           send_ignore_reprint=0, client_msg_id=None):
         """
@@ -527,13 +527,13 @@ class WeChatMessage(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
-        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
-                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param media_id: 图文的媒体 ID。可以通过 :func:`upload_articles` 上传。
+        :param tag_or_users: 值为整型数字时为按标签群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，默认不传或传入 None 即对所有用户发送。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
         :type is_to_all: bool
-        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :param preview: 是否发送预览，此时 tag_or_users 参数应为一个openid字符串
         :type preview: bool
         :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
                                     当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
@@ -546,7 +546,7 @@ class WeChatMessage(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._send_mass_message(
-            group_or_users,
+            tag_or_users,
             'mpnews',
             {
                 'mpnews': {
@@ -629,7 +629,7 @@ class WeChatMessage(BaseWeChatAPI):
         """
         return self._get('get_current_autoreply_info')
 
-    def send_mass_card(self, group_or_users, card_id,
+    def send_mass_card(self, card_id, tag_or_users=None,
                        is_to_all=False, preview=False,
                        send_ignore_reprint=0, client_msg_id=None):
         """
@@ -638,13 +638,13 @@ class WeChatMessage(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
 
-        :param group_or_users: 值为整型数字时为按分组群发，值为列表/元组时为按 OpenID 列表群发
-                               当 is_to_all 为 True 时，传入 None 即对所有用户发送。
         :param card_id: 卡券 ID
+        :param tag_or_users: 值为整型数字时为按标签群发，值为列表/元组时为按 OpenID 列表群发
+                               当 is_to_all 为 True 时，默认不传或传入 None 即对所有用户发送。
         :param is_to_all: 用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户
                           选择false可根据group_id发送给指定群组的用户
         :type is_to_all: bool
-        :param preview: 是否发送预览，此时 group_or_users 参数应为一个openid字符串
+        :param preview: 是否发送预览，此时 tag_or_users 参数应为一个openid字符串
         :type preview: bool
         :param send_ignore_reprint: 指定待群发的文章被判定为转载时，是否继续群发。
                                     当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
@@ -657,7 +657,7 @@ class WeChatMessage(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._send_mass_message(
-            group_or_users,
+            tag_or_users,
             'wxcard',
             {
                 'wxcard': {
