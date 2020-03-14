@@ -5,7 +5,8 @@ import unittest
 
 from httmock import urlmatch, HTTMock, response
 
-from wechatpy.component import WeChatComponent
+from wechatpy.component import WeChatComponent, ComponentOAuth
+from wechatpy.exceptions import WeChatClientException
 
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -92,3 +93,59 @@ class WeChatComponentTestCase(unittest.TestCase):
                 appid, 'voice_recognize', '0'
             )
             self.assertEqual(0, result['errcode'])
+
+
+class ComponentOAuthTestCase(unittest.TestCase):
+    app_id = '123456'
+    component_appid = '456789'
+    component_appsecret = '123456'
+    component_token = '654321'
+    encoding_aes_key = 'yguy3495y79o34vod7843933902h9gb2834hgpB90rg'
+    redirect_uri = 'http://localhost'
+
+    def setUp(self):
+        component = WeChatComponent(
+            self.component_appid,
+            self.component_appsecret,
+            self.component_token,
+            self.encoding_aes_key
+        )
+        self.oauth = ComponentOAuth(
+            component,
+            self.app_id,
+        )
+
+    def test_get_authorize_url(self):
+        authorize_url = self.oauth.get_authorize_url(self.redirect_uri)
+        self.assertEqual(
+            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A%2F%2Flocalhost'
+            '&response_type=code&scope=snsapi_base&component_appid=456789#wechat_redirect',
+            authorize_url
+        )
+
+    def test_fetch_access_token(self):
+        with HTTMock(wechat_api_mock):
+            res = self.oauth.fetch_access_token('123456')
+            self.assertEqual('ACCESS_TOKEN', res['access_token'])
+
+    def test_refresh_access_token(self):
+        with HTTMock(wechat_api_mock):
+            res = self.oauth.refresh_access_token('123456')
+            self.assertEqual('ACCESS_TOKEN', res['access_token'])
+
+    def test_get_user_info(self):
+        with HTTMock(wechat_api_mock):
+            self.oauth.fetch_access_token('123456')
+            res = self.oauth.get_user_info()
+            self.assertEqual('OPENID', res['openid'])
+
+    def test_reraise_requests_exception(self):
+        @urlmatch(netloc=r'(.*\.)?api\.weixin\.qq\.com$')
+        def _wechat_api_mock(url, request):
+            return {'status_code': 404, 'content': '404 not found'}
+
+        try:
+            with HTTMock(_wechat_api_mock):
+                self.oauth.fetch_access_token('123456')
+        except WeChatClientException as e:
+            self.assertEqual(404, e.response.status_code)
