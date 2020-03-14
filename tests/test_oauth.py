@@ -5,7 +5,7 @@ import unittest
 
 from httmock import HTTMock, response, urlmatch
 
-from wechatpy import ComponentOAuth, WeChatOAuth
+from wechatpy import ComponentOAuth, WeChatComponent, WeChatOAuth
 from wechatpy.exceptions import WeChatClientException
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -96,19 +96,25 @@ class WeChatOAuthTestCase(unittest.TestCase):
 class ComponentOAuthTestCase(unittest.TestCase):
     app_id = '123456'
     component_appid = '456789'
-    component_access_token = '654321'
+    component_appsecret = '123456'
+    component_token = '654321'
+    encoding_aes_key = 'yguy3495y79o34vod7843933902h9gb2834hgpB90rg'
     redirect_uri = 'http://localhost'
 
     def setUp(self):
-        self.oauth = ComponentOAuth(
-            self.app_id,
+        component = WeChatComponent(
             self.component_appid,
-            self.component_access_token,
-            self.redirect_uri
+            self.component_appsecret,
+            self.component_token,
+            self.encoding_aes_key
+        )
+        self.oauth = ComponentOAuth(
+            component,
+            self.app_id,
         )
 
     def test_get_authorize_url(self):
-        authorize_url = self.oauth.authorize_url
+        authorize_url = self.oauth.get_authorize_url(self.redirect_uri)
         self.assertEqual(
             'https://open.weixin.qq.com/connect/oauth2/authorize?appid=123456&redirect_uri=http%3A%2F%2Flocalhost'
             '&response_type=code&scope=snsapi_base&component_appid=456789#wechat_redirect',
