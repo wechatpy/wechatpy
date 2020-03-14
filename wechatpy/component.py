@@ -537,8 +537,7 @@ class ComponentOAuth:
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
-    def __init__(self, app_id, component_appid=None, component_access_token=None,
-                 redirect_uri=None, scope='snsapi_base', state='', component=None):
+    def __init__(self, app_id, component_appid=None, component_access_token=None, component=None):
         """
 
         :param app_id: 微信公众号 app_id
@@ -553,11 +552,6 @@ class ComponentOAuth:
                           DeprecationWarning, stacklevel=2)
 
             self.component = ObjectDict({'component_appid': component_appid, 'access_token': component_access_token})
-        if redirect_uri is not None:
-            warnings.warn('found `redirect_uri` param of `ComponentOAuth` `__init__` method,'
-                          'Use `ComponentOAuth.get_authorize_url` instead',
-                          DeprecationWarning, stacklevel=2)
-            self.authorize_url = self.get_authorize_url(redirect_uri, scope, state)
 
     def get_authorize_url(self, redirect_uri, scope='snsapi_base', state=''):
         """
