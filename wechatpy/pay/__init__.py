@@ -159,8 +159,8 @@ class WeChatPay:
             return xml
 
         return_code = data['return_code']
-        return_msg = data.get('return_msg')
-        result_code = data.get('result_code')
+        return_msg = data.get('return_msg', data.get('retmsg'))
+        result_code = data.get('result_code', data.get('retcode'))
         errcode = data.get('err_code')
         errmsg = data.get('err_code_des')
         if return_code != 'SUCCESS' or result_code != 'SUCCESS':
