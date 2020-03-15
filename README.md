@@ -52,6 +52,10 @@ pip install 'wechatpy[pycrypto]'
 
 请阅读 [贡献代码指南](.github/CONTRIBUTING.md)
 
+## 支持项目
+
+如果觉得本项目对您有帮助，请考虑[捐赠支持项目开发](http://docs.wechatpy.org/zh_CN/master/sponsor.html)
+
 ## 问题反馈
 
 我们主要使用 [GitHub issues](https://github.com/jxtech/wechatpy/issues) 进行问题追踪和反馈。
