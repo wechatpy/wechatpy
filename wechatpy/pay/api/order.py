@@ -47,8 +47,12 @@ class WeChatOrder(BaseWeChatPayAPI):
         hours_later = now + timedelta(hours=2)
         if time_start is None:
             time_start = now
+        else:
+            time_start = time_start.astimezone(timezone('Asia/Shanghai'))
         if time_expire is None:
             time_expire = hours_later
+        else:
+            time_expire = time_expire.astimezone(timezone('Asia/Shanghai'))
         if not out_trade_no:
             out_trade_no = '{0}{1}{2}'.format(
                 self.mch_id,
