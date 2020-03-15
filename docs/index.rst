@@ -16,6 +16,7 @@ wechatpy 是一个微信 (WeChat) 的第三方 Python SDK, 实现了微信公众
 
    install
    quickstart
+   sponsor
 
 微信公众平台接口
 -------------------
