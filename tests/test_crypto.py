@@ -3,8 +3,8 @@ import unittest
 
 import xmltodict
 
-from wechatpy.enterprise import crypto as _crypto
-from wechatpy.enterprise.crypto import WeChatCrypto
+from wechatpy.work import crypto as _crypto
+from wechatpy.work.crypto import WeChatCrypto
 
 
 class PrpCryptoMock(_crypto.PrpCrypto):

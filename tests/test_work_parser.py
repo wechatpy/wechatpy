@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from wechatpy.enterprise import parse_message
+from wechatpy.work import parse_message
 
 
 class ParseMessageTestCase(unittest.TestCase):

@@ -31,7 +31,7 @@
 .. code-block:: python
 
     from flask import Flask, request, redirect, jsonify, session, abort
-    from wechatpy.enterprise import WeChatClient
+    from wechatpy.work import WeChatClient
     import functools
 
 
@@ -84,7 +84,7 @@
         )
 
 
-.. module:: wechatpy.enterprise.client.api.oauth
+.. module:: wechatpy.work.client.api.oauth
 
 .. autoclass:: WeChatOAuth
    :members:

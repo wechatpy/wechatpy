@@ -3,7 +3,7 @@
     wechatpy.crypto
     ~~~~~~~~~~~~~~~~
 
-    This module provides some crypto tools for WeChat and WeChat enterprise
+    This module provides some crypto tools for WeChat and WeChat work
 
     :copyright: (c) 2014 by messense.
     :license: MIT, see LICENSE for more details.

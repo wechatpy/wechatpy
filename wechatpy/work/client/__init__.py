@@ -2,7 +2,7 @@
 
 
 from wechatpy.client.base import BaseWeChatClient
-from wechatpy.enterprise.client import api
+from wechatpy.work.client import api
 
 
 class WeChatClient(BaseWeChatClient):

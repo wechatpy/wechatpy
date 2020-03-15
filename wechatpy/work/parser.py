@@ -3,8 +3,8 @@
 
 import xmltodict
 
-from wechatpy.enterprise.events import EVENT_TYPES
-from wechatpy.enterprise.messages import MESSAGE_TYPES
+from wechatpy.work.events import EVENT_TYPES
+from wechatpy.work.messages import MESSAGE_TYPES
 from wechatpy.messages import UnknownMessage
 from wechatpy.utils import to_text
 
