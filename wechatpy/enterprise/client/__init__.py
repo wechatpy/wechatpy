@@ -32,11 +32,11 @@ class WeChatClient(BaseWeChatClient):
 
     def __init__(self, corp_id, secret, access_token=None,
                  session=None, timeout=None, auto_retry=True):
+        self.corp_id = corp_id
+        self.secret = secret
         super(WeChatClient, self).__init__(
             corp_id, access_token, session, timeout, auto_retry
         )
-        self.corp_id = corp_id
-        self.secret = secret
 
     @property
     def access_token_key(self):
