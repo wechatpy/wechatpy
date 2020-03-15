@@ -11,7 +11,6 @@
 import json
 import logging
 import time
-import warnings
 from urllib.parse import quote
 
 import requests
@@ -537,27 +536,14 @@ class ComponentOAuth:
     API_BASE_URL = 'https://api.weixin.qq.com/'
     OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/'
 
-    def __init__(self, app_id, component_appid=None, component_access_token=None,
-                 redirect_uri=None, scope='snsapi_base', state='', component=None):
+    def __init__(self, component, app_id):
         """
-
-        :param app_id: 微信公众号 app_id
         :param component: WeChatComponent
+        :param app_id: 微信公众号 app_id
         """
         self._http = requests.Session()
         self.app_id = app_id
         self.component = component
-        if self.component is None:
-            warnings.warn('cannot found `component` param of `ComponentOAuth` `__init__` method,'
-                          'Use `WeChatComponent.get_component_oauth` instead',
-                          DeprecationWarning, stacklevel=2)
-
-            self.component = ObjectDict({'component_appid': component_appid, 'access_token': component_access_token})
-        if redirect_uri is not None:
-            warnings.warn('found `redirect_uri` param of `ComponentOAuth` `__init__` method,'
-                          'Use `ComponentOAuth.get_authorize_url` instead',
-                          DeprecationWarning, stacklevel=2)
-            self.authorize_url = self.get_authorize_url(redirect_uri, scope, state)
 
     def get_authorize_url(self, redirect_uri, scope='snsapi_base', state=''):
         """

@@ -129,19 +129,6 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.tag.list()
             self.assertEqual(2, len(res))
 
-    def test_batch_invite_user(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.batch.invite_user(
-                'http://example.com',
-                '123456',
-                '123456',
-                '123|456',
-                [123, 456],
-                (12, 34),
-                ''
-            )
-            self.assertEqual(0, res['errcode'])
-
     def test_batch_sync_user(self):
         with HTTMock(wechat_api_mock):
             res = self.client.batch.sync_user(

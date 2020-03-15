@@ -92,10 +92,6 @@ class WeChatAppChat(BaseWeChatAPI):
 
         return self._post('appchat/send', data=data)
 
-    def send_msg(self, chat_id, msg_type, **kwargs):
-        """ deprecated, use `send` instead """
-        return self.send(chat_id, msg_type, **kwargs)
-
     def send_text(self, chat_id, content, safe=0):
         """
         发送文本消息
