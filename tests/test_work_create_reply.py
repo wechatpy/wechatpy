@@ -2,7 +2,7 @@
 import unittest
 
 
-from wechatpy.enterprise.replies import TextReply, create_reply
+from wechatpy.work.replies import TextReply, create_reply
 
 
 class CreateReplyTestCase(unittest.TestCase):
@@ -24,7 +24,7 @@ class CreateReplyTestCase(unittest.TestCase):
         self.assertTrue(reply is None)
 
     def test_create_reply_with_message(self):
-        from wechatpy.enterprise.messages import TextMessage
+        from wechatpy.work.messages import TextMessage
 
         msg = TextMessage({
             'FromUserName': 'user1',

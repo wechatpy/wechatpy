@@ -4,10 +4,10 @@ import json
 import unittest
 
 from httmock import urlmatch, HTTMock, response
-from wechatpy.enterprise import WeChatClient
+from wechatpy.work import WeChatClient
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
-_FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures', 'enterprise')
+_FIXTURE_PATH = os.path.join(_TESTS_PATH, 'fixtures', 'work')
 
 
 @urlmatch(netloc=r'(.*\.)?qyapi\.weixin\.qq\.com$')

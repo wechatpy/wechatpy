@@ -42,8 +42,8 @@ wechatpy 是一个微信 (WeChat) 的第三方 Python SDK, 实现了微信公众
    :maxdepth: 2
    :glob:
 
-   enterprise/quickstart
-   enterprise/client
+   work/quickstart
+   work/client
 
 
 微信公众号第三方平台接口

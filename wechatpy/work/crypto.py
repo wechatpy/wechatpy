@@ -1,7 +1,7 @@
 
 
 from wechatpy.crypto import BasePrpCrypto, BaseWeChatCrypto
-from wechatpy.enterprise.exceptions import InvalidCorpIdException
+from wechatpy.work.exceptions import InvalidCorpIdException
 
 
 class PrpCrypto(BasePrpCrypto):

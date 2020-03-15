@@ -19,7 +19,7 @@
 
 .. code-block:: python
 
-    from wechatpy.enterprise.crypto import WeChatCrypto
+    from wechatpy.work.crypto import WeChatCrypto
     from wechatpy.exceptions import InvalidSignatureException
 
     crypto = WeChatCrypto(TOKEN, EncodingAESKey, CorpId)
@@ -41,10 +41,10 @@
 
 .. code-block:: python
 
-    from wechatpy.enterprise.crypto import WeChatCrypto
+    from wechatpy.work.crypto import WeChatCrypto
     from wechatpy.exceptions import InvalidSignatureException
-    from wechatpy.enterprise.exceptions import InvalidCorpIdException
-    from wechatpy.enterprise import parse_message
+    from wechatpy.work.exceptions import InvalidCorpIdException
+    from wechatpy.work import parse_message
 
     crypto = WeChatCrypto(TOKEN, EncodingAESKey, CorpId)
 
@@ -68,23 +68,23 @@
 
 .. code-block:: python
 
-    from wechatpy.enterprise import parse_message, create_reply
-    from wechatpy.enterprise.crypto import WeChatCrypto
+    from wechatpy.work import parse_message, create_reply
+    from wechatpy.work.crypto import WeChatCrypto
 
     crypto = WeChatCrypto(TOKEN, EncodingAESKey, CorpId)
 
     xml = create_reply(msg.content, msg).render()
     encrypted_xml = crypto.encrypt_message(xml, nonce, timestamp)
 
-基于 Flask 框架的示例可参考 https://github.com/jxtech/wechatpy/tree/master/examples/echo-enterprise
+基于 Flask 框架的示例可参考 https://github.com/jxtech/wechatpy/tree/master/examples/echo-work
 
 微信主动调用模式接入
 -------------------------
-对于主动调用 wechatpy 提供了主动调用模式的操作类 ``wechatpy.enterprise.WeChatClient``
+对于主动调用 wechatpy 提供了主动调用模式的操作类 ``wechatpy.work.WeChatClient``
 
 .. code-block:: python
 
-    from wechatpy.enterprise import WeChatClient
+    from wechatpy.work import WeChatClient
     wechat_client = WeChatClient(
         CorpId,
         secret
@@ -92,7 +92,7 @@
 
 AccessToken
 ~~~~~~~~~~~~~~~~~~~~~~
-wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 `wechat_client.access_token <http://docs.wechatpy.org/zh_CN/master/enterprise/client.html#wechatpy.enterprise.client.WeChatClient.access_token>`_ 获取到。
+wechatpy 对于微信的 **AccessToken** 会在内部自动处理，一般情况下开发者不需要手动去操作，如果开发者需要访问 **AccessToken**，可以通过 `wechat_client.access_token <http://docs.wechatpy.org/zh_CN/master/work/client.html#wechatpy.work.client.WeChatClient.access_token>`_ 获取到。
 
 Storage
 ..................
@@ -102,7 +102,7 @@ Redis 示例:
 
 .. code-block:: python
 
-    from wechatpy.enterprise import WeChatClient
+    from wechatpy.work import WeChatClient
     from wechatpy.session.redisstorage import RedisStorage
     from redis import Redis
 

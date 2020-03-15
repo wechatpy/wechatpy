@@ -8,7 +8,7 @@
 WeChatClient
 ------------------
 
-.. module:: wechatpy.enterprise.client
+.. module:: wechatpy.work.client
 
 .. autoclass:: WeChatClient
    :members:
@@ -16,7 +16,7 @@ WeChatClient
 
 `WeChatClient` 基本使用方法::
 
-   from wechatpy.enterprise import WeChatClient
+   from wechatpy.work import WeChatClient
 
    client = WeChatClient('corp_id', 'secret')
    user = client.user.get('user id')
@@ -29,7 +29,7 @@ WeChatClient
 如果不提供 ``session`` 参数，默认使用 ``wechatpy.session.memorystorage.MemoryStorage`` session 类型，
 注意该类型不是线程安全的，不推荐生产环境使用。
 
-.. module:: wechatpy.enterprise.client.api
+.. module:: wechatpy.work.client.api
 
 应用管理
 ----------------------
