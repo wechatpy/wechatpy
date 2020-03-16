@@ -49,12 +49,6 @@ WeChatClient
    :members:
    :inherited-members:
 
-企业会话(旧接口，建议更换)
-----------------------
-.. autoclass:: WeChatChat
-   :members:
-   :inherited-members:
-
 部门管理
 ----------------------
 
@@ -129,13 +123,6 @@ JS-SDK 接口
 --------------------------
 
 .. autoclass:: WeChatService
-   :members:
-   :inherited-members:
-
-摇一摇周边接口(旧接口，建议更换)
----------------------------------
-
-.. autoclass:: WeChatShakeAround
    :members:
    :inherited-members:
 

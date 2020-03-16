@@ -268,12 +268,6 @@ class WeChatClientTestCase(unittest.TestCase):
         except WeChatClientException as e:
             self.assertEqual(404, e.response.status_code)
 
-    def test_shakearound_get_shake_info(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.get_shake_info('123456')
-            self.assertEqual(14000, res['page_id'])
-            self.assertEqual('zhangsan', res['userid'])
-
     def test_service_get_provider_token(self):
         with HTTMock(wechat_api_mock):
             res = self.client.service.get_provider_token('provider_secret')
@@ -290,81 +284,6 @@ class WeChatClientTestCase(unittest.TestCase):
 
         self.assertTrue(res['is_sys'])
         self.assertTrue(res['is_inner'])
-
-    def test_chat_create(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.create(
-                '1', 'chat', 'zhangsan', ['zhangsan', 'lisi', 'wangwu']
-            )
-
-        self.assertEqual(0, res['errcode'])
-
-    def test_chat_get(self):
-        with HTTMock(wechat_api_mock):
-            chat = self.client.chat.get('235364212115767297')
-
-        self.assertEqual('235364212115767297', chat['chatid'])
-        self.assertEqual('zhangsan', chat['owner'])
-
-    def test_chat_update(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.update(
-                '235364212115767297',
-                'lisi',
-                '企业应用中心',
-                'zhangsan',
-                ['zhaoli'],
-                ['zhangsan']
-            )
-
-        self.assertEqual(0, res['errcode'])
-
-    def test_chat_quit(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.quit('235364212115767297', 'lisi')
-
-        self.assertEqual(0, res['errcode'])
-
-    def test_chat_clear_notify(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.clear_notify('zhangsan', 'single', 'lisi')
-
-        self.assertEqual(0, res['errcode'])
-
-    def test_chat_set_mute(self):
-        mute_list = [
-            {'userid': 'zhangsan', 'status': 0},
-            {'userid': 'lisi', 'status': 1},
-        ]
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.set_mute(mute_list)
-
-        self.assertEqual(0, res['errcode'])
-        self.assertEqual(['zhangsan'], res['invaliduser'])
-
-    def test_chat_send_text(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.send_text(
-                'zhangsan', 'single', 'lisi', 'hello'
-            )
-
-        self.assertEqual(0, res['errcode'])
-
-    def test_chat_send_image(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.send_image(
-                'zhangsan', 'single', 'lisi', 'media_id'
-            )
-
-        self.assertEqual(0, res['errcode'])
-
-    def test_chat_send_file(self):
-        with HTTMock(wechat_api_mock):
-            res = self.client.chat.send_file(
-                'zhangsan', 'single', 'lisi', 'media_id'
-            )
-
-        self.assertEqual(0, res['errcode'])
 
     def test_external_contact_get_follow_user_list(self):
         with HTTMock(wechat_api_mock):
