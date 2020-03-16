@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-file: external_contact.py
-author: Beck
-created at: 2019-06-06
-email: beck@ilife.co
-"""
 
 
 from optionaldict import optionaldict
