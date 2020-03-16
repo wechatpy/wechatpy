@@ -5,25 +5,27 @@ from enum import Enum, IntEnum, unique
 @unique
 class UserFormInfoFlag(Enum):
     """ 微信卡券会员卡格式化的选项类型 """
-    MOBILE = 'USER_FORM_INFO_FLAG_MOBILE'  # 手机号
-    SEX = 'USER_FORM_INFO_FLAG_SEX'  # 性别
-    NAME = 'USER_FORM_INFO_FLAG_NAME'  # 姓名
-    BIRTHDAY = 'USER_FORM_INFO_FLAG_BIRTHDAY'  # 生日
-    IDCARD = 'USER_FORM_INFO_FLAG_IDCARD'  # 身份证
-    EMAIL = 'USER_FORM_INFO_FLAG_EMAIL'  # 邮箱
-    LOCATION = 'USER_FORM_INFO_FLAG_LOCATION'  # 详细地址
-    EDUCATION_BACKGRO = 'USER_FORM_INFO_FLAG_EDUCATION_BACKGRO'  # 教育背景
-    INDUSTRY = 'USER_FORM_INFO_FLAG_INDUSTRY'  # 行业
-    INCOME = 'USER_FORM_INFO_FLAG_INCOME'  # 收入
-    HABIT = 'USER_FORM_INFO_FLAG_HABIT'  # 兴趣爱好
+
+    MOBILE = "USER_FORM_INFO_FLAG_MOBILE"  # 手机号
+    SEX = "USER_FORM_INFO_FLAG_SEX"  # 性别
+    NAME = "USER_FORM_INFO_FLAG_NAME"  # 姓名
+    BIRTHDAY = "USER_FORM_INFO_FLAG_BIRTHDAY"  # 生日
+    IDCARD = "USER_FORM_INFO_FLAG_IDCARD"  # 身份证
+    EMAIL = "USER_FORM_INFO_FLAG_EMAIL"  # 邮箱
+    LOCATION = "USER_FORM_INFO_FLAG_LOCATION"  # 详细地址
+    EDUCATION_BACKGRO = "USER_FORM_INFO_FLAG_EDUCATION_BACKGRO"  # 教育背景
+    INDUSTRY = "USER_FORM_INFO_FLAG_INDUSTRY"  # 行业
+    INCOME = "USER_FORM_INFO_FLAG_INCOME"  # 收入
+    HABIT = "USER_FORM_INFO_FLAG_HABIT"  # 兴趣爱好
 
 
 @unique
 class ReimburseStatus(Enum):
     """ 发票报销状态 """
-    INIT = 'INVOICE_REIMBURSE_INIT'  # 初始状态，未锁定，可提交报销
-    LOCK = 'INVOICE_REIMBURSE_LOCK'  # 已锁定，无法重复提交报销
-    CLOSURE = 'INVOICE_REIMBURSE_CLOSURE'  # 已核销，从用户卡包中移除
+
+    INIT = "INVOICE_REIMBURSE_INIT"  # 初始状态，未锁定，可提交报销
+    LOCK = "INVOICE_REIMBURSE_LOCK"  # 已锁定，无法重复提交报销
+    CLOSURE = "INVOICE_REIMBURSE_CLOSURE"  # 已核销，从用户卡包中移除
 
 
 @unique
@@ -31,6 +33,7 @@ class WeChatErrorCode(IntEnum):
     """
     微信接口返回码，全局返回码请参考 https://mp.weixin.qq.com/wiki?id=mp1433747234
     """
+
     # 系统错误
     SYSTEM_ERROR = -1000
 

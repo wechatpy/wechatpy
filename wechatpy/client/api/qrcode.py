@@ -8,7 +8,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatQRCode(BaseWeChatAPI):
-
     def create(self, qrcode_data):
         """
         创建二维码
@@ -39,10 +38,7 @@ class WeChatQRCode(BaseWeChatAPI):
             })
 
         """
-        return self._post(
-            'qrcode/create',
-            data=qrcode_data
-        )
+        return self._post("qrcode/create", data=qrcode_data)
 
     def show(self, ticket):
         """
@@ -62,12 +58,9 @@ class WeChatQRCode(BaseWeChatAPI):
 
         """
         if isinstance(ticket, dict):
-            ticket = ticket['ticket']
+            ticket = ticket["ticket"]
         return requests.get(
-            url='https://mp.weixin.qq.com/cgi-bin/showqrcode',
-            params={
-                'ticket': ticket
-            }
+            url="https://mp.weixin.qq.com/cgi-bin/showqrcode", params={"ticket": ticket}
         )
 
     @classmethod
@@ -88,8 +81,8 @@ class WeChatQRCode(BaseWeChatAPI):
             url = client.qrcode.get_url('ticket data')
 
         """
-        url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}'
+        url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}"
         if isinstance(ticket, dict):
-            ticket = ticket['ticket']
+            ticket = ticket["ticket"]
         ticket = quote(ticket)
         return url.format(ticket=ticket)

@@ -15,37 +15,37 @@ def register_message(msg_type):
     return register
 
 
-@register_message('text')
+@register_message("text")
 class TextMessage(messages.TextMessage):
-    agent = IntegerField('AgentID', 0)
+    agent = IntegerField("AgentID", 0)
 
 
-@register_message('image')
+@register_message("image")
 class ImageMessage(messages.ImageMessage):
-    agent = IntegerField('AgentID', 0)
+    agent = IntegerField("AgentID", 0)
 
 
-@register_message('voice')
+@register_message("voice")
 class VoiceMessage(messages.VoiceMessage):
-    agent = IntegerField('AgentID', 0)
+    agent = IntegerField("AgentID", 0)
 
 
-@register_message('shortvideo')
+@register_message("shortvideo")
 class ShortVideoMessage(messages.ShortVideoMessage):
-    agent = IntegerField('AgentID', 0)
+    agent = IntegerField("AgentID", 0)
 
 
-@register_message('video')
+@register_message("video")
 class VideoMessage(messages.VideoMessage):
-    agent = IntegerField('AgentID', 0)
+    agent = IntegerField("AgentID", 0)
 
 
-@register_message('location')
+@register_message("location")
 class LocationMessage(messages.LocationMessage):
-    agent = IntegerField('AgentID', 0)
+    agent = IntegerField("AgentID", 0)
 
 
-@register_message('link')
+@register_message("link")
 class LinkMessage(messages.LinkMessage):
-    agent = IntegerField('AgentID', 0)
-    pic_url = StringField('PicUrl')
+    agent = IntegerField("AgentID", 0)
+    pic_url = StringField("PicUrl")

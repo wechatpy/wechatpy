@@ -5,7 +5,6 @@ from wechatpy import parse_message
 
 
 class EventsTestCase(unittest.TestCase):
-
     def test_scan_code_push_event(self):
         from wechatpy.events import ScanCodePushEvent
 
@@ -24,8 +23,8 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
 
         self.assertTrue(isinstance(event, ScanCodePushEvent))
-        self.assertEqual('qrcode', event.scan_type)
-        self.assertEqual('1', event.scan_result)
+        self.assertEqual("qrcode", event.scan_type)
+        self.assertEqual("1", event.scan_result)
 
     def test_scan_code_waitmsg_event(self):
         from wechatpy.events import ScanCodeWaitMsgEvent
@@ -45,8 +44,8 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
 
         self.assertTrue(isinstance(event, ScanCodeWaitMsgEvent))
-        self.assertEqual('qrcode', event.scan_type)
-        self.assertEqual('2', event.scan_result)
+        self.assertEqual("qrcode", event.scan_type)
+        self.assertEqual("2", event.scan_result)
 
     def test_pic_sysphoto_event(self):
         from wechatpy.events import PicSysPhotoEvent
@@ -72,8 +71,7 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, PicSysPhotoEvent))
         self.assertEqual(1, event.count)
         self.assertEqual(
-            '1b5f7c23b5bf75682a53e7b6d163e185',
-            event.pictures[0]['PicMd5Sum']
+            "1b5f7c23b5bf75682a53e7b6d163e185", event.pictures[0]["PicMd5Sum"]
         )
 
     def test_pic_photo_or_album_event(self):
@@ -100,8 +98,7 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, PicPhotoOrAlbumEvent))
         self.assertEqual(1, event.count)
         self.assertEqual(
-            '5a75aaca956d97be686719218f275c6b',
-            event.pictures[0]['PicMd5Sum']
+            "5a75aaca956d97be686719218f275c6b", event.pictures[0]["PicMd5Sum"]
         )
 
     def test_pic_wechat_event(self):
@@ -128,8 +125,7 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, PicWeChatEvent))
         self.assertEqual(1, event.count)
         self.assertEqual(
-            '5a75aaca956d97be686719218f275c6b',
-            event.pictures[0]['PicMd5Sum']
+            "5a75aaca956d97be686719218f275c6b", event.pictures[0]["PicMd5Sum"]
         )
 
     def test_location_select_event(self):
@@ -153,10 +149,10 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
 
         self.assertTrue(isinstance(event, LocationSelectEvent))
-        self.assertEqual(('23', '113'), event.location)
-        self.assertEqual('15', event.scale)
+        self.assertEqual(("23", "113"), event.location)
+        self.assertEqual("15", event.scale)
         self.assertTrue(event.poiname is None)
-        self.assertEqual('广州市海珠区客村艺苑路 106号', event.label)
+        self.assertEqual("广州市海珠区客村艺苑路 106号", event.label)
 
     def test_merchant_order_event(self):
         from wechatpy.events import MerchantOrderEvent
@@ -176,10 +172,10 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
 
         self.assertTrue(isinstance(event, MerchantOrderEvent))
-        self.assertEqual('test_order_id', event.order_id)
+        self.assertEqual("test_order_id", event.order_id)
         self.assertEqual(2, event.order_status)
-        self.assertEqual('test_product_id', event.product_id)
-        self.assertEqual('10001:1000012;10002:100021', event.sku_info)
+        self.assertEqual("test_product_id", event.product_id)
+        self.assertEqual("10001:1000012;10002:100021", event.sku_info)
 
     def test_kf_create_session_event(self):
         from wechatpy.events import KfCreateSessionEvent
@@ -195,7 +191,7 @@ class EventsTestCase(unittest.TestCase):
 
         event = parse_message(xml)
         self.assertTrue(isinstance(event, KfCreateSessionEvent))
-        self.assertEqual('test1@test', event.account)
+        self.assertEqual("test1@test", event.account)
 
     def test_kf_close_session_event(self):
         from wechatpy.events import KfCloseSessionEvent
@@ -211,7 +207,7 @@ class EventsTestCase(unittest.TestCase):
 
         event = parse_message(xml)
         self.assertTrue(isinstance(event, KfCloseSessionEvent))
-        self.assertEqual('test1@test', event.account)
+        self.assertEqual("test1@test", event.account)
 
     def test_kf_switch_session_event(self):
         from wechatpy.events import KfSwitchSessionEvent
@@ -228,8 +224,8 @@ class EventsTestCase(unittest.TestCase):
 
         event = parse_message(xml)
         self.assertTrue(isinstance(event, KfSwitchSessionEvent))
-        self.assertEqual('test1@test', event.from_account)
-        self.assertEqual('test2@test', event.to_account)
+        self.assertEqual("test1@test", event.from_account)
+        self.assertEqual("test2@test", event.to_account)
 
     def test_template_send_job_finish_event(self):
         from wechatpy.events import TemplateSendJobFinishEvent
@@ -247,7 +243,7 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
         self.assertTrue(isinstance(event, TemplateSendJobFinishEvent))
         self.assertEqual(200163836, event.id)
-        self.assertEqual('success', event.status)
+        self.assertEqual("success", event.status)
 
     def test_shakearound_user_shake_event(self):
         from wechatpy.events import ShakearoundUserShakeEvent
@@ -283,10 +279,10 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, ShakearoundUserShakeEvent))
 
         chosen_beacon = {
-            'uuid': 'uuid',
-            'major': 'major',
-            'minor': 'minor',
-            'distance': 0.057,
+            "uuid": "uuid",
+            "major": "major",
+            "minor": "minor",
+            "distance": 0.057,
         }
         self.assertEqual(chosen_beacon, event.chosen_beacon)
         self.assertEqual(2, len(event.around_beacons))
@@ -311,8 +307,8 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, WiFiConnectedEvent))
 
         self.assertEqual(0, event.connect_time)
-        self.assertEqual('1234', event.shop_id)
-        self.assertEqual('00:1f:7a:ad:5c:a8', event.bssid)
+        self.assertEqual("1234", event.shop_id)
+        self.assertEqual("00:1f:7a:ad:5c:a8", event.bssid)
 
     def test_qualification_verify_success_event(self):
         from wechatpy.events import QualificationVerifySuccessEvent
@@ -346,7 +342,7 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
         self.assertTrue(isinstance(event, QualificationVerifyFailEvent))
         self.assertTrue(isinstance(event.fail_time, datetime))
-        self.assertEqual(event.fail_reason, 'by time')
+        self.assertEqual(event.fail_reason, "by time")
 
     def test_naming_verify_success_event(self):
         from wechatpy.events import NamingVerifySuccessEvent
@@ -380,7 +376,7 @@ class EventsTestCase(unittest.TestCase):
         event = parse_message(xml)
         self.assertTrue(isinstance(event, NamingVerifyFailEvent))
         self.assertTrue(isinstance(event.fail_time, datetime))
-        self.assertEqual(event.fail_reason, 'by time')
+        self.assertEqual(event.fail_reason, "by time")
 
     def test_annual_renew_event(self):
         from wechatpy.events import AnnualRenewEvent

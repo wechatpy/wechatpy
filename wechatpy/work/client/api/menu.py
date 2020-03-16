@@ -19,13 +19,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         :param agent_id: 应用id
         """
-        return self._post(
-            'menu/create',
-            params={
-                'agentid': agent_id
-            },
-            data=menu_data
-        )
+        return self._post("menu/create", params={"agentid": agent_id}, data=menu_data)
 
     def get(self, agent_id):
         """
@@ -35,12 +29,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         :param agent_id: 应用id
         """
-        return self._get(
-            'menu/get',
-            params={
-                'agentid': agent_id
-            }
-        )
+        return self._get("menu/get", params={"agentid": agent_id})
 
     def delete(self, agent_id):
         """
@@ -50,12 +39,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         :param agent_id: 应用id
         """
-        return self._get(
-            'menu/delete',
-            params={
-                'agentid': agent_id
-            }
-        )
+        return self._get("menu/delete", params={"agentid": agent_id})
 
     def update(self, agent_id, menu_data):
         self.delete(agent_id)

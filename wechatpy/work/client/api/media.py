@@ -23,7 +23,9 @@ class WeChatMedia(BaseWeChatAPI):
         :param media_file: 要上传的文件，一个 File-object
         :return: 返回的 JSON 数据包
         """
-        return self._post('media/upload', params={'type': media_type}, files={'media': media_file})
+        return self._post(
+            "media/upload", params={"type": media_type}, files={"media": media_file}
+        )
 
     def upload_img(self, image_file):
         """
@@ -38,7 +40,7 @@ class WeChatMedia(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post('media/uploadimg', files={'media': image_file})
+        return self._post("media/uploadimg", files={"media": image_file})
 
     def get_url(self, media_id):
         """
@@ -50,13 +52,13 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 临时素材下载地址
         """
         parts = (
-            'https://qyapi.weixin.qq.com/cgi-bin/media/get',
-            '?access_token=',
+            "https://qyapi.weixin.qq.com/cgi-bin/media/get",
+            "?access_token=",
             self.access_token,
-            '&media_id=',
-            media_id
+            "&media_id=",
+            media_id,
         )
-        return ''.join(parts)
+        return "".join(parts)
 
     def get_jssdk_url(self, media_id):
         """
@@ -68,13 +70,13 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 高清语音素材下载地址
         """
         parts = (
-            'https://qyapi.weixin.qq.com/cgi-bin/media/get/jssdk',
-            '?access_token=',
+            "https://qyapi.weixin.qq.com/cgi-bin/media/get/jssdk",
+            "?access_token=",
             self.access_token,
-            '&media_id=',
-            media_id
+            "&media_id=",
+            media_id,
         )
-        return ''.join(parts)
+        return "".join(parts)
 
     def download(self, media_id):
         """

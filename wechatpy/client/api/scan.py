@@ -6,7 +6,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatScan(BaseWeChatAPI):
-    API_BASE_URL = 'https://api.weixin.qq.com/scan/'
+    API_BASE_URL = "https://api.weixin.qq.com/scan/"
 
     def get_merchant_info(self):
         """
@@ -24,7 +24,7 @@ class WeChatScan(BaseWeChatAPI):
             client = WeChatClient('appid', 'secret')
             info = client.scan.get_merchant_info()
         """
-        return self._get('merchantinfo/get')
+        return self._get("merchantinfo/get")
 
     def create_product(self, product_data):
         """
@@ -35,7 +35,7 @@ class WeChatScan(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post('product/create', data=product_data)
+        return self._post("product/create", data=product_data)
 
     def modify_product_status(self, standard, key, status):
         """
@@ -50,11 +50,11 @@ class WeChatScan(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = {
-            'keystandard': standard,
-            'keystr': key,
-            'status': status,
+            "keystandard": standard,
+            "keystr": key,
+            "status": status,
         }
-        return self._post('product/modstatus', data=data)
+        return self._post("product/modstatus", data=data)
 
     def publish_product(self, standard, key):
         """
@@ -62,7 +62,7 @@ class WeChatScan(BaseWeChatAPI):
 
         等同于调用 ``modify_product_status(standard, key, 'on')``
         """
-        return self.modify_product_status(standard, key, 'on')
+        return self.modify_product_status(standard, key, "on")
 
     def unpublish_product(self, standard, key):
         """
@@ -70,7 +70,7 @@ class WeChatScan(BaseWeChatAPI):
 
         等同于调用 ``modify_product_status(standard, key, 'off')``
         """
-        return self.modify_product_status(standard, key, 'off')
+        return self.modify_product_status(standard, key, "off")
 
     def set_test_whitelist(self, userids=None, usernames=None):
         """
@@ -85,11 +85,8 @@ class WeChatScan(BaseWeChatAPI):
         :param usernames: 可选，测试人员的微信号列表
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            openid=userids,
-            username=usernames
-        )
-        return self._post('testwhitelist/set', data=data)
+        data = optionaldict(openid=userids, username=usernames)
+        return self._post("testwhitelist/set", data=data)
 
     def get_product(self, standard, key):
         """
@@ -103,10 +100,10 @@ class WeChatScan(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = {
-            'keystandard': standard,
-            'keystr': key,
+            "keystandard": standard,
+            "keystr": key,
         }
-        return self._post('product/get', data=data)
+        return self._post("product/get", data=data)
 
     def list_product(self, offset=0, limit=10, status=None, key=None):
         """
@@ -122,13 +119,8 @@ class WeChatScan(BaseWeChatAPI):
         :param key: 支持按部分编码内容拉取。填写该参数后，可将编码内容中包含所传参数的商品信息拉出
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            offset=offset,
-            limit=limit,
-            status=status,
-            keystr=key,
-        )
-        return self._post('product/getlist', data=data)
+        data = optionaldict(offset=offset, limit=limit, status=status, keystr=key,)
+        return self._post("product/getlist", data=data)
 
     def update_product(self, product_data):
         """
@@ -139,7 +131,7 @@ class WeChatScan(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post('product/update', data=product_data)
+        return self._post("product/update", data=product_data)
 
     def clear_product(self, standard, key):
         """
@@ -153,10 +145,10 @@ class WeChatScan(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = {
-            'keystandard': standard,
-            'keystr': key,
+            "keystandard": standard,
+            "keystr": key,
         }
-        return self._post('product/clear', data=data)
+        return self._post("product/clear", data=data)
 
     def check_ticket(self, ticket):
         """
@@ -168,4 +160,4 @@ class WeChatScan(BaseWeChatAPI):
         :param ticket: 请求 URL 中带上的 wxticket 参数
         :return: 返回的 JSON 数据包
         """
-        return self._post('scanticket/check', data={'ticket': ticket})
+        return self._post("scanticket/check", data={"ticket": ticket})

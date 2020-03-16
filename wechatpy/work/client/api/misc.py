@@ -5,7 +5,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMisc(BaseWeChatAPI):
-
     def get_wechat_ips(self):
         """
         获取企业微信服务器的ip段
@@ -14,5 +13,5 @@ class WeChatMisc(BaseWeChatAPI):
 
         :return: 企业微信回调的IP段
         """
-        res = self._get('getcallbackip')
-        return res['ip_list']
+        res = self._get("getcallbackip")
+        return res["ip_list"]

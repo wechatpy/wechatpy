@@ -66,24 +66,26 @@ class WeChatSchedule(BaseWeChatAPI):
         """
 
         data = {
-            'schedule': {
-                'organizer': organizer,
-                'start_time': start_time,
-                'end_time': end_time,
-                'attendees': [{'userid': userid} for userid in attendees],
-                'summary': summary,
-                'description': description,
-                'reminders': {
-                    'is_remind': int(is_remind),
-                    'remind_before_event_secs': remind_before_event_secs,
-                    'is_repeat': int(is_repeat),
-                    'repeat_type': repeat_type,
+            "schedule": {
+                "organizer": organizer,
+                "start_time": start_time,
+                "end_time": end_time,
+                "attendees": [{"userid": userid} for userid in attendees],
+                "summary": summary,
+                "description": description,
+                "reminders": {
+                    "is_remind": int(is_remind),
+                    "remind_before_event_secs": remind_before_event_secs,
+                    "is_repeat": int(is_repeat),
+                    "repeat_type": repeat_type,
                 },
-                'location': location,
-                'cal_id': calendar_id,
+                "location": location,
+                "cal_id": calendar_id,
             }
         }
-        return self._post('oa/schedule/add', data=data, result_processor=op.itemgetter('schedule_id'))
+        return self._post(
+            "oa/schedule/add", data=data, result_processor=op.itemgetter("schedule_id")
+        )
 
     def update(
         self,
@@ -140,25 +142,25 @@ class WeChatSchedule(BaseWeChatAPI):
         """
 
         data = {
-            'schedule': {
-                'organizer': organizer,
-                'schedule_id': schedule_id,
-                'start_time': start_time,
-                'end_time': end_time,
-                'attendees': [{'userid': userid} for userid in attendees],
-                'summary': summary,
-                'description': description,
-                'reminders': {
-                    'is_remind': int(is_remind),
-                    'remind_before_event_secs': remind_before_event_secs,
-                    'is_repeat': int(is_repeat),
-                    'repeat_type': repeat_type,
+            "schedule": {
+                "organizer": organizer,
+                "schedule_id": schedule_id,
+                "start_time": start_time,
+                "end_time": end_time,
+                "attendees": [{"userid": userid} for userid in attendees],
+                "summary": summary,
+                "description": description,
+                "reminders": {
+                    "is_remind": int(is_remind),
+                    "remind_before_event_secs": remind_before_event_secs,
+                    "is_repeat": int(is_repeat),
+                    "repeat_type": repeat_type,
                 },
-                'location': location,
-                'cal_id': calendar_id,
+                "location": location,
+                "cal_id": calendar_id,
             }
         }
-        return self._post('oa/schedule/update', data=data)
+        return self._post("oa/schedule/update", data=data)
 
     def get(self, schedule_ids):
         """
@@ -172,7 +174,9 @@ class WeChatSchedule(BaseWeChatAPI):
         :rtype: list[dict]
         """
         return self._post(
-            'oa/schedule/get', data={'schedule_id_list': schedule_ids}, result_processor=op.itemgetter('schedule_list')
+            "oa/schedule/get",
+            data={"schedule_id_list": schedule_ids},
+            result_processor=op.itemgetter("schedule_list"),
         )
 
     def delete(self, schedule_id):
@@ -182,7 +186,7 @@ class WeChatSchedule(BaseWeChatAPI):
 
         :param schedule_id: 日程ID
         """
-        return self._post('oa/schedule/del', data={'schedule_id': schedule_id})
+        return self._post("oa/schedule/del", data={"schedule_id": schedule_id})
 
     def get_by_calendar(self, calendar_id, offset=0, limit=500):
         """
@@ -198,7 +202,7 @@ class WeChatSchedule(BaseWeChatAPI):
         :rtype: list[dict]
         """
         return self._post(
-            'oa/schedule/get_by_calendar',
-            data={'cal_id': calendar_id, 'offset': offset, 'limit': limit},
-            result_processor=op.itemgetter('schedule_list'),
+            "oa/schedule/get_by_calendar",
+            data={"cal_id": calendar_id, "offset": offset, "limit": limit},
+            result_processor=op.itemgetter("schedule_list"),
         )

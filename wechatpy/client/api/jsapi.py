@@ -18,17 +18,13 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatJSAPI(BaseWeChatAPI):
-
-    def get_ticket(self, type='jsapi'):
+    def get_ticket(self, type="jsapi"):
         """
         获取微信 JS-SDK ticket
 
         :return: 返回的 JSON 数据包
         """
-        return self._get(
-            'ticket/getticket',
-            params={'type': type}
-        )
+        return self._get("ticket/getticket", params={"type": type})
 
     def get_jsapi_ticket(self):
         """
@@ -38,14 +34,14 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         :return: ticket
         """
-        ticket_key = '{0}_jsapi_ticket'.format(self.appid)
-        expires_at_key = '{0}_jsapi_ticket_expires_at'.format(self.appid)
+        ticket_key = "{0}_jsapi_ticket".format(self.appid)
+        expires_at_key = "{0}_jsapi_ticket_expires_at".format(self.appid)
         ticket = self.session.get(ticket_key)
         expires_at = self.session.get(expires_at_key, 0)
         if not ticket or expires_at < int(time.time()):
-            jsapi_ticket_response = self.get_ticket('jsapi')
-            ticket = jsapi_ticket_response['ticket']
-            expires_at = int(time.time()) + int(jsapi_ticket_response['expires_in'])
+            jsapi_ticket_response = self.get_ticket("jsapi")
+            ticket = jsapi_ticket_response["ticket"]
+            expires_at = int(time.time()) + int(jsapi_ticket_response["expires_in"])
             self.session.set(ticket_key, ticket)
             self.session.set(expires_at_key, expires_at)
         return ticket
@@ -61,12 +57,12 @@ class WeChatJSAPI(BaseWeChatAPI):
         :return: 签名
         """
         data = [
-            'noncestr={noncestr}'.format(noncestr=noncestr),
-            'jsapi_ticket={ticket}'.format(ticket=ticket),
-            'timestamp={timestamp}'.format(timestamp=timestamp),
-            'url={url}'.format(url=url),
+            "noncestr={noncestr}".format(noncestr=noncestr),
+            "jsapi_ticket={ticket}".format(ticket=ticket),
+            "timestamp={timestamp}".format(timestamp=timestamp),
+            "url={url}".format(url=url),
         ]
-        signer = WeChatSigner(delimiter=b'&')
+        signer = WeChatSigner(delimiter=b"&")
         signer.add_data(*data)
         return signer.signature
 
@@ -78,15 +74,17 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         :return: ticket
         """
-        jsapi_card_ticket_key = '{0}_jsapi_card_ticket'.format(self.appid)
-        jsapi_card_ticket_expire_at_key = '{0}_jsapi_card_ticket_expires_at'.format(self.appid)
+        jsapi_card_ticket_key = "{0}_jsapi_card_ticket".format(self.appid)
+        jsapi_card_ticket_expire_at_key = "{0}_jsapi_card_ticket_expires_at".format(
+            self.appid
+        )
 
         ticket = self.session.get(jsapi_card_ticket_key)
         expires_at = self.session.get(jsapi_card_ticket_expire_at_key, 0)
         if not ticket or int(expires_at) < int(time.time()):
-            ticket_response = self.get_ticket('wx_card')
-            ticket = ticket_response['ticket']
-            expires_at = int(time.time()) + int(ticket_response['expires_in'])
+            ticket_response = self.get_ticket("wx_card")
+            ticket = ticket_response["ticket"]
+            expires_at = int(time.time()) + int(ticket_response["expires_in"])
             self.session.set(jsapi_card_ticket_key, ticket)
             self.session.set(jsapi_card_ticket_expire_at_key, expires_at)
         return ticket
@@ -100,13 +98,13 @@ class WeChatJSAPI(BaseWeChatAPI):
         :return: 包含调用jssdk所有所需参数的 dict
         """
         card_signature_dict = {
-            'card_type': card_type,
-            'noncestr': kwargs.get('noncestr', random_string()),
-            'api_ticket': card_ticket,
-            'appid': self.appid,
-            'timestamp': kwargs.get('timestamp', str(int(time.time()))),
+            "card_type": card_type,
+            "noncestr": kwargs.get("noncestr", random_string()),
+            "api_ticket": card_ticket,
+            "appid": self.appid,
+            "timestamp": kwargs.get("timestamp", str(int(time.time()))),
         }
         list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
         str_to_sign = "".join(list_before_sign).encode()
-        card_signature_dict['sign'] = hashlib.sha1(str_to_sign).hexdigest()
+        card_signature_dict["sign"] = hashlib.sha1(str_to_sign).hexdigest()
         return card_signature_dict

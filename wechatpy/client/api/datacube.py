@@ -7,16 +7,16 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatDataCube(BaseWeChatAPI):
 
-    API_BASE_URL = 'https://api.weixin.qq.com/datacube/'
+    API_BASE_URL = "https://api.weixin.qq.com/datacube/"
 
     @classmethod
     def _to_date_str(cls, date):
         if isinstance(date, (datetime.datetime, datetime.date)):
-            return date.strftime('%Y-%m-%d')
+            return date.strftime("%Y-%m-%d")
         elif isinstance(date, str):
             return date
         else:
-            raise ValueError('Can not convert %s type to str', type(date))
+            raise ValueError("Can not convert %s type to str", type(date))
 
     def get_user_summary(self, begin_date, end_date):
         """
@@ -29,13 +29,13 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getusersummary',
+            "getusersummary",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
-            }
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
         )
-        return res['list']
+        return res["list"]
 
     def get_user_cumulate(self, begin_date, end_date):
         """
@@ -48,12 +48,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getusercumulate',
+            "getusercumulate",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -68,12 +68,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getinterfacesummary',
+            "getinterfacesummary",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -88,12 +88,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getinterfacesummaryhour',
+            "getinterfacesummaryhour",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -108,12 +108,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getarticlesummary',
+            "getarticlesummary",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -128,12 +128,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getarticletotal',
+            "getarticletotal",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -148,12 +148,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getuserread',
+            "getuserread",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -168,12 +168,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getuserreadhour',
+            "getuserreadhour",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -188,12 +188,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getusershare',
+            "getusershare",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -208,12 +208,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getusersharehour',
+            "getusersharehour",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -228,12 +228,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsg',
+            "getupstreammsg",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -248,12 +248,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsghour',
+            "getupstreammsghour",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -268,12 +268,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsgweek',
+            "getupstreammsgweek",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -288,12 +288,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsgmonth',
+            "getupstreammsgmonth",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -308,12 +308,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsgdist',
+            "getupstreammsgdist",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -328,12 +328,12 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsgdistweek',
+            "getupstreammsgdistweek",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res
 
@@ -348,11 +348,11 @@ class WeChatDataCube(BaseWeChatAPI):
         :return: 统计数据列表
         """
         res = self._post(
-            'getupstreammsgdistmonth',
+            "getupstreammsgdistmonth",
             data={
-                'begin_date': self._to_date_str(begin_date),
-                'end_date': self._to_date_str(end_date)
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x['list']
+            result_processor=lambda x: x["list"],
         )
         return res

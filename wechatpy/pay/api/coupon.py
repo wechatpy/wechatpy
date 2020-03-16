@@ -7,9 +7,9 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatCoupon(BaseWeChatPayAPI):
-
-    def send(self, user_id, stock_id, op_user_id=None, device_info=None,
-             out_trade_no=None):
+    def send(
+        self, user_id, stock_id, op_user_id=None, device_info=None, out_trade_no=None
+    ):
         """
         发放代金券
 
@@ -22,23 +22,21 @@ class WeChatCoupon(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = '{0}{1}{2}'.format(
-                self.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+            out_trade_no = "{0}{1}{2}".format(
+                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
             )
         data = {
-            'appid': self.appid,
-            'coupon_stock_id': stock_id,
-            'openid': user_id,
-            'openid_count': 1,
-            'partner_trade_no': out_trade_no,
-            'op_user_id': op_user_id,
-            'device_info': device_info,
-            'version': '1.0',
-            'type': 'XML',
+            "appid": self.appid,
+            "coupon_stock_id": stock_id,
+            "openid": user_id,
+            "openid_count": 1,
+            "partner_trade_no": out_trade_no,
+            "op_user_id": op_user_id,
+            "device_info": device_info,
+            "version": "1.0",
+            "type": "XML",
         }
-        return self._post('mmpaymkttransfers/send_coupon', data=data)
+        return self._post("mmpaymkttransfers/send_coupon", data=data)
 
     def query_stock(self, stock_id, op_user_id=None, device_info=None):
         """
@@ -50,17 +48,16 @@ class WeChatCoupon(BaseWeChatPayAPI):
         :return: 返回的结果信息
         """
         data = {
-            'appid': self.appid,
-            'coupon_stock_id': stock_id,
-            'op_user_id': op_user_id,
-            'device_info': device_info,
-            'version': '1.0',
-            'type': 'XML',
+            "appid": self.appid,
+            "coupon_stock_id": stock_id,
+            "op_user_id": op_user_id,
+            "device_info": device_info,
+            "version": "1.0",
+            "type": "XML",
         }
-        return self._post('mmpaymkttransfers/query_coupon_stock', data=data)
+        return self._post("mmpaymkttransfers/query_coupon_stock", data=data)
 
-    def query_coupon(self, coupon_id, user_id,
-                     op_user_id=None, device_info=None):
+    def query_coupon(self, coupon_id, user_id, op_user_id=None, device_info=None):
         """
         查询代金券信息
 
@@ -71,12 +68,12 @@ class WeChatCoupon(BaseWeChatPayAPI):
         :return: 返回的结果信息
         """
         data = {
-            'coupon_id': coupon_id,
-            'openid': user_id,
-            'appid': self.appid,
-            'op_user_id': op_user_id,
-            'device_info': device_info,
-            'version': '1.0',
-            'type': 'XML',
+            "coupon_id": coupon_id,
+            "openid": user_id,
+            "appid": self.appid,
+            "op_user_id": op_user_id,
+            "device_info": device_info,
+            "version": "1.0",
+            "type": "XML",
         }
-        return self._post('promotion/query_coupon', data=data)
+        return self._post("promotion/query_coupon", data=data)

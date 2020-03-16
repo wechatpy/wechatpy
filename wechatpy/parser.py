@@ -23,28 +23,28 @@ def parse_message(xml):
     """
     if not xml:
         return
-    message = xmltodict.parse(to_text(xml))['xml']
-    message_type = message['MsgType'].lower()
+    message = xmltodict.parse(to_text(xml))["xml"]
+    message_type = message["MsgType"].lower()
     event_type = None
-    if message_type == 'event' or message_type.startswith('device_'):
-        if 'Event' in message:
-            event_type = message['Event'].lower()
+    if message_type == "event" or message_type.startswith("device_"):
+        if "Event" in message:
+            event_type = message["Event"].lower()
         # special event type for device_event
-        if event_type is None and message_type.startswith('device_'):
+        if event_type is None and message_type.startswith("device_"):
             event_type = message_type
-        elif message_type.startswith('device_'):
-            event_type = 'device_{event}'.format(event=event_type)
+        elif message_type.startswith("device_"):
+            event_type = "device_{event}".format(event=event_type)
 
-        if event_type == 'subscribe' and message.get('EventKey'):
-            event_key = message['EventKey']
-            if event_key.startswith(('scanbarcode|', 'scanimage|')):
-                event_type = 'subscribe_scan_product'
-                message['Event'] = event_type
-            elif event_key.startswith('qrscene_'):
+        if event_type == "subscribe" and message.get("EventKey"):
+            event_key = message["EventKey"]
+            if event_key.startswith(("scanbarcode|", "scanimage|")):
+                event_type = "subscribe_scan_product"
+                message["Event"] = event_type
+            elif event_key.startswith("qrscene_"):
                 # Scan to subscribe with scene id event
-                event_type = 'subscribe_scan'
-                message['Event'] = event_type
-                message['EventKey'] = event_key[len('qrscene_'):]
+                event_type = "subscribe_scan"
+                message["Event"] = event_type
+                message["EventKey"] = event_key[len("qrscene_") :]
         message_class = EVENT_TYPES.get(event_type, UnknownMessage)
     else:
         message_class = MESSAGE_TYPES.get(message_type, UnknownMessage)

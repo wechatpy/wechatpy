@@ -5,7 +5,6 @@ from cryptography.hazmat.backends import default_backend
 
 
 class BaseWeChatCipher:
-
     def __init__(self, cipher):
         self.cipher = cipher
 
@@ -19,27 +18,13 @@ class BaseWeChatCipher:
 
 
 class WeChatCipher(BaseWeChatCipher):
-
     def __init__(self, key, iv=None):
         iv = iv or key[:16]
         backend = default_backend()
-        super().__init__(
-            Cipher(
-                algorithms.AES(key),
-                modes.CBC(iv),
-                backend=backend
-            )
-        )
+        super().__init__(Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend))
 
 
 class AesEcbCipher(BaseWeChatCipher):
-
     def __init__(self, key):
         backend = default_backend()
-        super().__init__(
-            Cipher(
-                algorithms.AES(key),
-                modes.ECB(),
-                backend=backend
-            )
-        )
+        super().__init__(Cipher(algorithms.AES(key), modes.ECB(), backend=backend))

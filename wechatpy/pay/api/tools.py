@@ -6,7 +6,6 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatTools(BaseWeChatPayAPI):
-
     def short_url(self, long_url):
         """
         长链接转短链接
@@ -15,12 +14,12 @@ class WeChatTools(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'appid': self.appid,
-            'long_url': long_url,
+            "appid": self.appid,
+            "long_url": long_url,
         }
-        return self._post('tools/shorturl', data=data)
+        return self._post("tools/shorturl", data=data)
 
-    def download_bill(self, bill_date, bill_type='ALL', device_info=None):
+    def download_bill(self, bill_date, bill_type="ALL", device_info=None):
         """
         下载对账单
 
@@ -33,18 +32,17 @@ class WeChatTools(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         if isinstance(bill_date, (datetime, date)):
-            bill_date = bill_date.strftime('%Y%m%d')
+            bill_date = bill_date.strftime("%Y%m%d")
 
         data = {
-            'appid': self.appid,
-            'bill_date': bill_date,
-            'bill_type': bill_type,
-            'device_info': device_info,
+            "appid": self.appid,
+            "bill_date": bill_date,
+            "bill_type": bill_type,
+            "device_info": device_info,
         }
-        return self._post('pay/downloadbill', data=data)
+        return self._post("pay/downloadbill", data=data)
 
-    def download_fundflow(self, bill_date, account_type='Basic',
-                          tar_type=None):
+    def download_fundflow(self, bill_date, account_type="Basic", tar_type=None):
         """
         下载资金账单
         https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_18&index=7
@@ -58,17 +56,17 @@ class WeChatTools(BaseWeChatPayAPI):
                          不传则默认为数据流形式。
         """
         if isinstance(bill_date, (datetime, date)):
-            bill_date = bill_date.strftime('%Y%m%d')
+            bill_date = bill_date.strftime("%Y%m%d")
 
         data = {
-            'appid': self.appid,
-            'bill_date': bill_date,
-            'account_type': account_type,
-            'sign_type': 'HMAC-SHA256'
+            "appid": self.appid,
+            "bill_date": bill_date,
+            "account_type": account_type,
+            "sign_type": "HMAC-SHA256",
         }
         if tar_type is not None:
-            data['tar_type'] = tar_type
-        return self._post('pay/downloadfundflow', data=data)
+            data["tar_type"] = tar_type
+        return self._post("pay/downloadfundflow", data=data)
 
     def auto_code_to_openid(self, auth_code):
         """
@@ -78,7 +76,7 @@ class WeChatTools(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'appid': self.appid,
-            'auth_code': auth_code,
+            "appid": self.appid,
+            "auth_code": auth_code,
         }
-        return self._post('tools/authcodetoopenid', data=data)
+        return self._post("tools/authcodetoopenid", data=data)

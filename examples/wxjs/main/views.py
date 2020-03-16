@@ -10,34 +10,29 @@ from wechatpy import WeChatClient
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, "index.html")
 
 
 @csrf_exempt
 def jsapi_signature(request):
-    noncestr = '123456'
+    noncestr = "123456"
     timestamp = int(time.time())
-    url = request.POST['url']
+    url = request.POST["url"]
 
     client = WeChatClient(settings.WECHAT_APPID, settings.WECHAT_SECRET)
     ticket_response = client.jsapi.get_ticket()
     signature = client.jsapi.get_jsapi_signature(
-        noncestr,
-        ticket_response['ticket'],
-        timestamp,
-        url
+        noncestr, ticket_response["ticket"], timestamp, url
     )
     ret_dict = {
-        'noncestr': noncestr,
-        'timestamp': timestamp,
-        'url': url,
-        'signature': signature,
+        "noncestr": noncestr,
+        "timestamp": timestamp,
+        "url": url,
+        "signature": signature,
     }
     return JsonResponse(ret_dict)
 
 
 def log(request):
-    print('Hello World!')
-    return JsonResponse({
-        'status': 'ok',
-    })
+    print("Hello World!")
+    return JsonResponse({"status": "ok",})

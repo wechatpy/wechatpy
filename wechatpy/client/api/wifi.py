@@ -8,7 +8,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatWiFi(BaseWeChatAPI):
 
-    API_BASE_URL = 'https://api.weixin.qq.com/bizwifi/'
+    API_BASE_URL = "https://api.weixin.qq.com/bizwifi/"
 
     def list_shops(self, page_index=1, page_size=20):
         """
@@ -22,12 +22,9 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         res = self._post(
-            'shop/list',
-            data={
-                'pageindex': page_index,
-                'pagesize': page_size,
-            },
-            result_processor=lambda x: x['data']
+            "shop/list",
+            data={"pageindex": page_index, "pagesize": page_size,},
+            result_processor=lambda x: x["data"],
         )
         return res
 
@@ -40,11 +37,7 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         res = self._post(
-            'shop/get',
-            data={
-                'shop_id': shop_id,
-            },
-            result_processor=lambda x: x['data']
+            "shop/get", data={"shop_id": shop_id,}, result_processor=lambda x: x["data"]
         )
         return res
 
@@ -63,13 +56,13 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'device/add',
+            "device/add",
             data={
-                'shop_id': shop_id,
-                'ssid': ssid,
-                'password': password,
-                'bssid': bssid,
-            }
+                "shop_id": shop_id,
+                "ssid": ssid,
+                "password": password,
+                "bssid": bssid,
+            },
         )
 
     def list_devices(self, shop_id=None, page_index=1, page_size=20):
@@ -84,16 +77,8 @@ class WeChatWiFi(BaseWeChatAPI):
         :param page_size: 可选，每页的个数，默认20个，最大20个
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            shop_id=shop_id,
-            pageindex=page_index,
-            pagesize=page_size
-        )
-        res = self._post(
-            'device/list',
-            data=data,
-            result_processor=lambda x: x['data']
-        )
+        data = optionaldict(shop_id=shop_id, pageindex=page_index, pagesize=page_size)
+        res = self._post("device/list", data=data, result_processor=lambda x: x["data"])
         return res
 
     def delete_device(self, bssid):
@@ -106,7 +91,7 @@ class WeChatWiFi(BaseWeChatAPI):
         :param bssid: 无线网络设备无线mac地址，格式冒号分隔，字符长度17个，并且字母小写
         :return: 返回的 JSON 数据包
         """
-        return self._post('device/delete', data={'bssid': bssid})
+        return self._post("device/delete", data={"bssid": bssid})
 
     def get_qrcode_url(self, shop_id, img_id):
         """
@@ -121,12 +106,9 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 二维码图片网址
         """
         res = self._post(
-            'qrcode/get',
-            data={
-                'shop_id': shop_id,
-                'img_id': img_id,
-            },
-            result_processor=lambda x: x['data']['qrcode_url']
+            "qrcode/get",
+            data={"shop_id": shop_id, "img_id": img_id,},
+            result_processor=lambda x: x["data"]["qrcode_url"],
         )
         return res
 
@@ -143,12 +125,12 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = {
-            'shop_id': shop_id,
-            'template_id': template_id,
+            "shop_id": shop_id,
+            "template_id": template_id,
         }
         if url:
-            data['struct'] = {'url': url}
-        return self._post('homepage/set', data=data)
+            data["struct"] = {"url": url}
+        return self._post("homepage/set", data=data)
 
     def get_homepage(self, shop_id):
         """
@@ -161,9 +143,9 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         res = self._post(
-            'homepage/get',
-            data={'shop_id': shop_id},
-            result_processor=lambda x: x['data']
+            "homepage/get",
+            data={"shop_id": shop_id},
+            result_processor=lambda x: x["data"],
         )
         return res
 
@@ -180,16 +162,12 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         if isinstance(begin_date, (datetime, date)):
-            begin_date = begin_date.strftime('%Y-%m-%d')
+            begin_date = begin_date.strftime("%Y-%m-%d")
         if isinstance(end_date, (datetime, date)):
-            end_date = end_date.strftime('%Y-%m-%d')
+            end_date = end_date.strftime("%Y-%m-%d")
         res = self._post(
-            'statistics/list',
-            data={
-                'begin_date': begin_date,
-                'end_date': end_date,
-                'shop_id': shop_id
-            },
-            result_processor=lambda x: x['data']
+            "statistics/list",
+            data={"begin_date": begin_date, "end_date": end_date, "shop_id": shop_id},
+            result_processor=lambda x: x["data"],
         )
         return res

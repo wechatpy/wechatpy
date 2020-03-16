@@ -14,7 +14,7 @@ class WeChatClient(BaseWeChatClient):
     通过这个类可以操作微信 API，发送主动消息、群发消息和创建自定义菜单等。
     """
 
-    API_BASE_URL = 'https://api.weixin.qq.com/cgi-bin/'
+    API_BASE_URL = "https://api.weixin.qq.com/cgi-bin/"
 
     card = api.WeChatCard()
     customservice = api.WeChatCustomService()
@@ -42,8 +42,15 @@ class WeChatClient(BaseWeChatClient):
     marketing = api.WeChatMarketing()
     cloud = api.WeChatCloud()
 
-    def __init__(self, appid, secret, access_token=None,
-                 session=None, timeout=None, auto_retry=True):
+    def __init__(
+        self,
+        appid,
+        secret,
+        access_token=None,
+        session=None,
+        timeout=None,
+        auto_retry=True,
+    ):
         super().__init__(appid, access_token, session, timeout, auto_retry)
         self.appid = appid
         self.secret = secret
@@ -56,12 +63,12 @@ class WeChatClient(BaseWeChatClient):
         :return: 返回的 JSON 数据包
         """
         return self._fetch_access_token(
-            url='https://api.weixin.qq.com/cgi-bin/token',
+            url="https://api.weixin.qq.com/cgi-bin/token",
             params={
-                'grant_type': 'client_credential',
-                'appid': self.appid,
-                'secret': self.secret
-            }
+                "grant_type": "client_credential",
+                "appid": self.appid,
+                "secret": self.secret,
+            },
         )
 
 
@@ -71,10 +78,17 @@ class WeChatComponentClient(WeChatClient):
     开放平台代公众号调用客户端
     """
 
-    def __init__(self, appid, component, access_token=None,
-                 refresh_token=None, session=None, timeout=None):
+    def __init__(
+        self,
+        appid,
+        component,
+        access_token=None,
+        refresh_token=None,
+        session=None,
+        timeout=None,
+    ):
         # 未用到secret，所以这里没有
-        super().__init__(appid, '', '', session, timeout)
+        super().__init__(appid, "", "", session, timeout)
         self.appid = appid
         self.component = component
         # 如果公众号是刚授权，外部还没有缓存access_token和refresh_token
@@ -82,18 +96,20 @@ class WeChatComponentClient(WeChatClient):
         # 如果外部已经缓存，这里只需要传入 appid，component和session即可
         cache_access_token = self.session.get(self.access_token_key)
 
-        if access_token and (not cache_access_token or cache_access_token != access_token):
+        if access_token and (
+            not cache_access_token or cache_access_token != access_token
+        ):
             self.session.set(self.access_token_key, access_token, 7200)
         if refresh_token:
             self.session.set(self.refresh_token_key, refresh_token)
 
     @property
     def access_token_key(self):
-        return '{0}_access_token'.format(self.appid)
+        return "{0}_access_token".format(self.appid)
 
     @property
     def refresh_token_key(self):
-        return '{0}_refresh_token'.format(self.appid)
+        return "{0}_refresh_token".format(self.appid)
 
     @property
     def access_token(self):
@@ -119,14 +135,11 @@ class WeChatComponentClient(WeChatClient):
         :return: 返回的 JSON 数据包
         """
         expires_in = 7200
-        result = self.component.refresh_authorizer_token(
-            self.appid, self.refresh_token)
-        if 'expires_in' in result:
-            expires_in = result['expires_in']
+        result = self.component.refresh_authorizer_token(self.appid, self.refresh_token)
+        if "expires_in" in result:
+            expires_in = result["expires_in"]
         self.session.set(
-            self.access_token_key,
-            result['authorizer_access_token'],
-            expires_in
+            self.access_token_key, result["authorizer_access_token"], expires_in
         )
         self.expires_at = int(time.time()) + expires_in
         return result

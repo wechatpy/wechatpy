@@ -17,7 +17,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         https://work.weixin.qq.com/api/doc#90000/90135/91554
         :return: 返回的 JSON 数据包
         """
-        return self._get('externalcontact/get_follow_user_list')
+        return self._get("externalcontact/get_follow_user_list")
 
     def list(self, userid):
         """
@@ -26,7 +26,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param userid: 企业成员的userid
         :return: 返回的 JSON 数据包
         """
-        return self._get('externalcontact/list', params={'userid': userid})
+        return self._get("externalcontact/list", params={"userid": userid})
 
     def get(self, external_userid):
         """
@@ -35,12 +35,21 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param external_userid: 外部联系人的userid，注意不是企业成员的帐号
         :return: 返回的 JSON 数据包
         """
-        return self._get('externalcontact/get',
-                         params={'external_userid': external_userid})
+        return self._get(
+            "externalcontact/get", params={"external_userid": external_userid}
+        )
 
-    def add_contact_way(self, type, scene, style=None,
-                        remark=None, skip_verify=True, state=None,
-                        user=None, party=None):
+    def add_contact_way(
+        self,
+        type,
+        scene,
+        style=None,
+        remark=None,
+        skip_verify=True,
+        state=None,
+        user=None,
+        party=None,
+    ):
         """
         配置客户联系「联系我」方式
         https://work.weixin.qq.com/api/doc#90000/90135/91559
@@ -63,9 +72,9 @@ class WeChatExternalContact(BaseWeChatAPI):
             skip_verify=skip_verify,
             state=state,
             user=user,
-            party=party
+            party=party,
         )
-        return self._post('externalcontact/add_contact_way', data=data)
+        return self._post("externalcontact/add_contact_way", data=data)
 
     def get_contact_way(self, config_id):
         """
@@ -74,14 +83,19 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param config_id: 联系方式的配置id, e.g.42b34949e138eb6e027c123cba77fad7
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            config_id=config_id
-        )
-        return self._post('externalcontact/get_contact_way', data=data)
+        data = optionaldict(config_id=config_id)
+        return self._post("externalcontact/get_contact_way", data=data)
 
-    def update_contact_way(self, config_id, remark, skip_verify=True,
-                           style=None, state=None, user=None,
-                           party=None):
+    def update_contact_way(
+        self,
+        config_id,
+        remark,
+        skip_verify=True,
+        style=None,
+        state=None,
+        user=None,
+        party=None,
+    ):
         """
         更新企业已配置的「联系我」方式
         https://work.weixin.qq.com/api/doc#90000/90135/91559
@@ -102,9 +116,9 @@ class WeChatExternalContact(BaseWeChatAPI):
             style=style,
             state=state,
             user=user,
-            party=party
+            party=party,
         )
-        return self._post('externalcontact/update_contact_way', data=data)
+        return self._post("externalcontact/update_contact_way", data=data)
 
     def del_contact_way(self, config_id):
         """
@@ -112,10 +126,8 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param config_id: 企业联系方式的配置id
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            config_id=config_id
-        )
-        return self._post('externalcontact/del_contact_way', data=data)
+        data = optionaldict(config_id=config_id)
+        return self._post("externalcontact/del_contact_way", data=data)
 
     def add_msg_template(self, template):
         """
@@ -168,7 +180,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param template: 见上方说明.
         :return: 返回的 JSON 数据包
         """
-        return self._post('externalcontact/add_msg_template', data=template)
+        return self._post("externalcontact/add_msg_template", data=template)
 
     def get_group_msg_result(self, msgid):
         """
@@ -179,13 +191,10 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param msgid: 群发消息的id，通过添加企业群发消息模板接口返回
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            msgid=msgid
-        )
-        return self._post('externalcontact/get_group_msg_result', data=data)
+        data = optionaldict(msgid=msgid)
+        return self._post("externalcontact/get_group_msg_result", data=data)
 
-    def get_user_behavior_data(self, userid,
-                               start_time, end_time):
+    def get_user_behavior_data(self, userid, start_time, end_time):
         """
         获取员工行为数据
 
@@ -197,12 +206,8 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param end_time: 数据结束时间
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            userid=userid,
-            start_time=start_time,
-            end_time=end_time
-        )
-        return self._post('externalcontact/get_user_behavior_data', data=data)
+        data = optionaldict(userid=userid, start_time=start_time, end_time=end_time)
+        return self._post("externalcontact/get_user_behavior_data", data=data)
 
     def send_welcome_msg(self, template):
         """
@@ -252,7 +257,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param template: 见上方说明.
         :return: 返回的 JSON 数据包
         """
-        return self._post('externalcontact/send_welcome_msg', data=template)
+        return self._post("externalcontact/send_welcome_msg", data=template)
 
     def get_unassigned_list(self, page_id, page_size):
         """
@@ -264,14 +269,10 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param page_size: 每次返回的最大记录数，默认为1000，最大值为1000
         :return:
         """
-        data = optionaldict(
-            page_id=page_id,
-            page_size=page_size
-        )
-        return self._post('externalcontact/get_unassigned_list', data=data)
+        data = optionaldict(page_id=page_id, page_size=page_size)
+        return self._post("externalcontact/get_unassigned_list", data=data)
 
-    def transfer(self, external_userid, handover_userid,
-                 takeover_userid):
+    def transfer(self, external_userid, handover_userid, takeover_userid):
         """
         离职成员的外部联系人再分配
         企业可通过此接口，将已离职成员的外部联系人分配给另一个成员接替联系。
@@ -285,9 +286,9 @@ class WeChatExternalContact(BaseWeChatAPI):
         data = optionaldict(
             external_userid=external_userid,
             handover_userid=handover_userid,
-            takeover_userid=takeover_userid
+            takeover_userid=takeover_userid,
         )
-        return self._post('externalcontact/transfer', data=data)
+        return self._post("externalcontact/transfer", data=data)
 
     def get_corp_tag_list(self, tag_ids=None):
         """
@@ -297,10 +298,8 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param tag_ids:要查询的标签id，如果不填则获取该企业的所有客户标签，目前暂不支持标签组id ,示例：["etXXXXXXXXXX","etYYYYYYYYYY"]
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            tag_id=tag_ids
-        )
-        return self._post('externalcontact/get_corp_tag_list', data=data)
+        data = optionaldict(tag_id=tag_ids)
+        return self._post("externalcontact/get_corp_tag_list", data=data)
 
     def add_corp_tag(self, group_id, group_name, order, tags):
         """
@@ -318,13 +317,10 @@ class WeChatExternalContact(BaseWeChatAPI):
         :return:返回的 JSON 数据包
         """
         data = optionaldict(
-            group_id=group_id,
-            group_name=group_name,
-            order=order,
-            tag=tags
+            group_id=group_id, group_name=group_name, order=order, tag=tags
         )
 
-        return self._post('externalcontact/add_corp_tag', data=data)
+        return self._post("externalcontact/add_corp_tag", data=data)
 
     def edit_corp_tag(self, id, name, order):
         """
@@ -336,12 +332,8 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param order:标签/标签组的次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
         :return:返回的 JSON 数据包
         """
-        data = optionaldict(
-            id=id,
-            name=name,
-            order=order
-        )
-        return self._post('externalcontact/edit_corp_tag', data=data)
+        data = optionaldict(id=id, name=name, order=order)
+        return self._post("externalcontact/edit_corp_tag", data=data)
 
     def del_corp_tag(self, tag_id=None, group_id=None):
         """
@@ -353,11 +345,8 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param group_id:标签组的id列表  tag_id和group_id不可同时为空。
         :return:返回的 JSON 数据包
         """
-        data = optionaldict(
-            tag_id=tag_id,
-            group_id=group_id
-        )
-        return self._post('externalcontact/del_corp_tag', data=data)
+        data = optionaldict(tag_id=tag_id, group_id=group_id)
+        return self._post("externalcontact/del_corp_tag", data=data)
 
     def mark_tag(self, userid, external_userid, add_tag=None, remove_tag=None):
         """
@@ -376,6 +365,6 @@ class WeChatExternalContact(BaseWeChatAPI):
             userid=userid,
             external_userid=external_userid,
             add_tag=add_tag,
-            remove_tag=remove_tag
+            remove_tag=remove_tag,
         )
-        return self._post('externalcontact/mark_tag', data=data)
+        return self._post("externalcontact/mark_tag", data=data)

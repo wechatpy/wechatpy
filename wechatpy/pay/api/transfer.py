@@ -8,10 +8,17 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatTransfer(BaseWeChatPayAPI):
-
-    def transfer(self, user_id, amount, desc, client_ip=None,
-                 check_name='OPTION_CHECK', real_name=None,
-                 out_trade_no=None, device_info=None):
+    def transfer(
+        self,
+        user_id,
+        amount,
+        desc,
+        client_ip=None,
+        check_name="OPTION_CHECK",
+        real_name=None,
+        out_trade_no=None,
+        device_info=None,
+    ):
         """
         企业付款接口
 
@@ -32,24 +39,22 @@ class WeChatTransfer(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = '{0}{1}{2}'.format(
-                self.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+            out_trade_no = "{0}{1}{2}".format(
+                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
             )
         data = {
-            'mch_appid': self.appid,
-            'mchid': self.mch_id,
-            'device_info': device_info,
-            'partner_trade_no': out_trade_no,
-            'openid': user_id,
-            'check_name': check_name,
-            're_user_name': real_name,
-            'amount': amount,
-            'desc': desc,
-            'spbill_create_ip': client_ip or get_external_ip(),
+            "mch_appid": self.appid,
+            "mchid": self.mch_id,
+            "device_info": device_info,
+            "partner_trade_no": out_trade_no,
+            "openid": user_id,
+            "check_name": check_name,
+            "re_user_name": real_name,
+            "amount": amount,
+            "desc": desc,
+            "spbill_create_ip": client_ip or get_external_ip(),
         }
-        return self._post('mmpaymkttransfers/promotion/transfers', data=data)
+        return self._post("mmpaymkttransfers/promotion/transfers", data=data)
 
     def query(self, out_trade_no):
         """
@@ -59,12 +64,14 @@ class WeChatTransfer(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'appid': self.appid,
-            'partner_trade_no': out_trade_no,
+            "appid": self.appid,
+            "partner_trade_no": out_trade_no,
         }
-        return self._post('mmpaymkttransfers/gettransferinfo', data=data)
+        return self._post("mmpaymkttransfers/gettransferinfo", data=data)
 
-    def transfer_bankcard(self, true_name, bank_card_no, bank_code, amount, desc=None, out_trade_no=None):
+    def transfer_bankcard(
+        self, true_name, bank_card_no, bank_code, amount, desc=None, out_trade_no=None
+    ):
         """
         企业付款到银行卡接口
 
@@ -78,21 +85,19 @@ class WeChatTransfer(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = '{0}{1}{2}'.format(
-                self.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+            out_trade_no = "{0}{1}{2}".format(
+                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
             )
         data = {
-            'mch_id': self.mch_id,
-            'partner_trade_no': out_trade_no,
-            'amount': amount,
-            'desc': desc,
-            'enc_bank_no': self._rsa_encrypt(bank_card_no),
-            'enc_true_name': self._rsa_encrypt(true_name),
-            'bank_code': bank_code,
+            "mch_id": self.mch_id,
+            "partner_trade_no": out_trade_no,
+            "amount": amount,
+            "desc": desc,
+            "enc_bank_no": self._rsa_encrypt(bank_card_no),
+            "enc_true_name": self._rsa_encrypt(true_name),
+            "bank_code": bank_code,
         }
-        return self._post('mmpaysptrans/pay_bank', data=data)
+        return self._post("mmpaysptrans/pay_bank", data=data)
 
     def query_bankcard(self, out_trade_no):
         """
@@ -102,19 +107,21 @@ class WeChatTransfer(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'mch_id': self.mch_id,
-            'partner_trade_no': out_trade_no,
+            "mch_id": self.mch_id,
+            "partner_trade_no": out_trade_no,
         }
-        return self._post('mmpaysptrans/query_bank', data=data)
+        return self._post("mmpaysptrans/query_bank", data=data)
 
     def get_rsa_public_key(self):
         data = {
-            'mch_id': self.mch_id,
-            'sign_type': 'MD5',
+            "mch_id": self.mch_id,
+            "sign_type": "MD5",
         }
-        return self._post('https://fraud.mch.weixin.qq.com/risk/getpublickey', data=data)
+        return self._post(
+            "https://fraud.mch.weixin.qq.com/risk/getpublickey", data=data
+        )
 
     def _rsa_encrypt(self, data):
-        if not getattr(self, '_rsa_public_key', None):
-            self._rsa_public_key = self.get_rsa_public_key()['pub_key']
+        if not getattr(self, "_rsa_public_key", None):
+            self._rsa_public_key = self.get_rsa_public_key()["pub_key"]
         return rsa_encrypt(data, self._rsa_public_key)

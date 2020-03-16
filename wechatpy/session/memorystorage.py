@@ -4,7 +4,6 @@ from wechatpy.session import SessionStorage
 
 
 class MemoryStorage(SessionStorage):
-
     def __init__(self):
         self._data = {}
 

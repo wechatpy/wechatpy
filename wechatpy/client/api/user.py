@@ -5,8 +5,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatUser(BaseWeChatAPI):
-
-    def get(self, user_id, lang='zh_CN'):
+    def get(self, user_id, lang="zh_CN"):
         """
         获取用户基本信息（包括UnionID机制）
         详情请参考
@@ -24,15 +23,13 @@ class WeChatUser(BaseWeChatAPI):
             user = client.user.get('openid')
 
         """
-        assert lang in ('zh_CN', 'zh_TW', 'en'), 'lang can only be one of \
-            zh_CN, zh_TW, en language codes'
-        return self._get(
-            'user/info',
-            params={
-                'openid': user_id,
-                'lang': lang
-            }
-        )
+        assert lang in (
+            "zh_CN",
+            "zh_TW",
+            "en",
+        ), "lang can only be one of \
+            zh_CN, zh_TW, en language codes"
+        return self._get("user/info", params={"openid": user_id, "lang": lang})
 
     def get_followers(self, first_user_id=None):
         """
@@ -54,11 +51,8 @@ class WeChatUser(BaseWeChatAPI):
         """
         params = {}
         if first_user_id:
-            params['next_openid'] = first_user_id
-        return self._get(
-            'user/get',
-            params=params
-        )
+            params["next_openid"] = first_user_id
+        return self._get("user/get", params=params)
 
     def iter_followers(self, first_user_id=None):
         """
@@ -84,9 +78,9 @@ class WeChatUser(BaseWeChatAPI):
             # 微信有个bug(或者叫feature)，没有下一页，也返回next_openid这个字段
             # 所以要通过total_count和data的长度比较判断(比较麻烦，并且不稳定)
             # 或者获得结果前先判断data是否存在
-            if 'data' not in follower_data:
+            if "data" not in follower_data:
                 return
-            for openid in follower_data['data']['openid']:
+            for openid in follower_data["data"]["openid"]:
                 yield openid
             if not first_user_id:
                 return
@@ -111,11 +105,7 @@ class WeChatUser(BaseWeChatAPI):
 
         """
         return self._post(
-            'user/info/updateremark',
-            data={
-                'openid': user_id,
-                'remark': remark
-            }
+            "user/info/updateremark", data={"openid": user_id, "remark": remark}
         )
 
     def get_group_id(self, user_id):
@@ -137,9 +127,9 @@ class WeChatUser(BaseWeChatAPI):
 
         """
         res = self._post(
-            'groups/getid',
-            data={'openid': user_id},
-            result_processor=lambda x: x['groupid']
+            "groups/getid",
+            data={"openid": user_id},
+            result_processor=lambda x: x["groupid"],
         )
         return res
 
@@ -167,16 +157,16 @@ class WeChatUser(BaseWeChatAPI):
 
         """
         if all((isinstance(x, str) for x in user_list)):
-            user_list = [{'openid': oid} for oid in user_list]
+            user_list = [{"openid": oid} for oid in user_list]
         res = self._post(
-            'user/info/batchget',
-            data={'user_list': user_list},
-            result_processor=lambda x: x['user_info_list']
+            "user/info/batchget",
+            data={"user_list": user_list},
+            result_processor=lambda x: x["user_info_list"],
         )
         return res
 
     def change_openid(self, from_appid, openid_list):
-        '''微信公众号主体变更迁移用户 openid
+        """微信公众号主体变更迁移用户 openid
 
         详情请参考
         http://kf.qq.com/faq/170221aUnmmU170221eUZJNf.html
@@ -184,9 +174,9 @@ class WeChatUser(BaseWeChatAPI):
         :param from_appid: 原公众号的 appid
         :param openid_list: 需要转换的openid，这些必须是旧账号目前关注的才行，否则会出错；一次最多100个
         :return: 转换后的 openid 信息列表
-        '''
+        """
         return self._post(
-            'changeopenid',
-            data={'from_appid': from_appid, 'openid_list': openid_list},
-            result_processor=lambda x: x['result_list']
+            "changeopenid",
+            data={"from_appid": from_appid, "openid_list": openid_list},
+            result_processor=lambda x: x["result_list"],
         )

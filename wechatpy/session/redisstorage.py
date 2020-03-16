@@ -6,15 +6,14 @@ from wechatpy.utils import to_text
 
 
 class RedisStorage(SessionStorage):
-
-    def __init__(self, redis, prefix='wechatpy'):
-        for method_name in ('get', 'set', 'delete'):
+    def __init__(self, redis, prefix="wechatpy"):
+        for method_name in ("get", "set", "delete"):
             assert hasattr(redis, method_name)
         self.redis = redis
         self.prefix = prefix
 
     def key_name(self, key):
-        return '{0}:{1}'.format(self.prefix, key)
+        return "{0}:{1}".format(self.prefix, key)
 
     def get(self, key, default=None):
         key = self.key_name(key)
