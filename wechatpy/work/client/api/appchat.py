@@ -45,9 +45,7 @@ class WeChatAppChat(BaseWeChatAPI):
         res = self._get("appchat/get", params={"chatid": chat_id})
         return res["chat_info"]
 
-    def update(
-        self, chat_id, name=None, owner=None, add_user_list=None, del_user_list=None
-    ):
+    def update(self, chat_id, name=None, owner=None, add_user_list=None, del_user_list=None):
         """
         修改群聊会话
 
@@ -62,11 +60,7 @@ class WeChatAppChat(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(
-            chatid=chat_id,
-            name=name,
-            owner=owner,
-            add_user_list=add_user_list,
-            del_user_list=del_user_list,
+            chatid=chat_id, name=name, owner=owner, add_user_list=add_user_list, del_user_list=del_user_list,
         )
         return self._post("appchat/update", data=data)
 

@@ -16,8 +16,7 @@ class WeChatTemplate(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "template/api_set_industry",
-            data={"industry_id1": industry_id1, "industry_id2": industry_id2},
+            "template/api_set_industry", data={"industry_id1": industry_id1, "industry_id2": industry_id2},
         )
 
     def get_industry(self):
@@ -67,6 +66,4 @@ class WeChatTemplate(BaseWeChatAPI):
         :param template_id: 公众帐号下模板消息ID
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "template/del_private_template", data={"template_id": template_id}
-        )
+        return self._post("template/del_private_template", data={"template_id": template_id})

@@ -39,9 +39,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = "{0}{1}{2}".format(
-                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
-            )
+            out_trade_no = "{0}{1}{2}".format(self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000))
         data = {
             "mch_appid": self.appid,
             "mchid": self.mch_id,
@@ -69,9 +67,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
         }
         return self._post("mmpaymkttransfers/gettransferinfo", data=data)
 
-    def transfer_bankcard(
-        self, true_name, bank_card_no, bank_code, amount, desc=None, out_trade_no=None
-    ):
+    def transfer_bankcard(self, true_name, bank_card_no, bank_code, amount, desc=None, out_trade_no=None):
         """
         企业付款到银行卡接口
 
@@ -85,9 +81,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = "{0}{1}{2}".format(
-                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
-            )
+            out_trade_no = "{0}{1}{2}".format(self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000))
         data = {
             "mch_id": self.mch_id,
             "partner_trade_no": out_trade_no,
@@ -117,9 +111,7 @@ class WeChatTransfer(BaseWeChatPayAPI):
             "mch_id": self.mch_id,
             "sign_type": "MD5",
         }
-        return self._post(
-            "https://fraud.mch.weixin.qq.com/risk/getpublickey", data=data
-        )
+        return self._post("https://fraud.mch.weixin.qq.com/risk/getpublickey", data=data)
 
     def _rsa_encrypt(self, data):
         if not getattr(self, "_rsa_public_key", None):

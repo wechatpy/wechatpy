@@ -35,20 +35,10 @@ class WeChatExternalContact(BaseWeChatAPI):
         :param external_userid: 外部联系人的userid，注意不是企业成员的帐号
         :return: 返回的 JSON 数据包
         """
-        return self._get(
-            "externalcontact/get", params={"external_userid": external_userid}
-        )
+        return self._get("externalcontact/get", params={"external_userid": external_userid})
 
     def add_contact_way(
-        self,
-        type,
-        scene,
-        style=None,
-        remark=None,
-        skip_verify=True,
-        state=None,
-        user=None,
-        party=None,
+        self, type, scene, style=None, remark=None, skip_verify=True, state=None, user=None, party=None,
     ):
         """
         配置客户联系「联系我」方式
@@ -87,14 +77,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         return self._post("externalcontact/get_contact_way", data=data)
 
     def update_contact_way(
-        self,
-        config_id,
-        remark,
-        skip_verify=True,
-        style=None,
-        state=None,
-        user=None,
-        party=None,
+        self, config_id, remark, skip_verify=True, style=None, state=None, user=None, party=None,
     ):
         """
         更新企业已配置的「联系我」方式
@@ -284,9 +267,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(
-            external_userid=external_userid,
-            handover_userid=handover_userid,
-            takeover_userid=takeover_userid,
+            external_userid=external_userid, handover_userid=handover_userid, takeover_userid=takeover_userid,
         )
         return self._post("externalcontact/transfer", data=data)
 
@@ -316,9 +297,7 @@ class WeChatExternalContact(BaseWeChatAPI):
                     ]
         :return:返回的 JSON 数据包
         """
-        data = optionaldict(
-            group_id=group_id, group_name=group_name, order=order, tag=tags
-        )
+        data = optionaldict(group_id=group_id, group_name=group_name, order=order, tag=tags)
 
         return self._post("externalcontact/add_corp_tag", data=data)
 
@@ -361,10 +340,5 @@ class WeChatExternalContact(BaseWeChatAPI):
         """
         add_tag = add_tag or []
         remove_tag = remove_tag or []
-        data = optionaldict(
-            userid=userid,
-            external_userid=external_userid,
-            add_tag=add_tag,
-            remove_tag=remove_tag,
-        )
+        data = optionaldict(userid=userid, external_userid=external_userid, add_tag=add_tag, remove_tag=remove_tag,)
         return self._post("externalcontact/mark_tag", data=data)

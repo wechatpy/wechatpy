@@ -15,9 +15,7 @@ class WeChatCard(BaseWeChatAPI):
         :param card_data: 卡券信息
         :return: 创建的卡券 ID
         """
-        result = self._post(
-            "card/create", data=card_data, result_processor=lambda x: x["card_id"]
-        )
+        result = self._post("card/create", data=card_data, result_processor=lambda x: x["card_id"])
         return result
 
     def batch_add_locations(self, location_data):
@@ -28,9 +26,7 @@ class WeChatCard(BaseWeChatAPI):
         :return: 门店 ID 列表，插入失败的门店元素值为 -1
         """
         result = self._post(
-            "card/location/batchadd",
-            data=location_data,
-            result_processor=lambda x: x["location_id_list"],
+            "card/location/batchadd", data=location_data, result_processor=lambda x: x["location_id_list"],
         )
         return result
 
@@ -38,9 +34,7 @@ class WeChatCard(BaseWeChatAPI):
         """
         批量获取门店信息
         """
-        return self._post(
-            "card/location/batchget", data={"offset": offset, "count": count}
-        )
+        return self._post("card/location/batchget", data={"offset": offset, "count": count})
 
     def get_colors(self):
         """
@@ -57,11 +51,7 @@ class WeChatCard(BaseWeChatAPI):
         :param qrcode_data: 二维码信息
         :return: 二维码 ticket，可使用 :func:show_qrcode 换取二维码文件
         """
-        result = self._post(
-            "card/qrcode/create",
-            data=qrcode_data,
-            result_processor=lambda x: x["ticket"],
-        )
+        result = self._post("card/qrcode/create", data=qrcode_data, result_processor=lambda x: x["ticket"],)
         return result
 
     def create_landingpage(self, buffer_data):
@@ -75,11 +65,7 @@ class WeChatCard(BaseWeChatAPI):
         """
         图文消息群发卡券
         """
-        result = self._post(
-            "card/mpnews/gethtml",
-            data={"card_id": card_id},
-            result_processor=lambda x: x["content"],
-        )
+        result = self._post("card/mpnews/gethtml", data={"card_id": card_id}, result_processor=lambda x: x["content"],)
         return result
 
     def consume_code(self, code, card_id=None):
@@ -96,9 +82,7 @@ class WeChatCard(BaseWeChatAPI):
         解码加密的 code
         """
         result = self._post(
-            "card/code/decrypt",
-            data={"encrypt_code": encrypt_code},
-            result_processor=lambda x: x["code"],
+            "card/code/decrypt", data={"encrypt_code": encrypt_code}, result_processor=lambda x: x["code"],
         )
         return result
 
@@ -141,19 +125,14 @@ class WeChatCard(BaseWeChatAPI):
         """
         查询卡券详情
         """
-        result = self._post(
-            "card/get", data={"card_id": card_id}, result_processor=lambda x: x["card"]
-        )
+        result = self._post("card/get", data={"card_id": card_id}, result_processor=lambda x: x["card"])
         return result
 
     def update_code(self, card_id, old_code, new_code):
         """
         更新卡券 code
         """
-        return self._post(
-            "card/code/update",
-            data={"card_id": card_id, "code": old_code, "new_code": new_code},
-        )
+        return self._post("card/code/update", data={"card_id": card_id, "code": old_code, "new_code": new_code},)
 
     def invalid_code(self, code, card_id=None):
         """
@@ -174,9 +153,7 @@ class WeChatCard(BaseWeChatAPI):
         """
         更新卡券信息
         """
-        return self._post(
-            "card/paycell/set", data={"card_id": card_id, "is_open": is_open}
-        )
+        return self._post("card/paycell/set", data={"card_id": card_id, "is_open": is_open})
 
     def set_test_whitelist(self, openids=None, usernames=None):
         """
@@ -184,9 +161,7 @@ class WeChatCard(BaseWeChatAPI):
         """
         openids = openids or []
         usernames = usernames or []
-        return self._post(
-            "card/testwhitelist/set", data={"openid": openids, "username": usernames}
-        )
+        return self._post("card/testwhitelist/set", data={"openid": openids, "username": usernames})
 
     def activate_membercard(self, membership_number, code, **kwargs):
         """
@@ -280,9 +255,7 @@ class WeChatCard(BaseWeChatAPI):
         :param code: 所查询用户领取到的 code 值
         :return: 会员信息，包括激活资料、积分信息以及余额等信息
         """
-        return self._post(
-            "card/membercard/userinfo/get", data={"card_id": card_id, "code": code,},
-        )
+        return self._post("card/membercard/userinfo/get", data={"card_id": card_id, "code": code,},)
 
     def add_pay_giftcard(self, base_info, extra_info, is_membercard):
         """
@@ -306,13 +279,7 @@ class WeChatCard(BaseWeChatAPI):
             rule_type = "RULE_TYPE_SINGLE_PAY"
         return self._post(
             "card/paygiftcard/add",
-            data={
-                "rule_info": {
-                    "type": rule_type,
-                    "base_info": base_info,
-                    rule_key: extra_info,
-                }
-            },
+            data={"rule_info": {"type": rule_type, "base_info": base_info, rule_key: extra_info,}},
         )
 
     def del_pay_giftcard(self, rule_id):
@@ -336,9 +303,7 @@ class WeChatCard(BaseWeChatAPI):
         :rtype: dict
         """
         return self._post(
-            "card/paygiftcard/getbyid",
-            data={"rule_id": rule_id,},
-            result_processor=lambda x: x["rule_info"],
+            "card/paygiftcard/getbyid", data={"rule_id": rule_id,}, result_processor=lambda x: x["rule_info"],
         )
 
     def batch_get_pay_giftcard(self, effective=True, offset=0, count=10):
@@ -358,23 +323,11 @@ class WeChatCard(BaseWeChatAPI):
         """
         return self._post(
             "card/paygiftcard/batchget",
-            data={
-                "type": "RULE_TYPE_PAY_MEMBER_CARD",
-                "effective": effective,
-                "offset": offset,
-                "count": count,
-            },
+            data={"type": "RULE_TYPE_PAY_MEMBER_CARD", "effective": effective, "offset": offset, "count": count,},
         )
 
     def update_movie_ticket(
-        self,
-        code,
-        ticket_class,
-        show_time,
-        duration,
-        screening_room,
-        seat_number,
-        card_id=None,
+        self, code, ticket_class, show_time, duration, screening_room, seat_number, card_id=None,
     ):
         """
         更新电影票
@@ -448,9 +401,7 @@ class WeChatCard(BaseWeChatAPI):
         signature = signer.signature
 
         r = "{url}?encrypt_code={code}&card_id={card_id}&signature={signature}"
-        return r.format(
-            url=url, code=encrypt_code, card_id=card_id, signature=signature
-        )
+        return r.format(url=url, code=encrypt_code, card_id=card_id, signature=signature)
 
     def deposit_code(self, card_id, codes):
         """

@@ -21,9 +21,7 @@ class WeChatMisc(BaseWeChatAPI):
             res = client.misc.short_url('http://www.qq.com')
 
         """
-        return self._post(
-            "shorturl", data={"action": "long2short", "long_url": long_url}
-        )
+        return self._post("shorturl", data={"action": "long2short", "long_url": long_url})
 
     def get_wechat_ips(self):
         """

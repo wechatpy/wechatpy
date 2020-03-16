@@ -15,17 +15,10 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
         """
-        return self._post(
-            "cgi-bin/wxaapp/createwxaqrcode", data={"path": path, "width": width}
-        )
+        return self._post("cgi-bin/wxaapp/createwxaqrcode", data={"path": path, "width": width})
 
     def get_wxa_code(
-        self,
-        path,
-        width=430,
-        auto_color=False,
-        line_color={"r": "0", "g": "0", "b": "0"},
-        is_hyaline=False,
+        self, path, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}, is_hyaline=False,
     ):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
@@ -70,14 +63,7 @@ class WeChatWxa(BaseWeChatAPI):
         )
 
     def send_template_message(
-        self,
-        user_id,
-        template_id,
-        data,
-        form_id,
-        page=None,
-        color=None,
-        emphasis_keyword=None,
+        self, user_id, template_id, data, form_id, page=None, color=None, emphasis_keyword=None,
     ):
         """
         发送模板消息
@@ -101,18 +87,11 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.send.html
         """
-        subs_data = optionaldict(
-            touser=user_id, template_id=template_id, page=page, data=data,
-        )
+        subs_data = optionaldict(touser=user_id, template_id=template_id, page=page, data=data,)
         return self._post("cgi-bin/message/subscribe/send", data=subs_data)
 
     def modify_domain(
-        self,
-        action,
-        request_domain=(),
-        wsrequest_domain=(),
-        upload_domain=(),
-        download_domain=(),
+        self, action, request_domain=(), wsrequest_domain=(), upload_domain=(), download_domain=(),
     ):
         """
         修改小程序服务器授权域名
@@ -169,12 +148,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post(
             "wxa/commit",
-            data={
-                "template_id": template_id,
-                "ext_json": ext_json,
-                "user_version": version,
-                "user_desc": description,
-            },
+            data={"template_id": template_id, "ext_json": ext_json, "user_version": version, "user_desc": description,},
         )
 
     def get_qrcode(self):
@@ -196,9 +170,7 @@ class WeChatWxa(BaseWeChatAPI):
 
         :rtype: list[dict]
         """
-        return self._get(
-            "wxa/get_category", result_processor=lambda x: x["category_list"],
-        )
+        return self._get("wxa/get_category", result_processor=lambda x: x["category_list"],)
 
     def get_page(self):
         """
@@ -275,9 +247,7 @@ class WeChatWxa(BaseWeChatAPI):
         :param close: close 为 True 时会关闭小程序线上代码的可见状态。
         :type close: bool
         """
-        return self._post(
-            "wxa/change_visitstatus", data={"action": "close" if close else "open",},
-        )
+        return self._post("wxa/change_visitstatus", data={"action": "close" if close else "open",},)
 
     def list_library_templates(self, offset=0, count=20):
         """
@@ -292,10 +262,7 @@ class WeChatWxa(BaseWeChatAPI):
         :return: 带有 total_count 与 list 的数据
         :rtype: dict
         """
-        return self._post(
-            "cgi-bin/wxopen/template/library/list",
-            data={"offset": offset, "count": count,},
-        )
+        return self._post("cgi-bin/wxopen/template/library/list", data={"offset": offset, "count": count,},)
 
     def get_library_template(self, template_short_id):
         """
@@ -306,9 +273,7 @@ class WeChatWxa(BaseWeChatAPI):
         :param template_short_id: 模板标题ID
         :rtype: dict
         """
-        return self._post(
-            "cgi-bin/wxopen/template/library/get", data={"id": template_short_id,},
-        )
+        return self._post("cgi-bin/wxopen/template/library/get", data={"id": template_short_id,},)
 
     def list_templates(self, offset=0, count=20):
         """
@@ -354,9 +319,7 @@ class WeChatWxa(BaseWeChatAPI):
 
         :param template_id: 模板ID
         """
-        return self._post(
-            "cgi-bin/wxopen/template/del", data={"template_id": template_id,},
-        )
+        return self._post("cgi-bin/wxopen/template/del", data={"template_id": template_id,},)
 
     def create_open(self, appid):
         """
@@ -367,11 +330,7 @@ class WeChatWxa(BaseWeChatAPI):
         :param appid: 授权公众号或小程序的 appid
         :return: 开放平台的 appid
         """
-        return self._post(
-            "cgi-bin/open/create",
-            data={"appid": appid,},
-            result_processor=lambda x: x["open_appid"],
-        )
+        return self._post("cgi-bin/open/create", data={"appid": appid,}, result_processor=lambda x: x["open_appid"],)
 
     def get_open(self, appid):
         """
@@ -382,11 +341,7 @@ class WeChatWxa(BaseWeChatAPI):
         :param appid: 授权公众号或小程序的 appid
         :return: 开放平台的 appid
         """
-        return self._post(
-            "cgi-bin/open/get",
-            data={"appid": appid,},
-            result_processor=lambda x: x["open_appid"],
-        )
+        return self._post("cgi-bin/open/get", data={"appid": appid,}, result_processor=lambda x: x["open_appid"],)
 
     def bind_open(self, appid, open_appid):
         """
@@ -397,9 +352,7 @@ class WeChatWxa(BaseWeChatAPI):
         :param appid: 授权公众号或小程序的 appid
         :param open_appid: 开放平台帐号 appid
         """
-        return self._post(
-            "cgi-bin/open/bind", data={"appid": appid, "open_appid": open_appid,}
-        )
+        return self._post("cgi-bin/open/bind", data={"appid": appid, "open_appid": open_appid,})
 
     def unbind_open(self, appid, open_appid):
         """
@@ -410,9 +363,7 @@ class WeChatWxa(BaseWeChatAPI):
         :param appid: 授权公众号或小程序的 appid
         :param open_appid: 开放平台帐号 appid
         """
-        return self._post(
-            "cgi-bin/open/unbind", data={"appid": appid, "open_appid": open_appid,}
-        )
+        return self._post("cgi-bin/open/unbind", data={"appid": appid, "open_appid": open_appid,})
 
     def code_to_session(self, js_code):
         """
@@ -471,9 +422,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._get("wxa/queryquota")
 
-    def get_paid_unionid(
-        self, openid, transaction_id=None, mch_id=None, out_trade_no=None
-    ):
+    def get_paid_unionid(self, openid, transaction_id=None, mch_id=None, out_trade_no=None):
         """
         用户支付完成后，获取该用户的 UnionId，无需用户授权。
 

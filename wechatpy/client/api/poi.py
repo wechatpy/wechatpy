@@ -74,7 +74,5 @@ class WeChatPoi(BaseWeChatAPI):
 
         :return: 门店类目表
         """
-        res = self._get(
-            "api_getwxcategory", result_processor=lambda x: x["category_list"]
-        )
+        res = self._get("api_getwxcategory", result_processor=lambda x: x["category_list"])
         return res

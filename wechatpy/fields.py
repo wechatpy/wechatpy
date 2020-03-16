@@ -32,11 +32,7 @@ class FieldDescriptor:
                 instance._data[self.attr_name] = value
             if isinstance(value, dict):
                 value = ObjectDict(value)
-            if (
-                value
-                and not isinstance(value, (dict, list, tuple))
-                and callable(self.field.converter)
-            ):
+            if value and not isinstance(value, (dict, list, tuple)) and callable(self.field.converter):
                 value = self.field.converter(value)
             return value
         return self.field
@@ -60,9 +56,7 @@ class BaseField:
         raise NotImplementedError()
 
     def __repr__(self):
-        _repr = "{klass}({name})".format(
-            klass=self.__class__.__name__, name=repr(self.name)
-        )
+        _repr = "{klass}({name})".format(klass=self.__class__.__name__, name=repr(self.name))
         return _repr
 
     def add_to_class(self, klass, name):
@@ -236,9 +230,7 @@ class ArticlesField(StringField):
             <PicUrl><![CDATA[{image}]]></PicUrl>
             <Url><![CDATA[{url}]]></Url>
             </item>"""
-            item = item_tpl.format(
-                title=title, description=description, image=image, url=url
-            )
+            item = item_tpl.format(title=title, description=description, image=image, url=url)
             items.append(item)
         items_str = "\n".join(items)
         tpl = """<ArticleCount>{article_count}</ArticleCount>
@@ -248,12 +240,7 @@ class ArticlesField(StringField):
     @classmethod
     def from_xml(cls, value):
         return [
-            dict(
-                title=item["Title"],
-                description=item["Description"],
-                image=item["PicUrl"],
-                url=item["Url"],
-            )
+            dict(title=item["Title"], description=item["Description"], image=item["PicUrl"], url=item["Url"],)
             for item in value["item"]
         ]
 
@@ -279,6 +266,4 @@ class HardwareField(StringField):
         <MessageView><![CDATA[{view}]]></MessageView>
         <MessageAction><![CDATA[{action}]]></MessageAction>
         </{name}>"""
-        return tpl.format(
-            name=self.name, view=value.get("view"), action=value.get("action")
-        )
+        return tpl.format(name=self.name, view=value.get("view"), action=value.get("action"))

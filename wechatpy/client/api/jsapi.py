@@ -75,9 +75,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         :return: ticket
         """
         jsapi_card_ticket_key = "{0}_jsapi_card_ticket".format(self.appid)
-        jsapi_card_ticket_expire_at_key = "{0}_jsapi_card_ticket_expires_at".format(
-            self.appid
-        )
+        jsapi_card_ticket_expire_at_key = "{0}_jsapi_card_ticket_expires_at".format(self.appid)
 
         ticket = self.session.get(jsapi_card_ticket_key)
         expires_at = self.session.get(jsapi_card_ticket_expire_at_key, 0)

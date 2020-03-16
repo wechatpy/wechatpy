@@ -26,17 +26,10 @@ class WeChatDevice(BaseWeChatAPI):
         content = to_text(base64.b64encode(to_binary(content)))
         return self._post(
             "transmsg",
-            data={
-                "device_type": device_type,
-                "device_id": device_id,
-                "open_id": user_id,
-                "content": content,
-            },
+            data={"device_type": device_type, "device_id": device_id, "open_id": user_id, "content": content,},
         )
 
-    def send_status_message(
-        self, device_type, device_id, user_id, msg_type, device_status
-    ):
+    def send_status_message(self, device_type, device_id, user_id, msg_type, device_status):
         """
         第三方主动发送设备状态消息给微信终端
         详情请参考
@@ -69,10 +62,7 @@ class WeChatDevice(BaseWeChatAPI):
         :param device_ids: 设备id的列表
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "create_qrcode",
-            data={"device_num": len(device_ids), "device_id_list": device_ids},
-        )
+        return self._post("create_qrcode", data={"device_num": len(device_ids), "device_id_list": device_ids},)
 
     def get_qrcode_url(self, ticket, data=None):
         """
@@ -103,9 +93,7 @@ class WeChatDevice(BaseWeChatAPI):
         :param user_id: 用户对应的openid
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "bind", data={"ticket": ticket, "device_id": device_id, "openid": user_id}
-        )
+        return self._post("bind", data={"ticket": ticket, "device_id": device_id, "openid": user_id})
 
     def unbind(self, ticket, device_id, user_id):
         """
@@ -118,9 +106,7 @@ class WeChatDevice(BaseWeChatAPI):
         :param user_id: 用户对应的openid
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "unbind", data={"ticket": ticket, "device_id": device_id, "openid": user_id}
-        )
+        return self._post("unbind", data={"ticket": ticket, "device_id": device_id, "openid": user_id})
 
     def compel_bind(self, device_id, user_id):
         """
@@ -132,9 +118,7 @@ class WeChatDevice(BaseWeChatAPI):
         :param user_id: 用户对应的openid
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "compel_bind", data={"device_id": device_id, "openid": user_id}
-        )
+        return self._post("compel_bind", data={"device_id": device_id, "openid": user_id})
 
     force_bind = compel_bind
 
@@ -148,9 +132,7 @@ class WeChatDevice(BaseWeChatAPI):
         :param user_id: 用户对应的openid
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "compel_unbind", data={"device_id": device_id, "openid": user_id}
-        )
+        return self._post("compel_unbind", data={"device_id": device_id, "openid": user_id})
 
     force_unbind = compel_unbind
 
@@ -186,9 +168,7 @@ class WeChatDevice(BaseWeChatAPI):
         :param device_id: 设备id
         :return: 返回的 JSON 数据包
         """
-        return self._get(
-            "get_openid", params={"device_type": device_type, "device_id": device_id}
-        )
+        return self._get("get_openid", params={"device_type": device_type, "device_id": device_id})
 
     get_open_id = get_user_id
 
@@ -232,10 +212,5 @@ class WeChatDevice(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "authorize_device",
-            data={
-                "device_num": len(devices),
-                "device_list": devices,
-                "op_type": op_type,
-            },
+            "authorize_device", data={"device_num": len(devices), "device_list": devices, "op_type": op_type,},
         )

@@ -23,9 +23,7 @@ class WeChatMedia(BaseWeChatAPI):
         :param media_file: 要上传的文件，一个 File-object
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            "media/upload", params={"type": media_type}, files={"media": media_file}
-        )
+        return self._post("media/upload", params={"type": media_type}, files={"media": media_file})
 
     def upload_img(self, image_file):
         """

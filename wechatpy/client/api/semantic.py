@@ -7,14 +7,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatSemantic(BaseWeChatAPI):
     def search(
-        self,
-        query,
-        category,
-        uid=None,
-        latitude=None,
-        longitude=None,
-        city=None,
-        region=None,
+        self, query, category, uid=None, latitude=None, longitude=None, city=None, region=None,
     ):
         """
         发送语义理解请求
@@ -54,6 +47,4 @@ class WeChatSemantic(BaseWeChatAPI):
         data["city"] = city
         data["region"] = region
         data["appid"] = self._client.appid
-        return self._post(
-            url="https://api.weixin.qq.com/semantic/semproxy/search", data=data
-        )
+        return self._post(url="https://api.weixin.qq.com/semantic/semproxy/search", data=data)

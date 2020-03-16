@@ -83,9 +83,7 @@ class WeChatSchedule(BaseWeChatAPI):
                 "cal_id": calendar_id,
             }
         }
-        return self._post(
-            "oa/schedule/add", data=data, result_processor=op.itemgetter("schedule_id")
-        )
+        return self._post("oa/schedule/add", data=data, result_processor=op.itemgetter("schedule_id"))
 
     def update(
         self,
@@ -174,9 +172,7 @@ class WeChatSchedule(BaseWeChatAPI):
         :rtype: list[dict]
         """
         return self._post(
-            "oa/schedule/get",
-            data={"schedule_id_list": schedule_ids},
-            result_processor=op.itemgetter("schedule_list"),
+            "oa/schedule/get", data={"schedule_id_list": schedule_ids}, result_processor=op.itemgetter("schedule_list"),
         )
 
     def delete(self, schedule_id):

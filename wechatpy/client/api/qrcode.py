@@ -59,9 +59,7 @@ class WeChatQRCode(BaseWeChatAPI):
         """
         if isinstance(ticket, dict):
             ticket = ticket["ticket"]
-        return requests.get(
-            url="https://mp.weixin.qq.com/cgi-bin/showqrcode", params={"ticket": ticket}
-        )
+        return requests.get(url="https://mp.weixin.qq.com/cgi-bin/showqrcode", params={"ticket": ticket})
 
     @classmethod
     def get_url(cls, ticket):

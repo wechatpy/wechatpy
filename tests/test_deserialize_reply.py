@@ -26,9 +26,7 @@ class DeserializeReplyTestCase(unittest.TestCase):
         self._test_deserialize(reply)
 
     def test_video_reply_deserialize(self):
-        reply = create_reply(
-            replies.VideoReply, media_id="media_id", title="title", description="说个中文呗"
-        )
+        reply = create_reply(replies.VideoReply, media_id="media_id", title="title", description="说个中文呗")
         self._test_deserialize(reply)
         # 非必填字段
         reply = create_reply(replies.VideoReply, media_id="media_id", title="无描述")

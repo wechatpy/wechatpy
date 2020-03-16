@@ -58,23 +58,11 @@ class WeChatMessage(BaseWeChatAPI):
 
     def send_text(self, agent_id, user_ids, content, party_ids="", tag_ids="", safe=0):
         return self.send(
-            agent_id,
-            user_ids,
-            party_ids,
-            tag_ids,
-            msg={"msgtype": "text", "text": {"content": content}, "safe": safe},
+            agent_id, user_ids, party_ids, tag_ids, msg={"msgtype": "text", "text": {"content": content}, "safe": safe},
         )
 
     def send_text_card(
-        self,
-        agent_id,
-        user_ids,
-        title,
-        description,
-        url,
-        btntxt="详情",
-        party_ids="",
-        tag_ids="",
+        self, agent_id, user_ids, title, description, url, btntxt="详情", party_ids="", tag_ids="",
     ):
         """ 文本卡片消息
 
@@ -117,18 +105,11 @@ class WeChatMessage(BaseWeChatAPI):
             tag_ids,
             msg={
                 "msgtype": "textcard",
-                "textcard": {
-                    "title": title,
-                    "description": description,
-                    "url": url,
-                    "btntxt": btntxt,
-                },
+                "textcard": {"title": title, "description": description, "url": url, "btntxt": btntxt,},
             },
         )
 
-    def send_image(
-        self, agent_id, user_ids, media_id, party_ids="", tag_ids="", safe=0
-    ):
+    def send_image(self, agent_id, user_ids, media_id, party_ids="", tag_ids="", safe=0):
         return self.send(
             agent_id,
             user_ids,
@@ -137,9 +118,7 @@ class WeChatMessage(BaseWeChatAPI):
             msg={"msgtype": "image", "image": {"media_id": media_id}, "safe": safe},
         )
 
-    def send_voice(
-        self, agent_id, user_ids, media_id, party_ids="", tag_ids="", safe=0
-    ):
+    def send_voice(self, agent_id, user_ids, media_id, party_ids="", tag_ids="", safe=0):
         return self.send(
             agent_id,
             user_ids,
@@ -149,15 +128,7 @@ class WeChatMessage(BaseWeChatAPI):
         )
 
     def send_video(
-        self,
-        agent_id,
-        user_ids,
-        media_id,
-        title=None,
-        description=None,
-        party_ids="",
-        tag_ids="",
-        safe=0,
+        self, agent_id, user_ids, media_id, title=None, description=None, party_ids="", tag_ids="", safe=0,
     ):
         video_data = optionaldict()
         video_data["media_id"] = media_id
@@ -165,11 +136,7 @@ class WeChatMessage(BaseWeChatAPI):
         video_data["description"] = description
 
         return self.send(
-            agent_id,
-            user_ids,
-            party_ids,
-            tag_ids,
-            msg={"msgtype": "video", "video": dict(video_data), "safe": safe},
+            agent_id, user_ids, party_ids, tag_ids, msg={"msgtype": "video", "video": dict(video_data), "safe": safe},
         )
 
     def send_file(self, agent_id, user_ids, media_id, party_ids="", tag_ids="", safe=0):
@@ -193,16 +160,10 @@ class WeChatMessage(BaseWeChatAPI):
                 }
             )
         return self.send(
-            agent_id,
-            user_ids,
-            party_ids,
-            tag_ids,
-            msg={"msgtype": "news", "news": {"articles": articles_data}},
+            agent_id, user_ids, party_ids, tag_ids, msg={"msgtype": "news", "news": {"articles": articles_data}},
         )
 
-    def send_mp_articles(
-        self, agent_id, user_ids, articles, party_ids="", tag_ids="", safe=0
-    ):
+    def send_mp_articles(self, agent_id, user_ids, articles, party_ids="", tag_ids="", safe=0):
         articles_data = []
         for article in articles:
             articles_data.append(
@@ -221,11 +182,7 @@ class WeChatMessage(BaseWeChatAPI):
             user_ids,
             party_ids,
             tag_ids,
-            msg={
-                "msgtype": "mpnews",
-                "mpnews": {"articles": articles_data},
-                "safe": safe,
-            },
+            msg={"msgtype": "mpnews", "mpnews": {"articles": articles_data}, "safe": safe,},
         )
 
     def send_markdown(self, agent_id, user_ids, content, party_ids="", tag_ids=""):

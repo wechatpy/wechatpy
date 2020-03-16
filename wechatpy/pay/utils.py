@@ -14,9 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def format_url(params, api_key=None):
-    data = [
-        to_binary("{0}={1}".format(k, params[k])) for k in sorted(params) if params[k]
-    ]
+    data = [to_binary("{0}={1}".format(k, params[k])) for k in sorted(params) if params[k]]
     if api_key:
         data.append(to_binary("key={0}".format(api_key)))
     return b"&".join(data)
@@ -30,11 +28,7 @@ def calculate_signature(params, api_key):
 
 def calculate_signature_hmac(params, api_key):
     url = format_url(params, api_key)
-    sign = to_text(
-        hmac.new(api_key.encode(), msg=url, digestmod=hashlib.sha256)
-        .hexdigest()
-        .upper()
-    )
+    sign = to_text(hmac.new(api_key.encode(), msg=url, digestmod=hashlib.sha256).hexdigest().upper())
     return sign
 
 
@@ -89,10 +83,7 @@ def rsa_encrypt(data, pem, b64_encode=True):
     pem = to_binary(pem)
     public_key = serialization.load_pem_public_key(pem, backend=default_backend())
     encrypted_data = public_key.encrypt(
-        encoded_data,
-        padding=padding.OAEP(
-            mgf=padding.MGF1(hashes.SHA1()), algorithm=hashes.SHA1(), label=None,
-        ),
+        encoded_data, padding=padding.OAEP(mgf=padding.MGF1(hashes.SHA1()), algorithm=hashes.SHA1(), label=None,),
     )
     if b64_encode:
         encrypted_data = base64.b64encode(encrypted_data).decode("utf-8")
@@ -114,13 +105,8 @@ def rsa_decrypt(encrypted_data, pem, password=None):
 
     encrypted_data = to_binary(encrypted_data)
     pem = to_binary(pem)
-    private_key = serialization.load_pem_private_key(
-        pem, password, backend=default_backend()
-    )
+    private_key = serialization.load_pem_private_key(pem, password, backend=default_backend())
     data = private_key.decrypt(
-        encrypted_data,
-        padding=padding.OAEP(
-            mgf=padding.MGF1(hashes.SHA1()), algorithm=hashes.SHA1(), label=None,
-        ),
+        encrypted_data, padding=padding.OAEP(mgf=padding.MGF1(hashes.SHA1()), algorithm=hashes.SHA1(), label=None,),
     )
     return data
