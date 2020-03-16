@@ -9,9 +9,9 @@ wechatpy 项目欢迎任何人提交 issue 和 Pull Requests 贡献代码，在�
 
 ```bash
 cd wechatpy
-virtualenv .
-source bin/activate
-python setup.py develop
+virtualenv venv
+source venv/bin/activate
+pip install -e .
 ```
 
 为了方便测试，需要安装 tox:
@@ -20,7 +20,7 @@ python setup.py develop
 pip install -U tox
 ```
 
-> Tips: 安装 [autoenv](https://github.com/kennethreitz/autoenv) 可以让您在进入 wechatpy 文件夹时自动激活虚拟环境，省去每次手动执行 `source bin/activate`
+> Tips: 安装 [autoenv](https://github.com/kennethreitz/autoenv) 可以让您在进入 wechatpy 文件夹时自动激活虚拟环境，省去每次手动执行 `source venv/bin/activate`
 
 ## lint
 
@@ -67,13 +67,12 @@ pytest -v
 
 ## Pull Requests
 
-在您完成上述所有步骤后，您可以在 [wechatpy](https://github.com/jxtech/wechatpy) 项目上提交您的 Pull Requests.
+在您完成上述所有步骤后，您可以在 [wechatpy](https://github.com/wechatpy/wechatpy) 项目上提交您的 Pull Requests.
 
-在您提交 Pull Requests 之后，[Travis CI](https://travis-ci.org/jxtech/wechatpy) 会进行全面的自动化测试（测试所有支持的 Python 环境）。
-测试成功后 [Coveralls](https://coveralls.io/r/jxtech/wechatpy?branch=master) 会给出 coverage 报告，
-[Scrutinizer CI](https://scrutinizer-ci.com/g/jxtech/wechatpy/?branch=master) 会给出代码质量分析报告。
+在您提交 Pull Requests 之后，[GitHub Actions](https://github.com/wechatpy/wechatpy/actions?query=workflow%3ACI) 会进行全面的自动化测试（测试所有支持的 Python 环境）。
+测试成功后 [Codecov](https://codecov.io/github/wechatpy/wechatpy?branch=master) 会给出 coverage 报告，
 
-如果出现测试失败的情况，请您在 [Travis CI](https://travis-ci.org/jxtech/wechatpy) 的构建日志中查找原因，修复后提交代码。
+如果出现测试失败的情况，请您在 [GitHub Actions](https://github.com/wechatpy/wechatpy/actions?query=workflow%3ACI) 的构建日志中查找原因，修复后提交代码。
 
 > Tips: 如果您的修改不是针对代码的，不需要进行自动化测试，可以在 Git commit message 结尾加上 `[ci skip]`.
 
