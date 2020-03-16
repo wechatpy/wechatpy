@@ -38,6 +38,15 @@ flake8 --install-hook git
 export FLAKE8_STRICT=True
 ```
 
+## 代码格式化
+
+wechatpy 使用 [black](https://github.com/psf/black) 自动格式化 Python 代码并在 CI 上进行代码格式检查，请在提交 PR 前进行代码格式化：
+
+```bash
+pip install black
+black -l 120 -t py35 -t py36 -t py37 -t py38
+```
+
 ## 自动化测试
 
 在您完成对代码的改进和完善之后，请使用 tox 完成自动化测试，确保全部测试通过。
