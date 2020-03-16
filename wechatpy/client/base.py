@@ -32,9 +32,7 @@ class BaseWeChatClient:
             setattr(self, name, api)
         return self
 
-    def __init__(
-        self, appid, access_token=None, session=None, timeout=None, auto_retry=True
-    ):
+    def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
         self._http = requests.Session()
         self.appid = appid
         self.expires_at = None
@@ -69,10 +67,7 @@ class BaseWeChatClient:
 
         if "params" not in kwargs:
             kwargs["params"] = {}
-        if (
-            isinstance(kwargs["params"], dict)
-            and "access_token" not in kwargs["params"]
-        ):
+        if isinstance(kwargs["params"], dict) and "access_token" not in kwargs["params"]:
             kwargs["params"]["access_token"] = self.access_token
         if isinstance(kwargs.get("data", ""), dict):
             body = json.dumps(kwargs["data"], ensure_ascii=False)
@@ -86,11 +81,7 @@ class BaseWeChatClient:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatClientException(
-                errcode=None,
-                errmsg=None,
-                client=self,
-                request=reqe.request,
-                response=reqe.response,
+                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
             )
 
         return self._handle_result(res, method, url, result_processor, **kwargs)
@@ -104,9 +95,7 @@ class BaseWeChatClient:
             return res
         return result
 
-    def _handle_result(
-        self, res, method=None, url=None, result_processor=None, **kwargs
-    ):
+    def _handle_result(self, res, method=None, url=None, result_processor=None, **kwargs):
         if not isinstance(res, dict):
             # Dirty hack around asyncio based AsyncWeChatClient
             result = self._decode_result(res)
@@ -134,21 +123,12 @@ class BaseWeChatClient:
                 self.fetch_access_token()
                 access_token = self.session.get(self.access_token_key)
                 kwargs["params"]["access_token"] = access_token
-                return self._request(
-                    method=method,
-                    url_or_endpoint=url,
-                    result_processor=result_processor,
-                    **kwargs
-                )
+                return self._request(method=method, url_or_endpoint=url, result_processor=result_processor, **kwargs)
             elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
-                raise APILimitedException(
-                    errcode, errmsg, client=self, request=res.request, response=res
-                )
+                raise APILimitedException(errcode, errmsg, client=self, request=res.request, response=res)
             else:
-                raise WeChatClientException(
-                    errcode, errmsg, client=self, request=res.request, response=res
-                )
+                raise WeChatClientException(errcode, errmsg, client=self, request=res.request, response=res)
 
         return result if not result_processor else result_processor(result)
 
@@ -166,20 +146,12 @@ class BaseWeChatClient:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatClientException(
-                errcode=None,
-                errmsg=None,
-                client=self,
-                request=reqe.request,
-                response=reqe.response,
+                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
             )
         result = res.json()
         if "errcode" in result and result["errcode"] != 0:
             raise WeChatClientException(
-                result["errcode"],
-                result["errmsg"],
-                client=self,
-                request=res.request,
-                response=res,
+                result["errcode"], result["errmsg"], client=self, request=res.request, response=res,
             )
 
         expires_in = 7200

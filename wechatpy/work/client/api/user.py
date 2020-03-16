@@ -120,12 +120,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         url = "user/simplelist" if simple else "user/list"
         res = self._get(
-            url,
-            params={
-                "department_id": department_id,
-                "fetch_child": 1 if fetch_child else 0,
-                "status": status,
-            },
+            url, params={"department_id": department_id, "fetch_child": 1 if fetch_child else 0, "status": status,},
         )
         return res["userlist"]
 

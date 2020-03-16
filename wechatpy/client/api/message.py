@@ -121,14 +121,7 @@ class WeChatMessage(BaseWeChatAPI):
         return self._send_custom_message(data, account=account)
 
     def send_music(
-        self,
-        user_id,
-        url,
-        hq_url,
-        thumb_media_id,
-        title=None,
-        description=None,
-        account=None,
+        self, user_id, url, hq_url, thumb_media_id, title=None, description=None, account=None,
     ):
         """
         发送音乐消息
@@ -213,9 +206,7 @@ class WeChatMessage(BaseWeChatAPI):
                 "title": article["title"],
                 "description": article["description"],
                 "url": article["url"],
-                "thumb_url": article.get(
-                    "image", article.get("picurl", article.get("thumb_url"))
-                ),
+                "thumb_url": article.get("image", article.get("picurl", article.get("thumb_url"))),
             },
         }
         return self._send_custom_message(data, account=account)
@@ -284,14 +275,7 @@ class WeChatMessage(BaseWeChatAPI):
         return self._post("message/mass/delete", data={"msg_id": msg_id})
 
     def _send_mass_message(
-        self,
-        tag_or_users,
-        msg_type,
-        msg,
-        is_to_all=False,
-        preview=False,
-        send_ignore_reprint=0,
-        client_msg_id=None,
+        self, tag_or_users, msg_type, msg, is_to_all=False, preview=False, send_ignore_reprint=0, client_msg_id=None,
     ):
         data = {
             "msgtype": msg_type,
@@ -327,13 +311,7 @@ class WeChatMessage(BaseWeChatAPI):
         return self._post(endpoint, data=data)
 
     def send_mass_text(
-        self,
-        content,
-        tag_or_users=None,
-        is_to_all=False,
-        preview=False,
-        send_ignore_reprint=0,
-        client_msg_id=None,
+        self, content, tag_or_users=None, is_to_all=False, preview=False, send_ignore_reprint=0, client_msg_id=None,
     ):
         """
         群发文本消息
@@ -370,13 +348,7 @@ class WeChatMessage(BaseWeChatAPI):
         )
 
     def send_mass_image(
-        self,
-        media_id,
-        tag_or_users=None,
-        is_to_all=False,
-        preview=False,
-        send_ignore_reprint=0,
-        client_msg_id=None,
+        self, media_id, tag_or_users=None, is_to_all=False, preview=False, send_ignore_reprint=0, client_msg_id=None,
     ):
         """
         群发图片消息
@@ -413,13 +385,7 @@ class WeChatMessage(BaseWeChatAPI):
         )
 
     def send_mass_voice(
-        self,
-        media_id,
-        tag_or_users=None,
-        is_to_all=False,
-        preview=False,
-        send_ignore_reprint=0,
-        client_msg_id=None,
+        self, media_id, tag_or_users=None, is_to_all=False, preview=False, send_ignore_reprint=0, client_msg_id=None,
     ):
         """
         群发语音消息
@@ -498,23 +464,11 @@ class WeChatMessage(BaseWeChatAPI):
         if description:
             video_data["description"] = description
         return self._send_mass_message(
-            tag_or_users,
-            "mpvideo",
-            {"mpvideo": video_data},
-            is_to_all,
-            preview,
-            send_ignore_reprint,
-            client_msg_id,
+            tag_or_users, "mpvideo", {"mpvideo": video_data}, is_to_all, preview, send_ignore_reprint, client_msg_id,
         )
 
     def send_mass_article(
-        self,
-        media_id,
-        tag_or_users=None,
-        is_to_all=False,
-        preview=False,
-        send_ignore_reprint=0,
-        client_msg_id=None,
+        self, media_id, tag_or_users=None, is_to_all=False, preview=False, send_ignore_reprint=0, client_msg_id=None,
     ):
         """
         群发图文消息
@@ -584,13 +538,7 @@ class WeChatMessage(BaseWeChatAPI):
         :param mini_program: 跳小程序所需数据, 如：`{'appid': 'appid', 'pagepath': 'index?foo=bar'}`
         :return: 返回的 JSON 数据包
         """
-        tpl_data = optionaldict(
-            touser=user_id,
-            template_id=template_id,
-            url=url,
-            miniprogram=mini_program,
-            data=data,
-        )
+        tpl_data = optionaldict(touser=user_id, template_id=template_id, url=url, miniprogram=mini_program, data=data,)
         return self._post("message/template/send", data=tpl_data)
 
     def get_autoreply_info(self):
@@ -613,13 +561,7 @@ class WeChatMessage(BaseWeChatAPI):
         return self._get("get_current_autoreply_info")
 
     def send_mass_card(
-        self,
-        card_id,
-        tag_or_users=None,
-        is_to_all=False,
-        preview=False,
-        send_ignore_reprint=0,
-        client_msg_id=None,
+        self, card_id, tag_or_users=None, is_to_all=False, preview=False, send_ignore_reprint=0, client_msg_id=None,
     ):
         """
         群发卡券消息
@@ -655,9 +597,7 @@ class WeChatMessage(BaseWeChatAPI):
             client_msg_id,
         )
 
-    def get_subscribe_authorize_url(
-        self, scene, template_id, redirect_url, reserved=None
-    ):
+    def get_subscribe_authorize_url(self, scene, template_id, redirect_url, reserved=None):
         """
         构造请求用户授权的url
         详情请参阅：
@@ -681,14 +621,10 @@ class WeChatMessage(BaseWeChatAPI):
             ("reserved", reserved),
         ]
         encoded_params = urlencode(params)
-        url = "{base}?{params}#wechat_redirect".format(
-            base=base_url, params=encoded_params
-        )
+        url = "{base}?{params}#wechat_redirect".format(base=base_url, params=encoded_params)
         return url
 
-    def send_subscribe_template(
-        self, openid, template_id, scene, title, data, url=None
-    ):
+    def send_subscribe_template(self, openid, template_id, scene, title, data, url=None):
         """
         一次性订阅消息，通过API推送订阅模板消息给到授权微信用户。
         详情请参阅：

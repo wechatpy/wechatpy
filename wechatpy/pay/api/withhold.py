@@ -82,12 +82,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         }
 
     def query_signing(
-        self,
-        contract_id=None,
-        plan_id=None,
-        contract_code=None,
-        openid=None,
-        version="1.0",
+        self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0",
     ):
         """
         查询签约关系 api
@@ -99,14 +94,8 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param version: 版本号 固定值1.0
         :return: 返回的结果信息
         """
-        if (
-            not contract_id
-            and not (plan_id and contract_code)
-            and not (plan_id and openid)
-        ):
-            raise ValueError(
-                "contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice."
-            )
+        if not contract_id and not (plan_id and contract_code) and not (plan_id and openid):
+            raise ValueError("contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice.")
         data = {
             "appid": self.appid,
             "mch_id": self.mch_id,
@@ -166,9 +155,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         spbill_create_ip = get_external_ip()  # 终端IP 调用微信支付API的机器IP
         if not out_trade_no:
             now = datetime.fromtimestamp(time.time(), tz=timezone("Asia/Shanghai"))
-            out_trade_no = "{0}{1}{2}".format(
-                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
-            )
+            out_trade_no = "{0}{1}{2}".format(self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000))
 
         data = {
             "appid": self.appid,
@@ -215,12 +202,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         return self._post("pay/paporderquery", data=data)
 
     def apply_cancel_signing(
-        self,
-        contract_id=None,
-        plan_id=None,
-        contract_code=None,
-        contract_termination_remark=None,
-        version="1.0",
+        self, contract_id=None, plan_id=None, contract_code=None, contract_termination_remark=None, version="1.0",
     ):
         """
         申请解约
@@ -235,9 +217,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :return:
         """
         if not (contract_id or (plan_id and contract_code)):
-            raise ValueError(
-                "contract_id and (plan_id, contract_code) must be a choice."
-            )
+            raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
         data = {
             "appid": self.appid,
             "mch_id": self.mch_id,

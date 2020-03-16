@@ -48,11 +48,7 @@ class WeChatGroup(BaseWeChatAPI):
         if user_id is None:
             res = self._get("groups/get", result_processor=lambda x: x["groups"])
         else:
-            res = self._post(
-                "groups/getid",
-                data={"openid": user_id},
-                result_processor=lambda x: x["groupid"],
-            )
+            res = self._post("groups/getid", data={"openid": user_id}, result_processor=lambda x: x["groupid"],)
         return res
 
     def update(self, group_id, name):
@@ -75,9 +71,7 @@ class WeChatGroup(BaseWeChatAPI):
 
         """
         name = to_text(name)
-        return self._post(
-            "groups/update", data={"group": {"id": int(group_id), "name": name}}
-        )
+        return self._post("groups/update", data={"group": {"id": int(group_id), "name": name}})
 
     def move_user(self, user_id, group_id):
         """

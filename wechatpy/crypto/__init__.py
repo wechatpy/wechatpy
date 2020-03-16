@@ -46,9 +46,7 @@ class BaseWeChatCrypto:
         self.token = token
         self._id = _id
 
-    def _check_signature(
-        self, signature, timestamp, nonce, echo_str, crypto_class=None
-    ):
+    def _check_signature(self, signature, timestamp, nonce, echo_str, crypto_class=None):
         _signature = _get_signature(self.token, timestamp, nonce, echo_str)
         if _signature != signature:
             raise InvalidSignatureException()
@@ -70,11 +68,7 @@ class BaseWeChatCrypto:
         pc = crypto_class(self.key)
         encrypt = to_text(pc.encrypt(msg, self._id))
         signature = _get_signature(self.token, timestamp, nonce, encrypt)
-        return to_text(
-            xml.format(
-                encrypt=encrypt, signature=signature, timestamp=timestamp, nonce=nonce
-            )
-        )
+        return to_text(xml.format(encrypt=encrypt, signature=signature, timestamp=timestamp, nonce=nonce))
 
     def _decrypt_message(self, msg, signature, timestamp, nonce, crypto_class=None):
         if not isinstance(msg, dict):

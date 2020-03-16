@@ -24,14 +24,10 @@ class WeChatTag(BaseWeChatAPI):
         return self._get("tag/get", params={"tagid": tag_id})
 
     def add_users(self, tag_id, user_ids):
-        return self._post(
-            "tag/addtagusers", data={"tagid": tag_id, "userlist": user_ids}
-        )
+        return self._post("tag/addtagusers", data={"tagid": tag_id, "userlist": user_ids})
 
     def delete_users(self, tag_id, user_ids):
-        return self._post(
-            "tag/deltagusers", data={"tagid": tag_id, "userlist": user_ids}
-        )
+        return self._post("tag/deltagusers", data={"tagid": tag_id, "userlist": user_ids})
 
     def list(self):
         res = self._get("tag/list")

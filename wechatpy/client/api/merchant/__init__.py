@@ -49,10 +49,7 @@ class WeChatMerchant(BaseWeChatAPI):
 
     def update_product_status(self, product_id, status):
         """商品上下架"""
-        return self._post(
-            "merchant/modproductstatus",
-            data={"product_id": product_id, "status": status},
-        )
+        return self._post("merchant/modproductstatus", data={"product_id": product_id, "status": status},)
 
     def get_subcategories(self, cate_id):
         """
@@ -91,8 +88,7 @@ class WeChatMerchant(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "merchant/stock/add",
-            data={"product_id": product_id, "sku_info": sku_info, "quantity": quantity},
+            "merchant/stock/add", data={"product_id": product_id, "sku_info": sku_info, "quantity": quantity},
         )
 
     def reduce_stock(self, product_id, sku_info, quantity):
@@ -105,8 +101,7 @@ class WeChatMerchant(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "merchant/stock/reduce",
-            data={"product_id": product_id, "sku_info": sku_info, "quantity": quantity},
+            "merchant/stock/reduce", data={"product_id": product_id, "sku_info": sku_info, "quantity": quantity},
         )
 
     def add_express(self, product_data):
@@ -278,8 +273,7 @@ class WeChatMerchant(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "merchant/order/getbyfilter",
-            data={"status": status, "begintime": begintime, "endtime": endtime},
+            "merchant/order/getbyfilter", data={"status": status, "begintime": begintime, "endtime": endtime},
         )
 
     def set_delivery(self, order_id, delivery_data):
@@ -301,8 +295,6 @@ class WeChatMerchant(BaseWeChatAPI):
         :return: 上传成功时返回图片 URL
         """
         res = self._post(
-            url="merchant/common/upload_img",
-            files={"media": media_file},
-            result_processor=lambda x: x["url"],
+            url="merchant/common/upload_img", files={"media": media_file}, result_processor=lambda x: x["url"],
         )
         return res

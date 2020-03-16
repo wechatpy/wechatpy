@@ -21,9 +21,7 @@ class WeChatMedia(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            url="media/upload", params={"type": media_type}, files={"media": media_file}
-        )
+        return self._post(url="media/upload", params={"type": media_type}, files={"media": media_file})
 
     def download(self, media_id):
         """
@@ -44,9 +42,8 @@ class WeChatMedia(BaseWeChatAPI):
         :param media_id: 媒体文件 ID
         :return: 临时素材下载地址
         """
-        return (
-            "https://api.weixin.qq.com/cgi-bin/media/get"
-            "?access_token={}&media_id={}".format(self.access_token, media_id)
+        return "https://api.weixin.qq.com/cgi-bin/media/get" "?access_token={}&media_id={}".format(
+            self.access_token, media_id
         )
 
     def upload_video(self, media_id, title, description):
@@ -62,8 +59,7 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            url="media/uploadvideo",
-            data={"media_id": media_id, "title": title, "description": description},
+            url="media/uploadvideo", data={"media_id": media_id, "title": title, "description": description},
         )
 
     def upload_articles(self, articles):
@@ -99,11 +95,7 @@ class WeChatMedia(BaseWeChatAPI):
         :param media_file: 要上传的文件，一个 File-object
         :return: 上传成功时返回图片 URL
         """
-        res = self._post(
-            url="media/uploadimg",
-            files={"media": media_file},
-            result_processor=lambda x: x["url"],
-        )
+        res = self._post(url="media/uploadimg", files={"media": media_file}, result_processor=lambda x: x["url"],)
         return res
 
     upload_mass_image = upload_image

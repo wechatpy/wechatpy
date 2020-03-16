@@ -70,9 +70,7 @@ class EventsTestCase(unittest.TestCase):
 
         self.assertTrue(isinstance(event, PicSysPhotoEvent))
         self.assertEqual(1, event.count)
-        self.assertEqual(
-            "1b5f7c23b5bf75682a53e7b6d163e185", event.pictures[0]["PicMd5Sum"]
-        )
+        self.assertEqual("1b5f7c23b5bf75682a53e7b6d163e185", event.pictures[0]["PicMd5Sum"])
 
     def test_pic_photo_or_album_event(self):
         from wechatpy.events import PicPhotoOrAlbumEvent
@@ -97,9 +95,7 @@ class EventsTestCase(unittest.TestCase):
 
         self.assertTrue(isinstance(event, PicPhotoOrAlbumEvent))
         self.assertEqual(1, event.count)
-        self.assertEqual(
-            "5a75aaca956d97be686719218f275c6b", event.pictures[0]["PicMd5Sum"]
-        )
+        self.assertEqual("5a75aaca956d97be686719218f275c6b", event.pictures[0]["PicMd5Sum"])
 
     def test_pic_wechat_event(self):
         from wechatpy.events import PicWeChatEvent
@@ -124,9 +120,7 @@ class EventsTestCase(unittest.TestCase):
 
         self.assertTrue(isinstance(event, PicWeChatEvent))
         self.assertEqual(1, event.count)
-        self.assertEqual(
-            "5a75aaca956d97be686719218f275c6b", event.pictures[0]["PicMd5Sum"]
-        )
+        self.assertEqual("5a75aaca956d97be686719218f275c6b", event.pictures[0]["PicMd5Sum"])
 
     def test_location_select_event(self):
         from wechatpy.events import LocationSelectEvent

@@ -85,14 +85,7 @@ class WeChatDepartment(BaseWeChatAPI):
         :return: 部门成员列表
         """
         url = "user/simplelist" if simple else "user/list"
-        res = self._get(
-            url,
-            params={
-                "department_id": id,
-                "status": status,
-                "fetch_child": 1 if fetch_child else 0,
-            },
-        )
+        res = self._get(url, params={"department_id": id, "status": status, "fetch_child": 1 if fetch_child else 0,},)
         return res["userlist"]
 
     def get_map_users(self, id=None, key="name", status=0, fetch_child=0):
@@ -114,9 +107,7 @@ class WeChatDepartment(BaseWeChatAPI):
         users_info = list(
             chain(
                 *[
-                    self.get_users(
-                        department, status=status, fetch_child=fetch_child, simple=False
-                    )
+                    self.get_users(department, status=status, fetch_child=fetch_child, simple=False)
                     for department in ids
                 ]
             )

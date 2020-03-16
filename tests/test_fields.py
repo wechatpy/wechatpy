@@ -73,9 +73,7 @@ class FieldsTestCase(unittest.TestCase):
         <Title><![CDATA[{title}]]></Title>
         <Description><![CDATA[{description}]]></Description>
         </Video>""".format(
-            media_id=value["media_id"],
-            title=value["title"],
-            description=value["description"],
+            media_id=value["media_id"], title=value["title"], description=value["description"],
         )
 
         field = VideoField("Video")
@@ -134,9 +132,7 @@ class FieldsTestCase(unittest.TestCase):
         article_count = len(articles)
 
         field = ArticlesField("Article")
-        expected = "<ArticleCount>{article_count}</ArticleCount>".format(
-            article_count=article_count
-        )
+        expected = "<ArticleCount>{article_count}</ArticleCount>".format(article_count=article_count)
         assert expected in field.to_xml(articles)
 
     def test_base64encode_field_to_xml(self):
@@ -144,9 +140,7 @@ class FieldsTestCase(unittest.TestCase):
 
         content = b"test"
         field = Base64EncodeField("Content")
-        expected = "<Content><![CDATA[{content}]]></Content>".format(
-            content=to_text(base64.b64encode(content))
-        )
+        expected = "<Content><![CDATA[{content}]]></Content>".format(content=to_text(base64.b64encode(content)))
         self.assertEqual(expected, field.to_xml(content))
 
     def test_base64decode_field_to_xml(self):

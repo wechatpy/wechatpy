@@ -67,9 +67,7 @@ class BaseMessage(metaclass=MessageMetaClass):
         self._data = message
 
     def __repr__(self):
-        _repr = "{klass}({msg})".format(
-            klass=self.__class__.__name__, msg=repr(self._data)
-        )
+        _repr = "{klass}({msg})".format(klass=self.__class__.__name__, msg=repr(self._data))
         return _repr
 
 

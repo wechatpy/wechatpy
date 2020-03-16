@@ -136,12 +136,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_send_articles_message(self):
         with HTTMock(wechat_api_mock):
             articles = [
-                {
-                    "title": "test",
-                    "description": "test",
-                    "url": "http://www.qq.com",
-                    "image": "http://www.qq.com",
-                }
+                {"title": "test", "description": "test", "url": "http://www.qq.com", "image": "http://www.qq.com",}
             ]
             result = self.client.message.send_articles(1, articles)
             self.assertEqual(0, result["errcode"])
@@ -173,9 +168,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_send_mass_video_message(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.message.send_mass_video(
-                "test", [1], title="title", description="desc"
-            )
+            result = self.client.message.send_mass_video("test", [1], title="title", description="desc")
             self.assertEqual(0, result["errcode"])
 
     def test_send_mass_article_message(self):
@@ -195,9 +188,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_create_menu(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.menu.create(
-                {"button": [{"type": "click", "name": "test", "key": "test"}]}
-            )
+            result = self.client.menu.create({"button": [{"type": "click", "name": "test", "key": "test"}]})
             self.assertEqual(0, result["errcode"])
 
     def test_get_menu(self):
@@ -212,9 +203,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_update_menu(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.menu.update(
-                {"button": [{"type": "click", "name": "test", "key": "test"}]}
-            )
+            result = self.client.menu.update({"button": [{"type": "click", "name": "test", "key": "test"}]})
             self.assertEqual(0, result["errcode"])
 
     def test_short_url(self):
@@ -327,16 +316,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_customservice_add_account(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.customservice.add_account(
-                "test1@test", "test1", "test1"
-            )
+            result = self.client.customservice.add_account("test1@test", "test1", "test1")
             self.assertEqual(0, result["errcode"])
 
     def test_customservice_update_account(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.customservice.update_account(
-                "test1@test", "test1", "test1"
-            )
+            result = self.client.customservice.update_account("test1@test", "test1", "test1")
             self.assertEqual(0, result["errcode"])
 
     def test_customservice_delete_account(self):
@@ -397,30 +382,22 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_datacube_get_user_cumulate(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_user_cumulate(
-                datetime(2014, 12, 6), datetime(2014, 12, 7)
-            )
+            result = self.client.datacube.get_user_cumulate(datetime(2014, 12, 6), datetime(2014, 12, 7))
             self.assertEqual(1, len(result))
 
     def test_datacube_get_interface_summary(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_interface_summary(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_interface_summary("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_interface_summary_hour(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_interface_summary_hour(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_interface_summary_hour("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_article_summary(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_article_summary(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_article_summary("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_article_total(self):
@@ -445,9 +422,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_datacube_get_user_share_hour(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_user_share_hour(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_user_share_hour("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_upstream_msg(self):
@@ -457,44 +432,32 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_datacube_get_upstream_msg_hour(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_upstream_msg_hour(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_upstream_msg_hour("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_upstream_msg_week(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_upstream_msg_week(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_upstream_msg_week("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_upstream_msg_month(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_upstream_msg_month(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_upstream_msg_month("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_upstream_msg_dist(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_upstream_msg_dist(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_upstream_msg_dist("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_upstream_msg_dist_week(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_upstream_msg_dist_week(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_upstream_msg_dist_week("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_datacube_get_upstream_msg_dist_month(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.datacube.get_upstream_msg_dist_month(
-                "2014-12-06", "2014-12-07"
-            )
+            result = self.client.datacube.get_upstream_msg_dist_month("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
     def test_jsapi_get_ticket_response(self):
@@ -511,9 +474,7 @@ class WeChatClientTestCase(unittest.TestCase):
         ticket = "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg"  # NOQA
         timestamp = 1414587457
         url = "http://mp.weixin.qq.com?params=value"
-        signature = self.client.jsapi.get_jsapi_signature(
-            noncestr, ticket, timestamp, url
-        )
+        signature = self.client.jsapi.get_jsapi_signature(noncestr, ticket, timestamp, url)
         self.assertEqual("0f9de62fce790f9a083d5c99e95740ceb90c27ed", signature)
 
     def test_jsapi_get_jsapi_card_ticket(self):
@@ -526,15 +487,10 @@ class WeChatClientTestCase(unittest.TestCase):
                 ticket,
             )
             self.assertTrue(
-                7200
-                < self.client.session.get(
-                    "{0}_jsapi_card_ticket_expires_at".format(self.client.appid)
-                )
+                7200 < self.client.session.get("{0}_jsapi_card_ticket_expires_at".format(self.client.appid))
             )
             self.assertEqual(
-                self.client.session.get(
-                    "{0}_jsapi_card_ticket".format(self.client.appid)
-                ),
+                self.client.session.get("{0}_jsapi_card_ticket".format(self.client.appid)),
                 "bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA",
             )
 
@@ -544,10 +500,7 @@ class WeChatClientTestCase(unittest.TestCase):
         card_ticket = "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg"
         timestamp = 1414587457
         signature_dict = self.client.jsapi.get_jsapi_card_params(
-            noncestr=noncestr,
-            card_ticket=card_ticket,
-            timestamp=timestamp,
-            card_type="GROUPON",
+            noncestr=noncestr, card_ticket=card_ticket, timestamp=timestamp, card_type="GROUPON",
         )
         self.assertEqual(
             {
@@ -594,16 +547,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_shakearound_add_page(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.add_page(
-                "test", "test", "http://www.qq.com", "http://www.qq.com"
-            )
+            res = self.client.shakearound.add_page("test", "test", "http://www.qq.com", "http://www.qq.com")
             self.assertEqual(28840, res["page_id"])
 
     def test_shakearound_update_page(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.update_page(
-                123, "test", "test", "http://www.qq.com", "http://www.qq.com"
-            )
+            res = self.client.shakearound.update_page(123, "test", "test", "http://www.qq.com", "http://www.qq.com")
             self.assertEqual(28840, res["page_id"])
 
     def test_shakearound_delete_page(self):
@@ -639,16 +588,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_shakearound_get_device_statistics(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.get_device_statistics(
-                "2015-04-01 00:00:00", "2015-04-17 00:00:00", 1234
-            )
+            res = self.client.shakearound.get_device_statistics("2015-04-01 00:00:00", "2015-04-17 00:00:00", 1234)
             self.assertEqual(2, len(res))
 
     def test_shakearound_get_page_statistics(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.shakearound.get_page_statistics(
-                "2015-04-01 00:00:00", "2015-04-17 00:00:00", 1234
-            )
+            res = self.client.shakearound.get_page_statistics("2015-04-01 00:00:00", "2015-04-17 00:00:00", 1234)
             self.assertEqual(2, len(res))
 
     def test_material_get_count(self):
@@ -689,9 +634,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_wifi_add_device(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.wifi.add_device(
-                123, "WX-test", "12345678", "00:1f:7a:ad:5c:a8"
-            )
+            res = self.client.wifi.add_device(123, "WX-test", "12345678", "00:1f:7a:ad:5c:a8")
             self.assertEqual(0, res["errcode"])
 
     def test_wifi_list_devices(self):
@@ -742,9 +685,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_scan_create_product(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.scan.create_product(
-                {"keystandard": "ean13", "keystr": "6900000000000",}
-            )
+            res = self.client.scan.create_product({"keystandard": "ean13", "keystr": "6900000000000",})
         self.assertEqual("5g0B4A90aqc", res["pid"])
 
     def test_scan_publish_product(self):
@@ -774,9 +715,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_scan_update_product(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.scan.update_product(
-                {"keystandard": "ean13", "keystr": "6900000000000",}
-            )
+            res = self.client.scan.update_product({"keystandard": "ean13", "keystr": "6900000000000",})
         self.assertEqual("5g0B4A90aqc", res["pid"])
 
     def test_scan_clear_product(self):
@@ -792,8 +731,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_change_openid(self):
         with HTTMock(wechat_api_mock):
             res = self.client.user.change_openid(
-                "xxxxx",
-                ["oEmYbwN-n24jxvk4Sox81qedINkQ", "oEmYbwH9uVd4RKJk7ZZg6SzL6tTo"],
+                "xxxxx", ["oEmYbwN-n24jxvk4Sox81qedINkQ", "oEmYbwH9uVd4RKJk7ZZg6SzL6tTo"],
             )
         self.assertEqual(2, len(res))
         self.assertEqual("o2FwqwI9xCsVadFah_HtpPfaR-X4", res[0]["new_openid"])

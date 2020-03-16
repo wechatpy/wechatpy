@@ -130,23 +130,17 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_batch_sync_user(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.batch.sync_user(
-                "http://example.com", "123456", "123456", "12345678"
-            )
+            res = self.client.batch.sync_user("http://example.com", "123456", "123456", "12345678")
             self.assertEqual(0, res["errcode"])
 
     def test_batch_replace_user(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.batch.replace_user(
-                "http://example.com", "123456", "123456", "12345678"
-            )
+            res = self.client.batch.replace_user("http://example.com", "123456", "123456", "12345678")
             self.assertEqual(0, res["errcode"])
 
     def test_batch_replace_party(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.batch.replace_party(
-                "http://example.com", "123456", "123456", "12345678"
-            )
+            res = self.client.batch.replace_party("http://example.com", "123456", "123456", "12345678")
             self.assertEqual(0, res["errcode"])
 
     def test_batch_get_result(self):
@@ -169,9 +163,7 @@ class WeChatClientTestCase(unittest.TestCase):
         ticket = "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg"  # NOQA
         timestamp = 1414587457
         url = "http://mp.weixin.qq.com?params=value"
-        signature = self.client.jsapi.get_jsapi_signature(
-            noncestr, ticket, timestamp, url
-        )
+        signature = self.client.jsapi.get_jsapi_signature(noncestr, ticket, timestamp, url)
         self.assertEqual("0f9de62fce790f9a083d5c99e95740ceb90c27ed", signature)
 
     def test_user_convert_to_openid(self):
@@ -182,9 +174,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_user_convert_to_user_id(self):
         with HTTMock(wechat_api_mock):
-            user_id = self.client.user.convert_to_user_id(
-                "oDOGms-6yCnGrRovBj2yHij5JL6E"
-            )
+            user_id = self.client.user.convert_to_user_id("oDOGms-6yCnGrRovBj2yHij5JL6E")
             self.assertEqual("zhangsan", user_id)
 
     def test_upload_media(self):
@@ -237,22 +227,13 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_external_contact_add_contact_way(self):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.add_contact_way(
-                1,
-                1,
-                1,
-                "remark",
-                True,
-                "state",
-                ["UserID1", "UserID2"],
-                ["PartyID1", "PartyID2"],
+                1, 1, 1, "remark", True, "state", ["UserID1", "UserID2"], ["PartyID1", "PartyID2"],
             )
             self.assertEqual(0, res["errcode"])
 
     def test_external_contact_get_contact_way(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.external_contact.get_contact_way(
-                "42b34949e138eb6e027c123cba77fad7"
-            )
+            res = self.client.external_contact.get_contact_way("42b34949e138eb6e027c123cba77fad7")
             self.assertEqual(0, res["errcode"])
 
     def test_external_contact_update_contact_way(self):
@@ -270,19 +251,14 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_external_contact_del_contact_way(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.external_contact.del_contact_way(
-                "42b34949e138eb6e027c123cba77fad7"
-            )
+            res = self.client.external_contact.del_contact_way("42b34949e138eb6e027c123cba77fad7")
             self.assertEqual(0, res["errcode"])
 
     def test_external_contact_add_msg_template(self):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.add_msg_template(
                 {
-                    "external_userid": [
-                        "woAJ2GCAAAXtWyujaWJHDDGi0mACas1w",
-                        "wmqfasd1e1927831291723123109r712",
-                    ],
+                    "external_userid": ["woAJ2GCAAAXtWyujaWJHDDGi0mACas1w", "wmqfasd1e1927831291723123109r712",],
                     "sender": "zhangsan",
                     "text": {"content": "文本消息内容"},
                     "image": {"media_id": "MEDIA_ID"},
@@ -292,16 +268,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_external_contact_get_group_msg_result(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.external_contact.get_group_msg_result(
-                "msgGCAAAXtWyujaWJHDDGi0mACas1w"
-            )
+            res = self.client.external_contact.get_group_msg_result("msgGCAAAXtWyujaWJHDDGi0mACas1w")
             self.assertEqual(0, res["errcode"])
 
     def test_external_contact_get_user_behavior_data(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.external_contact.get_user_behavior_data(
-                ["zhangsan", "lisi"], 1536508800, 1536940800
-            )
+            res = self.client.external_contact.get_user_behavior_data(["zhangsan", "lisi"], 1536508800, 1536940800)
             self.assertEqual(0, res["errcode"])
 
     def test_external_contact_send_welcome_msg(self):
@@ -334,7 +306,5 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_external_contact_transfer(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.external_contact.transfer(
-                "woAJ2GCAAAXtWyujaWJHDDGi0mACH71w", "zhangsan", "lisi"
-            )
+            res = self.client.external_contact.transfer("woAJ2GCAAAXtWyujaWJHDDGi0mACH71w", "zhangsan", "lisi")
             self.assertEqual(0, res["errcode"])

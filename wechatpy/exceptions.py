@@ -22,15 +22,11 @@ class WeChatException(Exception):
         self.errmsg = errmsg
 
     def __str__(self):
-        s = "Error code: {code}, message: {msg}".format(
-            code=self.errcode, msg=self.errmsg
-        )
+        s = "Error code: {code}, message: {msg}".format(code=self.errcode, msg=self.errmsg)
         return s
 
     def __repr__(self):
-        _repr = "{klass}({code}, {msg})".format(
-            klass=self.__class__.__name__, code=self.errcode, msg=self.errmsg
-        )
+        _repr = "{klass}({code}, {msg})".format(klass=self.__class__.__name__, code=self.errcode, msg=self.errmsg)
         return _repr
 
 
@@ -111,10 +107,7 @@ class WeChatPayException(WeChatClientException):
 
     def __str__(self):
         _str = "Error code: {code}, message: {msg}. Pay Error code: {pay_code}, message: {pay_msg}".format(
-            code=self.return_code,
-            msg=self.return_msg,
-            pay_code=self.errcode,
-            pay_msg=self.errmsg,
+            code=self.return_code, msg=self.return_msg, pay_code=self.errcode, pay_msg=self.errmsg,
         )
         return _str
 

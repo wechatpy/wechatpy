@@ -857,9 +857,7 @@ class SubmitInvoiceTitleEvent(BaseEvent):
     bank_type = StringField("bank_type")  # 银行类型
     bank_no = StringField("bank_no")  # 银行号码
     attach = StringField("attach")  # 附加字段
-    title_type = StringField(
-        "title_type"
-    )  # 抬头类型，个人InvoiceUserTitlePersonType, 公司InvoiceUserTitleBusinessType
+    title_type = StringField("title_type")  # 抬头类型，个人InvoiceUserTitlePersonType, 公司InvoiceUserTitleBusinessType
 
 
 @register_event("user_enter_tempsession")

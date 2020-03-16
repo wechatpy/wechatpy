@@ -9,8 +9,7 @@ class MerchantShelf(BaseWeChatAPI):
 
     def add(self, name, banner, shelf_data):
         return self._post(
-            "merchant/shelf/add",
-            data={"shelf_name": name, "shelf_banner": banner, "shelf_data": shelf_data},
+            "merchant/shelf/add", data={"shelf_name": name, "shelf_banner": banner, "shelf_data": shelf_data},
         )
 
     def delete(self, shelf_id):
@@ -19,18 +18,11 @@ class MerchantShelf(BaseWeChatAPI):
     def update(self, shelf_id, name, banner, shelf_data):
         return self._post(
             "merchant/shelf/add",
-            data={
-                "shelf_id": shelf_id,
-                "shelf_name": name,
-                "shelf_banner": banner,
-                "shelf_data": shelf_data,
-            },
+            data={"shelf_id": shelf_id, "shelf_name": name, "shelf_banner": banner, "shelf_data": shelf_data,},
         )
 
     def get_all(self):
-        res = self._get(
-            "merchant/shelf/getall", result_processor=lambda x: x["shelves"]
-        )
+        res = self._get("merchant/shelf/getall", result_processor=lambda x: x["shelves"])
         return res
 
     def get(self, shelf_id):

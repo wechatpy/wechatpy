@@ -44,9 +44,7 @@ class WeChatOAuth:
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
-            url = "{base}{endpoint}".format(
-                base=self.API_BASE_URL, endpoint=url_or_endpoint
-            )
+            url = "{base}{endpoint}".format(base=self.API_BASE_URL, endpoint=url_or_endpoint)
         else:
             url = url_or_endpoint
 
@@ -60,20 +58,14 @@ class WeChatOAuth:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatOAuthException(
-                errcode=None,
-                errmsg=None,
-                client=self,
-                request=reqe.request,
-                response=reqe.response,
+                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
             )
         result = json.loads(res.content.decode("utf-8", "ignore"), strict=False)
 
         if "errcode" in result and result["errcode"] != 0:
             errcode = result["errcode"]
             errmsg = result["errmsg"]
-            raise WeChatOAuthException(
-                errcode, errmsg, client=self, request=res.request, response=res
-            )
+            raise WeChatOAuthException(errcode, errmsg, client=self, request=res.request, response=res)
 
         return result
 
@@ -130,12 +122,7 @@ class WeChatOAuth:
         """
         res = self._get(
             "sns/oauth2/access_token",
-            params={
-                "appid": self.app_id,
-                "secret": self.secret,
-                "code": code,
-                "grant_type": "authorization_code",
-            },
+            params={"appid": self.app_id, "secret": self.secret, "code": code, "grant_type": "authorization_code",},
         )
         self.access_token = res["access_token"]
         self.open_id = res["openid"]
@@ -151,11 +138,7 @@ class WeChatOAuth:
         """
         res = self._get(
             "sns/oauth2/refresh_token",
-            params={
-                "appid": self.app_id,
-                "grant_type": "refresh_token",
-                "refresh_token": refresh_token,
-            },
+            params={"appid": self.app_id, "grant_type": "refresh_token", "refresh_token": refresh_token,},
         )
         self.access_token = res["access_token"]
         self.open_id = res["openid"]
@@ -173,10 +156,7 @@ class WeChatOAuth:
         """
         openid = openid or self.open_id
         access_token = access_token or self.access_token
-        return self._get(
-            "sns/userinfo",
-            params={"access_token": access_token, "openid": openid, "lang": lang},
-        )
+        return self._get("sns/userinfo", params={"access_token": access_token, "openid": openid, "lang": lang},)
 
     def check_access_token(self, openid=None, access_token=None):
         """检查 access_token 有效性
@@ -187,9 +167,7 @@ class WeChatOAuth:
         """
         openid = openid or self.open_id
         access_token = access_token or self.access_token
-        res = self._get(
-            "sns/auth", params={"access_token": access_token, "openid": openid}
-        )
+        res = self._get("sns/auth", params={"access_token": access_token, "openid": openid})
         if res["errcode"] == 0:
             return True
         return False

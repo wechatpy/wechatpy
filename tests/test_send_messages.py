@@ -15,9 +15,7 @@ class SendMessageTestCase(unittest.TestCase):
         template_id = "some_long_id"
         redirect_url = "https://mp.weixin.qq.com"
         reserved = "random_string"
-        url = self.message.get_subscribe_authorize_url(
-            scene, template_id, redirect_url, reserved
-        )
+        url = self.message.get_subscribe_authorize_url(scene, template_id, redirect_url, reserved)
         base_url = (
             "https://mp.weixin.qq.com/mp/subscribemsg?action=get_confirm&appid={}&scene={}&template_id={}"
             "&redirect_url=https%3A%2F%2Fmp.weixin.qq.com&reserved={}#wechat_redirect"
