@@ -30,16 +30,16 @@ class WeChatBatch(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'batch/syncuser',
+            "batch/syncuser",
             data={
-                'media_id': media_id,
-                'to_invite': to_invite,
-                'callback': {
-                    'url': url,
-                    'token': token,
-                    'encodingaeskey': encoding_aes_key
-                }
-            }
+                "media_id": media_id,
+                "to_invite": to_invite,
+                "callback": {
+                    "url": url,
+                    "token": token,
+                    "encodingaeskey": encoding_aes_key,
+                },
+            },
         )
 
     def replace_user(self, url, token, encoding_aes_key, media_id, to_invite=True):
@@ -56,16 +56,16 @@ class WeChatBatch(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'batch/replaceuser',
+            "batch/replaceuser",
             data={
-                'media_id': media_id,
-                'to_invite': to_invite,
-                'callback': {
-                    'url': url,
-                    'token': token,
-                    'encodingaeskey': encoding_aes_key
-                }
-            }
+                "media_id": media_id,
+                "to_invite": to_invite,
+                "callback": {
+                    "url": url,
+                    "token": token,
+                    "encodingaeskey": encoding_aes_key,
+                },
+            },
         )
 
     def replace_party(self, url, token, encoding_aes_key, media_id):
@@ -81,15 +81,15 @@ class WeChatBatch(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'batch/replaceparty',
+            "batch/replaceparty",
             data={
-                'media_id': media_id,
-                'callback': {
-                    'url': url,
-                    'token': token,
-                    'encodingaeskey': encoding_aes_key
-                }
-            }
+                "media_id": media_id,
+                "callback": {
+                    "url": url,
+                    "token": token,
+                    "encodingaeskey": encoding_aes_key,
+                },
+            },
         )
 
     def get_result(self, job_id):
@@ -101,7 +101,7 @@ class WeChatBatch(BaseWeChatAPI):
         :param job_id: 异步任务id，最大长度为64字符
         :return: 返回的 JSON 数据包
         """
-        return self._get('batch/getresult', params={'jobid': job_id})
+        return self._get("batch/getresult", params={"jobid": job_id})
 
     def invite(self, user=None, party=None, tag=None):
         """
@@ -117,4 +117,4 @@ class WeChatBatch(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(user=user, party=party, tag=tag)
-        return self._post('batch/invite', data=data)
+        return self._post("batch/invite", data=data)

@@ -10,12 +10,12 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatShakeAround(BaseWeChatAPI):
 
-    API_BASE_URL = 'https://api.weixin.qq.com/'
+    API_BASE_URL = "https://api.weixin.qq.com/"
 
     @classmethod
     def _to_timestamp(cls, date):
         if isinstance(date, str):
-            date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+            date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
         if isinstance(date, datetime):
             timestamp = int(time.mktime(date.timetuple()))
             return timestamp
@@ -34,19 +34,20 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 申请的设备信息
         """
         data = optionaldict()
-        data['quantity'] = quantity
-        data['apply_reason'] = reason
-        data['poi_id'] = poi_id
-        data['comment'] = comment
+        data["quantity"] = quantity
+        data["apply_reason"] = reason
+        data["poi_id"] = poi_id
+        data["comment"] = comment
         res = self._post(
-            'shakearound/device/applyid',
+            "shakearound/device/applyid",
             data=data,
-            result_processor=lambda x: x['data']
+            result_processor=lambda x: x["data"],
         )
         return res
 
-    def update_device(self, device_id=None, uuid=None, major=None,
-                      minor=None, comment=None):
+    def update_device(
+        self, device_id=None, uuid=None, major=None, minor=None, comment=None
+    ):
         """
         更新设备信息
         详情请参考
@@ -60,20 +61,18 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict()
-        data['comment'] = comment
-        data['device_identifier'] = {
-            'device_id': device_id,
-            'uuid': uuid,
-            'major': major,
-            'minor': minor
+        data["comment"] = comment
+        data["device_identifier"] = {
+            "device_id": device_id,
+            "uuid": uuid,
+            "major": major,
+            "minor": minor,
         }
-        return self._post(
-            'shakearound/device/update',
-            data=data
-        )
+        return self._post("shakearound/device/update", data=data)
 
-    def bind_device_location(self, poi_id, device_id=None, uuid=None,
-                             major=None, minor=None):
+    def bind_device_location(
+        self, poi_id, device_id=None, uuid=None, major=None, minor=None
+    ):
         """
         配置设备与门店的关联关系
         详情请参考
@@ -87,20 +86,16 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict()
-        data['poi_id'] = poi_id
-        data['device_identifier'] = {
-            'device_id': device_id,
-            'uuid': uuid,
-            'major': major,
-            'minor': minor
+        data["poi_id"] = poi_id
+        data["device_identifier"] = {
+            "device_id": device_id,
+            "uuid": uuid,
+            "major": major,
+            "minor": minor,
         }
-        return self._post(
-            'shakearound/device/bindlocation',
-            data=data
-        )
+        return self._post("shakearound/device/bindlocation", data=data)
 
-    def search_device(self, identifiers=None, apply_id=None,
-                      begin=0, count=10):
+    def search_device(self, identifiers=None, apply_id=None, begin=0, count=10):
         """
         查询设备列表
         详情请参考
@@ -113,15 +108,13 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 设备列表
         """
         data = optionaldict()
-        data['begin'] = begin
-        data['count'] = count
-        data['apply_id'] = apply_id
+        data["begin"] = begin
+        data["count"] = count
+        data["apply_id"] = apply_id
         if identifiers:
-            data['device_identifiers'] = identifiers
+            data["device_identifiers"] = identifiers
         res = self._post(
-            'shakearound/device/search',
-            data=data,
-            result_processor=lambda x: x['data']
+            "shakearound/device/search", data=data, result_processor=lambda x: x["data"]
         )
         return res
 
@@ -140,20 +133,19 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 页面信息
         """
         data = optionaldict()
-        data['title'] = title
-        data['description'] = description
-        data['icon_url'] = icon_url
-        data['page_url'] = page_url
-        data['comment'] = comment
+        data["title"] = title
+        data["description"] = description
+        data["icon_url"] = icon_url
+        data["page_url"] = page_url
+        data["comment"] = comment
         res = self._post(
-            'shakearound/page/add',
-            data=data,
-            result_processor=lambda x: x['data']
+            "shakearound/page/add", data=data, result_processor=lambda x: x["data"]
         )
         return res
 
-    def update_page(self, page_id, title, description,
-                    icon_url, page_url, comment=None):
+    def update_page(
+        self, page_id, title, description, icon_url, page_url, comment=None
+    ):
         """
         编辑页面信息
         详情请参考
@@ -169,16 +161,14 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 页面信息
         """
         data = optionaldict()
-        data['page_id'] = page_id
-        data['title'] = title
-        data['description'] = description
-        data['icon_url'] = icon_url
-        data['page_url'] = page_url
-        data['comment'] = comment
+        data["page_id"] = page_id
+        data["title"] = title
+        data["description"] = description
+        data["icon_url"] = icon_url
+        data["page_url"] = page_url
+        data["comment"] = comment
         res = self._post(
-            'shakearound/page/update',
-            data=data,
-            result_processor=lambda x: x['data']
+            "shakearound/page/update", data=data, result_processor=lambda x: x["data"]
         )
         return res
 
@@ -194,23 +184,14 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 页面查询结果信息
         """
         if not page_ids:
-            data = {
-                'type': 2,
-                'begin': begin,
-                'count': count
-            }
+            data = {"type": 2, "begin": begin, "count": count}
         else:
             if not isinstance(page_ids, (tuple, list)):
                 page_ids = [page_ids]
-            data = {
-                'type': 1,
-                'page_ids': page_ids
-            }
+            data = {"type": 1, "page_ids": page_ids}
 
         res = self._post(
-            'shakearound/page/search',
-            data=data,
-            result_processor=lambda x: x['data']
+            "shakearound/page/search", data=data, result_processor=lambda x: x["data"]
         )
         return res
 
@@ -223,14 +204,9 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param page_id: 指定页面的id列表
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'shakearound/page/delete',
-            data={
-                'page_id': page_id
-            }
-        )
+        return self._post("shakearound/page/delete", data={"page_id": page_id})
 
-    def add_material(self, media_file, media_type='icon'):
+    def add_material(self, media_file, media_type="icon"):
         """
         上传图片素材
         详情请参考
@@ -241,19 +217,16 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 上传的素材信息
         """
         res = self._post(
-            'shakearound/material/add',
-            files={
-                'media': media_file
-            },
-            params={
-                'type': media_type
-            },
-            result_processor=lambda x: x['data']
+            "shakearound/material/add",
+            files={"media": media_file},
+            params={"type": media_type},
+            result_processor=lambda x: x["data"],
         )
         return res
 
-    def bind_device_pages(self, page_ids, bind, append, device_id=None,
-                          uuid=None, major=None, minor=None):
+    def bind_device_pages(
+        self, page_ids, bind, append, device_id=None, uuid=None, major=None, minor=None
+    ):
         """
         配置设备与页面的关联关系
         详情请参考
@@ -271,20 +244,17 @@ class WeChatShakeAround(BaseWeChatAPI):
         if not isinstance(page_ids, (tuple, list)):
             page_ids = [page_ids]
         data = {
-            'page_ids': page_ids,
-            'bind': int(bind),
-            'append': int(append),
-            'device_identifier': {
-                'device_id': device_id,
-                'uuid': uuid,
-                'major': major,
-                'minor': minor
-            }
+            "page_ids": page_ids,
+            "bind": int(bind),
+            "append": int(append),
+            "device_identifier": {
+                "device_id": device_id,
+                "uuid": uuid,
+                "major": major,
+                "minor": minor,
+            },
         }
-        return self._post(
-            'shakearound/device/bindpage',
-            data=data
-        )
+        return self._post("shakearound/device/bindpage", data=data)
 
     def get_shake_info(self, ticket):
         """
@@ -296,16 +266,15 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 设备及用户信息
         """
         res = self._post(
-            'shakearound/user/getshakeinfo',
-            data={
-                'ticket': ticket
-            },
-            result_processor=lambda x: x['data']
+            "shakearound/user/getshakeinfo",
+            data={"ticket": ticket},
+            result_processor=lambda x: x["data"],
         )
         return res
 
-    def get_device_statistics(self, begin_date, end_date, device_id=None,
-                              uuid=None, major=None, minor=None):
+    def get_device_statistics(
+        self, begin_date, end_date, device_id=None, uuid=None, major=None, minor=None
+    ):
         """
         以设备为维度的数据统计接口
         http://mp.weixin.qq.com/wiki/0/8a24bcacad40fe7ee98d1573cb8a6764.html
@@ -318,19 +287,19 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param minor: minor
         """
         data = {
-            'device_identifier': {
-                'device_id': device_id,
-                'uuid': uuid,
-                'major': major,
-                'minor': minor
+            "device_identifier": {
+                "device_id": device_id,
+                "uuid": uuid,
+                "major": major,
+                "minor": minor,
             },
-            'begin_date': self._to_timestamp(begin_date),
-            'end_date': self._to_timestamp(end_date)
+            "begin_date": self._to_timestamp(begin_date),
+            "end_date": self._to_timestamp(end_date),
         }
         res = self._post(
-            'shakearound/statistics/device',
+            "shakearound/statistics/device",
             data=data,
-            result_processor=lambda x: x['data']
+            result_processor=lambda x: x["data"],
         )
         return res
 
@@ -346,13 +315,13 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 统计数据
         """
         res = self._post(
-            'shakearound/statistics/page',
+            "shakearound/statistics/page",
             data={
-                'page_id': page_id,
-                'begin_date': self._to_timestamp(begin_date),
-                'end_date': self._to_timestamp(end_date),
+                "page_id": page_id,
+                "begin_date": self._to_timestamp(begin_date),
+                "end_date": self._to_timestamp(end_date),
             },
-            result_processor=lambda x: x['data']
+            result_processor=lambda x: x["data"],
         )
         return res
 
@@ -366,10 +335,8 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 批次状态信息
         """
         res = self._post(
-            'shakearound/device/applystatus',
-            data={
-                'apply_id': apply_id,
-            },
-            result_processor=lambda x: x['data']
+            "shakearound/device/applystatus",
+            data={"apply_id": apply_id,},
+            result_processor=lambda x: x["data"],
         )
         return res

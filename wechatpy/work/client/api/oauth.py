@@ -6,7 +6,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatOAuth(BaseWeChatAPI):
-    OAUTH_BASE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize'
+    OAUTH_BASE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize"
 
     def authorize_url(self, redirect_uri, state=None):
         """
@@ -18,19 +18,19 @@ class WeChatOAuth(BaseWeChatAPI):
         :param state: 重定向后会带上 state 参数
         :return: 返回的 JSON 数据包
         """
-        redirect_uri = quote(redirect_uri, safe=b'')
+        redirect_uri = quote(redirect_uri, safe=b"")
         url_list = [
             self.OAUTH_BASE_URL,
-            '?appid=',
+            "?appid=",
             self._client.corp_id,
-            '&redirect_uri=',
+            "&redirect_uri=",
             redirect_uri,
-            '&response_type=code&scope=snsapi_base',
+            "&response_type=code&scope=snsapi_base",
         ]
         if state:
-            url_list.extend(['&state=', state])
-        url_list.append('#wechat_redirect')
-        return ''.join(url_list)
+            url_list.extend(["&state=", state])
+        url_list.append("#wechat_redirect")
+        return "".join(url_list)
 
     def get_user_info(self, code):
         """
@@ -42,9 +42,4 @@ class WeChatOAuth(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
 
-        return self._get(
-            'user/getuserinfo',
-            params={
-                'code': code,
-            }
-        )
+        return self._get("user/getuserinfo", params={"code": code,})

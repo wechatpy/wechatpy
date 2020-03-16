@@ -5,7 +5,6 @@ from wechatpy.work import parse_message
 
 
 class ParseMessageTestCase(unittest.TestCase):
-
     def test_parse_text_message(self):
         xml = """<xml>
         <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -18,7 +17,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('text', msg.type)
+        self.assertEqual("text", msg.type)
         self.assertEqual(1, msg.agent)
 
     def test_parse_image_message(self):
@@ -34,7 +33,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('image', msg.type)
+        self.assertEqual("image", msg.type)
 
     def test_parse_voice_message(self):
         xml = """<xml>
@@ -49,7 +48,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('voice', msg.type)
+        self.assertEqual("voice", msg.type)
 
     def test_parse_video_message(self):
         xml = """<xml>
@@ -64,7 +63,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('video', msg.type)
+        self.assertEqual("video", msg.type)
 
     def test_parse_location_message(self):
         xml = """<xml>
@@ -81,7 +80,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('location', msg.type)
+        self.assertEqual("location", msg.type)
 
     def test_parse_link_message(self):
         xml = """<xml>
@@ -98,7 +97,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('link', msg.type)
+        self.assertEqual("link", msg.type)
 
     def test_parse_subscribe_event(self):
         xml = """<xml>
@@ -112,8 +111,8 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('subscribe', msg.event)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("subscribe", msg.event)
 
     def test_parse_location_event(self):
         xml = """<xml>
@@ -130,8 +129,8 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('location', msg.event)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("location", msg.event)
         self.assertEqual(23.137466, msg.latitude)
         self.assertEqual(113.352425, msg.longitude)
         self.assertEqual(119.385040, msg.precision)
@@ -149,9 +148,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('click', msg.event)
-        self.assertEqual('EVENTKEY', msg.key)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("click", msg.event)
+        self.assertEqual("EVENTKEY", msg.key)
 
     def test_parse_view_event(self):
         xml = """<xml>
@@ -166,9 +165,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('view', msg.event)
-        self.assertEqual('www.qq.com', msg.url)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("view", msg.event)
+        self.assertEqual("www.qq.com", msg.url)
 
     def test_parse_unknown_message(self):
         from wechatpy.messages import UnknownMessage

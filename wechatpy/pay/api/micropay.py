@@ -8,8 +8,20 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatMicroPay(BaseWeChatPayAPI):
-    def create(self, body, total_fee, auth_code, client_ip=None, out_trade_no=None, detail=None, attach=None,
-               fee_type='CNY', goods_tag=None, device_info=None, limit_pay=None):
+    def create(
+        self,
+        body,
+        total_fee,
+        auth_code,
+        client_ip=None,
+        out_trade_no=None,
+        detail=None,
+        attach=None,
+        fee_type="CNY",
+        goods_tag=None,
+        device_info=None,
+        limit_pay=None,
+    ):
         """
         刷卡支付接口
         :param device_info: 可选，终端设备号(商户自定义，如门店编号)
@@ -27,26 +39,24 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         """
         now = datetime.now()
         if not out_trade_no:
-            out_trade_no = '{0}{1}{2}'.format(
-                self.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+            out_trade_no = "{0}{1}{2}".format(
+                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
             )
         data = {
-            'appid': self.appid,
-            'device_info': device_info,
-            'body': body,
-            'detail': detail,
-            'attach': attach,
-            'out_trade_no': out_trade_no,
-            'total_fee': total_fee,
-            'fee_type': fee_type,
-            'spbill_create_ip': client_ip or get_external_ip(),
-            'goods_tag': goods_tag,
-            'limit_pay': limit_pay,
-            'auth_code': auth_code,
+            "appid": self.appid,
+            "device_info": device_info,
+            "body": body,
+            "detail": detail,
+            "attach": attach,
+            "out_trade_no": out_trade_no,
+            "total_fee": total_fee,
+            "fee_type": fee_type,
+            "spbill_create_ip": client_ip or get_external_ip(),
+            "goods_tag": goods_tag,
+            "limit_pay": limit_pay,
+            "auth_code": auth_code,
         }
-        return self._post('pay/micropay', data=data)
+        return self._post("pay/micropay", data=data)
 
     def query(self, transaction_id=None, out_trade_no=None):
         """
@@ -57,8 +67,8 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'appid': self.appid,
-            'transaction_id': transaction_id,
-            'out_trade_no': out_trade_no,
+            "appid": self.appid,
+            "transaction_id": transaction_id,
+            "out_trade_no": out_trade_no,
         }
-        return self._post('pay/orderquery', data=data)
+        return self._post("pay/orderquery", data=data)

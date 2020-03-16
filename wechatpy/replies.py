@@ -32,28 +32,30 @@ def register_reply(reply_type):
     def register(cls):
         REPLY_TYPES[reply_type] = cls
         return cls
+
     return register
 
 
 class BaseReply(metaclass=MessageMetaClass):
     """Base class for all replies"""
-    source = StringField('FromUserName')
-    target = StringField('ToUserName')
-    time = IntegerField('CreateTime', time.time())
-    type = 'unknown'
+
+    source = StringField("FromUserName")
+    target = StringField("ToUserName")
+    time = IntegerField("CreateTime", time.time())
+    type = "unknown"
 
     def __init__(self, **kwargs):
         self._data = {}
-        message = kwargs.pop('message', None)
+        message = kwargs.pop("message", None)
         if message and isinstance(message, BaseMessage):
-            if 'source' not in kwargs:
-                kwargs['source'] = message.target
-            if 'target' not in kwargs:
-                kwargs['target'] = message.source
-            if hasattr(message, 'agent') and 'agent' not in kwargs:
-                kwargs['agent'] = message.agent
-        if 'time' not in kwargs:
-            kwargs['time'] = time.time()
+            if "source" not in kwargs:
+                kwargs["source"] = message.target
+            if "target" not in kwargs:
+                kwargs["target"] = message.source
+            if hasattr(message, "agent") and "agent" not in kwargs:
+                kwargs["agent"] = message.agent
+        if "time" not in kwargs:
+            kwargs["time"] = time.time()
         for name, value in kwargs.items():
             field = self._fields.get(name)
             if field:
@@ -63,9 +65,9 @@ class BaseReply(metaclass=MessageMetaClass):
 
     def render(self):
         """Render reply from Python object to XML string"""
-        tpl = '<xml>\n{data}\n</xml>'
+        tpl = "<xml>\n{data}\n</xml>"
         nodes = []
-        msg_type = '<MsgType><![CDATA[{msg_type}]]></MsgType>'.format(
+        msg_type = "<MsgType><![CDATA[{msg_type}]]></MsgType>".format(
             msg_type=self.type
         )
         nodes.append(msg_type)
@@ -73,46 +75,49 @@ class BaseReply(metaclass=MessageMetaClass):
             value = getattr(self, name, field.default)
             node_xml = field.to_xml(value)
             nodes.append(node_xml)
-        data = '\n'.join(nodes)
+        data = "\n".join(nodes)
         return tpl.format(data=data)
 
     def __str__(self):
         return self.render()
 
 
-@register_reply('empty')
+@register_reply("empty")
 class EmptyReply(BaseReply):
     """
     回复空串
 
     微信服务器不会对此作任何处理，并且不会发起重试
     """
+
     def __init__(self):
         pass
 
     def render(self):
-        return ''
+        return ""
 
 
-@register_reply('text')
+@register_reply("text")
 class TextReply(BaseReply):
     """
     文本回复
     详情请参阅 http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
-    type = 'text'
-    content = StringField('Content')
+
+    type = "text"
+    content = StringField("Content")
 
 
-@register_reply('image')
+@register_reply("image")
 class ImageReply(BaseReply):
     """
     图片回复
     详情请参阅
     http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
-    type = 'image'
-    image = ImageField('Image')
+
+    type = "image"
+    image = ImageField("Image")
 
     @property
     def media_id(self):
@@ -123,15 +128,16 @@ class ImageReply(BaseReply):
         self.image = value
 
 
-@register_reply('voice')
+@register_reply("voice")
 class VoiceReply(BaseReply):
     """
     语音回复
     详情请参阅
     http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
-    type = 'voice'
-    voice = VoiceField('Voice')
+
+    type = "voice"
+    voice = VoiceField("Voice")
 
     @property
     def media_id(self):
@@ -142,169 +148,174 @@ class VoiceReply(BaseReply):
         self.voice = value
 
 
-@register_reply('video')
+@register_reply("video")
 class VideoReply(BaseReply):
     """
     视频回复
     详情请参阅
     http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
-    type = 'video'
-    video = VideoField('Video', {})
+
+    type = "video"
+    video = VideoField("Video", {})
 
     @property
     def media_id(self):
-        return self.video.get('media_id')
+        return self.video.get("media_id")
 
     @media_id.setter
     def media_id(self, value):
         video = self.video
-        video['media_id'] = value
+        video["media_id"] = value
         self.video = video
 
     @property
     def title(self):
-        return self.video.get('title')
+        return self.video.get("title")
 
     @title.setter
     def title(self, value):
         video = self.video
-        video['title'] = value
+        video["title"] = value
         self.video = video
 
     @property
     def description(self):
-        return self.video.get('description')
+        return self.video.get("description")
 
     @description.setter
     def description(self, value):
         video = self.video
-        video['description'] = value
+        video["description"] = value
         self.video = video
 
 
-@register_reply('music')
+@register_reply("music")
 class MusicReply(BaseReply):
     """
     音乐回复
     详情请参阅
     http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
-    type = 'music'
-    music = MusicField('Music', {})
+
+    type = "music"
+    music = MusicField("Music", {})
 
     @property
     def thumb_media_id(self):
-        return self.music.get('thumb_media_id')
+        return self.music.get("thumb_media_id")
 
     @thumb_media_id.setter
     def thumb_media_id(self, value):
         music = self.music
-        music['thumb_media_id'] = value
+        music["thumb_media_id"] = value
         self.music = music
 
     @property
     def title(self):
-        return self.music.get('title')
+        return self.music.get("title")
 
     @title.setter
     def title(self, value):
         music = self.music
-        music['title'] = value
+        music["title"] = value
         self.music = music
 
     @property
     def description(self):
-        return self.music.get('description')
+        return self.music.get("description")
 
     @description.setter
     def description(self, value):
         music = self.music
-        music['description'] = value
+        music["description"] = value
         self.music = music
 
     @property
     def music_url(self):
-        return self.music.get('music_url')
+        return self.music.get("music_url")
 
     @music_url.setter
     def music_url(self, value):
         music = self.music
-        music['music_url'] = value
+        music["music_url"] = value
         self.music = music
 
     @property
     def hq_music_url(self):
-        return self.music.get('hq_music_url')
+        return self.music.get("hq_music_url")
 
     @hq_music_url.setter
     def hq_music_url(self, value):
         music = self.music
-        music['hq_music_url'] = value
+        music["hq_music_url"] = value
         self.music = music
 
 
-@register_reply('news')
+@register_reply("news")
 class ArticlesReply(BaseReply):
     """
     图文回复
     详情请参阅
     http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
     """
-    type = 'news'
-    articles = ArticlesField('Articles', [])
+
+    type = "news"
+    articles = ArticlesField("Articles", [])
 
     def add_article(self, article):
         if len(self.articles) == 10:
-            raise AttributeError("Can't add more than 10 articles"
-                                 " in an ArticlesReply")
+            raise AttributeError(
+                "Can't add more than 10 articles" " in an ArticlesReply"
+            )
         articles = self.articles
         articles.append(article)
         self.articles = articles
 
 
-@register_reply('transfer_customer_service')
+@register_reply("transfer_customer_service")
 class TransferCustomerServiceReply(BaseReply):
     """
     将消息转发到多客服
     详情请参阅
     http://mp.weixin.qq.com/wiki/5/ae230189c9bd07a6b221f48619aeef35.html
     """
-    type = 'transfer_customer_service'
+
+    type = "transfer_customer_service"
 
 
-@register_reply('device_text')
+@register_reply("device_text")
 class DeviceTextReply(BaseReply):
-    type = 'device_text'
-    device_type = StringField('DeviceType')
-    device_id = StringField('DeviceID')
-    session_id = StringField('SessionID')
-    content = Base64EncodeField('Content')
+    type = "device_text"
+    device_type = StringField("DeviceType")
+    device_id = StringField("DeviceID")
+    session_id = StringField("SessionID")
+    content = Base64EncodeField("Content")
 
 
-@register_reply('device_event')
+@register_reply("device_event")
 class DeviceEventReply(BaseReply):
-    type = 'device_event'
-    event = StringField('Event')
-    device_type = StringField('DeviceType')
-    device_id = StringField('DeviceID')
-    session_id = StringField('SessionID')
-    content = Base64EncodeField('Content')
+    type = "device_event"
+    event = StringField("Event")
+    device_type = StringField("DeviceType")
+    device_id = StringField("DeviceID")
+    session_id = StringField("SessionID")
+    content = Base64EncodeField("Content")
 
 
-@register_reply('device_status')
+@register_reply("device_status")
 class DeviceStatusReply(BaseReply):
-    type = 'device_status'
-    device_type = StringField('DeviceType')
-    device_id = StringField('DeviceID')
-    status = IntegerField('DeviceStatus')
+    type = "device_status"
+    device_type = StringField("DeviceType")
+    device_id = StringField("DeviceID")
+    status = IntegerField("DeviceStatus")
 
 
-@register_reply('hardware')
+@register_reply("hardware")
 class HardwareReply(BaseReply):
-    type = 'hardware'
-    func_flag = IntegerField('FuncFlag', 0)
-    hardware = HardwareField('HardWare')
+    type = "hardware"
+    func_flag = IntegerField("FuncFlag", 0)
+    hardware = HardwareField("HardWare")
 
 
 def create_reply(reply, message=None, render=False):
@@ -320,18 +331,13 @@ def create_reply(reply, message=None, render=False):
             r.source = message.target
             r.target = message.source
     elif isinstance(reply, str):
-        r = TextReply(
-            message=message,
-            content=reply
-        )
+        r = TextReply(message=message, content=reply)
     elif isinstance(reply, (tuple, list)):
         if len(reply) > 10:
-            raise AttributeError("Can't add more than 10 articles"
-                                 " in an ArticlesReply")
-        r = ArticlesReply(
-            message=message,
-            articles=reply
-        )
+            raise AttributeError(
+                "Can't add more than 10 articles" " in an ArticlesReply"
+            )
+        r = ArticlesReply(message=message, articles=reply)
     if r and render:
         return r.render()
     return r

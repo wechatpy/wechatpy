@@ -31,7 +31,7 @@ class ObjectDict(dict):
 class WeChatSigner:
     """WeChat data signer"""
 
-    def __init__(self, delimiter=b''):
+    def __init__(self, delimiter=b""):
         self._data = []
         self._delimiter = to_binary(delimiter)
 
@@ -84,14 +84,14 @@ def check_wxa_signature(session_key, raw_data, client_signature):
         raise InvalidSignatureException()
 
 
-def to_text(value, encoding='utf-8'):
+def to_text(value, encoding="utf-8"):
     """Convert value to unicode, default encoding is utf-8
 
     :param value: Value to be converted
     :param encoding: Desired encoding
     """
     if not value:
-        return ''
+        return ""
     if isinstance(value, str):
         return value
     if isinstance(value, bytes):
@@ -99,14 +99,14 @@ def to_text(value, encoding='utf-8'):
     return str(value)
 
 
-def to_binary(value, encoding='utf-8'):
+def to_binary(value, encoding="utf-8"):
     """Convert value to binary string, default encoding is utf-8
 
     :param value: Value to be converted
     :param encoding: Desired encoding
     """
     if not value:
-        return b''
+        return b""
     if isinstance(value, bytes):
         return value
     if isinstance(value, str):
@@ -122,11 +122,13 @@ def timezone(zone):
     """
     try:
         import pytz
+
         return pytz.timezone(zone)
     except ImportError:
         pass
     try:
         from dateutil.tz import gettz
+
         return gettz(zone)
     except ImportError:
         return None
@@ -135,7 +137,7 @@ def timezone(zone):
 def random_string(length=16):
     rule = string.ascii_letters + string.digits
     rand_list = random.sample(rule, length)
-    return ''.join(rand_list)
+    return "".join(rand_list)
 
 
 def get_querystring(uri):

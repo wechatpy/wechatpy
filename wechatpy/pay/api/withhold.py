@@ -12,10 +12,23 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatWithhold(BaseWeChatPayAPI):
-
-    def apply_signing(self, plan_id, contract_code, contract_display_account, notify_url,
-                      version="1.0", clientip=None, deviceid=None, mobile=None, email=None, qq=None,
-                      request_serial=None, openid=None, creid=None, outerid=None):
+    def apply_signing(
+        self,
+        plan_id,
+        contract_code,
+        contract_display_account,
+        notify_url,
+        version="1.0",
+        clientip=None,
+        deviceid=None,
+        mobile=None,
+        email=None,
+        qq=None,
+        request_serial=None,
+        openid=None,
+        creid=None,
+        outerid=None,
+    ):
         """
         申请签约 api
 
@@ -65,10 +78,17 @@ class WeChatWithhold(BaseWeChatPayAPI):
         data["sign"] = sign
         return {
             "base_url": "{}papay/entrustweb".format(self._client.API_BASE_URL),
-            "data": data
+            "data": data,
         }
 
-    def query_signing(self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0"):
+    def query_signing(
+        self,
+        contract_id=None,
+        plan_id=None,
+        contract_code=None,
+        openid=None,
+        version="1.0",
+    ):
         """
         查询签约关系 api
 
@@ -79,8 +99,14 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param version: 版本号 固定值1.0
         :return: 返回的结果信息
         """
-        if not contract_id and not (plan_id and contract_code) and not (plan_id and openid):
-            raise ValueError("contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice.")
+        if (
+            not contract_id
+            and not (plan_id and contract_code)
+            and not (plan_id and openid)
+        ):
+            raise ValueError(
+                "contract_id and (plan_id, contract_code) and (plan_id, openid) must be a choice."
+            )
         data = {
             "appid": self.appid,
             "mch_id": self.mch_id,
@@ -91,11 +117,28 @@ class WeChatWithhold(BaseWeChatPayAPI):
             "version": version,
             "nonce_str": None,
         }
-        return self._post('papay/querycontract', data=data)
+        return self._post("papay/querycontract", data=data)
 
-    def apply_deduct(self, body, total_fee, contract_id, notify_url, out_trade_no=None,
-                     detail=None, attach=None, fee_type='CNY', goods_tag=None, clientip=None, deviceid=None,
-                     mobile=None, email=None, qq=None, openid=None, creid=None, outerid=None):
+    def apply_deduct(
+        self,
+        body,
+        total_fee,
+        contract_id,
+        notify_url,
+        out_trade_no=None,
+        detail=None,
+        attach=None,
+        fee_type="CNY",
+        goods_tag=None,
+        clientip=None,
+        deviceid=None,
+        mobile=None,
+        email=None,
+        qq=None,
+        openid=None,
+        creid=None,
+        outerid=None,
+    ):
         """
         申请扣款 api
 
@@ -118,15 +161,13 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :param outerid: 可选 商户侧用户标识 用户在商户侧的标识
         :return: 返回的结果信息
         """
-        trade_type = 'PAP'  # 交易类型 交易类型PAP-微信委托代扣支付
+        trade_type = "PAP"  # 交易类型 交易类型PAP-微信委托代扣支付
         timestamp = int(time.time())  # 10位时间戳
         spbill_create_ip = get_external_ip()  # 终端IP 调用微信支付API的机器IP
         if not out_trade_no:
-            now = datetime.fromtimestamp(time.time(), tz=timezone('Asia/Shanghai'))
-            out_trade_no = '{0}{1}{2}'.format(
-                self.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+            now = datetime.fromtimestamp(time.time(), tz=timezone("Asia/Shanghai"))
+            out_trade_no = "{0}{1}{2}".format(
+                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
             )
 
         data = {
@@ -173,8 +214,14 @@ class WeChatWithhold(BaseWeChatPayAPI):
         }
         return self._post("pay/paporderquery", data=data)
 
-    def apply_cancel_signing(self, contract_id=None, plan_id=None, contract_code=None,
-                             contract_termination_remark=None, version="1.0"):
+    def apply_cancel_signing(
+        self,
+        contract_id=None,
+        plan_id=None,
+        contract_code=None,
+        contract_termination_remark=None,
+        version="1.0",
+    ):
         """
         申请解约
 
@@ -188,7 +235,9 @@ class WeChatWithhold(BaseWeChatPayAPI):
         :return:
         """
         if not (contract_id or (plan_id and contract_code)):
-            raise ValueError("contract_id and (plan_id, contract_code) must be a choice.")
+            raise ValueError(
+                "contract_id and (plan_id, contract_code) must be a choice."
+            )
         data = {
             "appid": self.appid,
             "mch_id": self.mch_id,

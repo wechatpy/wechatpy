@@ -6,15 +6,16 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatSemantic(BaseWeChatAPI):
-
-    def search(self,
-               query,
-               category,
-               uid=None,
-               latitude=None,
-               longitude=None,
-               city=None,
-               region=None):
+    def search(
+        self,
+        query,
+        category,
+        uid=None,
+        latitude=None,
+        longitude=None,
+        city=None,
+        region=None,
+    ):
         """
         发送语义理解请求
         详情请参考
@@ -42,18 +43,17 @@ class WeChatSemantic(BaseWeChatAPI):
 
         """
         if isinstance(category, (tuple, list)):
-            category = ','.join(category)
+            category = ",".join(category)
 
         data = optionaldict()
-        data['query'] = query
-        data['category'] = category
-        data['uid'] = uid
-        data['latitude'] = latitude
-        data['longitude'] = longitude
-        data['city'] = city
-        data['region'] = region
-        data['appid'] = self._client.appid
+        data["query"] = query
+        data["category"] = category
+        data["uid"] = uid
+        data["latitude"] = latitude
+        data["longitude"] = longitude
+        data["city"] = city
+        data["region"] = region
+        data["appid"] = self._client.appid
         return self._post(
-            url='https://api.weixin.qq.com/semantic/semproxy/search',
-            data=data
+            url="https://api.weixin.qq.com/semantic/semproxy/search", data=data
         )

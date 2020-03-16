@@ -5,7 +5,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatTemplate(BaseWeChatAPI):
-
     def set_industry(self, industry_id1, industry_id2):
         """
         设置所属行业
@@ -17,11 +16,8 @@ class WeChatTemplate(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'template/api_set_industry',
-            data={
-                'industry_id1': industry_id1,
-                'industry_id2': industry_id2
-            }
+            "template/api_set_industry",
+            data={"industry_id1": industry_id1, "industry_id2": industry_id2},
         )
 
     def get_industry(self):
@@ -32,9 +28,7 @@ class WeChatTemplate(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._get(
-            'template/get_industry'
-        )
+        return self._get("template/get_industry")
 
     def get(self, template_id_short):
         """
@@ -46,11 +40,9 @@ class WeChatTemplate(BaseWeChatAPI):
         :return: 模板 ID
         """
         res = self._post(
-            'template/api_add_template',
-            data={
-                'template_id_short': template_id_short
-            },
-            result_processor=lambda x: x['template_id']
+            "template/api_add_template",
+            data={"template_id_short": template_id_short},
+            result_processor=lambda x: x["template_id"],
         )
         return res
 
@@ -64,9 +56,7 @@ class WeChatTemplate(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._get(
-            'template/get_all_private_template'
-        )
+        return self._get("template/get_all_private_template")
 
     def del_private_template(self, template_id):
         """
@@ -78,8 +68,5 @@ class WeChatTemplate(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'template/del_private_template',
-            data={
-                'template_id': template_id
-            }
+            "template/del_private_template", data={"template_id": template_id}
         )

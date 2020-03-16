@@ -12,7 +12,10 @@ from wechatpy.crypto import WeChatRefundCrypto
 from wechatpy.utils import random_string
 from wechatpy.exceptions import WeChatPayException, InvalidSignatureException
 from wechatpy.pay.utils import (
-    calculate_signature, calculate_signature_hmac, _check_signature, dict_to_xml
+    calculate_signature,
+    calculate_signature_hmac,
+    _check_signature,
+    dict_to_xml,
 )
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay import api
@@ -58,7 +61,7 @@ class WeChatPay:
     withhold = api.WeChatWithhold()
     """代扣接口"""
 
-    API_BASE_URL = 'https://api.mch.weixin.qq.com/'
+    API_BASE_URL = "https://api.mch.weixin.qq.com/"
 
     def __new__(cls, *args, **kwargs):
         self = super().__new__(cls)
@@ -69,8 +72,18 @@ class WeChatPay:
             setattr(self, name, _api)
         return self
 
-    def __init__(self, appid, api_key, mch_id, sub_mch_id=None,
-                 mch_cert=None, mch_key=None, timeout=None, sandbox=False, sub_appid=None):
+    def __init__(
+        self,
+        appid,
+        api_key,
+        mch_id,
+        sub_mch_id=None,
+        mch_cert=None,
+        mch_key=None,
+        timeout=None,
+        sandbox=False,
+        sub_appid=None,
+    ):
         self.appid = appid
         self.sub_appid = sub_appid
         self.api_key = api_key
@@ -85,56 +98,54 @@ class WeChatPay:
 
     def _fetch_sandbox_api_key(self):
         nonce_str = random_string(32)
-        sign = calculate_signature({'mch_id': self.mch_id, 'nonce_str': nonce_str}, self.api_key)
-        payload = dict_to_xml({
-            'mch_id': self.mch_id,
-            'nonce_str': nonce_str,
-        }, sign=sign)
-        headers = {'Content-Type': 'text/xml'}
-        api_url = '{base}sandboxnew/pay/getsignkey'.format(base=self.API_BASE_URL)
+        sign = calculate_signature(
+            {"mch_id": self.mch_id, "nonce_str": nonce_str}, self.api_key
+        )
+        payload = dict_to_xml(
+            {"mch_id": self.mch_id, "nonce_str": nonce_str,}, sign=sign
+        )
+        headers = {"Content-Type": "text/xml"}
+        api_url = "{base}sandboxnew/pay/getsignkey".format(base=self.API_BASE_URL)
         response = self._http.post(api_url, data=payload, headers=headers)
-        return xmltodict.parse(response.text)['xml'].get('sandbox_signkey')
+        return xmltodict.parse(response.text)["xml"].get("sandbox_signkey")
 
     def _request(self, method, url_or_endpoint, **kwargs):
-        if not url_or_endpoint.startswith(('http://', 'https://')):
-            api_base_url = kwargs.pop('api_base_url', self.API_BASE_URL)
+        if not url_or_endpoint.startswith(("http://", "https://")):
+            api_base_url = kwargs.pop("api_base_url", self.API_BASE_URL)
             if self.sandbox:
-                api_base_url = '{url}sandboxnew/'.format(url=api_base_url)
-            url = '{base}{endpoint}'.format(
-                base=api_base_url,
-                endpoint=url_or_endpoint
-            )
+                api_base_url = "{url}sandboxnew/".format(url=api_base_url)
+            url = "{base}{endpoint}".format(base=api_base_url, endpoint=url_or_endpoint)
         else:
             url = url_or_endpoint
 
-        if isinstance(kwargs.get('data', ''), dict):
-            data = kwargs['data']
-            if 'mchid' not in data:
+        if isinstance(kwargs.get("data", ""), dict):
+            data = kwargs["data"]
+            if "mchid" not in data:
                 # Fuck Tencent
-                data.setdefault('mch_id', self.mch_id)
-            data.setdefault('sub_mch_id', self.sub_mch_id)
-            data.setdefault('nonce_str', random_string(32))
+                data.setdefault("mch_id", self.mch_id)
+            data.setdefault("sub_mch_id", self.sub_mch_id)
+            data.setdefault("nonce_str", random_string(32))
             data = optionaldict(data)
 
-            if data.get('sign_type', 'MD5') == 'HMAC-SHA256':
-                sign = calculate_signature_hmac(data, self.sandbox_api_key if self.sandbox else self.api_key)
+            if data.get("sign_type", "MD5") == "HMAC-SHA256":
+                sign = calculate_signature_hmac(
+                    data, self.sandbox_api_key if self.sandbox else self.api_key
+                )
             else:
-                sign = calculate_signature(data, self.sandbox_api_key if self.sandbox else self.api_key)
+                sign = calculate_signature(
+                    data, self.sandbox_api_key if self.sandbox else self.api_key
+                )
             body = dict_to_xml(data, sign)
-            body = body.encode('utf-8')
-            kwargs['data'] = body
+            body = body.encode("utf-8")
+            kwargs["data"] = body
 
         # 商户证书
         if self.mch_cert and self.mch_key:
-            kwargs['cert'] = (self.mch_cert, self.mch_key)
+            kwargs["cert"] = (self.mch_cert, self.mch_key)
 
-        kwargs['timeout'] = kwargs.get('timeout', self.timeout)
-        logger.debug('Request to WeChat API: %s %s\n%s', method, url, kwargs)
-        res = self._http.request(
-            method=method,
-            url=url,
-            **kwargs
-        )
+        kwargs["timeout"] = kwargs.get("timeout", self.timeout)
+        logger.debug("Request to WeChat API: %s %s\n%s", method, url, kwargs)
+        res = self._http.request(method=method, url=url, **kwargs)
         try:
             res.raise_for_status()
         except requests.RequestException as reqe:
@@ -142,28 +153,28 @@ class WeChatPay:
                 return_code=None,
                 client=self,
                 request=reqe.request,
-                response=reqe.response
+                response=reqe.response,
             )
 
         return self._handle_result(res)
 
     def _handle_result(self, res):
-        res.encoding = 'utf-8'
+        res.encoding = "utf-8"
         xml = res.text
-        logger.debug('Response from WeChat API \n %s', xml)
+        logger.debug("Response from WeChat API \n %s", xml)
         try:
-            data = xmltodict.parse(xml)['xml']
+            data = xmltodict.parse(xml)["xml"]
         except (xmltodict.ParsingInterrupted, ExpatError):
             # 解析 XML 失败
-            logger.debug('WeChat payment result xml parsing error', exc_info=True)
+            logger.debug("WeChat payment result xml parsing error", exc_info=True)
             return xml
 
-        return_code = data['return_code']
-        return_msg = data.get('return_msg', data.get('retmsg'))
-        result_code = data.get('result_code', data.get('retcode'))
-        errcode = data.get('err_code')
-        errmsg = data.get('err_code_des')
-        if return_code != 'SUCCESS' or result_code != 'SUCCESS':
+        return_code = data["return_code"]
+        return_msg = data.get("return_msg", data.get("retmsg"))
+        result_code = data.get("result_code", data.get("retcode"))
+        errcode = data.get("err_code")
+        errmsg = data.get("err_code_des")
+        if return_code != "SUCCESS" or result_code != "SUCCESS":
             # 返回状态码不为成功
             raise WeChatPayException(
                 return_code,
@@ -173,26 +184,20 @@ class WeChatPay:
                 errmsg,
                 client=self,
                 request=res.request,
-                response=res
+                response=res,
             )
         return data
 
     def get(self, url, **kwargs):
-        return self._request(
-            method='get',
-            url_or_endpoint=url,
-            **kwargs
-        )
+        return self._request(method="get", url_or_endpoint=url, **kwargs)
 
     def post(self, url, **kwargs):
-        return self._request(
-            method='post',
-            url_or_endpoint=url,
-            **kwargs
-        )
+        return self._request(method="post", url_or_endpoint=url, **kwargs)
 
     def check_signature(self, params):
-        return _check_signature(params, self.api_key if not self.sandbox else self.sandbox_api_key)
+        return _check_signature(
+            params, self.api_key if not self.sandbox else self.sandbox_api_key
+        )
 
     @classmethod
     def get_payment_data(cls, xml):
@@ -216,7 +221,7 @@ class WeChatPay:
             data = xmltodict.parse(xml)
         except (xmltodict.ParsingInterrupted, ExpatError):
             raise ValueError("invalid xml")
-        if not data or 'xml' not in data:
+        if not data or "xml" not in data:
             raise ValueError("invalid xml")
         return {
             "appid": data["appid"],
@@ -232,26 +237,41 @@ class WeChatPay:
         except (xmltodict.ParsingInterrupted, ExpatError):
             raise InvalidSignatureException()
 
-        if not data or 'xml' not in data:
+        if not data or "xml" not in data:
             raise InvalidSignatureException()
 
-        data = data['xml']
-        sign = data.pop('sign', None)
-        real_sign = calculate_signature(data, self.api_key if not self.sandbox else self.sandbox_api_key)
+        data = data["xml"]
+        sign = data.pop("sign", None)
+        real_sign = calculate_signature(
+            data, self.api_key if not self.sandbox else self.sandbox_api_key
+        )
         if sign != real_sign:
             raise InvalidSignatureException()
 
-        for key in ('total_fee', 'settlement_total_fee', 'cash_fee', 'coupon_fee', 'coupon_count'):
+        for key in (
+            "total_fee",
+            "settlement_total_fee",
+            "cash_fee",
+            "coupon_fee",
+            "coupon_count",
+        ):
             if key in data:
                 data[key] = int(data[key])
-        data['sign'] = sign
+        data["sign"] = sign
         return data
 
     def parse_refund_notify_result(self, xml):
         """解析微信退款结果通知"""
-        refund_crypto = WeChatRefundCrypto(self.api_key if not self.sandbox else self.sandbox_api_key)
+        refund_crypto = WeChatRefundCrypto(
+            self.api_key if not self.sandbox else self.sandbox_api_key
+        )
         data = refund_crypto.decrypt_message(xml, self.appid, self.mch_id)
-        for key in ('total_fee', 'settlement_total_fee', 'refund_fee', 'settlement_refund_fee'):
+        for key in (
+            "total_fee",
+            "settlement_total_fee",
+            "refund_fee",
+            "settlement_refund_fee",
+        ):
             if key in data:
                 data[key] = int(data[key])
         return data

@@ -20,13 +20,8 @@ class WeChatOA(BaseWeChatAPI):
         :param template_id: 模板Id
         :return:
         """
-        data = {
-            'template_id': template_id
-        }
-        return self._post(
-            'oa/gettemplatedetail',
-            data=data
-        )
+        data = {"template_id": template_id}
+        return self._post("oa/gettemplatedetail", data=data)
 
     def get_approval_info(self, start_time, end_time, cursor, size=100, filters=None):
         """
@@ -40,18 +35,17 @@ class WeChatOA(BaseWeChatAPI):
         :param filters: 请自行查看文档
         :return:
         """
-        data = optionaldict({
-            'starttime': str(start_time),
-            'endtime': str(end_time),
-            'cursor': cursor,
-            'size': size,
-            'filter': filters
-        })
-
-        return self._post(
-            'oa/getapprovalinfo',
-            data=data
+        data = optionaldict(
+            {
+                "starttime": str(start_time),
+                "endtime": str(end_time),
+                "cursor": cursor,
+                "size": size,
+                "filter": filters,
+            }
         )
+
+        return self._post("oa/getapprovalinfo", data=data)
 
     def get_approval_detail(self, sp_no):
         """
@@ -61,16 +55,20 @@ class WeChatOA(BaseWeChatAPI):
         :param sp_no: 审批单编号
         :return:
         """
-        data = {
-            'sp_no': sp_no
-        }
-        return self._post(
-            'oa/getapprovaldetail',
-            data=data
-        )
+        data = {"sp_no": sp_no}
+        return self._post("oa/getapprovaldetail", data=data)
 
-    def apply_event(self, creator_userid, template_id, use_template_approver, approver, apply_data, summary_list,
-                    notifyer=None, notify_type=None):
+    def apply_event(
+        self,
+        creator_userid,
+        template_id,
+        use_template_approver,
+        approver,
+        apply_data,
+        summary_list,
+        notifyer=None,
+        notify_type=None,
+    ):
         """
         提交审批申请，这个函数的参数比较复杂，具体请查看官方文档
         https://work.weixin.qq.com/api/doc/90000/90135/91853
@@ -85,17 +83,16 @@ class WeChatOA(BaseWeChatAPI):
         :param notify_type: 抄送方式：1-提单时抄送（默认值）； 2-单据通过后抄送；3-提单和单据通过后抄送。仅use_template_approver为0时生效。
         :return:
         """
-        data = optionaldict({
-            'creator_userid': creator_userid,
-            'template_id': template_id,
-            'use_template_approver': use_template_approver,
-            'approver': approver,
-            'notifyer': notifyer,
-            'notify_type': notify_type,
-            'apply_data': apply_data,
-            'summary_list': summary_list
-        })
-        return self._post(
-            'oa/applyevent',
-            data=data
+        data = optionaldict(
+            {
+                "creator_userid": creator_userid,
+                "template_id": template_id,
+                "use_template_approver": use_template_approver,
+                "approver": approver,
+                "notifyer": notifyer,
+                "notify_type": notify_type,
+                "apply_data": apply_data,
+                "summary_list": summary_list,
+            }
         )
+        return self._post("oa/applyevent", data=data)

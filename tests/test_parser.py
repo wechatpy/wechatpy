@@ -5,7 +5,6 @@ from wechatpy import parse_message
 
 
 class ParseMessageTestCase(unittest.TestCase):
-
     def test_parse_text_message(self):
         xml = """<xml>
         <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -17,7 +16,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('text', msg.type)
+        self.assertEqual("text", msg.type)
 
     def test_parse_image_message(self):
         xml = """<xml>
@@ -31,7 +30,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('image', msg.type)
+        self.assertEqual("image", msg.type)
 
     def test_parse_voice_message(self):
         xml = """<xml>
@@ -45,7 +44,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('voice', msg.type)
+        self.assertEqual("voice", msg.type)
 
     def test_parse_video_message(self):
         xml = """<xml>
@@ -59,7 +58,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('video', msg.type)
+        self.assertEqual("video", msg.type)
 
     def test_parse_location_message(self):
         xml = """<xml>
@@ -75,7 +74,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('location', msg.type)
+        self.assertEqual("location", msg.type)
 
     def test_parse_link_message(self):
         xml = """<xml>
@@ -90,7 +89,7 @@ class ParseMessageTestCase(unittest.TestCase):
         </xml>"""
 
         msg = parse_message(xml)
-        self.assertEqual('link', msg.type)
+        self.assertEqual("link", msg.type)
 
     def test_parse_subscribe_event(self):
         xml = """<xml>
@@ -103,9 +102,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('subscribe', msg.event)
-        self.assertEqual('', msg.key)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("subscribe", msg.event)
+        self.assertEqual("", msg.key)
 
     def test_parse_subscribe_event_with_last_trade_no(self):
         xml = """<xml>
@@ -119,9 +118,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('subscribe', msg.event)
-        self.assertEqual('last_trade_no_4008072001201701105817415015', msg.key)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("subscribe", msg.event)
+        self.assertEqual("last_trade_no_4008072001201701105817415015", msg.key)
 
     def test_parse_subscribe_scan_event(self):
         xml = """<xml>
@@ -136,10 +135,10 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('subscribe_scan', msg.event)
-        self.assertEqual('123123', msg.scene_id)
-        self.assertEqual('TICKET', msg.ticket)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("subscribe_scan", msg.event)
+        self.assertEqual("123123", msg.scene_id)
+        self.assertEqual("TICKET", msg.ticket)
 
     def test_parse_scan_event(self):
         xml = """<xml>
@@ -154,10 +153,10 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('scan', msg.event)
-        self.assertEqual('123123', msg.scene_id)
-        self.assertEqual('TICKET', msg.ticket)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("scan", msg.event)
+        self.assertEqual("123123", msg.scene_id)
+        self.assertEqual("TICKET", msg.ticket)
 
     def test_parse_location_event(self):
         xml = """<xml>
@@ -173,8 +172,8 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('location', msg.event)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("location", msg.event)
         self.assertEqual(23.137466, msg.latitude)
         self.assertEqual(113.352425, msg.longitude)
         self.assertEqual(119.385040, msg.precision)
@@ -191,9 +190,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('click', msg.event)
-        self.assertEqual('EVENTKEY', msg.key)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("click", msg.event)
+        self.assertEqual("EVENTKEY", msg.key)
 
     def test_parse_view_event(self):
         xml = """<xml>
@@ -207,9 +206,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
 
-        self.assertEqual('event', msg.type)
-        self.assertEqual('view', msg.event)
-        self.assertEqual('www.qq.com', msg.url)
+        self.assertEqual("event", msg.type)
+        self.assertEqual("view", msg.event)
+        self.assertEqual("www.qq.com", msg.url)
 
     def test_parse_unknown_message(self):
         from wechatpy.messages import UnknownMessage
@@ -240,9 +239,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
         self.assertTrue(isinstance(msg, SubscribeScanProductEvent))
-        self.assertEqual('scanbarcode', msg.scene)
-        self.assertEqual('keystandard', msg.standard)
-        self.assertEqual('keystr', msg.key)
+        self.assertEqual("scanbarcode", msg.scene)
+        self.assertEqual("keystandard", msg.standard)
+        self.assertEqual("keystr", msg.key)
 
         xml = """<xml>
         <ToUserName><![CDATA[gh_fbe8a958756e]]></ToUserName>
@@ -255,9 +254,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
         self.assertTrue(isinstance(msg, SubscribeScanProductEvent))
-        self.assertEqual('scanimage', msg.scene)
-        self.assertEqual('keystandard', msg.standard)
-        self.assertEqual('keystr', msg.key)
+        self.assertEqual("scanimage", msg.scene)
+        self.assertEqual("keystandard", msg.standard)
+        self.assertEqual("keystr", msg.key)
 
     def test_parse_user_authorize_invoice_event(self):
         """ Test parsing xml for UserAuthorizeInvoiceEvent """
@@ -277,9 +276,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
         self.assertTrue(isinstance(msg, UserAuthorizeInvoiceEvent))
-        self.assertEqual('1202933957956', msg.success_order_id)
+        self.assertEqual("1202933957956", msg.success_order_id)
         self.assertEqual(None, msg.fail_order_id)
-        self.assertEqual('wx1234567887654321', msg.app_id)
+        self.assertEqual("wx1234567887654321", msg.app_id)
         self.assertEqual(None, msg.auth_source)
 
     def test_parse_update_invoice_status_event(self):
@@ -299,9 +298,9 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
         self.assertTrue(isinstance(msg, UpdateInvoiceStatusEvent))
-        self.assertEqual('INVOICE_REIMBURSE_INIT', msg.status)
-        self.assertEqual('pjZ8Yt7Um2jYxzneP8GomnxoVFWo', msg.card_id)
-        self.assertEqual('186921658591', msg.code)
+        self.assertEqual("INVOICE_REIMBURSE_INIT", msg.status)
+        self.assertEqual("pjZ8Yt7Um2jYxzneP8GomnxoVFWo", msg.card_id)
+        self.assertEqual("186921658591", msg.code)
 
     def test_parse_submit_invoice_title_event(self):
         """ Test parsing xml for SubmitInvoiceTitleEvent """
@@ -325,14 +324,14 @@ class ParseMessageTestCase(unittest.TestCase):
 
         msg = parse_message(xml)
         self.assertTrue(isinstance(msg, SubmitInvoiceTitleEvent))
-        self.assertEqual('样例公司抬头', msg.title)
-        self.assertEqual('1486715661', msg.tax_no)
-        self.assertEqual('abc', msg.addr)
-        self.assertEqual('13313331333', msg.phone)
-        self.assertEqual('bt', msg.bank_type)
-        self.assertEqual('bn', msg.bank_no)
-        self.assertEqual('at', msg.attach)
-        self.assertEqual('InvoiceUserTitleBusinessType', msg.title_type)
+        self.assertEqual("样例公司抬头", msg.title)
+        self.assertEqual("1486715661", msg.tax_no)
+        self.assertEqual("abc", msg.addr)
+        self.assertEqual("13313331333", msg.phone)
+        self.assertEqual("bt", msg.bank_type)
+        self.assertEqual("bn", msg.bank_no)
+        self.assertEqual("at", msg.attach)
+        self.assertEqual("InvoiceUserTitleBusinessType", msg.title_type)
 
     def test_parse_device_text_event(self):
         from wechatpy.events import DeviceTextEvent
@@ -353,9 +352,9 @@ class ParseMessageTestCase(unittest.TestCase):
         msg = parse_message(xml)
 
         self.assertTrue(isinstance(msg, DeviceTextEvent))
-        self.assertEqual('123', msg.content)
-        self.assertEqual('123', msg.device_type)
-        self.assertEqual('123', msg.device_id)
+        self.assertEqual("123", msg.content)
+        self.assertEqual("123", msg.device_type)
+        self.assertEqual("123", msg.device_id)
 
     def test_parse_device_bind_event(self):
         from wechatpy.events import DeviceBindEvent
@@ -377,6 +376,6 @@ class ParseMessageTestCase(unittest.TestCase):
         msg = parse_message(xml)
 
         self.assertTrue(isinstance(msg, DeviceBindEvent))
-        self.assertEqual('123', msg.content)
-        self.assertEqual('123', msg.device_type)
-        self.assertEqual('123', msg.device_id)
+        self.assertEqual("123", msg.content)
+        self.assertEqual("123", msg.device_type)
+        self.assertEqual("123", msg.device_id)

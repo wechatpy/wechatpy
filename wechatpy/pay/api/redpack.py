@@ -8,10 +8,20 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatRedpack(BaseWeChatPayAPI):
-
-    def send(self, user_id, total_amount, send_name, act_name,
-             wishing, remark, total_num=1, client_ip=None,
-             out_trade_no=None, scene_id=None, consume_mch_id=None):
+    def send(
+        self,
+        user_id,
+        total_amount,
+        send_name,
+        act_name,
+        wishing,
+        remark,
+        total_num=1,
+        client_ip=None,
+        out_trade_no=None,
+        scene_id=None,
+        consume_mch_id=None,
+    ):
         """
         发送现金红包
 
@@ -30,31 +40,41 @@ class WeChatRedpack(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = '{0}{1}{2}'.format(
-                self.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+            out_trade_no = "{0}{1}{2}".format(
+                self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000)
             )
         data = {
-            'wxappid': self.appid,
-            're_openid': user_id,
-            'total_amount': total_amount,
-            'send_name': send_name,
-            'act_name': act_name,
-            'wishing': wishing,
-            'remark': remark,
-            'client_ip': client_ip or get_external_ip(),
-            'total_num': total_num,
-            'mch_billno': out_trade_no,
-            'scene_id': scene_id,
-            'risk_info': None,
-            'consume_mch_id': consume_mch_id
+            "wxappid": self.appid,
+            "re_openid": user_id,
+            "total_amount": total_amount,
+            "send_name": send_name,
+            "act_name": act_name,
+            "wishing": wishing,
+            "remark": remark,
+            "client_ip": client_ip or get_external_ip(),
+            "total_num": total_num,
+            "mch_billno": out_trade_no,
+            "scene_id": scene_id,
+            "risk_info": None,
+            "consume_mch_id": consume_mch_id,
         }
-        return self._post('mmpaymkttransfers/sendredpack', data=data)
+        return self._post("mmpaymkttransfers/sendredpack", data=data)
 
-    def send_group(self, user_id, total_amount, send_name, act_name, wishing,
-                   remark, total_num, client_ip=None, amt_type="ALL_RAND",
-                   out_trade_no=None, scene_id=None, consume_mch_id=None):
+    def send_group(
+        self,
+        user_id,
+        total_amount,
+        send_name,
+        act_name,
+        wishing,
+        remark,
+        total_num,
+        client_ip=None,
+        amt_type="ALL_RAND",
+        out_trade_no=None,
+        scene_id=None,
+        consume_mch_id=None,
+    ):
         """
         发送裂变红包
 
@@ -75,30 +95,30 @@ class WeChatRedpack(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = '{0}{1}{2}'.format(
+            out_trade_no = "{0}{1}{2}".format(
                 self._client.mch_id,
-                now.strftime('%Y%m%d%H%M%S'),
-                random.randint(1000, 10000)
+                now.strftime("%Y%m%d%H%M%S"),
+                random.randint(1000, 10000),
             )
         data = {
-            'wxappid': self.appid,
-            're_openid': user_id,
-            'total_amount': total_amount,
-            'send_name': send_name,
-            'act_name': act_name,
-            'wishing': wishing,
-            'remark': remark,
-            'total_num': total_num,
-            'client_ip': client_ip or get_external_ip(),
-            'amt_type': amt_type,
-            'mch_billno': out_trade_no,
-            'scene_id': scene_id,
-            'risk_info': None,
-            'consume_mch_id': consume_mch_id
+            "wxappid": self.appid,
+            "re_openid": user_id,
+            "total_amount": total_amount,
+            "send_name": send_name,
+            "act_name": act_name,
+            "wishing": wishing,
+            "remark": remark,
+            "total_num": total_num,
+            "client_ip": client_ip or get_external_ip(),
+            "amt_type": amt_type,
+            "mch_billno": out_trade_no,
+            "scene_id": scene_id,
+            "risk_info": None,
+            "consume_mch_id": consume_mch_id,
         }
-        return self._post('mmpaymkttransfers/sendgroupredpack', data=data)
+        return self._post("mmpaymkttransfers/sendgroupredpack", data=data)
 
-    def query(self, out_trade_no, bill_type='MCHT'):
+    def query(self, out_trade_no, bill_type="MCHT"):
         """
         查询红包发放记录
 
@@ -107,8 +127,8 @@ class WeChatRedpack(BaseWeChatPayAPI):
         :return: 返回的红包发放记录信息
         """
         data = {
-            'mch_billno': out_trade_no,
-            'bill_type': bill_type,
-            'appid': self.appid,
+            "mch_billno": out_trade_no,
+            "bill_type": bill_type,
+            "appid": self.appid,
         }
-        return self._post('mmpaymkttransfers/gethbinfo', data=data)
+        return self._post("mmpaymkttransfers/gethbinfo", data=data)

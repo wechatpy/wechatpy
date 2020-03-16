@@ -24,13 +24,8 @@ class WeChatDepartment(BaseWeChatAPI):
         :param id: 部门id，32位整型，指定时必须大于1。若不填该参数，将自动生成id
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            name=name,
-            parentid=parent_id,
-            order=order,
-            id=id
-        )
-        return self._post('department/create', data=data)
+        data = optionaldict(name=name, parentid=parent_id, order=order, id=id)
+        return self._post("department/create", data=data)
 
     def update(self, id, name=None, parent_id=None, order=None):
         """
@@ -44,13 +39,8 @@ class WeChatDepartment(BaseWeChatAPI):
         :param order: 在父部门中的次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(
-            id=id,
-            name=name,
-            parentid=parent_id,
-            order=order
-        )
-        return self._post('department/update', data=data)
+        data = optionaldict(id=id, name=name, parentid=parent_id, order=order)
+        return self._post("department/update", data=data)
 
     def delete(self, id):
         """
@@ -61,7 +51,7 @@ class WeChatDepartment(BaseWeChatAPI):
         :param id: 部门id。（注：不能删除根部门；不能删除含有子部门、成员的部门）
         :return: 返回的 JSON 数据包
         """
-        return self._get('department/delete', params={'id': id})
+        return self._get("department/delete", params={"id": id})
 
     def get(self, id=None):
         """
@@ -76,10 +66,10 @@ class WeChatDepartment(BaseWeChatAPI):
         :return: 部门列表
         """
         if id is None:
-            res = self._get('department/list')
+            res = self._get("department/list")
         else:
-            res = self._get('department/list', params={'id': id})
-        return res['department']
+            res = self._get("department/list", params={"id": id})
+        return res["department"]
 
     def get_users(self, id, status=0, fetch_child=0, simple=True):
         """
@@ -94,18 +84,18 @@ class WeChatDepartment(BaseWeChatAPI):
         :param simple: True 获取部门成员，False 获取部门成员详情
         :return: 部门成员列表
         """
-        url = 'user/simplelist' if simple else 'user/list'
+        url = "user/simplelist" if simple else "user/list"
         res = self._get(
             url,
             params={
-                'department_id': id,
-                'status': status,
-                'fetch_child': 1 if fetch_child else 0
-            }
+                "department_id": id,
+                "status": status,
+                "fetch_child": 1 if fetch_child else 0,
+            },
         )
-        return res['userlist']
+        return res["userlist"]
 
-    def get_map_users(self, id=None, key='name', status=0, fetch_child=0):
+    def get_map_users(self, id=None, key="name", status=0, fetch_child=0):
         """
         映射员工某详细字段到 ``user_id``
 
@@ -120,10 +110,16 @@ class WeChatDepartment(BaseWeChatAPI):
         :param fetch_child: 1/0：是否递归获取子部门下面的成员
         :return: dict - 部门成员指定字段到 user_id 的 map  ``{ key: user_id }``
         """
-        ids = [id] if id is not None else [item['id'] for item in self.get()]
-        users_info = list(chain(*[
-            self.get_users(department, status=status, fetch_child=fetch_child, simple=False)
-            for department in ids
-        ]))
-        users_zip = [(user[key], user['userid']) for user in users_info]
+        ids = [id] if id is not None else [item["id"] for item in self.get()]
+        users_info = list(
+            chain(
+                *[
+                    self.get_users(
+                        department, status=status, fetch_child=fetch_child, simple=False
+                    )
+                    for department in ids
+                ]
+            )
+        )
+        users_zip = [(user[key], user["userid"]) for user in users_info]
         return dict(users_zip)

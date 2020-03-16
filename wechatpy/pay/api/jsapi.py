@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class WeChatJSAPI(BaseWeChatPayAPI):
-
     def get_jsapi_signature(self, prepay_id, timestamp=None, nonce_str=None):
         """
         获取 JSAPI 签名
@@ -21,15 +20,17 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         :return: 签名
         """
         data = {
-            'appId': self.sub_appid or self.appid,
-            'timeStamp': timestamp or to_text(int(time.time())),
-            'nonceStr': nonce_str or random_string(32),
-            'signType': 'MD5',
-            'package': 'prepay_id={0}'.format(prepay_id),
+            "appId": self.sub_appid or self.appid,
+            "timeStamp": timestamp or to_text(int(time.time())),
+            "nonceStr": nonce_str or random_string(32),
+            "signType": "MD5",
+            "package": "prepay_id={0}".format(prepay_id),
         }
         return calculate_signature(
             data,
-            self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key
+            self._client.api_key
+            if not self._client.sandbox
+            else self._client.sandbox_api_key,
         )
 
     def get_jsapi_params(self, prepay_id, timestamp=None, nonce_str=None, jssdk=False):
@@ -45,18 +46,20 @@ class WeChatJSAPI(BaseWeChatPayAPI):
         :return: 参数
         """
         data = {
-            'appId': self.sub_appid or self.appid,
-            'timeStamp': timestamp or to_text(int(time.time())),
-            'nonceStr': nonce_str or random_string(32),
-            'signType': 'MD5',
-            'package': 'prepay_id={0}'.format(prepay_id),
+            "appId": self.sub_appid or self.appid,
+            "timeStamp": timestamp or to_text(int(time.time())),
+            "nonceStr": nonce_str or random_string(32),
+            "signType": "MD5",
+            "package": "prepay_id={0}".format(prepay_id),
         }
         sign = calculate_signature(
             data,
-            self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key
+            self._client.api_key
+            if not self._client.sandbox
+            else self._client.sandbox_api_key,
         )
-        logger.debug('JSAPI payment parameters: data = %s, sign = %s', data, sign)
-        data['paySign'] = sign
+        logger.debug("JSAPI payment parameters: data = %s, sign = %s", data, sign)
+        data["paySign"] = sign
         if jssdk:
-            data['timestamp'] = data.pop('timeStamp')
+            data["timestamp"] = data.pop("timeStamp")
         return data

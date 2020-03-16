@@ -10,9 +10,9 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMarketing(BaseWeChatAPI):
-    API_BASE_URL = 'https://api.weixin.qq.com/marketing/'
+    API_BASE_URL = "https://api.weixin.qq.com/marketing/"
 
-    def add_user_action_sets(self, _type, name, description, version='v1.0'):
+    def add_user_action_sets(self, _type, name, description, version="v1.0"):
         """
         创建数据源
         https://wximg.qq.com/wxp/pdftool/get.html?id=rkalQXDBM&pa=39
@@ -24,18 +24,15 @@ class WeChatMarketing(BaseWeChatAPI):
         :return: 数据源唯一ID
         """
         return self._post(
-            'user_action_sets/add',
-            params={'version': version},
+            "user_action_sets/add",
+            params={"version": version},
             json=optionaldict(
-                type=_type,
-                name=name,
-                description=description,
-                version=version
+                type=_type, name=name, description=description, version=version
             ),
-            result_processor=lambda x: x['data']['user_action_set_id']
+            result_processor=lambda x: x["data"]["user_action_set_id"],
         )
 
-    def get_user_action_sets(self, user_action_set_id, version='v1.0'):
+    def get_user_action_sets(self, user_action_set_id, version="v1.0"):
         """
         获取数据源信息
 
@@ -43,12 +40,12 @@ class WeChatMarketing(BaseWeChatAPI):
         :param version: 版本号 v1.0
         """
         return self._get(
-            'user_action_sets/get',
-            params={'version': version, 'user_action_set_id': user_action_set_id},
-            result_processor=lambda x: x['data']['list']
+            "user_action_sets/get",
+            params={"version": version, "user_action_set_id": user_action_set_id},
+            result_processor=lambda x: x["data"]["list"],
         )
 
-    def add_user_actions(self, actions=(), version='v1.0'):
+    def add_user_actions(self, actions=(), version="v1.0"):
         """
         回传数据
 
@@ -58,12 +55,18 @@ class WeChatMarketing(BaseWeChatAPI):
         :param version: 版本号 v1.0
         """
         return self._post(
-            'user_actions/add',
-            params={'version': version},
-            json={'actions': actions}
+            "user_actions/add", params={"version": version}, json={"actions": actions}
         )
 
-    def get_ad_leads(self, start_date=None, end_date=None, filtering=(), page=1, page_size=100, version='v1.0'):
+    def get_ad_leads(
+        self,
+        start_date=None,
+        end_date=None,
+        filtering=(),
+        page=1,
+        page_size=100,
+        version="v1.0",
+    ):
         """
          获取朋友圈销售线索数据接口
 
@@ -85,13 +88,13 @@ class WeChatMarketing(BaseWeChatAPI):
             end_date = end_date.strftime("%Y-%m-%d")
 
         return self._get(
-            'wechat_ad_leads/get',
+            "wechat_ad_leads/get",
             params=optionaldict(
-                date_range=json.dumps({'start_date': start_date, 'end_date': end_date}),
+                date_range=json.dumps({"start_date": start_date, "end_date": end_date}),
                 filtering=json.dumps(filtering) if filtering else None,
                 page=page,
                 page_size=page_size,
-                version=version
+                version=version,
             ),
-            result_processor=lambda x: x['data']
+            result_processor=lambda x: x["data"],
         )

@@ -6,7 +6,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMenu(BaseWeChatAPI):
-
     def get(self):
         """
         查询自定义菜单。
@@ -24,7 +23,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         """
         try:
-            return self._get('menu/get')
+            return self._get("menu/get")
         except WeChatClientException as e:
             if e.errcode == 46003:
                 # menu not exist
@@ -81,10 +80,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'menu/create',
-            data=menu_data
-        )
+        return self._post("menu/create", data=menu_data)
 
     def update(self, menu_data):
         """
@@ -153,7 +149,7 @@ class WeChatMenu(BaseWeChatAPI):
             res = client.menu.delete()
 
         """
-        return self._get('menu/delete')
+        return self._get("menu/delete")
 
     def get_menu_info(self):
         """
@@ -171,7 +167,7 @@ class WeChatMenu(BaseWeChatAPI):
             menu_info = client.menu.get_menu_info()
 
         """
-        return self._get('get_current_selfmenu_info')
+        return self._get("get_current_selfmenu_info")
 
     def add_conditional(self, menu_data):
         """
@@ -230,10 +226,7 @@ class WeChatMenu(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post(
-            'menu/addconditional',
-            data=menu_data
-        )
+        return self._post("menu/addconditional", data=menu_data)
 
     def del_conditional(self, menu_id):
         """
@@ -254,10 +247,7 @@ class WeChatMenu(BaseWeChatAPI):
             res = client.menu.del_conditional('menu_id')
 
         """
-        return self._post(
-            'menu/delconditional',
-            data={'menuid': menu_id}
-        )
+        return self._post("menu/delconditional", data={"menuid": menu_id})
 
     def try_match(self, user_id):
         """
@@ -278,7 +268,4 @@ class WeChatMenu(BaseWeChatAPI):
             res = client.menu.try_match('openid')
 
         """
-        return self._post(
-            'menu/trymatch',
-            data={'user_id': user_id}
-        )
+        return self._post("menu/trymatch", data={"user_id": user_id})

@@ -19,12 +19,7 @@ class WeChatAgent(BaseWeChatAPI):
         :param agent_id: 应用id
         :return: 返回的 JSON 数据包
         """
-        return self._get(
-            'agent/get',
-            params={
-                'agentid': agent_id
-            }
-        )
+        return self._get("agent/get", params={"agentid": agent_id})
 
     def list(self):
         """
@@ -33,18 +28,20 @@ class WeChatAgent(BaseWeChatAPI):
 
         :return: 应用概况列表
         """
-        res = self._get('agent/list')
-        return res['agentlist']
+        res = self._get("agent/list")
+        return res["agentlist"]
 
-    def set(self,
-            agent_id,
-            name=None,
-            description=None,
-            redirect_domain=None,
-            logo_media_id=None,
-            report_location_flag=0,
-            is_report_user=True,
-            is_report_enter=True):
+    def set(
+        self,
+        agent_id,
+        name=None,
+        description=None,
+        redirect_domain=None,
+        logo_media_id=None,
+        report_location_flag=0,
+        is_report_user=True,
+        is_report_enter=True,
+    ):
         """
         设置应用
         https://work.weixin.qq.com/api/doc#90000/90135/90228
@@ -60,15 +57,12 @@ class WeChatAgent(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         agent_data = optionaldict()
-        agent_data['agentid'] = agent_id
-        agent_data['name'] = name
-        agent_data['description'] = description
-        agent_data['redirect_domain'] = redirect_domain
-        agent_data['logo_mediaid'] = logo_media_id
-        agent_data['report_location_flag'] = report_location_flag
-        agent_data['isreportenter'] = 1 if is_report_enter else 0
-        agent_data['isreportuser'] = 1 if is_report_user else 0
-        return self._post(
-            'agent/set',
-            data=agent_data
-        )
+        agent_data["agentid"] = agent_id
+        agent_data["name"] = name
+        agent_data["description"] = description
+        agent_data["redirect_domain"] = redirect_domain
+        agent_data["logo_mediaid"] = logo_media_id
+        agent_data["report_location_flag"] = report_location_flag
+        agent_data["isreportenter"] = 1 if is_report_enter else 0
+        agent_data["isreportuser"] = 1 if is_report_user else 0
+        return self._post("agent/set", data=agent_data)

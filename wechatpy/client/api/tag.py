@@ -6,7 +6,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatTag(BaseWeChatAPI):
-
     def create(self, name):
         """
         创建标签
@@ -17,9 +16,9 @@ class WeChatTag(BaseWeChatAPI):
         """
         name = to_text(name)
         return self._post(
-            'tags/create',
-            data={'tag': {'name': name}},
-            result_processor=lambda x: x['tag']
+            "tags/create",
+            data={"tag": {"name": name}},
+            result_processor=lambda x: x["tag"],
         )
 
     def get(self):
@@ -30,10 +29,7 @@ class WeChatTag(BaseWeChatAPI):
 
         """
 
-        res = self._get(
-            'tags/get',
-            result_processor=lambda x: x['tags']
-        )
+        res = self._get("tags/get", result_processor=lambda x: x["tags"])
 
         return res
 
@@ -48,13 +44,7 @@ class WeChatTag(BaseWeChatAPI):
         """
         name = to_text(name)
         return self._post(
-            'tags/update',
-            data={
-                'tag': {
-                    'id': int(tag_id),
-                    'name': name
-                }
-            }
+            "tags/update", data={"tag": {"id": int(tag_id), "name": name}}
         )
 
     def delete(self, tag_id):
@@ -65,14 +55,7 @@ class WeChatTag(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
 
         """
-        return self._post(
-            'tags/delete',
-            data={
-                'tag': {
-                    'id': tag_id
-                }
-            }
-        )
+        return self._post("tags/delete", data={"tag": {"id": tag_id}})
 
     def tag_user(self, tag_id, user_id):
         """
@@ -84,12 +67,14 @@ class WeChatTag(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
 
         """
-        data = {'tagid': tag_id}
+        data = {"tagid": tag_id}
         if isinstance(user_id, (tuple, list)):
-            data['openid_list'] = user_id
+            data["openid_list"] = user_id
         else:
-            data['openid_list'] = [user_id, ]
-        return self._post('tags/members/batchtagging', data=data)
+            data["openid_list"] = [
+                user_id,
+            ]
+        return self._post("tags/members/batchtagging", data=data)
 
     def untag_user(self, tag_id, user_id):
         """
@@ -101,12 +86,14 @@ class WeChatTag(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
 
         """
-        data = {'tagid': tag_id}
+        data = {"tagid": tag_id}
         if isinstance(user_id, (tuple, list)):
-            data['openid_list'] = user_id
+            data["openid_list"] = user_id
         else:
-            data['openid_list'] = [user_id, ]
-        return self._post('tags/members/batchuntagging', data=data)
+            data["openid_list"] = [
+                user_id,
+            ]
+        return self._post("tags/members/batchuntagging", data=data)
 
     def get_user_tag(self, user_id):
         """
@@ -116,11 +103,9 @@ class WeChatTag(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            'tags/getidlist',
-            data={
-                'openid': user_id
-            },
-            result_processor=lambda x: x['tagid_list']
+            "tags/getidlist",
+            data={"openid": user_id},
+            result_processor=lambda x: x["tagid_list"],
         )
 
     def get_tag_users(self, tag_id, first_user_id=None):
@@ -132,14 +117,11 @@ class WeChatTag(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = {
-            'tagid': tag_id,
+            "tagid": tag_id,
         }
         if first_user_id:
-            data['next_openid'] = first_user_id
-        return self._post(
-            'user/tag/get',
-            data=data
-        )
+            data["next_openid"] = first_user_id
+        return self._post("user/tag/get", data=data)
 
     def iter_tag_users(self, tag_id, first_user_id=None):
         """
@@ -158,11 +140,11 @@ class WeChatTag(BaseWeChatAPI):
         """
         while True:
             follower_data = self.get_tag_users(tag_id, first_user_id)
-            if 'data' not in follower_data:
+            if "data" not in follower_data:
                 return
-            for openid in follower_data['data']['openid']:
+            for openid in follower_data["data"]["openid"]:
                 yield openid
-            first_user_id = follower_data.get('next_openid')
+            first_user_id = follower_data.get("next_openid")
             if not first_user_id:
                 return
 
@@ -178,11 +160,8 @@ class WeChatTag(BaseWeChatAPI):
         """
         data = {}
         if begin_openid:
-            data['begin_openid'] = begin_openid
-        return self._post(
-            'tags/members/getblacklist',
-            data=data,
-        )
+            data["begin_openid"] = begin_openid
+        return self._post("tags/members/getblacklist", data=data,)
 
     def batch_black_list(self, openid_list):
         """
@@ -194,10 +173,7 @@ class WeChatTag(BaseWeChatAPI):
         :type openid_list: list
         """
         return self._post(
-            'tags/members/batchblacklist',
-            data={
-                'openid_list': openid_list,
-            },
+            "tags/members/batchblacklist", data={"openid_list": openid_list,},
         )
 
     def batch_unblack_list(self, openid_list):
@@ -210,8 +186,5 @@ class WeChatTag(BaseWeChatAPI):
         :type openid_list: list
         """
         return self._post(
-            'tags/members/batchunblacklist',
-            data={
-                'openid_list': openid_list,
-            },
+            "tags/members/batchunblacklist", data={"openid_list": openid_list,},
         )

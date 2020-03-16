@@ -5,11 +5,20 @@ from wechatpy.pay.base import BaseWeChatPayAPI
 
 
 class WeChatRefund(BaseWeChatPayAPI):
-
-    def apply(self, total_fee, refund_fee, out_refund_no, transaction_id=None,
-              out_trade_no=None, fee_type='CNY', op_user_id=None,
-              device_info=None, refund_account='REFUND_SOURCE_UNSETTLED_FUNDS',
-              refund_desc=None, notify_url=None):
+    def apply(
+        self,
+        total_fee,
+        refund_fee,
+        out_refund_no,
+        transaction_id=None,
+        out_trade_no=None,
+        fee_type="CNY",
+        op_user_id=None,
+        device_info=None,
+        refund_account="REFUND_SOURCE_UNSETTLED_FUNDS",
+        refund_desc=None,
+        notify_url=None,
+    ):
         """
         申请退款
 
@@ -27,23 +36,29 @@ class WeChatRefund(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'appid': self.appid,
-            'device_info': device_info,
-            'transaction_id': transaction_id,
-            'out_trade_no': out_trade_no,
-            'out_refund_no': out_refund_no,
-            'total_fee': total_fee,
-            'refund_fee': refund_fee,
-            'refund_fee_type': fee_type,
-            'op_user_id': op_user_id if op_user_id else self.mch_id,
-            'refund_account': refund_account,
+            "appid": self.appid,
+            "device_info": device_info,
+            "transaction_id": transaction_id,
+            "out_trade_no": out_trade_no,
+            "out_refund_no": out_refund_no,
+            "total_fee": total_fee,
+            "refund_fee": refund_fee,
+            "refund_fee_type": fee_type,
+            "op_user_id": op_user_id if op_user_id else self.mch_id,
+            "refund_account": refund_account,
             "refund_desc": refund_desc,
-            'notify_url': notify_url,
+            "notify_url": notify_url,
         }
-        return self._post('secapi/pay/refund', data=data)
+        return self._post("secapi/pay/refund", data=data)
 
-    def query(self, refund_id=None, out_refund_no=None, transaction_id=None,
-              out_trade_no=None, device_info=None):
+    def query(
+        self,
+        refund_id=None,
+        out_refund_no=None,
+        transaction_id=None,
+        out_trade_no=None,
+        device_info=None,
+    ):
         """
         查询退款
 
@@ -55,11 +70,11 @@ class WeChatRefund(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
-            'appid': self.appid,
-            'device_info': device_info,
-            'transaction_id': transaction_id,
-            'out_trade_no': out_trade_no,
-            'out_refund_no': out_refund_no,
-            'refund_id': refund_id,
+            "appid": self.appid,
+            "device_info": device_info,
+            "transaction_id": transaction_id,
+            "out_trade_no": out_trade_no,
+            "out_refund_no": out_refund_no,
+            "refund_id": refund_id,
         }
-        return self._post('pay/refundquery', data=data)
+        return self._post("pay/refundquery", data=data)

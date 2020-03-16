@@ -6,7 +6,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatGroup(BaseWeChatAPI):
-
     def create(self, name):
         """
         创建分组
@@ -26,10 +25,7 @@ class WeChatGroup(BaseWeChatAPI):
 
         """
         name = to_text(name)
-        return self._post(
-            'groups/create',
-            data={'group': {'name': name}}
-        )
+        return self._post("groups/create", data={"group": {"name": name}})
 
     def get(self, user_id=None):
         """
@@ -50,15 +46,12 @@ class WeChatGroup(BaseWeChatAPI):
 
         """
         if user_id is None:
-            res = self._get(
-                'groups/get',
-                result_processor=lambda x: x['groups']
-            )
+            res = self._get("groups/get", result_processor=lambda x: x["groups"])
         else:
             res = self._post(
-                'groups/getid',
-                data={'openid': user_id},
-                result_processor=lambda x: x['groupid']
+                "groups/getid",
+                data={"openid": user_id},
+                result_processor=lambda x: x["groupid"],
             )
         return res
 
@@ -83,13 +76,7 @@ class WeChatGroup(BaseWeChatAPI):
         """
         name = to_text(name)
         return self._post(
-            'groups/update',
-            data={
-                'group': {
-                    'id': int(group_id),
-                    'name': name
-                }
-            }
+            "groups/update", data={"group": {"id": int(group_id), "name": name}}
         )
 
     def move_user(self, user_id, group_id):
@@ -111,13 +98,13 @@ class WeChatGroup(BaseWeChatAPI):
             res = client.group.move_user('openid', 1234)
 
         """
-        data = {'to_groupid': group_id}
+        data = {"to_groupid": group_id}
         if isinstance(user_id, (tuple, list)):
-            endpoint = 'groups/members/batchupdate'
-            data['openid_list'] = user_id
+            endpoint = "groups/members/batchupdate"
+            data["openid_list"] = user_id
         else:
-            endpoint = 'groups/members/update'
-            data['openid'] = user_id
+            endpoint = "groups/members/update"
+            data["openid"] = user_id
         return self._post(endpoint, data=data)
 
     def delete(self, group_id):
@@ -138,11 +125,4 @@ class WeChatGroup(BaseWeChatAPI):
             res = client.group.delete(1234)
 
         """
-        return self._post(
-            'groups/delete',
-            data={
-                'group': {
-                    'id': group_id
-                }
-            }
-        )
+        return self._post("groups/delete", data={"group": {"id": group_id}})
