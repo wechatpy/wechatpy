@@ -7,8 +7,8 @@
          \|____________|\|_______|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|__||\___/ /
                                                                                 \|___|/
 
-[![GitHub Actions](https://github.com/jxtech/wechatpy/workflows/CI/badge.svg)](https://github.com/jxtech/wechatpy/actions?query=workflow%3ACI)
-[![codecov.io](https://codecov.io/github/jxtech/wechatpy/coverage.svg?branch=master)](https://codecov.io/github/jxtech/wechatpy?branch=master)
+[![GitHub Actions](https://github.com/wechatpy/wechatpy/workflows/CI/badge.svg)](https://github.com/wechatpy/wechatpy/actions?query=workflow%3ACI)
+[![codecov.io](https://codecov.io/github/wechatpy/wechatpy/coverage.svg?branch=master)](https://codecov.io/github/wechatpy/wechatpy?branch=master)
 [![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.org/project/wechatpy)
 [![Downloads](https://pepy.tech/badge/wechatpy)](https://pepy.tech/project/wechatpy)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
@@ -58,11 +58,11 @@ pip install 'wechatpy[pycrypto]'
 
 ## 问题反馈
 
-我们主要使用 [GitHub issues](https://github.com/jxtech/wechatpy/issues) 进行问题追踪和反馈。
+我们主要使用 [GitHub issues](https://github.com/wechatpy/wechatpy/issues) 进行问题追踪和反馈。
 
 QQ 群：176596300
 
-![wechatpy QQ 群](https://raw.githubusercontent.com/jxtech/wechatpy/master/docs/_static/images/qq-group.png)
+![wechatpy QQ 群](https://raw.githubusercontent.com/wechatpy/wechatpy/master/docs/_static/images/qq-group.png)
 
 
 ## License

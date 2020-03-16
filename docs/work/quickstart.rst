@@ -76,7 +76,7 @@
     xml = create_reply(msg.content, msg).render()
     encrypted_xml = crypto.encrypt_message(xml, nonce, timestamp)
 
-基于 Flask 框架的示例可参考 https://github.com/jxtech/wechatpy/tree/master/examples/echo-work
+基于 Flask 框架的示例可参考 https://github.com/wechatpy/wechatpy/tree/master/examples/echo-work
 
 微信主动调用模式接入
 -------------------------

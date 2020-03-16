@@ -158,9 +158,9 @@
     crypto = WeChatCrypto(token, encoding_aes_key, appid)
     encrypted_xml = crypto.encrypt_message(xml, nonce, timestamp)
 
-基于 Flask Web 框架的简单的加密模式示例可参考 https://github.com/jxtech/wechatpy/tree/master/examples/echo-encrypted
+基于 Flask Web 框架的简单的加密模式示例可参考 https://github.com/wechatpy/wechatpy/tree/master/examples/echo-encrypted
 
-基于 Flask Web 框架的自适应加密和明文模式示例可参考 https://github.com/jxtech/wechatpy/tree/master/examples/echo
+基于 Flask Web 框架的自适应加密和明文模式示例可参考 https://github.com/wechatpy/wechatpy/tree/master/examples/echo
 
 微信主动调用接口使用
 -------------------------

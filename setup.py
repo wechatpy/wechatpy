@@ -44,7 +44,7 @@ setup(
     version='1.8.12',
     author='messense',
     author_email='messense@icloud.com',
-    url='https://github.com/jxtech/wechatpy',
+    url='https://github.com/wechatpy/wechatpy',
     packages=find_packages(exclude=('tests', 'tests.*')),
     keywords='WeChat, weixin, SDK',
     description='WeChat SDK for Python',
