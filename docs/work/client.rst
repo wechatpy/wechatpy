@@ -63,13 +63,6 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
-素材接口(旧接口，建议更换)
---------------------------
-
-.. autoclass:: WeChatMaterial
-   :members:
-   :inherited-members:
-
 素材管理
 ---------------------------
 
