@@ -20,4 +20,4 @@ from wechatpy.work.client.api.service import WeChatService  # NOQA
 from wechatpy.work.client.api.shakearound import WeChatShakeAround  # NOQA
 from wechatpy.work.client.api.tag import WeChatTag  # NOQA
 from wechatpy.work.client.api.user import WeChatUser  # NOQA
-from wechatpy.work.client.api.OA import WeChatOA  # NOQA
+from wechatpy.work.client.api.oa import WeChatOA  # NOQA

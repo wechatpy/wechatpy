@@ -7,7 +7,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatAppChat(BaseWeChatAPI):
-    """
+    """ 发送消息到群聊会话
     https://work.weixin.qq.com/api/doc#90000/90135/90244
     """
 
