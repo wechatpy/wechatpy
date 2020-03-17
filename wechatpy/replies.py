@@ -99,7 +99,8 @@ class EmptyReply(BaseReply):
 class TextReply(BaseReply):
     """
     文本回复
-    详情请参阅 http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
+    详情请参阅
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html
     """
 
     type = "text"
@@ -111,7 +112,7 @@ class ImageReply(BaseReply):
     """
     图片回复
     详情请参阅
-    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html
     """
 
     type = "image"
@@ -131,7 +132,7 @@ class VoiceReply(BaseReply):
     """
     语音回复
     详情请参阅
-    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html
     """
 
     type = "voice"
@@ -151,7 +152,7 @@ class VideoReply(BaseReply):
     """
     视频回复
     详情请参阅
-    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html
     """
 
     type = "video"
@@ -193,7 +194,7 @@ class MusicReply(BaseReply):
     """
     音乐回复
     详情请参阅
-    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html
     """
 
     type = "music"
@@ -255,7 +256,7 @@ class ArticlesReply(BaseReply):
     """
     图文回复
     详情请参阅
-    http://mp.weixin.qq.com/wiki/9/2c15b20a16019ae613d413e30cac8ea1.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html
     """
 
     type = "news"
@@ -274,7 +275,7 @@ class TransferCustomerServiceReply(BaseReply):
     """
     将消息转发到多客服
     详情请参阅
-    http://mp.weixin.qq.com/wiki/5/ae230189c9bd07a6b221f48619aeef35.html
+    https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Forwarding_of_messages_to_service_center.html
     """
 
     type = "transfer_customer_service"

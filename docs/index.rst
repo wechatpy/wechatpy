@@ -21,7 +21,7 @@ wechatpy 是一个微信 (WeChat) 的第三方 Python SDK, 实现了微信公众
 微信公众平台接口
 -------------------
 
-建议在使用前先阅读 `微信开发平台官方文档 <https://mp.weixin.qq.com/wiki>`_
+建议在使用前先阅读 `微信开发平台官方文档 <https://developers.weixin.qq.com/doc/>`_
 
 .. toctree::
    :glob:

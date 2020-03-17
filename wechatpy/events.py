@@ -48,7 +48,7 @@ class SubscribeEvent(BaseEvent):
     用户关注事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "subscribe"
@@ -61,7 +61,7 @@ class UnsubscribeEvent(BaseEvent):
     用户取消关注事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "unsubscribe"
@@ -73,7 +73,7 @@ class SubscribeScanEvent(BaseEvent):
     用户扫描二维码关注事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "subscribe_scan"
@@ -87,7 +87,7 @@ class ScanEvent(BaseEvent):
     用户扫描二维码事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "scan"
@@ -101,7 +101,7 @@ class LocationEvent(BaseEvent):
     上报地理位置事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "location"
@@ -116,7 +116,7 @@ class ClickEvent(BaseEvent):
     点击菜单拉取消息事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "click"
@@ -129,7 +129,7 @@ class ViewEvent(BaseEvent):
     点击菜单跳转链接事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421140454
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
     """
 
     event = "view"
@@ -142,7 +142,7 @@ class MassSendJobFinishEvent(BaseEvent):
     群发消息任务完成事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1481187827_i0l21
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Batch_Sends_and_Originality_Checks.html#7
     """
 
     id = IntegerField("MsgID", 0)
@@ -160,7 +160,7 @@ class TemplateSendJobFinishEvent(BaseEvent):
     模板消息任务完成事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1433751277
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html#6
     """
 
     id = IntegerField("MsgID")
@@ -187,7 +187,7 @@ class ScanCodePushEvent(BaseScanCodeEvent):
     扫码推事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421141016
+    https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Custom_Menu_Push_Events.html
     """
 
     event = "scancode_push"
@@ -199,7 +199,7 @@ class ScanCodeWaitMsgEvent(BaseScanCodeEvent):
     扫码推事件且弹出“消息接收中”提示框的事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421141016
+    https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Custom_Menu_Push_Events.html
     """
 
     event = "scancode_waitmsg"
@@ -229,7 +229,7 @@ class PicSysPhotoEvent(BasePictureEvent):
     弹出系统拍照发图的事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421141016
+    https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Custom_Menu_Push_Events.html
     """
 
     event = "pic_sysphoto"
@@ -241,7 +241,7 @@ class PicPhotoOrAlbumEvent(BasePictureEvent):
     弹出拍照或者相册发图的事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421141016
+    https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Custom_Menu_Push_Events.html
     """
 
     event = "pic_photo_or_album"
@@ -253,7 +253,7 @@ class PicWeChatEvent(BasePictureEvent):
     弹出微信相册发图器的事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421141016
+    https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Custom_Menu_Push_Events.html
     """
 
     event = "pic_weixin"
@@ -265,7 +265,7 @@ class LocationSelectEvent(BaseEvent):
     弹出地理位置选择器的事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1421141016
+    https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Custom_Menu_Push_Events.html
     """
 
     event = "location_select"
@@ -645,7 +645,7 @@ class QualificationVerifySuccessEvent(BaseEvent):
     资质认证成功事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1455785130
+    https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Wechat_Accreditation_Event_Push.html
     """
 
     event = "qualification_verify_success"
@@ -658,7 +658,7 @@ class QualificationVerifyFailEvent(BaseEvent):
     资质认证失败事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1455785130
+    https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Wechat_Accreditation_Event_Push.html
     """
 
     event = "qualification_verify_fail"
@@ -672,7 +672,7 @@ class NamingVerifySuccessEvent(BaseEvent):
     名称认证成功事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1455785130
+    https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Wechat_Accreditation_Event_Push.html
     """
 
     event = "naming_verify_success"
@@ -685,7 +685,7 @@ class NamingVerifyFailEvent(BaseEvent):
     名称认证失败事件
 
     客户端不打勾，但仍有接口权限。详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1455785130
+    https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Wechat_Accreditation_Event_Push.html
     """
 
     event = "naming_verify_fail"
@@ -699,7 +699,7 @@ class AnnualRenewEvent(BaseEvent):
     年审通知事件
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1455785130
+    https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Wechat_Accreditation_Event_Push.html
     """
 
     event = "annual_renew"
@@ -712,7 +712,7 @@ class VerifyExpiredEvent(BaseEvent):
     认证过期失效通知
 
     详情请参阅
-    https://mp.weixin.qq.com/wiki?id=mp1455785130
+    https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Wechat_Accreditation_Event_Push.html
     """
 
     event = "verify_expired"

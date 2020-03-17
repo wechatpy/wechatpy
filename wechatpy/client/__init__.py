@@ -52,7 +52,8 @@ class WeChatClient(BaseWeChatClient):
     def fetch_access_token(self):
         """
         获取 access token
-        详情请参考 http://mp.weixin.qq.com/wiki/index.php?title=通用接口文档
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
 
         :return: 返回的 JSON 数据包
         """
