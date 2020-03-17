@@ -76,7 +76,7 @@ class TextMessage(BaseMessage):
     """
     文本消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "text"
@@ -88,7 +88,7 @@ class ImageMessage(BaseMessage):
     """
     图片消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "image"
@@ -101,7 +101,7 @@ class VoiceMessage(BaseMessage):
     """
     语音消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "voice"
@@ -115,7 +115,7 @@ class ShortVideoMessage(BaseMessage):
     """
     短视频消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "shortvideo"
@@ -128,7 +128,7 @@ class VideoMessage(BaseMessage):
     """
     视频消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "video"
@@ -141,7 +141,7 @@ class LocationMessage(BaseMessage):
     """
     地理位置消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "location"
@@ -160,7 +160,7 @@ class LinkMessage(BaseMessage):
     """
     链接消息
     详情请参阅
-    http://mp.weixin.qq.com/wiki/10/79502792eef98d6e0c6e1739da387346.html
+    https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
     """
 
     type = "link"

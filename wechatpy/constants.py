@@ -31,7 +31,7 @@ class ReimburseStatus(Enum):
 @unique
 class WeChatErrorCode(IntEnum):
     """
-    微信接口返回码，全局返回码请参考 https://mp.weixin.qq.com/wiki?id=mp1433747234
+    微信接口返回码，全局返回码请参考 https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Global_Return_Code.html
     """
 
     # 系统错误
