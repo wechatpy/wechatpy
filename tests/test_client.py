@@ -216,6 +216,15 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.misc.get_wechat_ips()
             self.assertEqual(["127.0.0.1"], result)
 
+    def test_check_network(self):
+        with HTTMock(wechat_api_mock):
+            result = self.client.misc.check_network()
+            dns = result["dns"]
+            assert dns == [
+                {"ip": "111.161.64.40", "real_operator": "UNICOM"},
+                {"ip": "111.161.64.48", "real_operator": "UNICOM"},
+            ]
+
     def test_get_user_info(self):
         with HTTMock(wechat_api_mock):
             openid = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M"
