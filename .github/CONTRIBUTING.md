@@ -11,13 +11,8 @@ wechatpy 项目欢迎任何人提交 issue 和 Pull Requests 贡献代码，在�
 cd wechatpy
 virtualenv venv
 source venv/bin/activate
-pip install -e .
-```
-
-为了方便测试，需要安装 tox:
-
-```bash
-pip install -U tox
+pip install poetry
+poetry install --extras cryptography
 ```
 
 > Tips: 安装 [autoenv](https://github.com/kennethreitz/autoenv) 可以让您在进入 wechatpy 文件夹时自动激活虚拟环境，省去每次手动执行 `source venv/bin/activate`
@@ -49,26 +44,14 @@ black -l 120 -t py35 -t py36 -t py37 -t py38
 
 ## 自动化测试
 
-在您完成对代码的改进和完善之后，请使用 tox 完成自动化测试，确保全部测试通过。
+在您完成对代码的改进和完善之后，请进行自动化测试，确保全部测试通过。
 
 ```bash
-tox -l | xargs tox -e
+pytest
 ```
 
 wechatpy 希望支持的 Python 版本有 3.5, 3.6, 3.7 和 3.8。
 如果您的本地 Python 环境没有安装全面，请尽可能测试全面您已经安装的 Python 版本。
-如您本地安装了 Python 3.6 和 Python 3.7，则运行：
-
-```bash
-tox -e py36-pycrypto,py37-cryptography
-```
-
-或者您也可以直接用 `pytest` 测试：
-
-```bash
-pip install -U -r dev-requirements.txt
-pytest -v
-```
 
 如果出现测试失败，请检查您的修改过的代码或者检查测试用例的代码是否需要更新。
 

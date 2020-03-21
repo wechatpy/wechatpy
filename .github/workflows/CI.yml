@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: [3.5, 3.6, 3.7, 3.8]
-        crypto_lib: [cryptography, pycrypto]
+        extra: [cryptography, pycrypto]
     services:
       redis:
         image: redis
@@ -29,17 +29,27 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
+      - name: Cache venv
+        uses: actions/cache@v1
+        with:
+          path: venv
+          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.extra }}-venv-${{ hashFiles('poetry.lock') }}
       - name: Install Dependencies
-        run: pip install tox coverage
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install poetry
+          poetry install --extras ${{ matrix.extra }}
+          pip list
       - name: Check code style
         if: matrix.python-version == 3.6
         run: |
           pip install black
           black -l 120 -t py35 -t py36 -t py37 -t py38 --check .
-      - name: Test with tox
-        env:
-          TOX_ENV: py${{ matrix.python-version }}-${{ matrix.crypto_lib }}
-        run: tox -e $TOX_ENV
+      - name: pytest
+        run: |
+          source venv/bin/activate
+          pytest --cov --cov-report=term --cov-report=xml
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v1
         with:
