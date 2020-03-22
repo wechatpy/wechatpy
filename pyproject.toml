@@ -57,3 +57,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry.urls]
 issues = "https://github.com/wechatpy/wechatpy/issues"
+
+[tool.black]
+line-length = 120
+target-version = ['py35', 'py36', 'py37', 'py38']
