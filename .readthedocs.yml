@@ -1,4 +1,3 @@
-requirements_file: dev-requirements.txt
 formats:
   - none
 python:
