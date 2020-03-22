@@ -9,6 +9,7 @@
 
 [![GitHub Actions](https://github.com/wechatpy/wechatpy/workflows/CI/badge.svg)](https://github.com/wechatpy/wechatpy/actions?query=workflow%3ACI)
 [![codecov.io](https://codecov.io/github/wechatpy/wechatpy/coverage.svg?branch=master)](https://codecov.io/github/wechatpy/wechatpy?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/wechatpy/badge/?version=master)](http://docs.wechatpy.org/zh_CN/master/?badge=master)
 [![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.org/project/wechatpy)
 [![Downloads](https://pepy.tech/badge/wechatpy)](https://pepy.tech/project/wechatpy)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
