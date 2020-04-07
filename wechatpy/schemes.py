@@ -64,15 +64,18 @@ class JsapiCardExt(DataclassesBase):
 
     def __init__(self, **data):
         super().__init__(**data)
-        self.timestamp = self.timestamp or str(int(time.time()))
+        self.timestamp = self.timestamp or str(int(time()))
         self.nonce_str = self.nonce_str or random_string()
 
-    def __str__(self):
+    def dict(self):
         ret = {}
         for key in self.__dict__:
             if not key.startswith("__") and self.__dict__[key]:
                 ret[key] = self.__dict__[key]
-        return dumps(ret)
+        return ret
+
+    def __str__(self):
+        return dumps(self.dict())
 
     def dump(self):
         return self.__str__()

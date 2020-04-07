@@ -9,6 +9,7 @@ from httmock import HTTMock, response, urlmatch
 
 from wechatpy import WeChatClient
 from wechatpy.exceptions import WeChatClientException
+from wechatpy.schemes import JsapiCardExt
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, "fixtures")
@@ -522,6 +523,14 @@ class WeChatClientTestCase(unittest.TestCase):
             },
             signature_dict,
         )
+
+    def test_jsapi_card_ext(self):
+        card_ext = JsapiCardExt(openid='2', signature="asdf")
+        assert 'outer_str' not in card_ext.dict()
+        assert 'code' not in card_ext.dict()
+
+        card_ext = JsapiCardExt(code='4', openid='2', signature="asdf")
+        assert 'code' in card_ext.dict()
 
     def test_menu_get_menu_info(self):
         with HTTMock(wechat_api_mock):
