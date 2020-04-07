@@ -109,9 +109,15 @@ class WeChatJSAPI(BaseWeChatAPI):
         return card_signature_dict
 
     def get_jsapi_add_card_params(
-        self, card_id: str, code: str = "", openid: str = "",
-        fixed_begintimestamp: int = 0, outer_str: str = "", noncestr: str = "",
-        timestamp: int = 0, card_ticket: str = ""
+        self,
+        card_id: str,
+        code: str = "",
+        openid: str = "",
+        fixed_begintimestamp: int = 0,
+        outer_str: str = "",
+        noncestr: str = "",
+        timestamp: int = 0,
+        card_ticket: str = "",
     ) -> JsapiCardExt:
         """
         用于生成 jsapi 批量添加卡券接口的 cardList 参数中的 cardExt 参数
@@ -142,15 +148,19 @@ class WeChatJSAPI(BaseWeChatAPI):
             "timestamp": str(timestamp),
             "code": code,
             "openid": openid,
-            "card_id": card_id
+            "card_id": card_id,
         }
         list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
         str_to_sign = "".join(list_before_sign).encode()
 
         card_ext = JsapiCardExt(
-            code=code, openid=openid, timestamp=str(timestamp),
-            fixed_begintimestamp=fixed_begintimestamp, outer_str=outer_str, nonce_str=noncestr,
-            signature=hashlib.sha1(str_to_sign).hexdigest()
+            code=code,
+            openid=openid,
+            timestamp=str(timestamp),
+            fixed_begintimestamp=fixed_begintimestamp,
+            outer_str=outer_str,
+            nonce_str=noncestr,
+            signature=hashlib.sha1(str_to_sign).hexdigest(),
         )
 
         return card_ext

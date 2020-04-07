@@ -46,6 +46,7 @@ coverage = "^5.0.4"
 redis = "^3.4.1"
 pymemcache = "^3.0.1"
 shove = "^0.6.6"
+pydantic= "^1.4"
 
 [tool.poetry.extras]
 cryptography = ["cryptography"]

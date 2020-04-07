@@ -10,6 +10,7 @@ class JsapiCardExt(BaseModel):
     文档中要求本结构应为 JSON 字符串, 因此使用时注意转换.
     参数含义: https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#65
     """
+
     code: str = ""
     openid: str = ""
     timestamp: str = ""
