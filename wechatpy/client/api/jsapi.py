@@ -115,7 +115,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         openid: str = "",
         fixed_begintimestamp: int = 0,
         outer_str: str = "",
-        noncestr: str = "",
+        nonce_str: str = "",
         timestamp: int = 0,
         card_ticket: str = "",
     ) -> JsapiCardExt:
