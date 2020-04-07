@@ -2,11 +2,14 @@ from time import time
 from wechatpy.utils import random_string
 from json import dumps
 import warnings
+from typing import Text, Any
 
 
 class DataclassesBase:
     def __init__(self, **data):
-        annotations = self.__annotations__.copy() if hasattr(self, "__annotations__") else {}
+        self._annotations = self.__annotations__ if hasattr(self, "__annotations__") else {}
+
+        annotations = self._annotations.copy()
         for key, value in data.items():
             if key in annotations:
                 if isinstance(value, annotations[key]):
@@ -26,6 +29,22 @@ class DataclassesBase:
 
             if error_msg:
                 raise NameError("There are some missing values\n" + "\n\b".join(error_msg))
+
+    def __setattr__(self, key: Text, value: Any):
+        if not key.startswith("_"):
+            if key not in self._annotations:
+                warnings.warn("Got an unexpected key %s" % key)
+            elif not isinstance(value, self._annotations[key]):
+                raise TypeError(
+                    "The type of value of %s should be %s, but got %s" % (key, self._annotations[key], type(value))
+                )
+        self.__dict__[key] = value
+
+    def dict(self) -> dict:
+        ret = {}
+        for annotation in self._annotations:
+            ret[annotation] = getattr(self, annotation)
+        return ret
 
 
 class JsapiCardExt(DataclassesBase):
