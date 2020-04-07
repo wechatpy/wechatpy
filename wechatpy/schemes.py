@@ -24,4 +24,11 @@ class JsapiCardExt(BaseModel):
         self.nonce_str = self.nonce_str or random_string()
 
     def __str__(self):
-        return dumps(self.dict())
+        ret = {}
+        for key in self.__dict__:
+            if not key.startswith("__") and self.__dict__[key]:
+                ret[key] = self.__dict__[key]
+        return dumps(ret)
+
+    def dump(self):
+        return self.__str__()
