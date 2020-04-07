@@ -72,6 +72,7 @@ class JsapiCardExt(DataclassesBase):
         for key in self.__dict__:
             if not key.startswith("__") and self.__dict__[key]:
                 ret[key] = self.__dict__[key]
+        ret.pop("_annotations")
         return ret
 
     def __str__(self):

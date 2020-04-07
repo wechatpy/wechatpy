@@ -115,7 +115,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         openid: str = "",
         fixed_begintimestamp: int = 0,
         outer_str: str = "",
-        noncestr: str = "",
+        nonce_str: str = "",
         timestamp: int = 0,
         card_ticket: str = "",
     ) -> JsapiCardExt:
@@ -132,18 +132,18 @@ class WeChatJSAPI(BaseWeChatAPI):
                                      用于解决商户系统内起始时间和领取时间不同步的问题.
         :param outer_str: 领取渠道参数, 用于标识本次领取的渠道值.  支持商户自定义场景值填入card_ext进行卡券投放,
                           当用户领取时会将相应场景值通过事件通知商户.
-        :param noncestr: 随机字符串, 由开发者设置传入, 加强安全性 (若不填写可能被重放请求).
+        :param nonce_str: 随机字符串, 由开发者设置传入, 加强安全性 (若不填写可能被重放请求).
         :param timestamp: unix 时间戳, 不同添加请求的时间戳须动态生成, 若重复将会导致领取失败.
         :param card_ticket: 用于卡券的微信 api_ticket
 
         :return: 卡券的附加信息 card_ext 的 dict
         """
-        noncestr = noncestr or random_string()
+        nonce_str = nonce_str or random_string()
         timestamp = timestamp or int(time.time())
         card_ticket = card_ticket or self.get_jsapi_card_ticket()
 
         card_signature_dict = {
-            "noncestr": noncestr,
+            "nonce_str": nonce_str,
             "api_ticket": card_ticket,
             "timestamp": str(timestamp),
             "code": code,
@@ -152,14 +152,14 @@ class WeChatJSAPI(BaseWeChatAPI):
         }
         list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
         str_to_sign = "".join(list_before_sign).encode()
-
+        print(str_to_sign)
         card_ext = JsapiCardExt(
             code=code,
             openid=openid,
             timestamp=str(timestamp),
             fixed_begintimestamp=fixed_begintimestamp,
             outer_str=outer_str,
-            nonce_str=noncestr,
+            nonce_str=nonce_str,
             signature=hashlib.sha1(str_to_sign).hexdigest(),
         )
 
