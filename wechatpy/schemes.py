@@ -1,8 +1,9 @@
-from time import time
-from wechatpy.utils import random_string
-from json import dumps
 import warnings
+from json import dumps
+from time import time
 from typing import Text, Any
+
+from wechatpy.utils import random_string
 
 
 class DataclassesBase:
