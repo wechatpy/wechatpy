@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8]
         extra: [cryptography, pycrypto]
     services:
       redis:
@@ -45,7 +45,7 @@ jobs:
         if: matrix.python-version == 3.6
         run: |
           pip install black
-          black -l 120 -t py35 -t py36 -t py37 -t py38 --check .
+          black -l 120 -t py36 -t py37 -t py38 --check .
       - name: pytest
         run: |
           source venv/bin/activate

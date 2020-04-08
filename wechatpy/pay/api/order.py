@@ -32,7 +32,7 @@ class WeChatOrder(BaseWeChatPayAPI):
         limit_pay=None,
         scene_info=None,
         sub_user_id=None,
-        **kwargs
+        **kwargs,
     ):
         """
         统一下单接口
