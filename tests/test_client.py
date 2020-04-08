@@ -553,7 +553,7 @@ class WeChatClientTestCase(unittest.TestCase):
         card_params = self.client.jsapi.get_jsapi_add_card_params(
             card_ticket=card_ticket, timestamp=timestamp, card_id=card_id, nonce_str=nonce_str, code=code
         )
-        self.assertEqual(
+        self.assertDictEqual(
             {
                 "nonce_str": nonce_str,
                 "timestamp": timestamp,
