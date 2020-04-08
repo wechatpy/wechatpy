@@ -27,7 +27,7 @@ class WeChatUser(BaseWeChatAPI):
         email=None,
         weixin_id=None,
         extattr=None,
-        **kwargs
+        **kwargs,
     ):
         """
         创建成员
@@ -70,7 +70,7 @@ class WeChatUser(BaseWeChatAPI):
         weixin_id=None,
         enable=None,
         extattr=None,
-        **kwargs
+        **kwargs,
     ):
         """
         更新成员
