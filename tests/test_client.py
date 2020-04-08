@@ -526,7 +526,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_jsapi_card_ext(self):
         card_ext = JsapiCardExt(openid="2", signature="asdf")
-        assert "outer_str" not in card_ext.dict()
+        self.assertNotIn("outer_str", card_ext.dict())
         assert "code" not in card_ext.dict()
 
         card_ext = JsapiCardExt(code="4", openid="2", signature="asdf")
