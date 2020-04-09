@@ -121,22 +121,22 @@
 
     reply = ArticlesReply(message=msg, articles=[
         {
-            'title': u'标题1',
-            'description': u'描述1',
-            'url': u'http://www.qq.com',
+            'title': '标题1',
+            'description': '描述1',
+            'url': 'http://www.qq.com',
         },
         {
-            'title': u'标题2',
-            'description': u'描述2',
-            'url': u'http://www.qq.com',
+            'title': '标题2',
+            'description': '描述2',
+            'url': 'http://www.qq.com',
             'image': 'http://img.qq.com/1.png',
         },
     ])
     # 继续添加
     reply.add_article({
-        'title': u'标题3',
-        'description': u'描述3',
-        'url': u'http://www.qq.com',
+        'title': '标题3',
+        'description': '描述3',
+        'url': 'http://www.qq.com',
     })
     # 转换成 XML
     xml = reply.render()
