@@ -65,7 +65,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         ticket_key = "{}_jsapi_ticket".format(self._client.corp_id)
         expires_at_key = "{}_jsapi_ticket_expires_at".format(self._client.corp_id)
         ticket = self.session.get(ticket_key)
-        expires_at = self.session.get(expires_at_key, 0)
+        expires_at = self.session.get(expires_at_key) or 0
         if not ticket or expires_at < int(time.time()):
             jsapi_ticket = self.get_ticket()
             ticket = jsapi_ticket["ticket"]
@@ -85,7 +85,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         ticket_key = "{}_agent_jsapi_ticket".format(self._client.corp_id)
         expires_at_key = "{}_agent_jsapi_ticket_expires_at".format(self._client.corp_id)
         ticket = self.session.get(ticket_key)
-        expires_at = self.session.get(expires_at_key, 0)
+        expires_at = self.session.get(expires_at_key) or 0
         if not ticket or expires_at < int(time.time()):
             jsapi_ticket = self.get_agent_ticket()
             ticket = jsapi_ticket["ticket"]
