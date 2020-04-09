@@ -33,7 +33,7 @@ def register_message(msg_type):
 class MessageMetaClass(type):
     """Metaclass for all messages"""
 
-    def __new__(cls, name, bases, attrs):
+    def __new__(mcs, name, bases, attrs):
         for b in bases:
             if not hasattr(b, "_fields"):
                 continue
@@ -44,13 +44,13 @@ class MessageMetaClass(type):
                 if isinstance(v, FieldDescriptor):
                     attrs[k] = copy.deepcopy(v.field)
 
-        cls = super().__new__(cls, name, bases, attrs)
-        cls._fields = {}
+        mcs = super().__new__(mcs, name, bases, attrs)
+        mcs._fields = {}
 
-        for name, field in cls.__dict__.items():
+        for name, field in mcs.__dict__.items():
             if isinstance(field, BaseField):
-                field.add_to_class(cls, name)
-        return cls
+                field.add_to_class(mcs, name)
+        return mcs
 
 
 class BaseMessage(metaclass=MessageMetaClass):
