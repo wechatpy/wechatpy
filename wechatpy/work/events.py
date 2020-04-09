@@ -273,3 +273,20 @@ class TaskCardClickEvent(events.BaseEvent):
     event_key = StringField("EventKey")
     agent = IntegerField("AgentID", 0)
     task_id = StringField("TaskId")
+
+
+@register_event("change_external_contact")
+class ChangeExternalContactEvent(events.BaseEvent):
+    """
+    外部联系人事件
+
+    详情请参阅
+    https://work.weixin.qq.com/api/doc/90000/90135/92130#%E6%B7%BB%E5%8A%A0%E5%A4%96%E9%83%A8%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BA%8B%E4%BB%B6
+    """
+
+    event = "change_external_contact"
+    change_type = StringField("ChangeType")
+    welcome_code = StringField("WelcomeCode")
+    state = StringField("State")
+    user_id = StringField("UserID")
+    external_user_id = StringField("ExternalUserID")
