@@ -112,6 +112,34 @@
     # 转换成 XML
     xml = reply.render()
 
+回复视频消息
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    from wechatpy.replies import VideoReply
+
+    reply = VideoReply(message=msg)
+    reply.media_id = '必填，通过素材管理中的接口上传多媒体文件，得到的id'
+    reply.title = '选填，视频消息的标题'
+    reply.description = '选填，视频消息的描述'
+    # 转换成 XML
+    xml = reply.render()
+
+回复音乐消息
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    from wechatpy.replies import MusicReply
+
+    reply = MusicReply(message=msg)
+    reply.thumb_media_id = '缩略图的媒体id'
+    reply.hq_music_url = '高质量音乐链接'
+    # 其他参数 music_url, title, description 等见文档
+    # 转换成 XML
+    xml = reply.render()
+
 回复图文消息
 ^^^^^^^^^^^^^^^^^^^^^^
 
