@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import io
-import os
 import json
+import os
 import unittest
 from datetime import datetime
 
@@ -43,12 +43,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_two_client_not_equal(self):
         client2 = WeChatClient("654321", "654321", "987654321")
-        assert self.client != client2
-        assert self.client.user != client2.user
-        assert id(self.client.menu) != id(client2.menu)
+        self.assertNotEqual(self.client, client2)
+        self.assertNotEqual(self.client.user, client2.user)
+        self.assertNotEqual(id(self.client.menu), id(client2.menu))
         with HTTMock(wechat_api_mock):
             self.client.fetch_access_token()
-            assert self.client.access_token != client2.access_token
+            self.assertNotEqual(self.client.access_token, client2.access_token)
 
     def test_subclass_client_ok(self):
         class TestClient(WeChatClient):
@@ -221,10 +221,13 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             result = self.client.misc.check_network()
             dns = result["dns"]
-            assert dns == [
-                {"ip": "111.161.64.40", "real_operator": "UNICOM"},
-                {"ip": "111.161.64.48", "real_operator": "UNICOM"},
-            ]
+            self.assertListEqual(
+                dns,
+                [
+                    {"ip": "111.161.64.40", "real_operator": "UNICOM"},
+                    {"ip": "111.161.64.48", "real_operator": "UNICOM"},
+                ],
+            )
 
     def test_get_user_info(self):
         with HTTMock(wechat_api_mock):
@@ -527,10 +530,10 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_jsapi_card_ext(self):
         card_ext = JsapiCardExt(openid="2", signature="asdf")
         self.assertNotIn("outer_str", card_ext.dict())
-        assert "code" not in card_ext.dict()
+        self.assertNotIn("code", card_ext.dict())
 
         card_ext = JsapiCardExt(code="4", openid="2", signature="asdf")
-        assert "code" in card_ext.dict()
+        self.assertIn("code", card_ext.dict())
 
     def test_jsapi_get_jsapi_add_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
@@ -782,7 +785,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_scan_get_product(self):
         with HTTMock(wechat_api_mock):
             res = self.client.scan.get_product("ean13", "6900873042720")
-        assert "brand_info" in res
+        self.assertIn("brand_info", res)
 
     def test_scan_list_product(self):
         with HTTMock(wechat_api_mock):

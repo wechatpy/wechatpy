@@ -1,7 +1,7 @@
 import warnings
 from json import dumps
 from time import time
-from typing import Text, Any
+from typing import Any, Text
 
 from wechatpy.utils import random_string
 
