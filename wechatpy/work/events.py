@@ -287,5 +287,6 @@ class ChangeExternalContactEvent(events.BaseEvent):
     event = "change_external_contact"
     change_type = StringField("ChangeType")
     welcome_code = StringField("WelcomeCode")
+    state = StringField("State")
     user_id = StringField("UserID")
     external_user_id = StringField("ExternalUserID")
