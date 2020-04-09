@@ -92,7 +92,7 @@ class ComponentAuthorizedMessage(BaseComponentMessage):
 
 
 @register_component_message("updateauthorized")
-class ComponentUpdateauthorizedMessage(BaseComponentMessage):
+class ComponentUpdateAuthorizedMessage(BaseComponentMessage):
     """
     更新授权通知
     """
