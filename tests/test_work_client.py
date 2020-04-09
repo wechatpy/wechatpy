@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 import io
-import os
 import json
+import os
 import unittest
 
-from httmock import urlmatch, HTTMock, response
+from httmock import HTTMock, response, urlmatch
 
-from wechatpy.work import WeChatClient
 from wechatpy.exceptions import WeChatClientException
-
+from wechatpy.work import WeChatClient
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, "fixtures", "work")
@@ -40,7 +39,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_init_client_with_access_token(self):
         client = WeChatClient(self.corp_id, self.secret, access_token="abcdef")
-        assert client
+        self.assertTrue(client)
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):

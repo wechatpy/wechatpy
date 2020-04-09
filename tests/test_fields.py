@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import base64
-from datetime import datetime
 import unittest
+from datetime import datetime
+
 import xmltodict
 
 from wechatpy.utils import to_text
@@ -133,7 +134,7 @@ class FieldsTestCase(unittest.TestCase):
 
         field = ArticlesField("Article")
         expected = "<ArticleCount>{article_count}</ArticleCount>".format(article_count=article_count)
-        assert expected in field.to_xml(articles)
+        self.assertIn(expected, field.to_xml(articles))
 
     def test_base64encode_field_to_xml(self):
         from wechatpy.fields import Base64EncodeField

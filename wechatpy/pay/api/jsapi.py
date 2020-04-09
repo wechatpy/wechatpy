@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-
-import time
 import logging
-from wechatpy.utils import random_string, to_text
+import time
+
 from wechatpy.pay.base import BaseWeChatPayAPI
 from wechatpy.pay.utils import calculate_signature
+from wechatpy.utils import random_string, to_text
 
 logger = logging.getLogger(__name__)
 
