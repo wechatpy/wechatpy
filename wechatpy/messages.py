@@ -10,16 +10,10 @@
 """
 import copy
 
-from wechatpy.fields import (
-    BaseField,
-    StringField,
-    IntegerField,
-    DateTimeField,
-    FieldDescriptor,
-)
-
+from wechatpy.fields import BaseField, DateTimeField, FieldDescriptor, IntegerField, StringField
 
 MESSAGE_TYPES = {}
+COMPONENT_MESSAGE_TYPES = {}
 
 
 def register_message(msg_type):
@@ -30,10 +24,18 @@ def register_message(msg_type):
     return register
 
 
+def register_component_message(msg_type):
+    def register(cls):
+        COMPONENT_MESSAGE_TYPES[msg_type] = cls
+        return cls
+
+    return register
+
+
 class MessageMetaClass(type):
     """Metaclass for all messages"""
 
-    def __new__(cls, name, bases, attrs):
+    def __new__(mcs, name, bases, attrs):
         for b in bases:
             if not hasattr(b, "_fields"):
                 continue
@@ -44,13 +46,13 @@ class MessageMetaClass(type):
                 if isinstance(v, FieldDescriptor):
                     attrs[k] = copy.deepcopy(v.field)
 
-        cls = super().__new__(cls, name, bases, attrs)
-        cls._fields = {}
+        mcs = super().__new__(mcs, name, bases, attrs)
+        mcs._fields = {}
 
-        for name, field in cls.__dict__.items():
+        for name, field in mcs.__dict__.items():
             if isinstance(field, BaseField):
-                field.add_to_class(cls, name)
-        return cls
+                field.add_to_class(mcs, name)
+        return mcs
 
 
 class BaseMessage(metaclass=MessageMetaClass):
@@ -173,3 +175,72 @@ class UnknownMessage(BaseMessage):
     """未知消息类型"""
 
     pass
+
+
+class BaseComponentMessage(metaclass=MessageMetaClass):
+    """Base class for all component messages and events"""
+
+    type = "unknown"
+    appid = StringField("AppId")
+    create_time = DateTimeField("CreateTime")
+
+    def __init__(self, message):
+        self._data = message
+
+    def __repr__(self):
+        s = "{klass}({msg})".format(klass=self.__class__.__name__, msg=repr(self._data))
+        return s
+
+
+@register_component_message("component_verify_ticket")
+class ComponentVerifyTicketMessage(BaseComponentMessage):
+    """
+    component_verify_ticket协议
+    """
+
+    type = "component_verify_ticket"
+    verify_ticket = StringField("ComponentVerifyTicket")
+
+
+@register_component_message("unauthorized")
+class ComponentUnauthorizedMessage(BaseComponentMessage):
+    """
+    取消授权通知
+    """
+
+    type = "unauthorized"
+    authorizer_appid = StringField("AuthorizerAppid")
+
+
+@register_component_message("authorized")
+class ComponentAuthorizedMessage(BaseComponentMessage):
+    """
+    新增授权通知
+    """
+
+    type = "authorized"
+    authorizer_appid = StringField("AuthorizerAppid")
+    authorization_code = StringField("AuthorizationCode")
+    authorization_code_expired_time = StringField("AuthorizationCodeExpiredTime")
+    pre_auth_code = StringField("PreAuthCode")
+
+
+@register_component_message("updateauthorized")
+class ComponentUpdateAuthorizedMessage(BaseComponentMessage):
+    """
+    更新授权通知
+    """
+
+    type = "updateauthorized"
+    authorizer_appid = StringField("AuthorizerAppid")
+    authorization_code = StringField("AuthorizationCode")
+    authorization_code_expired_time = StringField("AuthorizationCodeExpiredTime")
+    pre_auth_code = StringField("PreAuthCode")
+
+
+class ComponentUnknownMessage(BaseComponentMessage):
+    """
+    未知通知
+    """
+
+    type = "unknown"
