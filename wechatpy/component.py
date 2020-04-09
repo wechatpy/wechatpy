@@ -23,7 +23,7 @@ from wechatpy.exceptions import (
     APILimitedException,
     WeChatClientException,
     WeChatComponentOAuthException,
-    WeChatOAuthException
+    WeChatOAuthException,
 )
 from wechatpy.messages import COMPONENT_MESSAGE_TYPES, ComponentUnknownMessage
 from wechatpy.session.memorystorage import MemoryStorage
