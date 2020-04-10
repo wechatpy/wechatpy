@@ -148,7 +148,7 @@ class WeChatPay:
         return self._handle_result(res)
 
     def _handle_result(self, res):
-        res.encoding = "utf-8"
+        res.encoding = "utf-8-sig"
         xml = res.text
         logger.debug("Response from WeChat API \n %s", xml)
         try:
