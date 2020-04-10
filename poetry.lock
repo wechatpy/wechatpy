@@ -88,6 +88,15 @@ pep8test = ["flake8", "flake8-import-order", "pep8-naming"]
 test = ["pytest (>=3.6.0,<3.9.0 || >3.9.0,<3.9.1 || >3.9.1,<3.9.2 || >3.9.2)", "pretend", "iso8601", "pytz", "hypothesis (>=1.11.4,<3.79.2 || >3.79.2)"]
 
 [[package]]
+category = "main"
+description = "A backport of the dataclasses module for Python 3.6"
+marker = "python_version > \"3.5\" and python_version < \"3.7\""
+name = "dataclasses"
+optional = false
+python-versions = ">=3.6, <3.7"
+version = "0.7"
+
+[[package]]
 category = "dev"
 description = "Backport of the concurrent.futures package from Python 3.2"
 name = "futures"
@@ -212,7 +221,7 @@ description = "\"A comprehensive, fast, pure Python memcached client\""
 name = "pymemcache"
 optional = false
 python-versions = "*"
-version = "3.0.1"
+version = "3.1.0"
 
 [package.dependencies]
 six = "*"
@@ -406,7 +415,7 @@ cryptography = ["cryptography"]
 pycrypto = ["pycryptodome"]
 
 [metadata]
-content-hash = "69e522813e907192ffd008e174e9570543a9e57d23af30fbefb555e85708e61c"
+content-hash = "7769dd2ee466de85f6edc8cf074d26f533fc5b9744160906a6d67c9ce22a8f80"
 python-versions = ">=3.6,<4"
 
 [metadata.files]
@@ -514,6 +523,10 @@ cryptography = [
     {file = "cryptography-2.9-cp38-cp38-win_amd64.whl", hash = "sha256:6b744039b55988519cc183149cceb573189b3e46e16ccf6f8c46798bb767c9dc"},
     {file = "cryptography-2.9.tar.gz", hash = "sha256:0cacd3ef5c604b8e5f59bf2582c076c98a37fe206b31430d0cd08138aff0986e"},
 ]
+dataclasses = [
+    {file = "dataclasses-0.7-py3-none-any.whl", hash = "sha256:3459118f7ede7c8bea0fe795bff7c6c2ce287d01dd226202f7c9ebc0610a7836"},
+    {file = "dataclasses-0.7.tar.gz", hash = "sha256:494a6dcae3b8bcf80848eea2ef64c0cc5cd307ffc263e17cdf42f3e5420808e6"},
+]
 futures = [
     {file = "futures-3.1.1-py2-none-any.whl", hash = "sha256:c4884a65654a7c45435063e14ae85280eb1f111d94e542396717ba9828c4337f"},
     {file = "futures-3.1.1-py3-none-any.whl", hash = "sha256:3a44f286998ae64f0cc083682fcfec16c406134a81a589a5de445d7bb7c2751b"},
@@ -591,8 +604,8 @@ pycryptodome = [
     {file = "pycryptodome-3.9.7.tar.gz", hash = "sha256:f1add21b6d179179b3c177c33d18a2186a09cc0d3af41ff5ed3f377360b869f2"},
 ]
 pymemcache = [
-    {file = "pymemcache-3.0.1-py2.py3-none-any.whl", hash = "sha256:8f3fafead46a0bb8ec3ccfb901e8315e3f290b49397c9102024c58be39ba7f10"},
-    {file = "pymemcache-3.0.1.tar.gz", hash = "sha256:ed725481d950e06cf2410c01162124e74a67ab5f71596cd72ffecc3ed414d3e1"},
+    {file = "pymemcache-3.1.0-py2.py3-none-any.whl", hash = "sha256:39e9d9df307489fdadd0160b8c88a59b6bb2df444663b8afaf5a327612a241a7"},
+    {file = "pymemcache-3.1.0.tar.gz", hash = "sha256:da48a8e462e9cd95145c19d06ec0c07f87f71e8638def74a7d518e81154051ea"},
 ]
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},

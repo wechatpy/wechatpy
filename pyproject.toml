@@ -35,6 +35,7 @@ optionaldict = ">=0.1.0"
 python-dateutil = ">=2.5.2"
 cryptography = { version = "^2.8", optional = true }
 pycryptodome = { version = "^3.9", optional = true }
+dataclasses = { version = "^0.7", python = "~3.6" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
