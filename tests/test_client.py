@@ -528,11 +528,11 @@ class WeChatClientTestCase(unittest.TestCase):
         )
 
     def test_jsapi_card_ext(self):
-        card_ext = JsapiCardExt(openid="2", signature="asdf")
+        card_ext = JsapiCardExt("asdf", openid="2")
         self.assertNotIn("outer_str", card_ext.dict())
         self.assertNotIn("code", card_ext.dict())
 
-        card_ext = JsapiCardExt(code="4", openid="2", signature="asdf")
+        card_ext = JsapiCardExt("asdf", code="4", openid="2")
         self.assertIn("code", card_ext.dict())
 
     def test_jsapi_get_jsapi_add_card_params(self):

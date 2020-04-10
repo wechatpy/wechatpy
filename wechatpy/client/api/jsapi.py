@@ -152,7 +152,6 @@ class WeChatJSAPI(BaseWeChatAPI):
         }
         list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
         str_to_sign = "".join(list_before_sign).encode()
-        print(str_to_sign)
         card_ext = JsapiCardExt(
             code=code,
             openid=openid,
