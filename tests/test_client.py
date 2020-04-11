@@ -507,26 +507,6 @@ class WeChatClientTestCase(unittest.TestCase):
                 "bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA",
             )
 
-    def test_jsapi_get_jsapi_card_params(self):
-        """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
-        noncestr = "Wm3WZYTPz0wzccnW"
-        card_ticket = "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg"
-        timestamp = 1414587457
-        signature_dict = self.client.jsapi.get_jsapi_card_params(
-            noncestr=noncestr, card_ticket=card_ticket, timestamp=timestamp, card_type="GROUPON",
-        )
-        self.assertEqual(
-            {
-                "card_type": "GROUPON",
-                "noncestr": "Wm3WZYTPz0wzccnW",
-                "api_ticket": "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg",
-                "appid": "123456",
-                "timestamp": 1414587457,
-                "sign": "c47b1fb500eb35d8f2f9b9375b4491089df953e2",
-            },
-            signature_dict,
-        )
-
     def test_jsapi_get_jsapi_add_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
         nonce_str = "Wm3WZYTPz0wzccnW"
