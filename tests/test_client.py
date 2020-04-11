@@ -9,7 +9,7 @@ from httmock import HTTMock, response, urlmatch
 
 from wechatpy import WeChatClient
 from wechatpy.exceptions import WeChatClientException
-from wechatpy.schemes import JsapiCardExt
+from wechatpy.schemes import JsApiCardExt
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
 _FIXTURE_PATH = os.path.join(_TESTS_PATH, "fixtures")
@@ -507,34 +507,6 @@ class WeChatClientTestCase(unittest.TestCase):
                 "bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA",
             )
 
-    def test_jsapi_get_jsapi_card_params(self):
-        """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
-        noncestr = "Wm3WZYTPz0wzccnW"
-        card_ticket = "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg"
-        timestamp = 1414587457
-        signature_dict = self.client.jsapi.get_jsapi_card_params(
-            noncestr=noncestr, card_ticket=card_ticket, timestamp=timestamp, card_type="GROUPON",
-        )
-        self.assertEqual(
-            {
-                "card_type": "GROUPON",
-                "noncestr": "Wm3WZYTPz0wzccnW",
-                "api_ticket": "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg",
-                "appid": "123456",
-                "timestamp": 1414587457,
-                "sign": "c47b1fb500eb35d8f2f9b9375b4491089df953e2",
-            },
-            signature_dict,
-        )
-
-    def test_jsapi_card_ext(self):
-        card_ext = JsapiCardExt("asdf", openid="2")
-        self.assertNotIn("outer_str", card_ext.dict())
-        self.assertNotIn("code", card_ext.dict())
-
-        card_ext = JsapiCardExt("asdf", code="4", openid="2")
-        self.assertIn("code", card_ext.dict())
-
     def test_jsapi_get_jsapi_add_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
         nonce_str = "Wm3WZYTPz0wzccnW"
@@ -549,48 +521,50 @@ class WeChatClientTestCase(unittest.TestCase):
             card_ticket=card_ticket, timestamp=timestamp, card_id=card_id, nonce_str=nonce_str
         )
         self.assertEqual(
-            {"nonce_str": nonce_str, "timestamp": timestamp, "signature": "22dce6bad4db532d4a2ef82ca2ca7bbe1e10ef28",},
-            card_params.dict(),
+            JsApiCardExt(
+                signature="22dce6bad4db532d4a2ef82ca2ca7bbe1e10ef28", nonce_str=nonce_str, timestamp=timestamp,
+            ),
+            card_params,
         )
         # 测试自定义code
         card_params = self.client.jsapi.get_jsapi_add_card_params(
             card_ticket=card_ticket, timestamp=timestamp, card_id=card_id, nonce_str=nonce_str, code=code
         )
-        self.assertDictEqual(
-            {
-                "nonce_str": nonce_str,
-                "timestamp": timestamp,
-                "code": code,
-                "signature": "2e9c6d12952246e071717d7baeab20c30420b5cd",
-            },
-            card_params.dict(),
+        self.assertEqual(
+            JsApiCardExt(
+                nonce_str=nonce_str,
+                timestamp=timestamp,
+                code=code,
+                signature="2e9c6d12952246e071717d7baeab20c30420b5cd",
+            ),
+            card_params,
         )
         # 测试指定用户领取
         card_params = self.client.jsapi.get_jsapi_add_card_params(
             card_ticket=card_ticket, timestamp=timestamp, card_id=card_id, nonce_str=nonce_str, openid=openid
         )
         self.assertEqual(
-            {
-                "nonce_str": nonce_str,
-                "timestamp": timestamp,
-                "openid": openid,
-                "signature": "ded860a5dd4467312764bd86e544ad0579cbfad0",
-            },
-            card_params.dict(),
+            JsApiCardExt(
+                nonce_str=nonce_str,
+                timestamp=timestamp,
+                openid=openid,
+                signature="ded860a5dd4467312764bd86e544ad0579cbfad0",
+            ),
+            card_params,
         )
         # 测试指定用户领取且自定义code
         card_params = self.client.jsapi.get_jsapi_add_card_params(
             card_ticket=card_ticket, timestamp=timestamp, card_id=card_id, nonce_str=nonce_str, openid=openid, code=code
         )
         self.assertEqual(
-            {
-                "nonce_str": nonce_str,
-                "timestamp": timestamp,
-                "openid": openid,
-                "code": code,
-                "signature": "950dc1842852457ea573d4d6af34879c1ec093c8",
-            },
-            card_params.dict(),
+            JsApiCardExt(
+                nonce_str=nonce_str,
+                timestamp=timestamp,
+                openid=openid,
+                code=code,
+                signature="950dc1842852457ea573d4d6af34879c1ec093c8",
+            ),
+            card_params,
         )
 
     def test_menu_get_menu_info(self):
