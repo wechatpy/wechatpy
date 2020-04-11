@@ -507,6 +507,14 @@ class WeChatClientTestCase(unittest.TestCase):
                 "bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA",
             )
 
+    def test_jsapi_card_ext(self):
+        card_ext = json.loads(JsApiCardExt("asdf", openid="2").to_json())
+        self.assertNotIn("outer_str", card_ext)
+        self.assertNotIn("code", card_ext)
+
+        card_ext = json.loads(JsApiCardExt("asdf", code="4", openid="2").to_json())
+        self.assertIn("code", card_ext)
+
     def test_jsapi_get_jsapi_add_card_params(self):
         """微信签名测试工具：http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign"""
         nonce_str = "Wm3WZYTPz0wzccnW"

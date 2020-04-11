@@ -47,5 +47,5 @@ class JsApiCardExt(Scheme):
         self.nonce_str = self.nonce_str or random_string()
 
     def to_json(self) -> str:
-        d = {k: v for k, v in dataclasses.asdict(self) if v}
+        d = {k: v for k, v in dataclasses.asdict(self).items() if v}
         return json.dumps(d, ensure_ascii=False)
