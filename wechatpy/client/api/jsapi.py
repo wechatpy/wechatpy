@@ -12,10 +12,11 @@
 
 import hashlib
 import time
+from typing import Optional
 
 from wechatpy.utils import WeChatSigner, random_string
 from wechatpy.client.api.base import BaseWeChatAPI
-from wechatpy.schemes import JsapiCardExt
+from wechatpy.schemes import JsApiCardExt
 
 
 class WeChatJSAPI(BaseWeChatAPI):
@@ -113,12 +114,12 @@ class WeChatJSAPI(BaseWeChatAPI):
         card_id: str,
         code: str = "",
         openid: str = "",
-        fixed_begintimestamp: int = 0,
+        fixed_begintimestamp: Optional[int] = None,
         outer_str: str = "",
         nonce_str: str = "",
         timestamp: int = 0,
         card_ticket: str = "",
-    ) -> JsapiCardExt:
+    ) -> JsApiCardExt:
         """
         用于生成 jsapi 批量添加卡券接口的 cardList 参数中的 cardExt 参数
         参数意义见微信文档地址：
@@ -152,7 +153,7 @@ class WeChatJSAPI(BaseWeChatAPI):
         }
         list_before_sign = sorted([str(x) for x in card_signature_dict.values()])
         str_to_sign = "".join(list_before_sign).encode()
-        card_ext = JsapiCardExt(
+        card_ext = JsApiCardExt(
             code=code,
             openid=openid,
             timestamp=str(timestamp),
