@@ -7,7 +7,7 @@
          \|____________|\|_______|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|__||\___/ /
                                                                                 \|___|/
 
-[![GitHub Actions](https://github.com/wechatpy/wechatpy/workflows/CI/badge.svg)](https://github.com/wechatpy/wechatpy/actions?query=workflow%3ACI)
+[![Financial Contributors on Open Collective](https://opencollective.com/wechatpy/all/badge.svg?label=financial+contributors)](https://opencollective.com/wechatpy) [![GitHub Actions](https://github.com/wechatpy/wechatpy/workflows/CI/badge.svg)](https://github.com/wechatpy/wechatpy/actions?query=workflow%3ACI)
 [![codecov.io](https://codecov.io/github/wechatpy/wechatpy/coverage.svg?branch=master)](https://codecov.io/github/wechatpy/wechatpy?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/wechatpy/badge/?version=master)](http://docs.wechatpy.org/zh_CN/master/?badge=master)
 [![PyPI](https://img.shields.io/pypi/v/wechatpy.svg)](https://pypi.org/project/wechatpy)
@@ -66,6 +66,36 @@ QQ 群：176596300
 
 ![wechatpy QQ 群](https://raw.githubusercontent.com/wechatpy/wechatpy/master/docs/_static/images/qq-group.png)
 
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/wechatpy/wechatpy/graphs/contributors"><img src="https://opencollective.com/wechatpy/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/wechatpy/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/wechatpy"><img src="https://opencollective.com/wechatpy/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/wechatpy/contribute)]
+
+<a href="https://opencollective.com/wechatpy/organization/0/website"><img src="https://opencollective.com/wechatpy/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/1/website"><img src="https://opencollective.com/wechatpy/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/2/website"><img src="https://opencollective.com/wechatpy/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/3/website"><img src="https://opencollective.com/wechatpy/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/4/website"><img src="https://opencollective.com/wechatpy/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/5/website"><img src="https://opencollective.com/wechatpy/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/6/website"><img src="https://opencollective.com/wechatpy/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/7/website"><img src="https://opencollective.com/wechatpy/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/8/website"><img src="https://opencollective.com/wechatpy/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/wechatpy/organization/9/website"><img src="https://opencollective.com/wechatpy/organization/9/avatar.svg"></a>
 
 ## License
 
