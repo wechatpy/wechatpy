@@ -2,6 +2,7 @@
 import io
 import json
 import os
+import inspect
 import unittest
 from datetime import datetime
 
@@ -56,6 +57,17 @@ class WeChatClientTestCase(unittest.TestCase):
 
         client = TestClient("12345", "123456", "123456789")
         self.assertEqual(client, client.user._client)
+
+    def test_fetch_access_token_is_method(self):
+        self.assertTrue(inspect.ismethod(self.client.fetch_access_token))
+
+        class TestClient(WeChatClient):
+            @property
+            def fetch_access_token(self):
+                pass
+
+        client = TestClient("12345", "123456", "123456789")
+        self.assertFalse(inspect.ismethod(client.fetch_access_token))
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):

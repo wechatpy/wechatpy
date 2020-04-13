@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+import inspect
 import unittest
 
 from httmock import urlmatch, HTTMock, response
@@ -38,6 +39,9 @@ class WeChatComponentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.client = WeChatComponent(self.app_id, self.app_secret, self.token, self.encoding_aes_key)
+
+    def test_fetch_access_token_is_method(self):
+        self.assertTrue(inspect.ismethod(self.client.fetch_access_token))
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
