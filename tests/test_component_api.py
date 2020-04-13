@@ -41,7 +41,7 @@ class WeChatComponentTestCase(unittest.TestCase):
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
-            token = self.client.fetch_access_token
+            token = self.client.fetch_access_token()
             self.assertEqual("1234567890", token["component_access_token"])
             self.assertEqual(7200, token["expires_in"])
             self.assertEqual("1234567890", self.client.access_token)
