@@ -35,7 +35,7 @@ class WeChatClient(BaseWeChatClient):
 
     @property
     def access_token_key(self):
-        return "{0}_{1}_access_token".format(self.corp_id, self.secret[:10])
+        return f"{self.corp_id}_{self.secret[:10]}_access_token"
 
     def fetch_access_token(self):
         """ Fetch access token"""

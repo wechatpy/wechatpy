@@ -77,7 +77,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         sign = calculate_signature(data, self._client.api_key)
         data["sign"] = sign
         return {
-            "base_url": "{}papay/entrustweb".format(self._client.API_BASE_URL),
+            "base_url": f"{self._client.API_BASE_URL}papay/entrustweb",
             "data": data,
         }
 
@@ -155,7 +155,7 @@ class WeChatWithhold(BaseWeChatPayAPI):
         spbill_create_ip = get_external_ip()  # 终端IP 调用微信支付API的机器IP
         if not out_trade_no:
             now = datetime.fromtimestamp(time.time(), tz=timezone("Asia/Shanghai"))
-            out_trade_no = "{0}{1}{2}".format(self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000))
+            out_trade_no = f"{self.mch_id}{now.strftime('%Y%m%d%H%M%S')}{random.randint(1000, 10000)}"
 
         data = {
             "appid": self.appid,

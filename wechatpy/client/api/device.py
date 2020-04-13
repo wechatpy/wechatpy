@@ -74,12 +74,12 @@ class WeChatDevice(BaseWeChatAPI):
         :param data: 额外数据
         :return: 二维码地址
         """
-        url = "https://we.qq.com/d/{ticket}".format(ticket=ticket)
+        url = f"https://we.qq.com/d/{ticket}"
         if data:
             if isinstance(data, (dict, tuple, list)):
                 data = urllib.urlencode(data)
             data = to_text(base64.b64encode(to_binary(data)))
-            url = "{base}#{data}".format(base=url, data=data)
+            url = f"{url}#{data}"
         return url
 
     def bind(self, ticket, device_id, user_id):

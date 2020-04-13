@@ -88,11 +88,11 @@ class WeChatComponentClient(WeChatClient):
 
     @property
     def access_token_key(self):
-        return "{0}_access_token".format(self.appid)
+        return f"{self.appid}_access_token"
 
     @property
     def refresh_token_key(self):
-        return "{0}_refresh_token".format(self.appid)
+        return f"{self.appid}_refresh_token"
 
     @property
     def access_token(self):

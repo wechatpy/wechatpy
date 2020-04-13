@@ -16,10 +16,10 @@ _FIXTURE_PATH = os.path.join(_TESTS_PATH, "fixtures", "component")
 @urlmatch(netloc=r"(.*\.)?api\.weixin\.qq\.com$")
 def wechat_api_mock(url, request):
     path = url.path.replace("/cgi-bin/component/", "").replace("/", "_")
-    res_file = os.path.join(_FIXTURE_PATH, "%s.json" % path)
+    res_file = os.path.join(_FIXTURE_PATH, f"{path}.json")
     content = {
         "errcode": 99999,
-        "errmsg": "can not find fixture %s" % res_file,
+        "errmsg": f"can not find fixture {res_file}",
     }
     headers = {"Content-Type": "application/json"}
     try:
@@ -41,7 +41,7 @@ class WeChatComponentTestCase(unittest.TestCase):
 
     def test_fetch_access_token(self):
         with HTTMock(wechat_api_mock):
-            token = self.client.fetch_access_token()
+            token = self.client.fetch_access_token
             self.assertEqual("1234567890", token["component_access_token"])
             self.assertEqual(7200, token["expires_in"])
             self.assertEqual("1234567890", self.client.access_token)

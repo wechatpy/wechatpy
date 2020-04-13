@@ -45,11 +45,11 @@ def wechat():
     if request.method == "GET":
         return echo_str
     else:
-        print("Raw message: \n%s" % request.data)
+        print(f"Raw message: \n{request.data}")
         crypto = WeChatCrypto(TOKEN, EncodingAESKey, AppId)
         try:
             msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
-            print("Descypted message: \n%s" % msg)
+            print(f"Descypted message: \n{msg}")
         except (InvalidSignatureException, InvalidAppIdException):
             abort(403)
         msg = parse_message(msg)

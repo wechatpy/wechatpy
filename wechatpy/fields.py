@@ -56,7 +56,7 @@ class BaseField:
         raise NotImplementedError()
 
     def __repr__(self):
-        _repr = "{klass}({name})".format(klass=self.__class__.__name__, name=repr(self.name))
+        _repr = f"{self.__class__.__name__}({repr(self.name)})"
         return _repr
 
     def add_to_class(self, klass, name):
@@ -73,8 +73,7 @@ class StringField(BaseField):
 
     def to_xml(self, value):
         value = self.converter(value)
-        tpl = "<{name}><![CDATA[{value}]]></{name}>"
-        return tpl.format(name=self.name, value=value)
+        return f"<{self.name}><![CDATA[{value}]]></{self.name}>"
 
     @classmethod
     def from_xml(cls, value):
@@ -86,8 +85,7 @@ class IntegerField(BaseField):
 
     def to_xml(self, value):
         value = self.converter(value) if value is not None else self.default
-        tpl = "<{name}>{value}</{name}>"
-        return tpl.format(name=self.name, value=value)
+        return f"<{self.name}>{value}</{self.name}>"
 
     @classmethod
     def from_xml(cls, value):
@@ -104,8 +102,7 @@ class DateTimeField(BaseField):
     def to_xml(self, value):
         value = time.mktime(datetime.timetuple(value))
         value = int(value)
-        tpl = "<{name}>{value}</{name}>"
-        return tpl.format(name=self.name, value=value)
+        return f"<{self.name}>{value}</{self.name}>"
 
     @classmethod
     def from_xml(cls, value):
@@ -117,8 +114,7 @@ class FloatField(BaseField):
 
     def to_xml(self, value):
         value = self.converter(value) if value is not None else self.default
-        tpl = "<{name}>{value}</{name}>"
-        return tpl.format(name=self.name, value=value)
+        return f"<{self.name}>{value}</{self.name}>"
 
     @classmethod
     def from_xml(cls, value):
@@ -128,10 +124,9 @@ class FloatField(BaseField):
 class ImageField(StringField):
     def to_xml(self, value):
         value = self.converter(value)
-        tpl = """<Image>
+        return f"""<Image>
         <MediaId><![CDATA[{value}]]></MediaId>
         </Image>"""
-        return tpl.format(value=value)
 
     @classmethod
     def from_xml(cls, value):
@@ -141,10 +136,9 @@ class ImageField(StringField):
 class VoiceField(StringField):
     def to_xml(self, value):
         value = self.converter(value)
-        tpl = """<Voice>
+        return f"""<Voice>
         <MediaId><![CDATA[{value}]]></MediaId>
         </Voice>"""
-        return tpl.format(value=value)
 
     @classmethod
     def from_xml(cls, value):
@@ -161,11 +155,7 @@ class VideoField(StringField):
         if "description" in value:
             kwargs["description"] = self.converter(value["description"])
             content += "<Description><![CDATA[{description}]]></Description>"
-        tpl = """<Video>
-        {content}
-        </Video>""".format(
-            content=content
-        )
+        tpl = f"""<Video>{content}</Video>"""
         return tpl.format(**kwargs)
 
     @classmethod
@@ -194,11 +184,7 @@ class MusicField(StringField):
         if "hq_music_url" in value:
             kwargs["hq_music_url"] = self.converter(value["hq_music_url"])
             content += "<HQMusicUrl><![CDATA[{hq_music_url}]]></HQMusicUrl>"
-        tpl = """<Music>
-        {content}
-        </Music>""".format(
-            content=content
-        )
+        tpl = f"""<Music>{content}</Music>"""
         return tpl.format(**kwargs)
 
     @classmethod
@@ -224,18 +210,16 @@ class ArticlesField(StringField):
             description = self.converter(article.get("description", ""))
             image = self.converter(article.get("image", ""))
             url = self.converter(article.get("url", ""))
-            item_tpl = """<item>
+            item = f"""<item>
             <Title><![CDATA[{title}]]></Title>
             <Description><![CDATA[{description}]]></Description>
             <PicUrl><![CDATA[{image}]]></PicUrl>
             <Url><![CDATA[{url}]]></Url>
             </item>"""
-            item = item_tpl.format(title=title, description=description, image=image, url=url)
             items.append(item)
         items_str = "\n".join(items)
-        tpl = """<ArticleCount>{article_count}</ArticleCount>
-        <Articles>{items}</Articles>"""
-        return tpl.format(article_count=article_count, items=items_str)
+        return f"""<ArticleCount>{article_count}</ArticleCount>
+        <Articles>{items_str}</Articles>"""
 
     @classmethod
     def from_xml(cls, value):
@@ -262,8 +246,7 @@ class Base64DecodeField(StringField):
 class HardwareField(StringField):
     def to_xml(self, value=None):
         value = value or {"view": "myrank", "action": "ranklist"}
-        tpl = """<{name}>
-        <MessageView><![CDATA[{view}]]></MessageView>
-        <MessageAction><![CDATA[{action}]]></MessageAction>
-        </{name}>"""
-        return tpl.format(name=self.name, view=value.get("view"), action=value.get("action"))
+        return f"""<{self.name}>
+        <MessageView><![CDATA[{value.get("view")}]]></MessageView>
+        <MessageAction><![CDATA[{value.get("action")}]]></MessageAction>
+        </{self.name}>"""

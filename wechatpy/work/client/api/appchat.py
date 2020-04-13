@@ -164,5 +164,5 @@ class WeChatAppChat(BaseWeChatAPI):
             #    }
             data[msgtype] = kwargs
         else:
-            raise TypeError("不能识别的msgtype: %s" % msgtype)
+            raise TypeError(f"不能识别的msgtype: {msgtype}")
         return data

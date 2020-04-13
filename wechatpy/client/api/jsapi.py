@@ -36,8 +36,8 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         :return: ticket
         """
-        ticket_key = "{0}_jsapi_ticket".format(self.appid)
-        expires_at_key = "{0}_jsapi_ticket_expires_at".format(self.appid)
+        ticket_key = f"{self.appid}_jsapi_ticket"
+        expires_at_key = f"{self.appid}_jsapi_ticket_expires_at"
         ticket = self.session.get(ticket_key)
         expires_at = self.session.get(expires_at_key) or 0
         if not ticket or expires_at < int(time.time()):
@@ -59,10 +59,10 @@ class WeChatJSAPI(BaseWeChatAPI):
         :return: 签名
         """
         data = [
-            "noncestr={noncestr}".format(noncestr=noncestr),
-            "jsapi_ticket={ticket}".format(ticket=ticket),
-            "timestamp={timestamp}".format(timestamp=timestamp),
-            "url={url}".format(url=url),
+            f"noncestr={noncestr}",
+            f"jsapi_ticket={ticket}",
+            f"timestamp={timestamp}",
+            f"url={url}",
         ]
         signer = WeChatSigner(delimiter=b"&")
         signer.add_data(*data)
@@ -76,8 +76,8 @@ class WeChatJSAPI(BaseWeChatAPI):
 
         :return: ticket
         """
-        jsapi_card_ticket_key = "{0}_jsapi_card_ticket".format(self.appid)
-        jsapi_card_ticket_expire_at_key = "{0}_jsapi_card_ticket_expires_at".format(self.appid)
+        jsapi_card_ticket_key = f"{self.appid}_jsapi_card_ticket"
+        jsapi_card_ticket_expire_at_key = f"{self.appid}_jsapi_card_ticket_expires_at"
 
         ticket = self.session.get(jsapi_card_ticket_key)
         expires_at = self.session.get(jsapi_card_ticket_expire_at_key, 0)

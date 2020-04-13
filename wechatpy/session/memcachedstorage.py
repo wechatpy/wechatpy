@@ -13,7 +13,7 @@ class MemcachedStorage(SessionStorage):
         self.prefix = prefix
 
     def key_name(self, key):
-        return "{0}:{1}".format(self.prefix, key)
+        return f"{self.prefix}:{key}"
 
     def get(self, key, default=None):
         key = self.key_name(key)
