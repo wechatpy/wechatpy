@@ -7,7 +7,6 @@ import logging
 import requests
 
 from wechatpy.constants import WeChatErrorCode
-from wechatpy.utils import get_querystring
 from wechatpy.session.memorystorage import MemoryStorage
 from wechatpy.exceptions import WeChatClientException, APILimitedException
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -39,17 +38,6 @@ class BaseWeChatClient:
         self.session = session or MemoryStorage()
         self.timeout = timeout
         self.auto_retry = auto_retry
-
-        if isinstance(session, str):
-            from shove import Shove
-            from wechatpy.session.shovestorage import ShoveStorage
-
-            querystring = get_querystring(session)
-            prefix = querystring.get("prefix", ["wechatpy"])[0]
-
-            shove = Shove(session)
-            storage = ShoveStorage(shove, prefix)
-            self.session = storage
 
         if access_token:
             self.session.set(self.access_token_key, access_token)

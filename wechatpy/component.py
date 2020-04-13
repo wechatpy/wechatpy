@@ -27,7 +27,7 @@ from wechatpy.exceptions import (
 )
 from wechatpy.messages import COMPONENT_MESSAGE_TYPES, ComponentUnknownMessage
 from wechatpy.session.memorystorage import MemoryStorage
-from wechatpy.utils import get_querystring, to_text
+from wechatpy.utils import to_text
 
 logger = logging.getLogger(__name__)
 
@@ -51,17 +51,6 @@ class BaseWeChatComponent:
         self.crypto = WeChatCrypto(component_token, encoding_aes_key, component_appid)
         self.session = session or MemoryStorage()
         self.auto_retry = auto_retry
-
-        if isinstance(session, str):
-            from shove import Shove
-            from wechatpy.session.shovestorage import ShoveStorage
-
-            querystring = get_querystring(session)
-            prefix = querystring.get("prefix", ["wechatpy"])[0]
-
-            shove = Shove(session)
-            storage = ShoveStorage(shove, prefix)
-            self.session = storage
 
     @property
     def component_verify_ticket(self):
