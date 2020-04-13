@@ -22,11 +22,11 @@ class WeChatException(Exception):
         self.errmsg = errmsg
 
     def __str__(self):
-        s = "Error code: {code}, message: {msg}".format(code=self.errcode, msg=self.errmsg)
+        s = f"Error code: {self.errcode}, message: {self.errmsg}"
         return s
 
     def __repr__(self):
-        _repr = "{klass}({code}, {msg})".format(klass=self.__class__.__name__, code=self.errcode, msg=self.errmsg)
+        _repr = f"{self.__class__.__name__}({self.errcode}, {self.errmsg})"
         return _repr
 
 
@@ -106,17 +106,9 @@ class WeChatPayException(WeChatClientException):
         self.return_msg = return_msg
 
     def __str__(self):
-        _str = "Error code: {code}, message: {msg}. Pay Error code: {pay_code}, message: {pay_msg}".format(
-            code=self.return_code, msg=self.return_msg, pay_code=self.errcode, pay_msg=self.errmsg,
-        )
+        _str = f"Error code: {self.return_code}, message: {self.return_msg}. Pay Error code: {self.errcode}, message: {self.errmsg}"
         return _str
 
     def __repr__(self):
-        _repr = "{klass}({code}, {msg}). Pay({pay_code}, {pay_msg})".format(
-            klass=self.__class__.__name__,
-            code=self.return_code,
-            msg=self.return_msg,
-            pay_code=self.errcode,
-            pay_msg=self.errmsg,
-        )
+        _repr = f"{self.__class__.__name__}({self.return_code}, {self.return_msg}). Pay({self.errcode}, {self.errmsg})"
         return _repr

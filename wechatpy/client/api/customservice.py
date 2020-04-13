@@ -57,8 +57,8 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         params_data = [
-            "access_token={0}".format(quote(self.access_token)),
-            "kf_account={0}".format(quote(to_binary(account), safe=b"/@")),
+            f"access_token={quote(self.access_token)}",
+            f"kf_account={quote(to_binary(account), safe=b'/@')}",
         ]
         params = "&".join(params_data)
         return self._get("https://api.weixin.qq.com/customservice/kfaccount/del", params=params)

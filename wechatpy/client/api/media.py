@@ -42,9 +42,7 @@ class WeChatMedia(BaseWeChatAPI):
         :param media_id: 媒体文件 ID
         :return: 临时素材下载地址
         """
-        return "https://api.weixin.qq.com/cgi-bin/media/get" "?access_token={}&media_id={}".format(
-            self.access_token, media_id
-        )
+        return f"https://api.weixin.qq.com/cgi-bin/media/get?access_token={self.access_token}&media_id={media_id}"
 
     def upload_video(self, media_id, title, description):
         """

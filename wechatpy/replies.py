@@ -65,16 +65,15 @@ class BaseReply(metaclass=MessageMetaClass):
 
     def render(self):
         """Render reply from Python object to XML string"""
-        tpl = "<xml>\n{data}\n</xml>"
         nodes = []
-        msg_type = "<MsgType><![CDATA[{msg_type}]]></MsgType>".format(msg_type=self.type)
+        msg_type = f"<MsgType><![CDATA[{self.type}]]></MsgType>"
         nodes.append(msg_type)
         for name, field in self._fields.items():
             value = getattr(self, name, field.default)
             node_xml = field.to_xml(value)
             nodes.append(node_xml)
         data = "\n".join(nodes)
-        return tpl.format(data=data)
+        return f"<xml>\n{data}\n</xml>"
 
     def __str__(self):
         return self.render()
@@ -264,7 +263,7 @@ class ArticlesReply(BaseReply):
 
     def add_article(self, article):
         if len(self.articles) == 10:
-            raise AttributeError("Can't add more than 10 articles" " in an ArticlesReply")
+            raise AttributeError("Can't add more than 10 articles in an ArticlesReply")
         articles = self.articles
         articles.append(article)
         self.articles = articles
@@ -331,7 +330,7 @@ def create_reply(reply, message=None, render=False):
         r = TextReply(message=message, content=reply)
     elif isinstance(reply, (tuple, list)):
         if len(reply) > 10:
-            raise AttributeError("Can't add more than 10 articles" " in an ArticlesReply")
+            raise AttributeError("Can't add more than 10 articles in an ArticlesReply")
         r = ArticlesReply(message=message, articles=reply)
     if r and render:
         return r.render()

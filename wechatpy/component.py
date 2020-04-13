@@ -70,7 +70,7 @@ class BaseWeChatComponent:
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
             api_base_url = kwargs.pop("api_base_url", self.API_BASE_URL)
-            url = "{base}{endpoint}".format(base=api_base_url, endpoint=url_or_endpoint)
+            url = f"{api_base_url}{url_or_endpoint}"
         else:
             url = url_or_endpoint
 
@@ -105,7 +105,7 @@ class BaseWeChatComponent:
                 WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value,
             ):
                 logger.info("Component access token expired, fetch a new one and retry request")
-                self.fetch_access_token()
+                self.fetch_access_token
                 kwargs["params"]["component_access_token"] = self.session.get("component_access_token")
                 return self._request(method=method, url_or_endpoint=url, **kwargs)
             elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
@@ -115,6 +115,7 @@ class BaseWeChatComponent:
                 raise WeChatClientException(errcode, errmsg, client=self, request=res.request, response=res)
         return result
 
+    @property
     def fetch_access_token(self):
         """
         获取 component_access_token
@@ -123,7 +124,7 @@ class BaseWeChatComponent:
 
         :return: 返回的 JSON 数据包
         """
-        url = "{0}{1}".format(self.API_BASE_URL, "/component/api_component_token")
+        url = f"{self.API_BASE_URL}{'/component/api_component_token'}"
         return self._fetch_access_token(
             url=url,
             data=json.dumps(
@@ -171,7 +172,7 @@ class BaseWeChatComponent:
             if self.expires_at - timestamp > 60:
                 return access_token
 
-        self.fetch_access_token()
+        self.fetch_access_token
         return self.session.get("component_access_token")
 
     def get(self, url, **kwargs):
@@ -186,9 +187,7 @@ class WeChatComponent(BaseWeChatComponent):
 
     def get_pre_auth_url(self, redirect_uri):
         redirect_uri = quote(redirect_uri, safe=b"")
-        return "{0}?component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
-            self.PRE_AUTH_URL, self.component_appid, self.create_preauthcode()["pre_auth_code"], redirect_uri,
-        )
+        return f"{self.PRE_AUTH_URL}?component_appid={self.component_appid}&pre_auth_code={self.create_preauthcode()['pre_auth_code']}&redirect_uri={redirect_uri}"
 
     def get_pre_auth_url_m(self, redirect_uri):
         """
@@ -196,9 +195,7 @@ class WeChatComponent(BaseWeChatComponent):
         """
         url = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&auth_type=3&no_scan=1&"
         redirect_uri = quote(redirect_uri, safe="")
-        return "{0}component_appid={1}&pre_auth_code={2}&redirect_uri={3}".format(
-            url, self.component_appid, self.create_preauthcode()["pre_auth_code"], redirect_uri,
-        )
+        return f"{url}component_appid={self.component_appid}&pre_auth_code={self.create_preauthcode()['pre_auth_code']}&redirect_uri={redirect_uri}"
 
     def create_preauthcode(self):
         """
@@ -235,7 +232,7 @@ class WeChatComponent(BaseWeChatComponent):
             and result["authorization_info"]["authorizer_access_token"]
         ):
             access_token = result["authorization_info"]["authorizer_access_token"]
-            access_token_key = "{0}_access_token".format(authorizer_appid)
+            access_token_key = f"{authorizer_appid}_access_token"
             expires_in = 7200
             if "expires_in" in result["authorization_info"]:
                 expires_in = result["authorization_info"]["expires_in"]
@@ -245,7 +242,7 @@ class WeChatComponent(BaseWeChatComponent):
             and result["authorization_info"]["authorizer_refresh_token"]
         ):
             refresh_token = result["authorization_info"]["authorizer_refresh_token"]
-            refresh_token_key = "{0}_refresh_token".format(authorizer_appid)
+            refresh_token_key = f"{authorizer_appid}_refresh_token"
             self.session.set(refresh_token_key, refresh_token)  # refresh_token 需要永久储存，不建议使用内存储存，否则每次重启服务需要重新扫码授权
         return result
 
@@ -328,8 +325,8 @@ class WeChatComponent(BaseWeChatComponent):
 
         :params authorizer_appid: 授权公众号appid
         """
-        access_token_key = "{0}_access_token".format(authorizer_appid)
-        refresh_token_key = "{0}_refresh_token".format(authorizer_appid)
+        access_token_key = f"{authorizer_appid}_access_token"
+        refresh_token_key = f"{authorizer_appid}_refresh_token"
         access_token = self.session.get(access_token_key)
         refresh_token = self.session.get(refresh_token_key)
         assert refresh_token
@@ -338,7 +335,7 @@ class WeChatComponent(BaseWeChatComponent):
             ret = self.refresh_authorizer_token(authorizer_appid, refresh_token)
             access_token = ret["authorizer_access_token"]
             refresh_token = ret["authorizer_refresh_token"]
-            access_token_key = "{0}_access_token".format(authorizer_appid)
+            access_token_key = f"{authorizer_appid}_access_token"
             expires_in = 7200
             if "expires_in" in ret:
                 expires_in = ret["expires_in"]
@@ -481,7 +478,7 @@ class ComponentOAuth:
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
-            url = "{base}{endpoint}".format(base=self.API_BASE_URL, endpoint=url_or_endpoint)
+            url = f"{self.API_BASE_URL}{url_or_endpoint}"
         else:
             url = url_or_endpoint
 
@@ -514,7 +511,7 @@ class ComponentOAuth:
                 WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value,
             ):
                 logger.info("Component access token expired, fetch a new one and retry request")
-                self.component.fetch_access_token()
+                self.component.fetch_access_token
                 kwargs["params"]["component_access_token"] = self.component.access_token
                 return self._request(method=method, url_or_endpoint=url, **kwargs)
             elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:

@@ -24,7 +24,7 @@ class ReplyTestCase(unittest.TestCase):
         self.assertTrue("<FromUserName><![CDATA[user1]]></FromUserName>" in r)
         self.assertTrue("<MsgType><![CDATA[text]]></MsgType>" in r)
         self.assertTrue("<Content><![CDATA[test]]></Content>" in r)
-        create_time = "<CreateTime>{time}</CreateTime>".format(time=timestamp)
+        create_time = f"<CreateTime>{timestamp}</CreateTime>"
         self.assertTrue(create_time in r)
 
     def test_image_reply_properties(self):

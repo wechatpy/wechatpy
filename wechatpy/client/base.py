@@ -56,12 +56,12 @@ class BaseWeChatClient:
 
     @property
     def access_token_key(self):
-        return "{0}_access_token".format(self.appid)
+        return f"{self.appid}_access_token"
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
             api_base_url = kwargs.pop("api_base_url", self.API_BASE_URL)
-            url = "{base}{endpoint}".format(base=api_base_url, endpoint=url_or_endpoint)
+            url = f"{api_base_url}{url_or_endpoint}"
         else:
             url = url_or_endpoint
 

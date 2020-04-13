@@ -15,14 +15,14 @@ _FIXTURE_PATH = os.path.join(_TESTS_PATH, "fixtures")
 @urlmatch(netloc=r"(.*\.)?api\.weixin\.qq\.com$")
 def wechat_api_mock(url, request):
     path = url.path[1:].replace("/", "_")
-    res_file = os.path.join(_FIXTURE_PATH, "%s.json" % path)
-    content = {"errcode": 99999, "errmsg": "can not find fixture: %s" % res_file}
+    res_file = os.path.join(_FIXTURE_PATH, f"{path}.json")
+    content = {"errcode": 99999, "errmsg": f"can not find fixture: {res_file}"}
     headers = {"Content-Type": "application/json"}
     try:
         with open(res_file) as f:
             content = json.loads(f.read())
     except (IOError, ValueError):
-        content["errmsg"] = "Fixture %s json decode error" % res_file
+        content["errmsg"] = f"Fixture {res_file} json decode error"
     return response(200, content, headers, request=request)
 
 

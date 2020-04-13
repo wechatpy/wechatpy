@@ -621,8 +621,7 @@ class WeChatMessage(BaseWeChatAPI):
             ("reserved", reserved),
         ]
         encoded_params = urlencode(params)
-        url = "{base}?{params}#wechat_redirect".format(base=base_url, params=encoded_params)
-        return url
+        return f"{base_url}?{encoded_params}#wechat_redirect"
 
     def send_subscribe_template(self, openid, template_id, scene, title, data, url=None):
         """

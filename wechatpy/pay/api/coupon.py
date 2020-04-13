@@ -20,7 +20,7 @@ class WeChatCoupon(BaseWeChatPayAPI):
         """
         if not out_trade_no:
             now = datetime.now()
-            out_trade_no = "{0}{1}{2}".format(self.mch_id, now.strftime("%Y%m%d%H%M%S"), random.randint(1000, 10000))
+            out_trade_no = f"{self.mch_id}{now.strftime('%Y%m%d%H%M%S')}{random.randint(1000, 10000)}"
         data = {
             "appid": self.appid,
             "coupon_stock_id": stock_id,

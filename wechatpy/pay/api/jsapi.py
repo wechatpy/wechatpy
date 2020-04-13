@@ -24,7 +24,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
             "timeStamp": timestamp or to_text(int(time.time())),
             "nonceStr": nonce_str or random_string(32),
             "signType": "MD5",
-            "package": "prepay_id={0}".format(prepay_id),
+            "package": f"prepay_id={prepay_id}",
         }
         return calculate_signature(
             data, self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key,
@@ -47,7 +47,7 @@ class WeChatJSAPI(BaseWeChatPayAPI):
             "timeStamp": timestamp or to_text(int(time.time())),
             "nonceStr": nonce_str or random_string(32),
             "signType": "MD5",
-            "package": "prepay_id={0}".format(prepay_id),
+            "package": f"prepay_id={prepay_id}",
         }
         sign = calculate_signature(
             data, self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key,

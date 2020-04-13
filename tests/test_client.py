@@ -20,17 +20,17 @@ def wechat_api_mock(url, request):
     path = url.path.replace("/cgi-bin/", "").replace("/", "_")
     if path.startswith("_"):
         path = path[1:]
-    res_file = os.path.join(_FIXTURE_PATH, "%s.json" % path)
+    res_file = os.path.join(_FIXTURE_PATH, f"{path}.json")
     content = {
         "errcode": 99999,
-        "errmsg": "can not find fixture %s" % res_file,
+        "errmsg": f"can not find fixture {res_file}",
     }
     headers = {"Content-Type": "application/json"}
     try:
         with open(res_file, "rb") as f:
             content = json.loads(f.read().decode("utf-8"))
     except (IOError, ValueError) as e:
-        content["errmsg"] = "Loads fixture {0} failed, error: {1}".format(res_file, e)
+        content["errmsg"] = f"Loads fixture {res_file} failed, error: {e}"
     return response(200, content, headers, request=request)
 
 
@@ -137,7 +137,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_send_articles_message(self):
         with HTTMock(wechat_api_mock):
             articles = [
-                {"title": "test", "description": "test", "url": "http://www.qq.com", "image": "http://www.qq.com",}
+                {"title": "test", "description": "test", "url": "http://www.qq.com", "image": "http://www.qq.com"}
             ]
             result = self.client.message.send_articles(1, articles)
             self.assertEqual(0, result["errcode"])
@@ -499,11 +499,9 @@ class WeChatClientTestCase(unittest.TestCase):
                 "bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA",  # NOQA
                 ticket,
             )
-            self.assertTrue(
-                7200 < self.client.session.get("{0}_jsapi_card_ticket_expires_at".format(self.client.appid))
-            )
+            self.assertTrue(7200 < self.client.session.get(f"{self.client.appid}_jsapi_card_ticket_expires_at"))
             self.assertEqual(
-                self.client.session.get("{0}_jsapi_card_ticket".format(self.client.appid)),
+                self.client.session.get(f"{self.client.appid}_jsapi_card_ticket"),
                 "bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA",
             )
 

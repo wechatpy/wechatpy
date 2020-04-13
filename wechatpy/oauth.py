@@ -44,7 +44,7 @@ class WeChatOAuth:
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
-            url = "{base}{endpoint}".format(base=self.API_BASE_URL, endpoint=url_or_endpoint)
+            url = f"{self.API_BASE_URL}{url_or_endpoint}"
         else:
             url = url_or_endpoint
 

@@ -33,7 +33,7 @@ def parse_message(xml):
         if event_type is None and message_type.startswith("device_"):
             event_type = message_type
         elif message_type.startswith("device_"):
-            event_type = "device_{event}".format(event=event_type)
+            event_type = f"device_{event_type}"
 
         if event_type == "subscribe" and message.get("EventKey"):
             event_key = message["EventKey"]

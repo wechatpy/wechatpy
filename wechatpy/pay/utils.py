@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 
 
 def format_url(params, api_key=None):
-    data = [to_binary("{0}={1}".format(k, params[k])) for k in sorted(params) if params[k]]
+    data = [to_binary(f"{k}={params[k]}") for k in sorted(params) if params[k]]
     if api_key:
-        data.append(to_binary("key={0}".format(api_key)))
+        data.append(to_binary(f"key={api_key}"))
     return b"&".join(data)
 
 
@@ -44,11 +44,11 @@ def dict_to_xml(d, sign=None):
         # use sorted to avoid test error on Py3k
         v = d[k]
         if isinstance(v, int) or (isinstance(v, str) and v.isdigit()):
-            xml.append("<{0}>{1}</{0}>\n".format(to_text(k), to_text(v)))
+            xml.append(f"<{to_text(k)}>{to_text(v)}</{to_text(k)}>\n")
         else:
-            xml.append("<{0}><![CDATA[{1}]]></{0}>\n".format(to_text(k), to_text(v)))
+            xml.append(f"<{to_text(k)}><![CDATA[{to_text(v)}]]></{to_text(k)}>\n")
     if sign:
-        xml.append("<sign><![CDATA[{0}]]></sign>\n</xml>".format(to_text(sign)))
+        xml.append(f"<sign><![CDATA[{to_text(sign)}]]></sign>\n</xml>")
     else:
         xml.append("</xml>")
     return "".join(xml)

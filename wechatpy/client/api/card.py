@@ -400,8 +400,7 @@ class WeChatCard(BaseWeChatAPI):
         signer.add_data(card_id)
         signature = signer.signature
 
-        r = "{url}?encrypt_code={code}&card_id={card_id}&signature={signature}"
-        return r.format(url=url, code=encrypt_code, card_id=card_id, signature=signature)
+        return f"{url}?encrypt_code={encrypt_code}&card_id={card_id}&signature={signature}"
 
     def deposit_code(self, card_id, codes):
         """

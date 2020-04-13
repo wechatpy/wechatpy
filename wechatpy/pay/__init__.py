@@ -101,7 +101,7 @@ class WeChatPay:
         sign = calculate_signature({"mch_id": self.mch_id, "nonce_str": nonce_str}, self.api_key)
         payload = dict_to_xml({"mch_id": self.mch_id, "nonce_str": nonce_str,}, sign=sign)
         headers = {"Content-Type": "text/xml"}
-        api_url = "{base}sandboxnew/pay/getsignkey".format(base=self.API_BASE_URL)
+        api_url = f"{self.API_BASE_URL}sandboxnew/pay/getsignkey"
         response = self._http.post(api_url, data=payload, headers=headers)
         return xmltodict.parse(response.text)["xml"].get("sandbox_signkey")
 
@@ -109,8 +109,8 @@ class WeChatPay:
         if not url_or_endpoint.startswith(("http://", "https://")):
             api_base_url = kwargs.pop("api_base_url", self.API_BASE_URL)
             if self.sandbox:
-                api_base_url = "{url}sandboxnew/".format(url=api_base_url)
-            url = "{base}{endpoint}".format(base=api_base_url, endpoint=url_or_endpoint)
+                api_base_url = f"{api_base_url}sandboxnew/"
+            url = f"{api_base_url}{url_or_endpoint}"
         else:
             url = url_or_endpoint
 

@@ -52,7 +52,7 @@ def create_reply(reply, message=None, render=False):
         r = TextReply(message=message, content=reply)
     elif isinstance(reply, (tuple, list)):
         if len(reply) > 10:
-            raise AttributeError("Can't add more than 10 articles" " in an ArticlesReply")
+            raise AttributeError("Can't add more than 10 articles in an ArticlesReply")
         r = ArticlesReply(message=message, articles=reply)
     if r and render:
         return r.render()

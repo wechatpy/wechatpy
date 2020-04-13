@@ -69,8 +69,7 @@ class BaseMessage(metaclass=MessageMetaClass):
         self._data = message
 
     def __repr__(self):
-        _repr = "{klass}({msg})".format(klass=self.__class__.__name__, msg=repr(self._data))
-        return _repr
+        return f"{self.__class__.__name__}({repr(self._data)})"
 
 
 @register_message("text")
@@ -188,8 +187,7 @@ class BaseComponentMessage(metaclass=MessageMetaClass):
         self._data = message
 
     def __repr__(self):
-        s = "{klass}({msg})".format(klass=self.__class__.__name__, msg=repr(self._data))
-        return s
+        return f"{self.__class__.__name__}({repr(self._data)})"
 
 
 @register_component_message("component_verify_ticket")
