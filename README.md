@@ -19,8 +19,6 @@
 v1.x:   [【阅读文档】](https://wechatpy.readthedocs.org/zh_CN/stable/) [【快速入门】](https://wechatpy.readthedocs.org/zh_CN/stable/quickstart.html)
 master: [【阅读文档】](https://wechatpy.readthedocs.org/zh_CN/master/) [【快速入门】](https://wechatpy.readthedocs.org/zh_CN/master/quickstart.html)
 
-[![Join the chat at https://gitter.im/messense/wechatpy](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/messense/wechatpy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 ## 功能特性
 
 1. 普通公众平台被动响应和主动调用 API
