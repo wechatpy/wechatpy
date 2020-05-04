@@ -307,3 +307,33 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.transfer("woAJ2GCAAAXtWyujaWJHDDGi0mACH71w", "zhangsan", "lisi")
             self.assertEqual(0, res["errcode"])
+
+    def test_oa_get_checkin_data(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_checkin_data(
+                data_type=3, start_time=1492617600, end_time=1492790400, userid_list=["james", "paul"]
+            )
+            self.assertIsInstance(res, dict, msg="the returned result should be dict type")
+            self.assertEqual(0, res["errcode"])
+
+    def test_oa_get_checkin_data_with_invalid_datatype(self):
+        with HTTMock(wechat_api_mock):
+            self.assertRaises(
+                ValueError,
+                self.client.oa.get_checkin_data,
+                data_type=5,
+                start_time=1492617600,
+                end_time=1492790400,
+                userid_list=["james", "paul"],
+            )
+
+    def test_oa_get_checkin_data_with_invalid_timestamp(self):
+        with HTTMock(wechat_api_mock):
+            self.assertRaises(
+                ValueError,
+                self.client.oa.get_checkin_data,
+                data_type=5,
+                start_time=1492790400,
+                end_time=1492617600,
+                userid_list=["james", "paul"],
+            )
