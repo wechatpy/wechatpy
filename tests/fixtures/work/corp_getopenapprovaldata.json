@@ -1,0 +1,48 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "data": {
+        "ThirdNo": "201806010001",
+        "OpenTemplateId": "1234567111",
+        "OpenSpName": "付款",
+        "OpenSpstatus": 1,
+        "ApplyTime": 1527837645,
+        "ApplyUsername": "jackiejjwu",
+        "ApplyUserParty": "产品部",
+        "ApplyUserImage": "http://www.qq.com/xxx.png",
+        "ApplyUserId": "WuJunJie",
+        "ApprovalNodes": {
+            "ApprovalNode": [
+                {
+                    "NodeStatus": 1,
+                    "NodeAttr": 1,
+                    "NodeType": 1,
+                    "Items": {
+                        "Item": [
+                            {
+                                "ItemName": "chauvetxiao",
+                                "ItemParty": "产品部",
+                                "ItemImage": "http://www.qq.com/xxx.png",
+                                "ItemUserId": "XiaoWen",
+                                "ItemStatus": 1,
+                                "ItemSpeech": "",
+                                "ItemOpTime": 0
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "NotifyNodes": {
+            "NotifyNode": [
+                {
+                    "ItemName": "jinhuiguo",
+                    "ItemParty": "行政部",
+                    "ItemImage": "http://www.qq.com/xxx.png",
+                    "ItemUserId": "GuoJinHui"
+                }
+            ]
+        },
+        "approverstep": 0
+    }
+}

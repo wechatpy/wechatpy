@@ -175,3 +175,14 @@ class WeChatOA(BaseWeChatAPI):
 
         data = {"datetime": datetime, "useridlist": userid_list}
         return self._post("checkin/getcheckinoption", data=data)
+
+    def get_open_approval_data(self, third_no: str) -> Union[dict, requests.models.Response]:
+        """
+        查询自建应用审批单当前状态
+        https://work.weixin.qq.com/api/doc/90000/90135/90269
+
+        :param third_no: 开发者发起申请时定义的审批单号
+        :return: 审批单的当前审批状态
+        """
+        data = {"thirdNo": third_no}
+        return self._post("corp/getopenapprovaldata", data=data)
