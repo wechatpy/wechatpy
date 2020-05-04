@@ -3,7 +3,7 @@
 
 from optionaldict import optionaldict
 from wechatpy.client.api.base import BaseWeChatAPI
-from typing import Union, List
+from typing import Union, List, Optional
 import requests.models
 
 
@@ -92,6 +92,36 @@ class WeChatOA(BaseWeChatAPI):
             }
         )
         return self._post("oa/applyevent", data=data)
+
+    def get_dial_record(
+        self, start_time: Optional[int] = None, end_time: Optional[int] = None, offset: int = 0, limit: int = 100
+    ) -> Union[dict, requests.models.Response]:
+        """
+        获取公费电话拨打记录
+        https://work.weixin.qq.com/api/doc/90000/90135/90267
+
+        企业可通过此接口，按时间范围拉取成功接通的公费电话拨打记录。
+
+        请注意，查询的时间范围为[start_time,end_time]，即前后均为闭区间。在两个参数都
+        指定了的情况下，结束时间不得小于开始时间，开始时间也不得早于当前时间，否则会返回
+        600018错误码(无效的起止时间)。
+
+        受限于网络传输，起止时间的最大跨度为30天，如超过30天，则以结束时间为基准向前取
+        30天进行查询。
+
+        如果未指定起止时间，则默认查询最近30天范围内数据。
+
+        :param start_time: 查询的起始时间戳
+        :param end_time: 查询的结束时间戳
+        :param offset: 分页查询的偏移量
+        :param limit: 分页查询的每页大小,默认为100条，如该参数大于100则按100处理
+        :return: 公费电话拨打记录
+        """
+        if start_time and end_time and end_time <= start_time:
+            raise ValueError("the end time must be greater than the begining time")
+
+        data = {"start_time": start_time, "end_time": end_time, "offset": offset, "limit": limit}
+        return self._post("dial/get_dial_record", data=data)
 
     def get_checkin_data(
         self, data_type: int, start_time: int, end_time: int, userid_list: List[str]
