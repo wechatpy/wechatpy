@@ -3,8 +3,7 @@
 
 from optionaldict import optionaldict
 from wechatpy.client.api.base import BaseWeChatAPI
-from typing import Union, List, Optional
-import requests.models
+from typing import List, Optional
 
 
 class WeChatOA(BaseWeChatAPI):
@@ -95,7 +94,7 @@ class WeChatOA(BaseWeChatAPI):
 
     def get_dial_record(
         self, start_time: Optional[int] = None, end_time: Optional[int] = None, offset: int = 0, limit: int = 100
-    ) -> Union[dict, requests.models.Response]:
+    ) -> dict:
         """
         获取公费电话拨打记录
         https://work.weixin.qq.com/api/doc/90000/90135/90267
@@ -123,9 +122,7 @@ class WeChatOA(BaseWeChatAPI):
         data = {"start_time": start_time, "end_time": end_time, "offset": offset, "limit": limit}
         return self._post("dial/get_dial_record", data=data)
 
-    def get_checkin_data(
-        self, data_type: int, start_time: int, end_time: int, userid_list: List[str]
-    ) -> Union[dict, requests.models.Response]:
+    def get_checkin_data(self, data_type: int, start_time: int, end_time: int, userid_list: List[str]) -> dict:
         """
         获取打卡数据
         https://work.weixin.qq.com/api/doc/90000/90135/90262
@@ -158,7 +155,7 @@ class WeChatOA(BaseWeChatAPI):
         }
         return self._post("checkin/getcheckindata", data=data)
 
-    def get_checkin_option(self, datetime: int, userid_list: List[str]) -> Union[dict, requests.models.Response]:
+    def get_checkin_option(self, datetime: int, userid_list: List[str]) -> dict:
         """
         获取打卡规则
         https://work.weixin.qq.com/api/doc/90000/90135/90263
@@ -176,7 +173,7 @@ class WeChatOA(BaseWeChatAPI):
         data = {"datetime": datetime, "useridlist": userid_list}
         return self._post("checkin/getcheckinoption", data=data)
 
-    def get_open_approval_data(self, third_no: str) -> Union[dict, requests.models.Response]:
+    def get_open_approval_data(self, third_no: str) -> dict:
         """
         查询自建应用审批单当前状态
         https://work.weixin.qq.com/api/doc/90000/90135/90269
