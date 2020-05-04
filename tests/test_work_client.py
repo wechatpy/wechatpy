@@ -308,6 +308,23 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.external_contact.transfer("woAJ2GCAAAXtWyujaWJHDDGi0mACH71w", "zhangsan", "lisi")
             self.assertEqual(0, res["errcode"])
 
+    def test_oa_get_dial_record(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_dial_record(start_time=1536508800, end_time=1536940800, offset=0, limit=100)
+            self.assertIsInstance(res, dict, msg="the returned result should be dict type")
+            self.assertEqual(0, res["errcode"])
+
+    def test_os_get_dial_record_with_invalid_timestamp(self):
+        with HTTMock(wechat_api_mock):
+            self.assertRaises(
+                ValueError,
+                self.client.oa.get_dial_record,
+                start_time=1536940800,
+                end_time=1536508800,
+                offset=0,
+                limit=100,
+            )
+
     def test_oa_get_checkin_data(self):
         with HTTMock(wechat_api_mock):
             res = self.client.oa.get_checkin_data(

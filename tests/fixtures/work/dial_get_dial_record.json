@@ -1,0 +1,42 @@
+{
+   "errcode": 0,
+   "errmsg": "ok",
+   "record":[
+           {
+            "call_time":1536508800,
+            "total_duration":10,
+            "call_type":1,
+            "caller":
+            {
+                "userid":"tony",
+                "duration":10
+            },
+            "callee":[
+            {
+                "phone":138000800,
+                "duration":10
+            }
+            ]
+        },
+        {
+            "call_time":1536940800,
+            "total_duration":20,
+            "call_type":2,
+            "caller":
+            {
+                "userid":"tony",
+                "duration":10
+            },
+            "callee":[
+                {
+                    "phone":138000800,
+                    "duration":5
+                },
+                {
+                    "userid":"tom",
+                    "duration":5
+                }
+            ]
+        }
+   ]
+}
