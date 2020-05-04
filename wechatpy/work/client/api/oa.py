@@ -3,6 +3,8 @@
 
 from optionaldict import optionaldict
 from wechatpy.client.api.base import BaseWeChatAPI
+from typing import Union, List
+import requests.models
 
 
 class WeChatOA(BaseWeChatAPI):
@@ -90,3 +92,38 @@ class WeChatOA(BaseWeChatAPI):
             }
         )
         return self._post("oa/applyevent", data=data)
+
+    def get_checkin_data(
+        self, data_type: int, start_time: int, end_time: int, userid_list: List[str]
+    ) -> Union[dict, requests.models.Response]:
+        """
+        获取打卡数据
+        https://work.weixin.qq.com/api/doc/90000/90135/90262
+
+        - 获取记录时间跨度不超过30天
+        - 用户列表不超过100个。若用户超过100个，请分批获取
+        - 有打卡记录即可获取打卡数据，与当前”打卡应用”是否开启无关
+
+        :param data_type: 打卡类型。1：上下班打卡；2：外出打卡；3：全部打卡
+        :param start_time: 获取打卡记录的开始时间。Unix时间戳
+        :param end_time: 获取打卡记录的结束时间。Unix时间戳
+        :param userid_list: 需要获取打卡记录的用户列表
+        :return: 打卡数据
+        """
+        checkin_data_type = {1: "上下班打卡", 2: "外出打卡", 3: "全部打卡"}
+        if data_type not in checkin_data_type:
+            raise ValueError(f"data_type must be in {list(checkin_data_type.keys())}")
+
+        if end_time <= start_time:
+            raise ValueError("the end time must be greater than the begining time")
+
+        if not userid_list:
+            raise ValueError("the userid_list can't be an empty list")
+
+        data = {
+            "opencheckindatatype": data_type,
+            "starttime": start_time,
+            "endtime": end_time,
+            "useridlist": userid_list,
+        }
+        return self._post("checkin/getcheckindata", data=data)
