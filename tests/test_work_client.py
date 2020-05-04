@@ -257,7 +257,7 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.add_msg_template(
                 {
-                    "external_userid": ["woAJ2GCAAAXtWyujaWJHDDGi0mACas1w", "wmqfasd1e1927831291723123109r712",],
+                    "external_userid": ["woAJ2GCAAAXtWyujaWJHDDGi0mACas1w", "wmqfasd1e1927831291723123109r712"],
                     "sender": "zhangsan",
                     "text": {"content": "文本消息内容"},
                     "image": {"media_id": "MEDIA_ID"},
