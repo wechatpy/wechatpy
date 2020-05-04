@@ -337,3 +337,9 @@ class WeChatClientTestCase(unittest.TestCase):
                 end_time=1492617600,
                 userid_list=["james", "paul"],
             )
+
+    def test_oa_get_checkin_option(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_checkin_option(datetime=1511971200, userid_list=["james", "paul"])
+            self.assertIsInstance(res, dict, msg="the returned result should be dict type")
+            self.assertEqual(0, res["errcode"])

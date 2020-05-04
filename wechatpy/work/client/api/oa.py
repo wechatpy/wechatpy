@@ -127,3 +127,21 @@ class WeChatOA(BaseWeChatAPI):
             "useridlist": userid_list,
         }
         return self._post("checkin/getcheckindata", data=data)
+
+    def get_checkin_option(self, datetime: int, userid_list: List[str]) -> Union[dict, requests.models.Response]:
+        """
+        获取打卡规则
+        https://work.weixin.qq.com/api/doc/90000/90135/90263
+
+        - 用户列表不超过100个，若用户超过100个，请分批获取。
+        - 用户在不同日期的规则不一定相同，请按天获取。
+
+        :param datetime: 需要获取规则的日期当天0点的Unix时间戳
+        :param userid_list: 需要获取打卡规则的用户列表
+        :return: 打卡规则
+        """
+        if not userid_list:
+            raise ValueError("the userid_list can't be an empty list")
+
+        data = {"datetime": datetime, "useridlist": userid_list}
+        return self._post("checkin/getcheckinoption", data=data)
