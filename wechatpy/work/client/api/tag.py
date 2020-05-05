@@ -99,7 +99,34 @@ class WeChatTag(BaseWeChatAPI):
 
         return self._post("tag/update", data={"tagid": tag_id, "tagname": name})
 
-    def delete(self, tag_id):
+    def delete(self, tag_id: int) -> dict:
+        """删除标签
+
+        参考：https://work.weixin.qq.com/api/doc/90000/90135/90212
+
+        **权限说明**：调用的应用必须是指定标签的创建者。
+
+        返回结果示例： ::
+
+            {
+               "errcode": 0,
+               "errmsg": "deleted"
+            }
+
+        结果参数说明：
+
+        +---------+------------------------+
+        | 参数    | 说明                   |
+        +=========+========================+
+        | errcode | 返回码                 |
+        +---------+------------------------+
+        | errmsg  | 对返回码的文本描述内容 |
+        +---------+------------------------+
+
+        :param tag_id: 标签ID，非负整型
+        :return: 删除结果
+        """
+        self._validate_tag_id(tag_id)
         return self._get("tag/delete", params={"tagid": tag_id})
 
     def get_users(self, tag_id):
