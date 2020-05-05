@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional
+from typing import Optional, List
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -181,8 +181,79 @@ class WeChatTag(BaseWeChatAPI):
         self._validate_tag_id(tag_id)
         return self._get("tag/get", params={"tagid": tag_id})
 
-    def add_users(self, tag_id, user_ids):
-        return self._post("tag/addtagusers", data={"tagid": tag_id, "userlist": user_ids})
+    def add_users(
+        self, tag_id: int, user_ids: Optional[List[str]] = None, dept_ids: Optional[List[int]] = None
+    ) -> dict:
+        """增加标签成员
+
+        参考：https://work.weixin.qq.com/api/doc/90000/90135/90214
+
+        **权限说明**：
+        调用的应用必须是指定标签的创建者；成员属于应用的可见范围。
+
+        **注意**：每个标签下部门、人员总数不能超过3万个。
+
+        返回结果示例：
+
+        a. 正确时返回 ::
+
+            {
+               "errcode": 0,
+               "errmsg": "ok"
+            }
+
+        b. 若部分userid、partylist非法，则返回 ::
+
+            {
+               "errcode": 0,
+               "errmsg": "ok",
+               "invalidlist"："usr1|usr2|usr",
+               "invalidparty"：[2,4]
+            }
+
+        c. 当包含userid、partylist全部非法时返回 ::
+
+            {
+               "errcode": 40070,
+               "errmsg": "all list invalid "
+            }
+
+        结果参数说明：
+
+        +--------------+------------------------+
+        | 参数         | 说明                   |
+        +==============+========================+
+        | errcode      | 返回码                 |
+        +--------------+------------------------+
+        | errmsg       | 对返回码的文本描述内容 |
+        +--------------+------------------------+
+        | invalidlist  | 非法的成员帐号列表     |
+        +--------------+------------------------+
+        | invalidparty | 非法的部门id列表       |
+        +--------------+------------------------+
+
+        :param tag_id: 标签ID，非负整型
+        :param user_ids: 企业成员ID列表，注意：userlist、partylist不能同时为空，
+            单次请求个数不超过1000
+        :param dept_ids: 企业部门ID列表，注意：userlist、partylist不能同时为空，
+            单次请求个数不超过100
+        :return: 请求结果
+        """
+        self._validate_tag_id(tag_id)
+        if not user_ids and not dept_ids:
+            raise ValueError("user_ids and dept_ids cannot be empty at the same time")
+        if user_ids is not None and len(user_ids) > 1000:
+            raise ValueError("the length of the user_ids cannot be greater than 1000")
+        if dept_ids is not None and len(dept_ids) > 100:
+            raise ValueError("the length of the dept_ids cannot be greater than 100")
+
+        data = {"tagid": tag_id}
+        if user_ids:
+            data["userlist"] = user_ids
+        if dept_ids:
+            data["partylist"] = dept_ids
+
+        return self._post("tag/addtagusers", data=data)
 
     def delete_users(self, tag_id, user_ids):
         return self._post("tag/deltagusers", data={"tagid": tag_id, "userlist": user_ids})
