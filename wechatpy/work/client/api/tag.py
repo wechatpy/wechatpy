@@ -182,7 +182,7 @@ class WeChatTag(BaseWeChatAPI):
         return self._get("tag/get", params={"tagid": tag_id})
 
     def add_users(
-        self, tag_id: int, user_ids: Optional[List[str]] = None, dept_ids: Optional[List[int]] = None
+        self, tag_id: int, user_ids: Optional[List[str]] = None, department_ids: Optional[List[int]] = None
     ) -> dict:
         """增加标签成员
 
@@ -233,30 +233,30 @@ class WeChatTag(BaseWeChatAPI):
         +--------------+------------------------+
 
         :param tag_id: 标签ID，非负整型
-        :param user_ids: 企业成员ID列表，注意：userlist、partylist不能同时为空，
+        :param user_ids: 企业成员ID列表，注意：user_ids和department_ids不能同时为空，
             单次请求个数不超过1000
-        :param dept_ids: 企业部门ID列表，注意：userlist、partylist不能同时为空，
-            单次请求个数不超过100
+        :param department_ids: 企业部门ID列表，注意：user_ids和department_ids不能
+            同时为空，单次请求个数不超过100
         :return: 请求结果
         """
         self._validate_tag_id(tag_id)
-        if not user_ids and not dept_ids:
-            raise ValueError("user_ids and dept_ids cannot be empty at the same time")
+        if not user_ids and not department_ids:
+            raise ValueError("user_ids and department_ids cannot be empty at the same time")
         if user_ids is not None and len(user_ids) > 1000:
             raise ValueError("the length of the user_ids cannot be greater than 1000")
-        if dept_ids is not None and len(dept_ids) > 100:
-            raise ValueError("the length of the dept_ids cannot be greater than 100")
+        if department_ids is not None and len(department_ids) > 100:
+            raise ValueError("the length of the department_ids cannot be greater than 100")
 
         data = {"tagid": tag_id}
         if user_ids:
             data["userlist"] = user_ids
-        if dept_ids:
-            data["partylist"] = dept_ids
+        if department_ids:
+            data["partylist"] = department_ids
 
         return self._post("tag/addtagusers", data=data)
 
     def delete_users(
-        self, tag_id: int, user_ids: Optional[List[str]] = None, dept_ids: Optional[List[int]] = None
+        self, tag_id: int, user_ids: Optional[List[str]] = None, department_ids: Optional[List[int]] = None
     ) -> dict:
         """删除标签成员
 
@@ -304,25 +304,25 @@ class WeChatTag(BaseWeChatAPI):
         +--------------+------------------------+
 
         :param tag_id: 标签ID，非负整型
-        :param user_ids: 企业成员ID列表，注意：userlist、partylist不能同时为空，
+        :param user_ids: 企业成员ID列表，注意：user_ids和department_ids不能同时为空，
             单次请求长度不超过1000
-        :param dept_ids: 企业部门ID列表，注意：userlist、partylist不能同时为空，
-            单次请求长度不超过100
+        :param department_ids: 企业部门ID列表，注意：user_ids和department_ids不能
+            同时为空，单次请求长度不超过100
         :return: 处理结果
         """
         self._validate_tag_id(tag_id)
-        if not user_ids and not dept_ids:
-            raise ValueError("user_ids and dept_ids cannot be empty at the same time")
+        if not user_ids and not department_ids:
+            raise ValueError("user_ids and department_ids cannot be empty at the same time")
         if user_ids is not None and len(user_ids) > 1000:
             raise ValueError("the length of the user_ids cannot be greater than 1000")
-        if dept_ids is not None and len(dept_ids) > 100:
-            raise ValueError("the length of the dept_ids cannot be greater than 100")
+        if department_ids is not None and len(department_ids) > 100:
+            raise ValueError("the length of the department_ids cannot be greater than 100")
 
         data = {"tagid": tag_id}
         if user_ids:
             data["userlist"] = user_ids
-        if dept_ids:
-            data["partylist"] = dept_ids
+        if department_ids:
+            data["partylist"] = department_ids
 
         return self._post("tag/deltagusers", data={"tagid": tag_id, "userlist": user_ids})
 
