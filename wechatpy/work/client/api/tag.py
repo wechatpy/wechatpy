@@ -52,9 +52,9 @@ class WeChatTag(BaseWeChatAPI):
         +---------+------------------------+
 
         :param name: 标签名称，长度限制为32个字以内（汉字或英文字母），标签名不可与
-        其他标签重名。
+            其他标签重名。
         :param tag_id: 标签id，非负整型，指定此参数时新增的标签会生成对应的标签id，不指
-        定时则以目前最大的id自增。
+            定时则以目前最大的id自增。
         :return: 创建结果
         """
         if tag_id is not None:
