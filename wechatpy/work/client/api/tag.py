@@ -12,6 +12,16 @@ class WeChatTag(BaseWeChatAPI):
     https://work.weixin.qq.com/api/doc#90000/90135/90209
     """
 
+    @staticmethod
+    def _validate_tag_id(tag_id):
+        if tag_id < 0:
+            raise ValueError("tag id cannot be a negative integer")
+
+    @staticmethod
+    def _validate_tag_name(tag_name):
+        if len(tag_name) > 32:
+            raise ValueError("the length of the tag name cannot be more than 32 characters")
+
     def create(self, name: str, tag_id: Optional[int] = None) -> dict:
         """创建标签
 
@@ -47,17 +57,46 @@ class WeChatTag(BaseWeChatAPI):
         定时则以目前最大的id自增。
         :return: 创建结果
         """
-        if tag_id is not None and tag_id < 0:
-            raise ValueError("tag id cannot be a negative integer")
-        if len(name) > 32:
-            raise ValueError("the length of the tag name cannot be more than 32 characters")
+        if tag_id is not None:
+            self._validate_tag_id(tag_id)
+        self._validate_tag_name(name)
 
         data = {"tagname": name}
         if tag_id:
             data["tagid"] = tag_id
         return self._post("tag/create", data=data)
 
-    def update(self, tag_id, name):
+    def update(self, tag_id: int, name: str) -> dict:
+        """更新标签名字
+
+        参考：https://work.weixin.qq.com/api/doc/90000/90135/90211
+
+        **权限说明**：调用的应用必须是指定标签的创建者。
+
+        返回结果示例： ::
+
+            {
+               "errcode": 0,
+               "errmsg": "updated"
+            }
+
+        结果参数说明：
+
+        +---------+------------------------+
+        | 参数    | 说明                   |
+        +=========+========================+
+        | errcode | 返回码                 |
+        +---------+------------------------+
+        | errmsg  | 对返回码的文本描述内容 |
+        +---------+------------------------+
+
+        :param tag_id: 标签ID
+        :param name: 标签名称，长度限制为32个字（汉字或英文字母），标签不可与其他标签重名。
+        :return: 更新结果
+        """
+        self._validate_tag_id(tag_id)
+        self._validate_tag_name(name)
+
         return self._post("tag/update", data={"tagid": tag_id, "tagname": name})
 
     def delete(self, tag_id):
