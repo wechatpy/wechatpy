@@ -413,3 +413,16 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.invoice.get_info(card_id="CARDID", encrypt_code="ENCRYPTCODE")
             self.assertEqual(0, res["errcode"])
+
+    def test_invoice_get_info_batch(self):
+        with HTTMock(wechat_api_mock):
+            item_list = [
+                {"card_id": "CARDID1", "encrypt_code": "ENCRYPTCODE1"},
+                {"card_id": "CARDID2", "encrypt_code": "ENCRYPTCODE2"},
+            ]
+            res = self.client.invoice.get_info_batch(item_list)
+            self.assertEqual(0, res["errcode"])
+
+    def test_invoice_get_info_batch_with_empty_item_list(self):
+        with HTTMock(wechat_api_mock):
+            self.assertRaises(ValueError, self.client.invoice.get_info_batch, item_list=[])
