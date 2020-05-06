@@ -25,6 +25,7 @@ class WeChatClient(BaseWeChatClient):
     tag = api.WeChatTag()
     user = api.WeChatUser()
     oa = api.WeChatOA()
+    invoice = api.WeChatInvoice()
 
     def __init__(
         self, corp_id, secret, access_token=None, session=None, timeout=None, auto_retry=True,

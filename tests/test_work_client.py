@@ -408,3 +408,8 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.oa.get_open_approval_data(third_no="201806010001")
             self.assertIsInstance(res, dict, msg="the returned result should be dict type")
             self.assertEqual(0, res["errcode"])
+
+    def test_invoice_get_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.invoice.get_info(card_id="CARDID", encrypt_code="ENCRYPTCODE")
+            self.assertEqual(0, res["errcode"])
