@@ -426,3 +426,31 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_invoice_get_info_batch_with_empty_item_list(self):
         with HTTMock(wechat_api_mock):
             self.assertRaises(ValueError, self.client.invoice.get_info_batch, item_list=[])
+
+    def test_invoice_update_status(self):
+        with HTTMock(wechat_api_mock):
+            card_id = "CARDID"
+            encrypt_code = "ENCRYPTCODE"
+            reimburse_status = "INVOICE_REIMBURSE_INIT"
+            res = self.client.invoice.update_status(card_id, encrypt_code, reimburse_status)
+            self.assertEqual(0, res["errcode"])
+
+    def test_invoice_update_status_with_empty_status(self):
+        with HTTMock(wechat_api_mock):
+            self.assertRaises(
+                ValueError,
+                self.client.invoice.update_status,
+                card_id="CARDID",
+                encrypt_code="ENCRYPTCODE",
+                reimburse_status="",
+            )
+
+    def test_invoice_update_status_with_invalid_status(self):
+        with HTTMock(wechat_api_mock):
+            self.assertRaises(
+                ValueError,
+                self.client.invoice.update_status,
+                card_id="CARDID",
+                encrypt_code="ENCRYPTCODE",
+                reimburse_status="INVALID_STATUS",
+            )
