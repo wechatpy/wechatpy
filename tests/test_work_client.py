@@ -454,3 +454,43 @@ class WeChatClientTestCase(unittest.TestCase):
                 encrypt_code="ENCRYPTCODE",
                 reimburse_status="INVALID_STATUS",
             )
+
+    def test_invoice_update_status_batch(self):
+        with HTTMock(wechat_api_mock):
+            openid = "OPENID"
+            reimburse_status = "INVOICE_REIMBURSE_INIT"
+            invoice_list = [
+                {"card_id": "cardid_1", "encrypt_code": "encrypt_code_1"},
+                {"card_id": "cardid_2", "encrypt_code": "encrypt_code_2"},
+            ]
+            res = self.client.invoice.update_status_batch(openid, reimburse_status, invoice_list)
+            self.assertEqual(0, res["errcode"])
+
+    def test_invoice_update_status_batch_with_invalid_status(self):
+        with HTTMock(wechat_api_mock):
+            openid = "OPENID"
+            reimburse_status = ""
+            invoice_list = [
+                {"card_id": "cardid_1", "encrypt_code": "encrypt_code_1"},
+                {"card_id": "cardid_2", "encrypt_code": "encrypt_code_2"},
+            ]
+            self.assertRaises(
+                ValueError,
+                self.client.invoice.update_status_batch,
+                openid=openid,
+                reimburse_status=reimburse_status,
+                invoice_list=invoice_list,
+            )
+
+    def test_invoice_update_status_batch_with_empty_invoice_list(self):
+        with HTTMock(wechat_api_mock):
+            openid = "OPENID"
+            reimburse_status = "INVOICE_REIMBURSE_INIT"
+            invoice_list = []
+            self.assertRaises(
+                ValueError,
+                self.client.invoice.update_status_batch,
+                openid=openid,
+                reimburse_status=reimburse_status,
+                invoice_list=invoice_list,
+            )

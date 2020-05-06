@@ -107,6 +107,44 @@ class WeChatInvoice(BaseWeChatAPI):
         data = {"card_id": card_id, "encrypt_code": encrypt_code, "reimburse_status": reimburse_status}
         return self._post(url, data=data)
 
+    def update_status_batch(self, openid: str, reimburse_status: str, invoice_list: List[Dict[str, str]]) -> dict:
+        """批量更新发票状态
+
+        参考：https://work.weixin.qq.com/api/doc/90000/90135/90286
+
+        **接口说明**：发票平台可以通过该接口对某个成员的一批发票进行锁定、解锁和报销操作。
+        注意，报销状态为不可逆状态，请开发者慎重调用。
+
+        **权限说明**：仅认证的企业微信账号有接口权限
+
+        **注意**：
+
+        * 报销方须保证在报销、锁定、解锁后及时将状态同步至微信侧，保证用户发票可以正常使用
+        * 批量更新发票状态接口为事务性操作，如果其中一张发票更新失败，列表中的其它发票状态
+          更新也会无法执行，恢复到接口调用前的状态
+
+        ------------------------
+
+        参数 ``reimburse_status`` 选项如下：
+
+        * ``INVOICE_REIMBURSE_INIT`` 表示发票初始状态，未锁定；
+        * ``INVOICE_REIMBURSE_LOCK`` 表示发票已锁定，无法重复提交报销;
+        * ``INVOICE_REIMBURSE_CLOSURE`` 表示发票已核销，从用户卡包中移除。
+
+        :param openid: 用户openid，可用“userid与openid互换接口”获取
+        :param reimburse_status: 发票报销状态
+        :param invoice_list: 发票列表，必须全部属于同一个openid，示例：
+            [{'card_id': 'id', 'encrypt_code': 'code'}...]
+        :return: 更新结果
+        """
+        self._validate_invoice_reimburse(reimburse_status)
+        if not invoice_list:
+            raise ValueError("the invoice list cannot be empty")
+
+        url = "card/invoice/reimburse/updatestatusbatch"
+        data = {"openid": openid, "reimburse_status": reimburse_status, "invoice_list": invoice_list}
+        return self._post(url, data=data)
+
     @staticmethod
     def _validate_invoice_reimburse(status: str) -> None:
         if not status:
