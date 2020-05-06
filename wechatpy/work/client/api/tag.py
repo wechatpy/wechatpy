@@ -327,14 +327,14 @@ class WeChatTag(BaseWeChatAPI):
         return self._post("tag/deltagusers", data={"tagid": tag_id, "userlist": user_ids})
 
     def list(self) -> List[dict]:
-        """ 获取标签列表
+        """获取标签列表
 
         参考：https://work.weixin.qq.com/api/doc/90000/90135/90216
 
         **权限说明**：
         自建应用或通讯同步助手可以获取所有标签列表；第三方应用仅可获取自己创建的标签。
 
-        返回结果示例：
+        返回结果示例： ::
 
             {
                "errcode": 0,
@@ -361,7 +361,7 @@ class WeChatTag(BaseWeChatAPI):
         | tagname | 标签名                 |
         +---------+------------------------+
 
-        :return: 标签信息列表，不包含`errcode`等信息
+        :return: 标签信息列表，不包含errcode等信息
         """
         res = self._get("tag/list")
         return res["taglist"]
