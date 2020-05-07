@@ -70,6 +70,13 @@ JS-SDK 接口
    :members:
    :inherited-members:
 
+OA数据接口
+---------------------------
+
+.. autoclass:: WeChatOA
+    :members:
+    :inherited-members:
+
 日程管理
 ---------------------------
 
