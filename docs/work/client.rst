@@ -91,6 +91,13 @@ OA数据接口
    :members:
    :inherited-members:
 
+电子发票
+---------------------------
+
+.. autoclass:: WeChatInvoice
+    :members:
+    :inherited-members:
+
 自定义菜单
 ----------------------------
 
