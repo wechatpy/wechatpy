@@ -259,11 +259,11 @@ class WeChatCloud(BaseWeChatAPI):
             upload_res = requests.post(
                 res["url"],
                 files={
-                    "file": f,
                     "key": path,
                     "Signature": signature,
                     "x-cos-security-token": token,
                     "x-cos-meta-fileid": cos_file_id,
+                    "file": f,
                 },
             )
             upload_res.raise_for_status()
