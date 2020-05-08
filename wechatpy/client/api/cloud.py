@@ -263,6 +263,7 @@ class WeChatCloud(BaseWeChatAPI):
                     "Signature": signature,
                     "x-cos-security-token": token,
                     "x-cos-meta-fileid": cos_file_id,
+                    # 注意！file 字段须放在最后，否则上传大文件会失败
                     "file": f,
                 },
             )
