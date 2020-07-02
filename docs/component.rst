@@ -36,9 +36,8 @@ component_verify_ticket 的处理
 
 强烈建议使用component对象获取公众号 client。
 
-当需要代公众号调用接口时，有两种方法:
+当需要代公众号调用接口时:
 
-    - 将授权码传给 ``component.get_client_by_authorization_code()`` ，可以直接获取操作公众号 API 的对象。适用于刚刚获得授权的场景。
     - 将公众号 appid传入 ``component.get_client_by_appid()`` 。适用于已经授权的场景。
 
 公众号的授权码和刷新码内部自动缓存。
