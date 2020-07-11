@@ -203,6 +203,22 @@ version = "3.2.0"
 six = "*"
 
 [[package]]
+category = "main"
+description = "Python wrapper module around the OpenSSL library"
+name = "pyopenssl"
+optional = false
+python-versions = "*"
+version = "19.1.0"
+
+[package.dependencies]
+cryptography = ">=2.8"
+six = ">=1.5.2"
+
+[package.extras]
+docs = ["sphinx", "sphinx-rtd-theme"]
+test = ["flaky", "pretend", "pytest (>=3.0.1)"]
+
+[[package]]
 category = "dev"
 description = "Python parsing module"
 name = "pyparsing"
@@ -293,6 +309,18 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 
 [[package]]
 category = "main"
+description = "Add PKCS#12 support to the requests library in a clean way, without monkey patching or temporary files"
+name = "requests-pkcs12"
+optional = false
+python-versions = "*"
+version = "1.7"
+
+[package.dependencies]
+pyOpenSSL = ">=0.14"
+requests = ">=2.18.4"
+
+[[package]]
+category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
@@ -342,7 +370,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "787646363efaf3b7c87fa138f2624908b04a7b793aa9ee59f8d00014be23c1a4"
+content-hash = "15b87cca4430d4511e573342834b83ce72413a4e48f251bfebc71a353581be62"
 python-versions = ">=3.6,<4"
 
 [metadata.files]
@@ -497,6 +525,10 @@ pymemcache = [
     {file = "pymemcache-3.2.0-py2.py3-none-any.whl", hash = "sha256:48f02eee3eb73fdb44e1ce401d296679f8b1c1c79bcd84b8a02f15379992fac0"},
     {file = "pymemcache-3.2.0.tar.gz", hash = "sha256:8144ffe72d02c43d2f9c2099c7e209006965fa20dbfe3fa068b6e8208b64e44d"},
 ]
+pyopenssl = [
+    {file = "pyOpenSSL-19.1.0-py2.py3-none-any.whl", hash = "sha256:621880965a720b8ece2f1b2f54ea2071966ab00e2970ad2ce11d596102063504"},
+    {file = "pyOpenSSL-19.1.0.tar.gz", hash = "sha256:9a24494b2602aaf402be5c9e30a0b82d4a5c67528fe8fb475e3f3bc00dd69507"},
+]
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},
     {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
@@ -520,6 +552,10 @@ redis = [
 requests = [
     {file = "requests-2.24.0-py2.py3-none-any.whl", hash = "sha256:fe75cc94a9443b9246fc7049224f75604b113c36acb93f87b80ed42c44cbb898"},
     {file = "requests-2.24.0.tar.gz", hash = "sha256:b3559a131db72c33ee969480840fff4bb6dd111de7dd27c8ee1f820f4f00231b"},
+]
+requests-pkcs12 = [
+    {file = "requests_pkcs12-1.7-py2.py3-none-any.whl", hash = "sha256:f920878202130df1e626225f9b1fe95b9a2796b66bbde72b725413fa5d5c638b"},
+    {file = "requests_pkcs12-1.7.tar.gz", hash = "sha256:56076dd0486bd49f4740f93f201e7a9853f17423b2fc88f9c260f0b93d14c9ff"},
 ]
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},

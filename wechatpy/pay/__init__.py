@@ -91,10 +91,19 @@ class WeChatPay:
         self.sub_mch_id = sub_mch_id
         self.mch_cert = mch_cert
         self.mch_key = mch_key
+        self._using_pkcs12_cert = False
         self.timeout = timeout
         self.sandbox = sandbox
         self._sandbox_api_key = None
         self._http = requests.Session()
+        if mch_cert and mch_cert.endswith(".p12"):
+            from requests_pkcs12 import Pkcs12Adapter
+
+            # 商户 .p12 格式证书，证书密码默认为商户 ID
+            self._http.mount(
+                self.API_BASE_URL, Pkcs12Adapter(pkcs12_filename=self.mch_cert, pkcs12_password=self.mch_id)
+            )
+            self._using_pkcs12_cert = True
 
     def _fetch_sandbox_api_key(self):
         nonce_str = random_string(32)
@@ -131,8 +140,8 @@ class WeChatPay:
             body = body.encode("utf-8")
             kwargs["data"] = body
 
-        # 商户证书
-        if self.mch_cert and self.mch_key:
+        # 商户 PEM 证书
+        if not self._using_pkcs12_cert and self.mch_cert and self.mch_key:
             kwargs["cert"] = (self.mch_cert, self.mch_key)
 
         kwargs["timeout"] = kwargs.get("timeout", self.timeout)
