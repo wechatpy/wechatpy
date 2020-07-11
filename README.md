@@ -19,13 +19,6 @@
 v1.x:   [【阅读文档】](https://wechatpy.readthedocs.org/zh_CN/stable/) [【快速入门】](https://wechatpy.readthedocs.org/zh_CN/stable/quickstart.html)
 master: [【阅读文档】](https://wechatpy.readthedocs.org/zh_CN/master/) [【快速入门】](https://wechatpy.readthedocs.org/zh_CN/master/quickstart.html)
 
-## Promotion
-
-蚂蚁金服-人工智能部-智能信息服务团队招聘高级开发工程师/技术专家，欢迎投递简历:
-
-1. [社招官网通道（JD在此）](https://job.alibaba.com/zhaopin/position_detail.htm?trace=qrcode_share&positionCode=GP623841)
-2. 内推可发送邮件至 `messense@icloud.com`
-
 ## 功能特性
 
 1. 普通公众平台被动响应和主动调用 API
