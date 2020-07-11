@@ -69,7 +69,7 @@ QQ 群：176596300
 
 ### Code Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists thanks to all the people who contribute. [[Contribute](.github/CONTRIBUTING.md)].
 <a href="https://github.com/wechatpy/wechatpy/graphs/contributors"><img src="https://opencollective.com/wechatpy/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors
