@@ -11,6 +11,9 @@ from wechatpy.utils import to_text, to_binary, random_string
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
 
 
+_backend = default_backend()
+
+
 class BaseWeChatCipher:
     def __init__(self, cipher):
         self.cipher = cipher
@@ -27,14 +30,12 @@ class BaseWeChatCipher:
 class WeChatCipher(BaseWeChatCipher):
     def __init__(self, key, iv=None):
         iv = iv or key[:16]
-        backend = default_backend()
-        super().__init__(Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend))
+        super().__init__(Cipher(algorithms.AES(key), modes.CBC(iv), backend=_backend))
 
 
 class AesEcbCipher(BaseWeChatCipher):
     def __init__(self, key):
-        backend = default_backend()
-        super().__init__(Cipher(algorithms.AES(key), modes.ECB(), backend=backend))
+        super().__init__(Cipher(algorithms.AES(key), modes.ECB(), backend=_backend))
 
 
 class BasePrpCrypto:
