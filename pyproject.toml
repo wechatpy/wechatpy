@@ -33,8 +33,7 @@ requests = ">=2.4.3"
 xmltodict = ">=0.11.0"
 optionaldict = ">=0.1.0"
 python-dateutil = ">=2.5.2"
-cryptography = { version = "^2.8", optional = true }
-pycryptodome = { version = "^3.9", optional = true }
+cryptography = "^2.8"
 dataclasses = { version = "^0.7", python = "~3.6" }
 
 [tool.poetry.dev-dependencies]
@@ -44,10 +43,6 @@ httmock = "^1.3.0"
 coverage = "^5.0.4"
 redis = "^3.4.1"
 pymemcache = "^3.0.1"
-
-[tool.poetry.extras]
-cryptography = ["cryptography"]
-pycrypto = ["pycryptodome"]
 
 [tool.poetry.urls]
 issues = "https://github.com/wechatpy/wechatpy/issues"

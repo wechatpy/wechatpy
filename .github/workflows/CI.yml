@@ -10,7 +10,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: [3.6, 3.7, 3.8]
-        extra: [cryptography, pycrypto]
     services:
       redis:
         image: redis
@@ -33,13 +32,13 @@ jobs:
         uses: actions/cache@v1
         with:
           path: venv
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.extra }}-venv-${{ hashFiles('poetry.lock') }}
+          key: ${{ matrix.os }}-${{ matrix.python-version }}-venv-${{ hashFiles('poetry.lock') }}
       - name: Install Dependencies
         run: |
           python3 -m venv venv
           source venv/bin/activate
           pip install poetry
-          poetry install --extras ${{ matrix.extra }}
+          poetry install
           pip list
       - name: Check code style
         if: matrix.python-version == 3.6

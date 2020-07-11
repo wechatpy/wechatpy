@@ -8,10 +8,6 @@
 .. code-block:: bash
 
     pip install wechatpy
-    # with cryptography （推荐）
-    pip install wechatpy[cryptography]
-    # with pycryptodome
-    pip install wechatpy[pycrypto]
 
 升级 wechatpy 到新版本::
 

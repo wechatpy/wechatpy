@@ -12,7 +12,7 @@ cd wechatpy
 virtualenv venv
 source venv/bin/activate
 pip install poetry
-poetry install --extras cryptography
+poetry install
 ```
 
 > Tips: 安装 [autoenv](https://github.com/kennethreitz/autoenv) 可以让您在进入 wechatpy 文件夹时自动激活虚拟环境，省去每次手动执行 `source venv/bin/activate`
