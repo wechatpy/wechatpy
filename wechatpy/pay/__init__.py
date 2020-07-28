@@ -218,6 +218,7 @@ class WeChatPay(object):
             raise ValueError("invalid xml")
         if not data or 'xml' not in data:
             raise ValueError("invalid xml")
+        data = data["xml"]
         return {
             "appid": data["appid"],
             "mch_id": data["mch_id"],
