@@ -50,6 +50,10 @@ pip install wechatpy
 
 ## 支持项目
 
+*wechatpy is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial.*
+
+<a href="https://tracking.gitads.io/?repo=wechatpy"> <img src="https://images.gitads.io/wechatpy" alt="GitAds"/> </a>
+
 如果觉得本项目对您有帮助，请考虑[捐赠支持项目开发](http://docs.wechatpy.org/zh_CN/master/sponsor.html)
 
 ## 问题反馈
