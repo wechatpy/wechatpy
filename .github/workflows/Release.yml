@@ -23,15 +23,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
-      - name: Cache venv
-        uses: actions/cache@v1
-        with:
-          path: venv
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.extra }}-venv-${{ hashFiles('poetry.lock') }}
       - name: Build sdist & wheel
         run: |
-          python -m venv venv
-          source venv/bin/activate
           pip install poetry
           poetry install --extras ${{ matrix.extra }}
           poetry build
