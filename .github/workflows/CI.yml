@@ -35,7 +35,7 @@ jobs:
           key: ${{ matrix.os }}-${{ matrix.python-version }}-venv-${{ hashFiles('poetry.lock') }}
       - name: Install Dependencies
         run: |
-          python3 -m venv venv
+          python -m venv venv
           source venv/bin/activate
           pip install poetry
           poetry install
