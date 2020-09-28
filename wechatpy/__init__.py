@@ -8,10 +8,12 @@ from wechatpy.exceptions import (
     WeChatException,
     WeChatOAuthException,
     WeChatPayException,
+    WeChatPayScoreException,
 )  # NOQA
 from wechatpy.oauth import WeChatOAuth  # NOQA
 from wechatpy.parser import parse_message  # NOQA
 from wechatpy.pay import WeChatPay  # NOQA
+from wechatpy.payscore import WeChatPayScore  # NOQA
 from wechatpy.replies import create_reply  # NOQA
 
 __version__ = "1.8.12"
