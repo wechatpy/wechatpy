@@ -395,6 +395,23 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post("wxa/img_sec_check", files={"media": media})
 
+    def check_media_async(self, media_url: str, media_type: int):
+        """异步校验图片/音频是否含有违法违规内容。
+
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.mediaCheckAsync.html
+
+        应用场景举例：
+        1. 语音风险识别：社交类用户发表的语音内容检测；
+        2. 图片智能鉴黄：涉及拍照的工具类应用(如美拍，识图类应用)用户拍照上传检测；电商类商品上架图片检测；媒体类用户文章里的图片检测等；
+        3. 敏感人脸识别：用户头像；媒体类用户文章里的图片检测；社交类用户上传的图片检测等。 频率限制：单个 appId 调用上限为 2000 次/分钟，200,000 次/天；文件大小限制：单个文件大小不超过10M
+
+
+        :param media_url: 要检测的多媒体url
+        :param media_type: 1:音频;2:图片
+        :return: 返回的 JSON 数据包
+        """
+        return self._post("wxa/media_check_async", data={"media_url": media_url, "media_type": media_type})
+
     def check_text_security(self, content):
         """
         检查一段文本是否含有违法违规内容。
