@@ -218,6 +218,16 @@ class WeChatClientTestCase(unittest.TestCase):
             user_id = self.client.user.convert_to_user_id("oDOGms-6yCnGrRovBj2yHij5JL6E")
             self.assertEqual("zhangsan", user_id)
 
+    def test_user_get_active_stat(self):
+        with HTTMock(wechat_api_mock):
+            active_stat = self.client.user.get_active_stat("2020-03-27")
+            self.assertEqual(active_stat, 100)
+
+    def test_user_join_qrcode(self):
+        with HTTMock(wechat_api_mock):
+            qrcode_url = self.client.user.join_qrcode()
+            self.assertIsNotNone(qrcode_url)
+
     def test_upload_media(self):
         media_file = io.StringIO("nothing")
         with HTTMock(wechat_api_mock):

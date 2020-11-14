@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from typing import Optional
 
 from optionaldict import optionaldict
 
@@ -120,7 +121,12 @@ class WeChatUser(BaseWeChatAPI):
         """
         url = "user/simplelist" if simple else "user/list"
         res = self._get(
-            url, params={"department_id": department_id, "fetch_child": 1 if fetch_child else 0, "status": status,},
+            url,
+            params={
+                "department_id": department_id,
+                "fetch_child": 1 if fetch_child else 0,
+                "status": status,
+            },
         )
         return res["userlist"]
 
@@ -161,3 +167,27 @@ class WeChatUser(BaseWeChatAPI):
 
     def get_info(self, agent_id, code):
         return self._get("user/getuserinfo", params={"agentid": agent_id, "code": code})
+
+    def join_qrcode(self, size_type: Optional[int] = None) -> str:
+        """
+        获取加入企业二维码
+
+        该接口用于获取企业用户实时成员加入的二维码。详细接口细节请查看 `接口文档`_。
+
+        需要注意的是获取到的二维码链接，**有效期为7天**。
+
+        :param size_type: 图片尺寸类型。可用尺寸有：
+            1: 171 x 171;
+            2: 399 x 399;
+            3: 741 x 741（默认）;
+            4: 2052 x 2052
+        :return: 二维码链接
+
+        .. _接口文档: https://work.weixin.qq.com/api/doc/90000/90135/91714
+
+        .. warning:: 使用本接口请确保开启了 **通讯录同步** 的API接口同步，并使用
+          **通讯录同步** 的 ``secret``，否则调用接口时会出现错误。
+        """
+        params = optionaldict(size_type=size_type)
+        resp = self._get("corp/get_join_qrcode", params=params)
+        return resp["join_qrcode"]
