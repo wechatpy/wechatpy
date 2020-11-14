@@ -191,3 +191,19 @@ class WeChatUser(BaseWeChatAPI):
         params = optionaldict(size_type=size_type)
         resp = self._get("corp/get_join_qrcode", params=params)
         return resp["join_qrcode"]
+
+    def get_active_stat(self, date: str) -> int:
+        """
+        获取企业活跃成员数
+
+        该接口用于获取指定日期的企业的成员活跃数量，详细接口细节请查看 `接口文档`_。
+
+        :param date: 具体某天的活跃人数，最长支持获取30天前数据。格式为: ``YYYY-MM-DD``。
+        :return: 成员活跃数量
+
+        .. _接口文档:: https://work.weixin.qq.com/api/doc/90000/90135/92714
+
+        .. warning:: 仅通讯录同步助手可调用。
+        """
+        resp = self._post("user/get_active_stat", data={"date": date})
+        return resp["active_cnt"]
