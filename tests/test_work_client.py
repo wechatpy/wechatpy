@@ -225,7 +225,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_user_join_qrcode(self):
         with HTTMock(wechat_api_mock):
-            qrcode_url = self.client.user.join_qrcode()
+            qrcode_url = self.client.user.get_join_qrcode()
             self.assertIsNotNone(qrcode_url)
 
     def test_upload_media(self):
