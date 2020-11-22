@@ -14,7 +14,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: [3.7]
-        extra: [cryptography]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -26,7 +25,7 @@ jobs:
       - name: Build sdist & wheel
         run: |
           pip install poetry
-          poetry install --extras ${{ matrix.extra }}
+          poetry install
           poetry build
           ls -lrth dist/
       - name: Publish package
