@@ -14,7 +14,7 @@ from wechatpy.parser import parse_message  # NOQA
 from wechatpy.pay import WeChatPay  # NOQA
 from wechatpy.replies import create_reply  # NOQA
 
-__version__ = "1.8.12"
+__version__ = "2.0.0.alpha1"
 __author__ = "messense"
 
 # Set default logging handler to avoid "No handler found" warnings.
