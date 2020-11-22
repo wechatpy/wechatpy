@@ -165,9 +165,6 @@ class WeChatUser(BaseWeChatAPI):
         """
         return self._get("user/authsucc", params={"userid": user_id})
 
-    def get_info(self, agent_id, code):
-        return self._get("user/getuserinfo", params={"agentid": agent_id, "code": code})
-
     def get_join_qrcode(self, size_type: Optional[int] = None) -> str:
         """
         获取加入企业二维码
