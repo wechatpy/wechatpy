@@ -152,3 +152,10 @@ JS-SDK 接口
 .. autoclass:: WeChatUser
    :members:
    :inherited-members:
+
+外部联系人管理
+----------------------
+
+.. autoclass:: WeChatExternalContact
+   :members:
+   :inherited-members:
