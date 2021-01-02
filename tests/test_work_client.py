@@ -360,6 +360,21 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.external_contact.transfer("woAJ2GCAAAXtWyujaWJHDDGi0mACH71w", "zhangsan", "lisi")
             self.assertEqual(0, res["errcode"])
 
+    def test_external_contact_get_group_chat_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_group_chat_list(
+                limit=10,
+                status_filter=0,
+                owner_filter={"userid_list": ["abel"]},
+                cursor="r9FqSqsI8fgNbHLHE5QoCP50UIg2cFQbfma3l2QsmwI",
+            )
+            self.assertEqual(0, res["errcode"])
+
+    def test_external_contact_get_group_chat_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_group_chat_info(chat_id="wrOgQhDgAAMYQiS5ol9G7gK9JVAAAA")
+            self.assertEqual(0, res["errcode"])
+
     def test_oa_get_dial_record(self):
         with HTTMock(wechat_api_mock):
             res = self.client.oa.get_dial_record(start_time=1536508800, end_time=1536940800, offset=0, limit=100)
