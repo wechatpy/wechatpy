@@ -1,0 +1,26 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "text":
+        {
+        "content":"文本消息内容"
+        },
+    "image":
+        {
+         "pic_url": "http://p.qpic.cn/pic_wework/XXXXX"
+        },
+    "link":
+        {
+            "title": "消息标题",
+            "picurl": "https://example.pic.com/path",
+            "desc": "消息描述",
+            "url": "https://example.link.com/path"
+        },
+    "miniprogram":
+        {
+            "title": "消息标题",
+            "pic_media_id": "MEDIA_ID",
+            "appid": "wx8bd80126147df384",
+            "page": "/path/index"
+        }
+}

@@ -375,6 +375,66 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.external_contact.get_group_chat_info(chat_id="wrOgQhDgAAMYQiS5ol9G7gK9JVAAAA")
             self.assertEqual(0, res["errcode"])
 
+    def test_external_contact_add_group_welcome_template(self):
+        with HTTMock(wechat_api_mock):
+            template = {
+                "text": {"content": "亲爱的%NICKNAME%用户，你好"},
+                "image": {
+                    "media_id": "MEDIA_ID",
+                    "pic_url": "http://p.qpic.cn/pic_wework/3474110808/7a6344sdadfwehe42060/0",
+                },
+                "link": {
+                    "title": "消息标题",
+                    "picurl": "https://example.pic.com/path",
+                    "desc": "消息描述",
+                    "url": "https://example.link.com/path",
+                },
+                "miniprogram": {
+                    "title": "消息标题",
+                    "pic_media_id": "MEDIA_ID",
+                    "appid": "wx8bd80126147dfAAA",
+                    "page": "/path/index",
+                },
+            }
+            res = self.client.external_contact.add_group_welcome_template(template=template, agentid=1000014,)
+            self.assertEqual(0, res["errcode"])
+
+    def test_external_contact_update_group_welcome_template(self):
+        with HTTMock(wechat_api_mock):
+            template = {
+                "text": {"content": "文本消息内容"},
+                "image": {
+                    "media_id": "MEDIA_ID",
+                    "pic_url": "http://p.qpic.cn/pic_wework/3474110808/7a6344sdadfwehe42060/0",
+                },
+                "link": {
+                    "title": "消息标题",
+                    "picurl": "https://example.pic.com/path",
+                    "desc": "消息描述",
+                    "url": "https://example.link.com/path",
+                },
+                "miniprogram": {
+                    "title": "消息标题",
+                    "pic_media_id": "MEDIA_ID",
+                    "appid": "wx8bd80126147df384",
+                    "page": "/path/index",
+                },
+            }
+            res = self.client.external_contact.update_group_welcome_template(
+                template=template, template_id="msgXXXXXXX", agentid=1000014,
+            )
+            self.assertEqual(0, res["errcode"])
+
+    def test_external_contact_get_group_welcome_template(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_group_welcome_template(template_id="msgXXXXXXX")
+            self.assertEqual(0, res["errcode"])
+
+    def test_external_contact_del_group_welcome_template(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.del_group_welcome_template(template_id="msgXXXXXXX", agentid=1000014)
+            self.assertEqual(0, res["errcode"])
+
     def test_oa_get_dial_record(self):
         with HTTMock(wechat_api_mock):
             res = self.client.oa.get_dial_record(start_time=1536508800, end_time=1536940800, offset=0, limit=100)
