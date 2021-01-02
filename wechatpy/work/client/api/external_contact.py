@@ -994,3 +994,84 @@ class WeChatExternalContact(BaseWeChatAPI):
         remove_tag = remove_tag or []
         data = optionaldict(userid=userid, external_userid=external_userid, add_tag=add_tag, remove_tag=remove_tag)
         return self._post("externalcontact/mark_tag", data=data)
+
+    def get_group_chat_list(
+            self,
+            limit: int,
+            status_filter: int = 0,
+            owner_filter: Optional[dict] = None,
+            cursor: Optional[str] = None,
+    ) -> dict:
+        """
+        获取客户群列表
+
+        该接口用于获取配置过客户群管理的客户群列表。
+
+        详细请查阅企业微信官方文档 `获取客户群列表`_ 章节。
+
+        :param limit: 分页，预期请求的数据量，取值范围 1 ~ 1000
+        :param status_filter: 客户群跟进状态过滤（默认为0）。
+            0: 所有列表(即不过滤)
+            1: 离职待继承
+            2: 离职继承中
+            3: 离职继承完成
+        :param owner_filter: 群主过滤。
+            如果不填，表示获取应用可见范围内全部群主的数据
+            （但是不建议这么用，如果可见范围人数超过1000人，为了防止数据包过大，会报错 81017）
+        :param cursor: 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用不填
+        :return: 响应数据
+
+        .. warning::
+
+           如果不指定 ``owner_filter``，会拉取应用可见范围内的所有群主的数据，
+           但是不建议这样使用。如果可见范围内人数超过1000人，为了防止数据包过大，
+           会报错 81017。此时，调用方需通过指定 ``owner_filter`` 来缩小拉取范围。
+
+           旧版接口以 ``offset+limit`` 分页，要求 ``offset+limit`` 不能超过50000，
+           该方案将废弃，请改用 ``cursor+limit`` 分页。
+
+        .. note::
+            **权限说明：**
+
+            - 需要使用 `客户联系secret`_ 或配置到 `可调用应用`_ 列表中的自建应用secret
+              来初始化 :py:class:`wechatpy.work.client.WeChatClient` 类。
+            - 第三方应用需具有“企业客户权限->客户基础信息”权限
+            - 对于第三方/自建应用，群主必须在应用的可见范围。
+
+        .. _获取客户群列表: https://work.weixin.qq.com/api/doc/90000/90135/92120
+        """
+        data = optionaldict(
+            status_filter=status_filter,
+            owner_filter=owner_filter,
+            cursor=cursor,
+            limit=limit,
+        )
+        return self._post("externalcontact/groupchat/list", data=data)
+
+    def get_group_chat_info(self, chat_id: str) -> dict:
+        """
+        获取客户群详情
+
+        通过客户群ID，获取详情。包括群名、群成员列表、群成员入群时间、入群方式。
+        （客户群是由具有客户群使用权限的成员创建的外部群）
+
+        需注意的是，如果发生群信息变动，会立即收到群变更事件，但是部分信息是异步处理，
+        可能需要等一段时间调此接口才能得到最新结果
+
+        详细请查阅企业微信官方文档 `获取客户群详情`_ 章节。
+
+        :param chat_id: 客户群ID
+        :return: 响应数据
+
+        .. note::
+            **权限说明：**
+
+            - 需要使用 `客户联系secret`_ 或配置到 `可调用应用`_ 列表中的自建应用secret
+              来初始化 :py:class:`wechatpy.work.client.WeChatClient` 类。
+            - 第三方应用需具有“企业客户权限->客户基础信息”权限
+            - 对于第三方/自建应用，群主必须在应用的可见范围。
+
+        .. _获取客户群详情: https://work.weixin.qq.com/api/doc/90000/90135/92122
+        """
+        data = optionaldict(chat_id=chat_id)
+        return self._post("externalcontact/groupchat/get", data=data)
