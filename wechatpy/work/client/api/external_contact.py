@@ -469,7 +469,13 @@ class WeChatExternalContact(BaseWeChatAPI):
         data = optionaldict(msgid=msgid)
         return self._post("externalcontact/get_group_msg_result", data=data)
 
-    def get_user_behavior_data(self, userid, start_time, end_time):
+    def get_user_behavior_data(
+            self,
+            userid: Optional[List[str]],
+            start_time: int,
+            end_time: int,
+            partyid: Optional[List[str]] = None,
+    ) -> dict:
         """
         获取「联系客户统计」数据
 
@@ -478,14 +484,43 @@ class WeChatExternalContact(BaseWeChatAPI):
 
         详细请查阅企业微信官方文档 `获取「联系客户统计」数据`_ 章节。
 
-        :param userid: 	userid列表
+        :param userid: userid列表
+        :param partyid: 部门ID列表，最多100个
         :param start_time: 数据起始时间
         :param end_time: 数据结束时间
         :return: 返回的 JSON 数据包
+        :raises AssertionError: 当userid和partyid同时为空时抛出该移除
+
+        .. warning::
+
+           1. ``userid`` 和 ``partyid`` 不可同时为空;
+           2. 此接口提供的数据以天为维度，查询的时间范围为 ``[START_TIME,END_TIME]``，
+              即前后均为闭区间，支持的最大查询跨度为30天；
+           3. 用户最多可获取最近180天内的数据；
+           4. 当传入的时间不为0点时间戳时，会向下取整，如传入
+              1554296400(wED aPR 3 21:00:00 cst 2019) 会被自动转换为
+              1554220800（wED aPR 3 00:00:00 cst 2019）;
+           5. 如传入多个 ``USERID``，则表示获取这些成员总体的联系客户数据。
+
+        .. note::
+
+            **权限说明：**
+
+            - 需要使用 `客户联系secret`_ 或配置到 `可调用应用`_ 列表中的自建应用secret
+              来初始化 :py:class:`wechatpy.work.client.WeChatClient` 类。
+            - 第三方应用使用，需具有“企业客户权限->客户联系->获取成员联系客户的数据统计”权限。
+            - 第三方/自建应用调用时传入的userid和partyid要在应用的可见范围内;
 
         .. _获取「联系客户统计」数据: https://work.weixin.qq.com/api/doc/90000/90135/92132
         """
-        data = optionaldict(userid=userid, start_time=start_time, end_time=end_time)
+        assert userid or partyid, "userid和partyid不可同时为空"
+
+        data = optionaldict(
+            userid=userid,
+            start_time=start_time,
+            end_time=end_time,
+            partyid=partyid,
+        )
         return self._post("externalcontact/get_user_behavior_data", data=data)
 
     def send_welcome_msg(self, template: dict) -> dict:
