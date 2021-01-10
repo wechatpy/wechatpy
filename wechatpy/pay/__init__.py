@@ -60,6 +60,8 @@ class WeChatPay:
     """公众号网页 JS 支付接口"""
     withhold = api.WeChatWithhold()
     """代扣接口"""
+    app_auth = api.WeChatAppAuth()
+    """实名认证接口"""
 
     API_BASE_URL = "https://api.mch.weixin.qq.com/"
 
