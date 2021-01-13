@@ -12,7 +12,11 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
     """
 
     def list(
-            self, status_filter: int = 0, owner_userid_list: list = None, cursor: str = None, limit: int = 100
+            self,
+            status_filter: int = 0,
+            owner_userid_list: list = None,
+            cursor: str = None,
+            limit: int = 100,
     ):
         """
         该接口用于获取配置过客户群管理的客户群列表。
@@ -35,8 +39,26 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
             limit=limit,
         )
         if owner_userid_list:
-            data['owner_filter'] = {"userid_list": owner_userid_list}
+            data["owner_filter"] = {"userid_list": owner_userid_list}
         return self._post("externalcontact/groupchat/list", data=data)
+
+    def list_all(
+            self, status_filter: int = 0, owner_userid_list: list = None, limit: int = 100
+    ) -> list:
+        """
+        该接口用于获取配置过客户群管理的所有客户群列表，自动走完所有分页
+        """
+        chat_list = []
+        cursor = None
+        while True:
+            result = self.list(status_filter, owner_userid_list, cursor, limit)
+            if result["errcode"] == 0:
+                chat_list.extend(result["group_chat_list"])
+            if result.get("next_cursor"):
+                cursor = result["next_cursor"]
+            else:
+                break
+        return chat_list
 
     def get(self, chat_id: str):
         """
@@ -48,3 +70,43 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post("externalcontact/groupchat/get", data={"chat_id": chat_id})
+
+    def statistic(
+            self,
+            day_begin_time: int,
+            day_end_time: int = None,
+            owner_userid_list: list = None,
+            order_by: int = 1,
+            order_asc: int = 0,
+            offset: int = 0,
+            limit: int = 500,
+    ):
+        """
+        获取指定日期的统计数据。注意，企业微信仅存储180天的数据。
+        :param day_begin_time: 起始日期的时间戳，填当天的0时0分0秒（否则系统自动处理为当天的0分0秒）。取值范围：昨天至前180天。
+        :param day_end_time: 结束日期的时间戳，填当天的0时0分0秒（否则系统自动处理为当天的0分0秒）。取值范围：昨天至前180天。
+                            如果不填，默认同 day_begin_time（即默认取一天的数据）
+        :param owner_userid_list: 群主过滤，如果不填，表示获取全部群主的数据
+        :param order_by:    排序方式。默认为1
+                            [1 - 新增群的数量
+                            2 - 群总数
+                            3 - 新增群人数
+                            4 - 群总人数]
+        :param order_asc: 是否升序。0-否；1-是。默认降序,即0
+        :param offset: 分页，偏移量, 默认为0
+        :param limit: 分页，预期请求的数据量，默认为500，取值范围 1 ~ 1000
+        :return: 返回的 JSON 数据包
+        """
+        if not day_end_time:
+            day_end_time = day_begin_time
+        data = optionaldict(
+            day_begin_time=day_begin_time,
+            day_end_time=day_end_time,
+            order_by=order_by,
+            order_asc=order_asc,
+            offset=offset,
+            limit=limit,
+        )
+        if owner_userid_list:
+            data["owner_filter"] = {"userid_list": owner_userid_list}
+        return self._post("externalcontact/groupchat/statistic", data=data)
