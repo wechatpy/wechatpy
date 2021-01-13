@@ -14,6 +14,7 @@ class WeChatClient(BaseWeChatClient):
     calendar = api.WeChatCalendar()
     department = api.WeChatDepartment()
     external_contact = api.WeChatExternalContact()
+    external_contact_group_chat = api.WeChatExternalContactGroupChat()
     jsapi = api.WeChatJSAPI()
     media = api.WeChatMedia()
     menu = api.WeChatMenu()
@@ -28,7 +29,7 @@ class WeChatClient(BaseWeChatClient):
     invoice = api.WeChatInvoice()
 
     def __init__(
-        self, corp_id, secret, access_token=None, session=None, timeout=None, auto_retry=True,
+            self, corp_id, secret, access_token=None, session=None, timeout=None, auto_retry=True,
     ):
         self.corp_id = corp_id
         self.secret = secret
