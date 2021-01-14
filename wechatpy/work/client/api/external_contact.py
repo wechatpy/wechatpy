@@ -135,6 +135,43 @@ class WeChatExternalContact(BaseWeChatAPI):
         )
         return self._post("externalcontact/batch/get_by_user", data=data)
 
+    def get_all_by_user(self, userid: str, limit: int = 50) -> list:
+        """
+        获取企业员工添加的所有客户详情列表
+
+        .. code-block:: python
+
+            from wechatpy.work import WeChatClient
+
+            # 需要注意使用正确的secret，否则会导致在之后的接口调用中失败
+            client = WeChatClient("corp_id", "secret_key")
+            #  获取企业员工添加的所有客户详情列表
+            total_external_contact_list = client.external_contact.get_all_by_user("user_id", 10)
+
+        :param userid: 企业员工userid
+        :param limit: 返回的最大记录数，整型，最大值100，默认值50，超过最大值时取最大值
+        :return: 企业员工添加的所有客户详情列表
+
+        .. note::
+            **权限说明：**
+
+            - 需要使用 `客户联系secret`_ 或配置到 `可调用应用`_ 列表中的自建应用secret
+              来初始化 :py:class:`wechatpy.work.client.WeChatClient` 类。
+            - 第三方应用需具有“企业客户权限->客户基础信息”权限
+            - 第三方/自建应用调用此接口时，userid需要在相关应用的可见范围内。
+        """
+        cursor = ""
+        total_external_contact_list = []
+        while True:
+            response = self.batch_get_by_user(userid, cursor, limit)
+            if response.get('errcode') == 0:
+                total_external_contact_list.extend(response.get('external_contact_list'))
+            if not response.get('next_cursor'):
+                break
+            else:
+                cursor = response.get('next_cursor')
+        return total_external_contact_list
+
     def get(self, external_userid: str) -> dict:
         """
         获取客户详情
