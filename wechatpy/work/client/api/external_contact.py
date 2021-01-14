@@ -98,7 +98,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         """
         return self._get("externalcontact/list", params={"userid": userid})
 
-    def batch_get_by_user(self, userid: str, cursor: str = "", limit: int = 50):
+    def batch_get_by_user(self, userid: str, cursor: str = "", limit: int = 50) -> dict:
         """
         批量获取客户详情
 
