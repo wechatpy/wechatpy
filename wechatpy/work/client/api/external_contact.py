@@ -98,6 +98,43 @@ class WeChatExternalContact(BaseWeChatAPI):
         """
         return self._get("externalcontact/list", params={"userid": userid})
 
+    def batch_get_by_user(self, userid: str, cursor: str = "", limit: int = 50) -> dict:
+        """
+        批量获取客户详情
+
+        使用示例：
+
+        .. code-block:: python
+
+            from wechatpy.work import WeChatClient
+
+            # 需要注意使用正确的secret，否则会导致在之后的接口调用中失败
+            client = WeChatClient("corp_id", "secret_key")
+            # 批量获取该企业员工添加的客户(外部联系人)的详情
+            external_contact_list = client.external_contact.batch_get_by_user("user_id", "cursor", 10)["external_contact_list"]
+
+        :param userid: 企业成员的userid
+        :param cursor: 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用可不填
+        :param limit: 返回的最大记录数，整型，最大值100，默认值50，超过最大值时取最大值
+        :return: 包含该企业员工添加的部分客户详情列表的字典类型数据
+
+        .. note::
+            **权限说明：**
+
+            - 需要使用 `客户联系secret`_ 或配置到 `可调用应用`_ 列表中的自建应用secret
+              来初始化 :py:class:`wechatpy.work.client.WeChatClient` 类。
+            - 第三方应用需具有“企业客户权限->客户基础信息”权限
+            - 第三方/自建应用调用此接口时，userid需要在相关应用的可见范围内。
+
+        .. _批量获取客户详情: https://work.weixin.qq.com/api/doc/90000/90135/92994
+        """
+        data = optionaldict(
+            userid=userid,
+            cursor=cursor,
+            limit=limit,
+        )
+        return self._post("externalcontact/batch/get_by_user", data=data)
+
     def get(self, external_userid: str) -> dict:
         """
         获取客户详情
