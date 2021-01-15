@@ -119,7 +119,12 @@ class WeChatScan(BaseWeChatAPI):
         :param key: 支持按部分编码内容拉取。填写该参数后，可将编码内容中包含所传参数的商品信息拉出
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(offset=offset, limit=limit, status=status, keystr=key,)
+        data = optionaldict(
+            offset=offset,
+            limit=limit,
+            status=status,
+            keystr=key,
+        )
         return self._post("product/getlist", data=data)
 
     def update_product(self, product_data):

@@ -83,7 +83,12 @@ def rsa_encrypt(data, pem, b64_encode=True):
     pem = to_binary(pem)
     public_key = serialization.load_pem_public_key(pem, backend=default_backend())
     encrypted_data = public_key.encrypt(
-        encoded_data, padding=padding.OAEP(mgf=padding.MGF1(hashes.SHA1()), algorithm=hashes.SHA1(), label=None,),
+        encoded_data,
+        padding=padding.OAEP(
+            mgf=padding.MGF1(hashes.SHA1()),
+            algorithm=hashes.SHA1(),
+            label=None,
+        ),
     )
     if b64_encode:
         encrypted_data = base64.b64encode(encrypted_data).decode("utf-8")
@@ -107,6 +112,11 @@ def rsa_decrypt(encrypted_data, pem, password=None):
     pem = to_binary(pem)
     private_key = serialization.load_pem_private_key(pem, password, backend=default_backend())
     data = private_key.decrypt(
-        encrypted_data, padding=padding.OAEP(mgf=padding.MGF1(hashes.SHA1()), algorithm=hashes.SHA1(), label=None,),
+        encrypted_data,
+        padding=padding.OAEP(
+            mgf=padding.MGF1(hashes.SHA1()),
+            algorithm=hashes.SHA1(),
+            label=None,
+        ),
     )
     return data

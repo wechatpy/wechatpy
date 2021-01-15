@@ -82,7 +82,12 @@ class WeChatWithhold(BaseWeChatPayAPI):
         }
 
     def query_signing(
-        self, contract_id=None, plan_id=None, contract_code=None, openid=None, version="1.0",
+        self,
+        contract_id=None,
+        plan_id=None,
+        contract_code=None,
+        openid=None,
+        version="1.0",
     ):
         """
         查询签约关系 api
@@ -202,7 +207,12 @@ class WeChatWithhold(BaseWeChatPayAPI):
         return self._post("pay/paporderquery", data=data)
 
     def apply_cancel_signing(
-        self, contract_id=None, plan_id=None, contract_code=None, contract_termination_remark=None, version="1.0",
+        self,
+        contract_id=None,
+        plan_id=None,
+        contract_code=None,
+        contract_termination_remark=None,
+        version="1.0",
     ):
         """
         申请解约

@@ -38,7 +38,11 @@ class WeChatShakeAround(BaseWeChatAPI):
         data["apply_reason"] = reason
         data["poi_id"] = poi_id
         data["comment"] = comment
-        res = self._post("shakearound/device/applyid", data=data, result_processor=lambda x: x["data"],)
+        res = self._post(
+            "shakearound/device/applyid",
+            data=data,
+            result_processor=lambda x: x["data"],
+        )
         return res
 
     def update_device(self, device_id=None, uuid=None, major=None, minor=None, comment=None):
@@ -227,7 +231,12 @@ class WeChatShakeAround(BaseWeChatAPI):
             "page_ids": page_ids,
             "bind": int(bind),
             "append": int(append),
-            "device_identifier": {"device_id": device_id, "uuid": uuid, "major": major, "minor": minor,},
+            "device_identifier": {
+                "device_id": device_id,
+                "uuid": uuid,
+                "major": major,
+                "minor": minor,
+            },
         }
         return self._post("shakearound/device/bindpage", data=data)
 
@@ -241,7 +250,9 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 设备及用户信息
         """
         res = self._post(
-            "shakearound/user/getshakeinfo", data={"ticket": ticket}, result_processor=lambda x: x["data"],
+            "shakearound/user/getshakeinfo",
+            data={"ticket": ticket},
+            result_processor=lambda x: x["data"],
         )
         return res
 
@@ -258,11 +269,20 @@ class WeChatShakeAround(BaseWeChatAPI):
         :param minor: minor
         """
         data = {
-            "device_identifier": {"device_id": device_id, "uuid": uuid, "major": major, "minor": minor,},
+            "device_identifier": {
+                "device_id": device_id,
+                "uuid": uuid,
+                "major": major,
+                "minor": minor,
+            },
             "begin_date": self._to_timestamp(begin_date),
             "end_date": self._to_timestamp(end_date),
         }
-        res = self._post("shakearound/statistics/device", data=data, result_processor=lambda x: x["data"],)
+        res = self._post(
+            "shakearound/statistics/device",
+            data=data,
+            result_processor=lambda x: x["data"],
+        )
         return res
 
     def get_page_statistics(self, page_id, begin_date, end_date):
@@ -297,6 +317,10 @@ class WeChatShakeAround(BaseWeChatAPI):
         :return: 批次状态信息
         """
         res = self._post(
-            "shakearound/device/applystatus", data={"apply_id": apply_id,}, result_processor=lambda x: x["data"],
+            "shakearound/device/applystatus",
+            data={
+                "apply_id": apply_id,
+            },
+            result_processor=lambda x: x["data"],
         )
         return res

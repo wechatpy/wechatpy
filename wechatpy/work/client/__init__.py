@@ -29,7 +29,13 @@ class WeChatClient(BaseWeChatClient):
     invoice = api.WeChatInvoice()
 
     def __init__(
-            self, corp_id, secret, access_token=None, session=None, timeout=None, auto_retry=True,
+        self,
+        corp_id,
+        secret,
+        access_token=None,
+        session=None,
+        timeout=None,
+        auto_retry=True,
     ):
         self.corp_id = corp_id
         self.secret = secret

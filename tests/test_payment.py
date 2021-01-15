@@ -33,11 +33,20 @@ def wechat_api_mock(url, request):
 
 class WeChatPayTestCase(unittest.TestCase):
     def setUp(self):
-        self.client = WeChatPay(appid="abc1234", api_key="test123", mch_id="1192221", mch_cert="", mch_key="",)
+        self.client = WeChatPay(
+            appid="abc1234",
+            api_key="test123",
+            mch_id="1192221",
+            mch_cert="",
+            mch_key="",
+        )
 
     def test_apply_signing(self):
         response = self.client.withhold.apply_signing(
-            plan_id="t1234", contract_code="w1111", contract_display_account="测试", notify_url="",
+            plan_id="t1234",
+            contract_code="w1111",
+            contract_display_account="测试",
+            notify_url="",
         )
         self.assertIn("base_url", response)
         self.assertIn("data", response)
@@ -60,5 +69,8 @@ class WeChatPayTestCase(unittest.TestCase):
 
     def test_apply_cancel_signing(self):
         with HTTMock(wechat_api_mock):
-            response = self.client.withhold.apply_cancel_signing(plan_id="t1234", contract_code="w1111",)
+            response = self.client.withhold.apply_cancel_signing(
+                plan_id="t1234",
+                contract_code="w1111",
+            )
             self.assertEqual(response["result_code"], "SUCCESS")

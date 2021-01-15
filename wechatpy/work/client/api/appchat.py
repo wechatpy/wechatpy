@@ -7,7 +7,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatAppChat(BaseWeChatAPI):
-    """ 发送消息到群聊会话
+    """发送消息到群聊会话
     https://work.weixin.qq.com/api/doc#90000/90135/90244
     """
 
@@ -29,7 +29,12 @@ class WeChatAppChat(BaseWeChatAPI):
         :param user_list: 会话成员列表，成员用userid来标识。至少2人，至多500人
         :return: 返回的 JSON 数据包
         """
-        data = optionaldict(chatid=chat_id, name=name, owner=owner, userlist=user_list,)
+        data = optionaldict(
+            chatid=chat_id,
+            name=name,
+            owner=owner,
+            userlist=user_list,
+        )
         return self._post("appchat/create", data=data)
 
     def get(self, chat_id):
@@ -60,7 +65,11 @@ class WeChatAppChat(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(
-            chatid=chat_id, name=name, owner=owner, add_user_list=add_user_list, del_user_list=del_user_list,
+            chatid=chat_id,
+            name=name,
+            owner=owner,
+            add_user_list=add_user_list,
+            del_user_list=del_user_list,
         )
         return self._post("appchat/update", data=data)
 

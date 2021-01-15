@@ -15,7 +15,11 @@ class WeChatInvoice(BaseWeChatAPI):
 
         :return:该开票平台专用的授权链接
         """
-        return self._post("seturl", data={}, result_processor=lambda x: x["invoice_url"],)
+        return self._post(
+            "seturl",
+            data={},
+            result_processor=lambda x: x["invoice_url"],
+        )
 
     def create_card(self, base_info, payee, invoice_type, detail=None):
         """
@@ -33,12 +37,27 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         return self._post(
             "platform/createcard",
-            data={"invoice_info": {"base_info": base_info, "payee": payee, "type": invoice_type, "detail": detail,},},
+            data={
+                "invoice_info": {
+                    "base_info": base_info,
+                    "payee": payee,
+                    "type": invoice_type,
+                    "detail": detail,
+                },
+            },
             result_processor=lambda x: x["card_id"],
         )
 
     def get_auth_url(
-        self, s_pappid, order_id, money, timestamp, source, ticket, auth_type, redirect_url=None,
+        self,
+        s_pappid,
+        order_id,
+        money,
+        timestamp,
+        source,
+        ticket,
+        auth_type,
+        redirect_url=None,
     ):
         """
         获取授权页链接
@@ -92,8 +111,15 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         return self._post(
             "setbizattr",
-            params={"action": "set_auth_field",},
-            data={"auth_field": {"user_field": user_field, "biz_field": biz_field,},},
+            params={
+                "action": "set_auth_field",
+            },
+            data={
+                "auth_field": {
+                    "user_field": user_field,
+                    "biz_field": biz_field,
+                },
+            },
         )
 
     def get_auth_field(self):
@@ -105,7 +131,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: 授权页的字段设置
         :rtype: dict
         """
-        return self._post("setbizattr", params={"action": "get_auth_field",}, data={},)
+        return self._post(
+            "setbizattr",
+            params={
+                "action": "get_auth_field",
+            },
+            data={},
+        )
 
     def get_auth_data(self, s_pappid, order_id):
         """
@@ -118,7 +150,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: 用户的开票信息
         :rtype: dict
         """
-        return self._post("getauthdata", data={"s_pappid": s_pappid, "order_id": order_id,},)
+        return self._post(
+            "getauthdata",
+            data={
+                "s_pappid": s_pappid,
+                "order_id": order_id,
+            },
+        )
 
     def reject_insert(self, s_pappid, order_id, reason, redirect_url=None):
         """
@@ -132,7 +170,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :param redirect_url: 跳转链接
         """
         return self._post(
-            "rejectinsert", data={"s_pappid": s_pappid, "order_id": order_id, "reason": reason, "url": redirect_url,},
+            "rejectinsert",
+            data={
+                "s_pappid": s_pappid,
+                "order_id": order_id,
+                "reason": reason,
+                "url": redirect_url,
+            },
         )
 
     def insert(self, order_id, card_id, appid, card_ext):
@@ -149,7 +193,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: 随机防重字符串，以及用户 Open ID
         """
         return self._post(
-            "insert", data={"order_id": order_id, "card_id": card_id, "appid": appid, "card_ext": card_ext,},
+            "insert",
+            data={
+                "order_id": order_id,
+                "card_id": card_id,
+                "appid": appid,
+                "card_ext": card_ext,
+            },
         )
 
     def upload_pdf(self, pdf):
@@ -161,7 +211,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :param pdf: 要上传的 PDF 文件，一个 File-object
         :return: 64位整数，在将发票卡券插入用户卡包时使用用于关联pdf和发票卡券。有效期为3天。
         """
-        return self._post("platform/setpdf", files={"pdf": pdf,}, result_processor=lambda x: x["s_media_id"],)
+        return self._post(
+            "platform/setpdf",
+            files={
+                "pdf": pdf,
+            },
+            result_processor=lambda x: x["s_media_id"],
+        )
 
     def get_pdf(self, s_media_id):
         """
@@ -173,7 +229,15 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: PDF 文件的 URL，以及过期时间
         :rtype: dict
         """
-        return self._post("platform/getpdf", params={"action": "get_url",}, data={"s_media_id": s_media_id,},)
+        return self._post(
+            "platform/getpdf",
+            params={
+                "action": "get_url",
+            },
+            data={
+                "s_media_id": s_media_id,
+            },
+        )
 
     def update_status(self, card_id, code, reimburse_status):
         """
@@ -186,7 +250,12 @@ class WeChatInvoice(BaseWeChatAPI):
         :param reimburse_status: 发票报销状态
         """
         return self._post(
-            "platform/updatestatus", data={"card_id": card_id, "code": code, "reimburse_status": reimburse_status,},
+            "platform/updatestatus",
+            data={
+                "card_id": card_id,
+                "code": code,
+                "reimburse_status": reimburse_status,
+            },
         )
 
     def set_pay_mch(self, mchid, s_pappid):
@@ -200,8 +269,15 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         return self._post(
             "setbizattr",
-            params={"action": "set_pay_mch",},
-            data={"paymch_info": {"mchid": mchid, "s_pappid": s_pappid,},},
+            params={
+                "action": "set_pay_mch",
+            },
+            data={
+                "paymch_info": {
+                    "mchid": mchid,
+                    "s_pappid": s_pappid,
+                },
+            },
         )
 
     def get_pay_mch(self):
@@ -213,7 +289,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: mchid 和 s_pappid
         :rtype: dict
         """
-        return self._post("setbizattr", params={"action": "get_pay_mch",}, data={},)
+        return self._post(
+            "setbizattr",
+            params={
+                "action": "get_pay_mch",
+            },
+            data={},
+        )
 
     def get_reimburse(self, card_id, encrypt_code):
         """
@@ -226,7 +308,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: 电子发票的结构化信息
         :rtype: dict
         """
-        return self._post("reimburse/getinvoiceinfo", data={"card_id": card_id, "encrypt_code": encrypt_code,},)
+        return self._post(
+            "reimburse/getinvoiceinfo",
+            data={
+                "card_id": card_id,
+                "encrypt_code": encrypt_code,
+            },
+        )
 
     def update_reimburse(self, card_id, encrypt_code, reimburse_status):
         """
@@ -240,7 +328,11 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         return self._post(
             "reimburse/updateinvoicestatus",
-            data={"card_id": card_id, "encrypt_code": encrypt_code, "reimburse_status": reimburse_status,},
+            data={
+                "card_id": card_id,
+                "encrypt_code": encrypt_code,
+                "reimburse_status": reimburse_status,
+            },
         )
 
     def batch_update_reimburse(self, openid, reimburse_status, invoice_list):
@@ -256,7 +348,11 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         return self._post(
             "reimburse/updatestatusbatch",
-            data={"openid": openid, "reimburse_status": reimburse_status, "invoice_list": invoice_list,},
+            data={
+                "openid": openid,
+                "reimburse_status": reimburse_status,
+                "invoice_list": invoice_list,
+            },
         )
 
     def get_user_title_url(
@@ -314,7 +410,13 @@ class WeChatInvoice(BaseWeChatAPI):
         :param attach: 附加字段，用户提交发票时会发送给商户
         :return: 商户专属开票链接
         """
-        return self._post("biz/getselecttitleurl", data={"attach": attach,}, result_processor=lambda x: x["url"],)
+        return self._post(
+            "biz/getselecttitleurl",
+            data={
+                "attach": attach,
+            },
+            result_processor=lambda x: x["url"],
+        )
 
     def scan_title(self, scan_text):
         """
@@ -327,4 +429,9 @@ class WeChatInvoice(BaseWeChatAPI):
         :return: 用户的发票抬头数据
         :rtype: dict
         """
-        return self._post("scantitle", data={"scan_text": scan_text,},)
+        return self._post(
+            "scantitle",
+            data={
+                "scan_text": scan_text,
+            },
+        )

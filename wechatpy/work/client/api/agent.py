@@ -7,7 +7,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatAgent(BaseWeChatAPI):
-    """ 应用管理
+    """应用管理
     https://work.weixin.qq.com/api/doc#90000/90135/90226
     """
 

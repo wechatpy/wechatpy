@@ -7,7 +7,14 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatSemantic(BaseWeChatAPI):
     def search(
-        self, query, category, uid=None, latitude=None, longitude=None, city=None, region=None,
+        self,
+        query,
+        category,
+        uid=None,
+        latitude=None,
+        longitude=None,
+        city=None,
+        region=None,
     ):
         """
         发送语义理解请求

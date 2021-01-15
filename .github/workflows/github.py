@@ -5,16 +5,11 @@ import re
 import sys
 
 
-MYPY_REGEX = (
-    r"^(\w:)?(?P<file>[^:]+):(?P<line>\d+):((?P<col>\d+):)?"
-    r"\s*(?P<type>[^:]+):\s*(?P<msg>.+)"
-)
+MYPY_REGEX = r"^(\w:)?(?P<file>[^:]+):(?P<line>\d+):((?P<col>\d+):)?" r"\s*(?P<type>[^:]+):\s*(?P<msg>.+)"
 MYPY = re.compile(MYPY_REGEX)
 
 
-def error(
-    file: str, line: int = 0, col: int = 0, message: str = "error", warn: bool = False
-) -> None:
+def error(file: str, line: int = 0, col: int = 0, message: str = "error", warn: bool = False) -> None:
     """write an error to stdout"""
     kind = "warning" if warn else "error"
     print(f"::{kind} file={file},line={line},col={col}::{message}")

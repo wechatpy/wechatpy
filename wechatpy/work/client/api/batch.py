@@ -34,7 +34,11 @@ class WeChatBatch(BaseWeChatAPI):
             data={
                 "media_id": media_id,
                 "to_invite": to_invite,
-                "callback": {"url": url, "token": token, "encodingaeskey": encoding_aes_key,},
+                "callback": {
+                    "url": url,
+                    "token": token,
+                    "encodingaeskey": encoding_aes_key,
+                },
             },
         )
 
@@ -56,7 +60,11 @@ class WeChatBatch(BaseWeChatAPI):
             data={
                 "media_id": media_id,
                 "to_invite": to_invite,
-                "callback": {"url": url, "token": token, "encodingaeskey": encoding_aes_key,},
+                "callback": {
+                    "url": url,
+                    "token": token,
+                    "encodingaeskey": encoding_aes_key,
+                },
             },
         )
 
@@ -74,7 +82,14 @@ class WeChatBatch(BaseWeChatAPI):
         """
         return self._post(
             "batch/replaceparty",
-            data={"media_id": media_id, "callback": {"url": url, "token": token, "encodingaeskey": encoding_aes_key,},},
+            data={
+                "media_id": media_id,
+                "callback": {
+                    "url": url,
+                    "token": token,
+                    "encodingaeskey": encoding_aes_key,
+                },
+            },
         )
 
     def get_result(self, job_id):

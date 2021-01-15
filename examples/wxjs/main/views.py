@@ -33,4 +33,8 @@ def jsapi_signature(request):
 
 def log(request):
     print("Hello World!")
-    return JsonResponse({"status": "ok",})
+    return JsonResponse(
+        {
+            "status": "ok",
+        }
+    )

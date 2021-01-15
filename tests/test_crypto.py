@@ -37,7 +37,12 @@ class CryptoTestCase(unittest.TestCase):
 
         crypto = WeChatCrypto(self.token, self.encoding_aes_key, self.corp_id)
         self.assertRaises(
-            InvalidSignatureException, crypto.check_signature, signature, timestamp, nonce, echo_str,
+            InvalidSignatureException,
+            crypto.check_signature,
+            signature,
+            timestamp,
+            nonce,
+            echo_str,
         )
 
     def test_encrypt_message(self):

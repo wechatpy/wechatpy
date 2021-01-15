@@ -48,7 +48,11 @@ class WeChatGroup(BaseWeChatAPI):
         if user_id is None:
             res = self._get("groups/get", result_processor=lambda x: x["groups"])
         else:
-            res = self._post("groups/getid", data={"openid": user_id}, result_processor=lambda x: x["groupid"],)
+            res = self._post(
+                "groups/getid",
+                data={"openid": user_id},
+                result_processor=lambda x: x["groupid"],
+            )
         return res
 
     def update(self, group_id, name):

@@ -15,8 +15,7 @@ import hashlib
 
 
 class ObjectDict(dict):
-    """Makes a dictionary behave like an object, with attribute-style access.
-    """
+    """Makes a dictionary behave like an object, with attribute-style access."""
 
     def __getattr__(self, key):
         if key in self:

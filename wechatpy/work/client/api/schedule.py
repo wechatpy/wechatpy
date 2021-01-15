@@ -172,7 +172,9 @@ class WeChatSchedule(BaseWeChatAPI):
         :rtype: list[dict]
         """
         return self._post(
-            "oa/schedule/get", data={"schedule_id_list": schedule_ids}, result_processor=op.itemgetter("schedule_list"),
+            "oa/schedule/get",
+            data={"schedule_id_list": schedule_ids},
+            result_processor=op.itemgetter("schedule_list"),
         )
 
     def delete(self, schedule_id):

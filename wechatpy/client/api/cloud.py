@@ -34,7 +34,10 @@ class WeChatCloud(BaseWeChatAPI):
         """
         return self._post(
             "tcb/invokecloudfunction",
-            params={"env": env, "name": name,},
+            params={
+                "env": env,
+                "name": name,
+            },
             data=data,
             result_processor=lambda x: json.loads(x["resp_data"]),
         )
@@ -82,7 +85,12 @@ class WeChatCloud(BaseWeChatAPI):
         """
         return self._post(
             "tcb/databasemigrateexport",
-            data={"env": env, "file_path": file_path, "file_type": file_type, "query": query,},
+            data={
+                "env": env,
+                "file_path": file_path,
+                "file_type": file_type,
+                "query": query,
+            },
             result_processor=lambda x: x["job_id"],
         )
 
@@ -96,7 +104,13 @@ class WeChatCloud(BaseWeChatAPI):
         :param env: 云开发环境 ID
         :param job_id: 任务 ID
         """
-        return self._post("tcb/databasemigratequeryinfo", data={"env": env, "job_id": job_id,})
+        return self._post(
+            "tcb/databasemigratequeryinfo",
+            data={
+                "env": env,
+                "job_id": job_id,
+            },
+        )
 
     def db_update_index(self, env, collection, create_indexes=None, drop_indexes=None):
         """
@@ -129,7 +143,13 @@ class WeChatCloud(BaseWeChatAPI):
         :param env: 云开发环境 ID
         :param collection: 集合名称
         """
-        return self._post("tcb/databasecollectionadd", data={"env": env, "collection_name": collection,},)
+        return self._post(
+            "tcb/databasecollectionadd",
+            data={
+                "env": env,
+                "collection_name": collection,
+            },
+        )
 
     def db_delete_collection(self, env, collection):
         """
@@ -141,7 +161,13 @@ class WeChatCloud(BaseWeChatAPI):
         :param env: 云开发环境 ID
         :param collection: 集合名称
         """
-        return self._post("tcb/databasecollectiondelete", data={"env": env, "collection_name": collection,},)
+        return self._post(
+            "tcb/databasecollectiondelete",
+            data={
+                "env": env,
+                "collection_name": collection,
+            },
+        )
 
     def db_get_collection(self, env, offset=0, limit=10):
         """
@@ -154,7 +180,14 @@ class WeChatCloud(BaseWeChatAPI):
         :param offset: 偏移量，默认为 0
         :param limit: 获取数量限制， 默认为 10
         """
-        return self._post("tcb/databasecollectionget", data={"env": env, "offset": offset, "limit": limit,},)
+        return self._post(
+            "tcb/databasecollectionget",
+            data={
+                "env": env,
+                "offset": offset,
+                "limit": limit,
+            },
+        )
 
     def db_add(self, env, query):
         """
@@ -168,7 +201,12 @@ class WeChatCloud(BaseWeChatAPI):
         :return: 返回插入成功的数据集合主键 _id 列表
         """
         return self._post(
-            "tcb/databaseadd", data={"env": env, "query": query,}, result_processor=lambda x: x["id_list"],
+            "tcb/databaseadd",
+            data={
+                "env": env,
+                "query": query,
+            },
+            result_processor=lambda x: x["id_list"],
         )
 
     def db_delete(self, env, query):
@@ -183,7 +221,12 @@ class WeChatCloud(BaseWeChatAPI):
         :return: 返回删除记录数量
         """
         return self._post(
-            "tcb/databasedelete", data={"env": env, "query": query,}, result_processor=lambda x: x["deleted"],
+            "tcb/databasedelete",
+            data={
+                "env": env,
+                "query": query,
+            },
+            result_processor=lambda x: x["deleted"],
         )
 
     def db_update(self, env, query):
@@ -197,7 +240,13 @@ class WeChatCloud(BaseWeChatAPI):
         :param query: 数据库操作语句
         :return: 返回的 JSON 数据包
         """
-        return self._post("tcb/databaseupdate", data={"env": env, "query": query,})
+        return self._post(
+            "tcb/databaseupdate",
+            data={
+                "env": env,
+                "query": query,
+            },
+        )
 
     def db_query(self, env, query):
         """
@@ -210,7 +259,13 @@ class WeChatCloud(BaseWeChatAPI):
         :param query: 数据库操作语句
         :return: 返回的 JSON 数据包
         """
-        return self._post("tcb/databasequery", data={"env": env, "query": query,})
+        return self._post(
+            "tcb/databasequery",
+            data={
+                "env": env,
+                "query": query,
+            },
+        )
 
     def db_aggregate(self, env, query):
         """
@@ -224,7 +279,12 @@ class WeChatCloud(BaseWeChatAPI):
         :return: 返回记录列表
         """
         return self._post(
-            "tcb/databaseaggregate", data={"env": env, "query": query,}, result_processor=lambda x: x["data"],
+            "tcb/databaseaggregate",
+            data={
+                "env": env,
+                "query": query,
+            },
+            result_processor=lambda x: x["data"],
         )
 
     def db_count(self, env, query):
@@ -239,7 +299,12 @@ class WeChatCloud(BaseWeChatAPI):
         :return: 返回记录数量
         """
         return self._post(
-            "tcb/databasecount", data={"env": env, "query": query,}, result_processor=lambda x: x["count"],
+            "tcb/databasecount",
+            data={
+                "env": env,
+                "query": query,
+            },
+            result_processor=lambda x: x["count"],
         )
 
     def upload_file(self, env, path):
@@ -252,7 +317,13 @@ class WeChatCloud(BaseWeChatAPI):
         :param env: 云开发环境 ID
         """
         with open(path, "rb") as f:
-            res = self._post("tcb/uploadfile", data={"env": env, "path": path,})
+            res = self._post(
+                "tcb/uploadfile",
+                data={
+                    "env": env,
+                    "path": path,
+                },
+            )
             signature = res["authorization"]
             token = res["token"]
             cos_file_id = res["cos_file_id"]
@@ -283,7 +354,10 @@ class WeChatCloud(BaseWeChatAPI):
         """
         return self._post(
             "tcb/batchdownloadfile",
-            data={"env": env, "file_list": file_list,},
+            data={
+                "env": env,
+                "file_list": file_list,
+            },
             result_processor=lambda x: x["file_list"],
         )
 
@@ -300,7 +374,10 @@ class WeChatCloud(BaseWeChatAPI):
         """
         return self._post(
             "tcb/batchdeletefile",
-            data={"env": env, "fileid_list": fileid_list,},
+            data={
+                "env": env,
+                "fileid_list": fileid_list,
+            },
             result_processor=lambda x: x["delete_list"],
         )
 

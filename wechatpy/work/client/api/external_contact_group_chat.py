@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from typing import List
 
 from optionaldict import optionaldict
 
@@ -12,11 +12,11 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
     """
 
     def list(
-            self,
-            status_filter: int = 0,
-            owner_userid_list: list = None,
-            cursor: str = None,
-            limit: int = 100,
+        self,
+        status_filter: int = 0,
+        owner_userid_list: List = None,
+        cursor: str = None,
+        limit: int = 100,
     ):
         """
         该接口用于获取配置过客户群管理的客户群列表。
@@ -42,9 +42,7 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
             data["owner_filter"] = {"userid_list": owner_userid_list}
         return self._post("externalcontact/groupchat/list", data=data)
 
-    def list_all(
-            self, status_filter: int = 0, owner_userid_list: list = None, limit: int = 100
-    ) -> list:
+    def list_all(self, status_filter: int = 0, owner_userid_list: List = None, limit: int = 100) -> List:
         """
         该接口用于获取配置过客户群管理的所有客户群列表，自动走完所有分页
         """
@@ -72,14 +70,14 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
         return self._post("externalcontact/groupchat/get", data={"chat_id": chat_id})
 
     def statistic(
-            self,
-            day_begin_time: int,
-            day_end_time: int = None,
-            owner_userid_list: list = None,
-            order_by: int = 1,
-            order_asc: int = 0,
-            offset: int = 0,
-            limit: int = 500,
+        self,
+        day_begin_time: int,
+        day_end_time: int = None,
+        owner_userid_list: List = None,
+        order_by: int = 1,
+        order_asc: int = 0,
+        offset: int = 0,
+        limit: int = 500,
     ):
         """
         获取指定日期的统计数据。注意，企业微信仅存储180天的数据。

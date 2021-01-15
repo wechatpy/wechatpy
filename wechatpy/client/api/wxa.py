@@ -18,7 +18,12 @@ class WeChatWxa(BaseWeChatAPI):
         return self._post("cgi-bin/wxaapp/createwxaqrcode", data={"path": path, "width": width})
 
     def get_wxa_code(
-        self, path, width=430, auto_color=False, line_color={"r": "0", "g": "0", "b": "0"}, is_hyaline=False,
+        self,
+        path,
+        width=430,
+        auto_color=False,
+        line_color={"r": "0", "g": "0", "b": "0"},
+        is_hyaline=False,
     ):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
@@ -63,7 +68,14 @@ class WeChatWxa(BaseWeChatAPI):
         )
 
     def send_template_message(
-        self, user_id, template_id, data, form_id, page=None, color=None, emphasis_keyword=None,
+        self,
+        user_id,
+        template_id,
+        data,
+        form_id,
+        page=None,
+        color=None,
+        emphasis_keyword=None,
     ):
         """
         发送模板消息
@@ -91,7 +103,12 @@ class WeChatWxa(BaseWeChatAPI):
         return self._post("cgi-bin/message/subscribe/send", data=subs_data)
 
     def modify_domain(
-        self, action, request_domain=(), wsrequest_domain=(), upload_domain=(), download_domain=(),
+        self,
+        action,
+        request_domain=(),
+        wsrequest_domain=(),
+        upload_domain=(),
+        download_domain=(),
     ):
         """
         修改小程序服务器授权域名

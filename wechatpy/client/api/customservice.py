@@ -98,7 +98,10 @@ class WeChatCustomService(BaseWeChatAPI):
 
         :return: 客服接待信息列表
         """
-        res = self._get("customservice/getonlinekflist", result_processor=lambda x: x["kf_online_list"],)
+        res = self._get(
+            "customservice/getonlinekflist",
+            result_processor=lambda x: x["kf_online_list"],
+        )
         return res
 
     def create_session(self, openid, account, text=None):
@@ -138,7 +141,10 @@ class WeChatCustomService(BaseWeChatAPI):
         :param openid: 客户 openid
         :return: 返回的 JSON 数据包
         """
-        return self._get("https://api.weixin.qq.com/customservice/kfsession/getsession", params={"openid": openid},)
+        return self._get(
+            "https://api.weixin.qq.com/customservice/kfsession/getsession",
+            params={"openid": openid},
+        )
 
     def get_session_list(self, account):
         """
@@ -187,5 +193,8 @@ class WeChatCustomService(BaseWeChatAPI):
             "msgid": msgid,
             "number": number,
         }
-        res = self._post("https://api.weixin.qq.com/customservice/msgrecord/getmsglist", data=record_data,)
+        res = self._post(
+            "https://api.weixin.qq.com/customservice/msgrecord/getmsglist",
+            data=record_data,
+        )
         return res

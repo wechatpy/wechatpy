@@ -22,7 +22,12 @@ class WeChatWiFi(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         res = self._post(
-            "shop/list", data={"pageindex": page_index, "pagesize": page_size,}, result_processor=lambda x: x["data"],
+            "shop/list",
+            data={
+                "pageindex": page_index,
+                "pagesize": page_size,
+            },
+            result_processor=lambda x: x["data"],
         )
         return res
 
@@ -34,7 +39,13 @@ class WeChatWiFi(BaseWeChatAPI):
         :param shop_id: 门店 ID
         :return: 返回的 JSON 数据包
         """
-        res = self._post("shop/get", data={"shop_id": shop_id,}, result_processor=lambda x: x["data"])
+        res = self._post(
+            "shop/get",
+            data={
+                "shop_id": shop_id,
+            },
+            result_processor=lambda x: x["data"],
+        )
         return res
 
     def add_device(self, shop_id, ssid, password, bssid):
@@ -51,7 +62,15 @@ class WeChatWiFi(BaseWeChatAPI):
         :param bssid: 无线网络设备无线mac地址，格式冒号分隔，字符长度17个，并且字母小写
         :return: 返回的 JSON 数据包
         """
-        return self._post("device/add", data={"shop_id": shop_id, "ssid": ssid, "password": password, "bssid": bssid,},)
+        return self._post(
+            "device/add",
+            data={
+                "shop_id": shop_id,
+                "ssid": ssid,
+                "password": password,
+                "bssid": bssid,
+            },
+        )
 
     def list_devices(self, shop_id=None, page_index=1, page_size=20):
         """
@@ -95,7 +114,10 @@ class WeChatWiFi(BaseWeChatAPI):
         """
         res = self._post(
             "qrcode/get",
-            data={"shop_id": shop_id, "img_id": img_id,},
+            data={
+                "shop_id": shop_id,
+                "img_id": img_id,
+            },
             result_processor=lambda x: x["data"]["qrcode_url"],
         )
         return res
@@ -130,7 +152,11 @@ class WeChatWiFi(BaseWeChatAPI):
         :param shop_id: 门店 ID
         :return: 返回的 JSON 数据包
         """
-        res = self._post("homepage/get", data={"shop_id": shop_id}, result_processor=lambda x: x["data"],)
+        res = self._post(
+            "homepage/get",
+            data={"shop_id": shop_id},
+            result_processor=lambda x: x["data"],
+        )
         return res
 
     def list_statistics(self, begin_date, end_date, shop_id=-1):

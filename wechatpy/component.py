@@ -36,7 +36,13 @@ class BaseWeChatComponent:
     API_BASE_URL = "https://api.weixin.qq.com/cgi-bin"
 
     def __init__(
-        self, component_appid, component_appsecret, component_token, encoding_aes_key, session=None, auto_retry=True,
+        self,
+        component_appid,
+        component_appsecret,
+        component_token,
+        encoding_aes_key,
+        session=None,
+        auto_retry=True,
     ):
         """
         :param component_appid: 第三方平台appid
@@ -75,7 +81,11 @@ class BaseWeChatComponent:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatClientException(
-                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
 
         return self._handle_result(res, method, url, **kwargs)
@@ -132,12 +142,20 @@ class BaseWeChatComponent:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatClientException(
-                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
         result = res.json()
         if "errcode" in result and result["errcode"] != 0:
             raise WeChatClientException(
-                result["errcode"], result["errmsg"], client=self, request=res.request, response=res,
+                result["errcode"],
+                result["errmsg"],
+                client=self,
+                request=res.request,
+                response=res,
             )
 
         expires_in = 7200
@@ -189,7 +207,10 @@ class WeChatComponent(BaseWeChatComponent):
         """
         获取预授权码
         """
-        return self.post("/component/api_create_preauthcode", data={"component_appid": self.component_appid},)
+        return self.post(
+            "/component/api_create_preauthcode",
+            data={"component_appid": self.component_appid},
+        )
 
     def _query_auth(self, authorization_code):
         """
@@ -199,7 +220,10 @@ class WeChatComponent(BaseWeChatComponent):
         """
         return self.post(
             "/component/api_query_auth",
-            data={"component_appid": self.component_appid, "authorization_code": authorization_code,},
+            data={
+                "component_appid": self.component_appid,
+                "authorization_code": authorization_code,
+            },
         )
 
     def query_auth(self, authorization_code):
@@ -258,7 +282,10 @@ class WeChatComponent(BaseWeChatComponent):
         """
         return self.post(
             "/component/api_get_authorizer_info",
-            data={"component_appid": self.component_appid, "authorizer_appid": authorizer_appid,},
+            data={
+                "component_appid": self.component_appid,
+                "authorizer_appid": authorizer_appid,
+            },
         )
 
     def get_authorizer_list(self, offset=0, count=500):
@@ -270,7 +297,11 @@ class WeChatComponent(BaseWeChatComponent):
         """
         return self.post(
             "/component/api_get_authorizer_list",
-            data={"component_appid": self.component_appid, "offset": offset, "count": count,},
+            data={
+                "component_appid": self.component_appid,
+                "offset": offset,
+                "count": count,
+            },
         )
 
     def get_authorizer_option(self, authorizer_appid, option_name):
@@ -361,7 +392,7 @@ class WeChatComponent(BaseWeChatComponent):
 
 
 class ComponentOAuth:
-    """ 微信开放平台 代公众号 OAuth 网页授权
+    """微信开放平台 代公众号 OAuth 网页授权
 
     详情请参考
     https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318590
@@ -399,7 +430,10 @@ class ComponentOAuth:
         if state:
             url_list.extend(["&state=", state])
         url_list.extend(
-            ["&component_appid=", self.component.component_appid,]
+            [
+                "&component_appid=",
+                self.component.component_appid,
+            ]
         )
         url_list.append("#wechat_redirect")
         return "".join(url_list)
@@ -451,7 +485,7 @@ class ComponentOAuth:
         return res
 
     def get_user_info(self, openid=None, access_token=None, lang="zh_CN"):
-        """ 获取用户基本信息（需授权作用域为snsapi_userinfo）
+        """获取用户基本信息（需授权作用域为snsapi_userinfo）
 
         如果网页授权作用域为snsapi_userinfo，则此时开发者可以通过access_token和openid拉取用户信息了。
 
@@ -462,7 +496,10 @@ class ComponentOAuth:
         """
         openid = openid or self.open_id
         access_token = access_token or self.access_token
-        return self._get("sns/userinfo", params={"access_token": access_token, "openid": openid, "lang": lang},)
+        return self._get(
+            "sns/userinfo",
+            params={"access_token": access_token, "openid": openid, "lang": lang},
+        )
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
@@ -480,7 +517,11 @@ class ComponentOAuth:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatOAuthException(
-                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
 
         return self._handle_result(res, method=method, url=url, **kwargs)

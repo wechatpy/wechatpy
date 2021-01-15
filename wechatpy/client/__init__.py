@@ -43,7 +43,13 @@ class WeChatClient(BaseWeChatClient):
     cloud = api.WeChatCloud()
 
     def __init__(
-        self, appid, secret, access_token=None, session=None, timeout=None, auto_retry=True,
+        self,
+        appid,
+        secret,
+        access_token=None,
+        session=None,
+        timeout=None,
+        auto_retry=True,
     ):
         super().__init__(appid, access_token, session, timeout, auto_retry)
         self.appid = appid
@@ -59,7 +65,11 @@ class WeChatClient(BaseWeChatClient):
         """
         return self._fetch_access_token(
             url="https://api.weixin.qq.com/cgi-bin/token",
-            params={"grant_type": "client_credential", "appid": self.appid, "secret": self.secret,},
+            params={
+                "grant_type": "client_credential",
+                "appid": self.appid,
+                "secret": self.secret,
+            },
         )
 
 
@@ -70,7 +80,13 @@ class WeChatComponentClient(WeChatClient):
     """
 
     def __init__(
-        self, appid, component, access_token=None, refresh_token=None, session=None, timeout=None,
+        self,
+        appid,
+        component,
+        access_token=None,
+        refresh_token=None,
+        session=None,
+        timeout=None,
     ):
         # 未用到secret，所以这里没有
         super().__init__(appid, "", "", session, timeout)

@@ -124,7 +124,11 @@ class WeChatUser(BaseWeChatAPI):
             group_id = client.user.get_group_id('openid')
 
         """
-        res = self._post("groups/getid", data={"openid": user_id}, result_processor=lambda x: x["groupid"],)
+        res = self._post(
+            "groups/getid",
+            data={"openid": user_id},
+            result_processor=lambda x: x["groupid"],
+        )
         return res
 
     def get_batch(self, user_list):
@@ -153,7 +157,9 @@ class WeChatUser(BaseWeChatAPI):
         if all((isinstance(x, str) for x in user_list)):
             user_list = [{"openid": oid} for oid in user_list]
         res = self._post(
-            "user/info/batchget", data={"user_list": user_list}, result_processor=lambda x: x["user_info_list"],
+            "user/info/batchget",
+            data={"user_list": user_list},
+            result_processor=lambda x: x["user_info_list"],
         )
         return res
 

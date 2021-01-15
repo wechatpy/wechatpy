@@ -15,7 +15,11 @@ class WeChatTag(BaseWeChatAPI):
 
         """
         name = to_text(name)
-        return self._post("tags/create", data={"tag": {"name": name}}, result_processor=lambda x: x["tag"],)
+        return self._post(
+            "tags/create",
+            data={"tag": {"name": name}},
+            result_processor=lambda x: x["tag"],
+        )
 
     def get(self):
         """
@@ -96,7 +100,11 @@ class WeChatTag(BaseWeChatAPI):
         :param user_id: 用户 ID, 可以是单个或者列表
         :return: 返回的 JSON 数据包
         """
-        return self._post("tags/getidlist", data={"openid": user_id}, result_processor=lambda x: x["tagid_list"],)
+        return self._post(
+            "tags/getidlist",
+            data={"openid": user_id},
+            result_processor=lambda x: x["tagid_list"],
+        )
 
     def get_tag_users(self, tag_id, first_user_id=None):
         """
@@ -151,7 +159,10 @@ class WeChatTag(BaseWeChatAPI):
         data = {}
         if begin_openid:
             data["begin_openid"] = begin_openid
-        return self._post("tags/members/getblacklist", data=data,)
+        return self._post(
+            "tags/members/getblacklist",
+            data=data,
+        )
 
     def batch_black_list(self, openid_list):
         """
@@ -162,7 +173,12 @@ class WeChatTag(BaseWeChatAPI):
         :param openid_list: 批量拉黑用户的 OpenID list, 最多20个
         :type openid_list: list
         """
-        return self._post("tags/members/batchblacklist", data={"openid_list": openid_list,},)
+        return self._post(
+            "tags/members/batchblacklist",
+            data={
+                "openid_list": openid_list,
+            },
+        )
 
     def batch_unblack_list(self, openid_list):
         """
@@ -173,4 +189,9 @@ class WeChatTag(BaseWeChatAPI):
         :param openid_list: 批量取消拉黑的 OpenID list, 最多20个
         :type openid_list: list
         """
-        return self._post("tags/members/batchunblacklist", data={"openid_list": openid_list,},)
+        return self._post(
+            "tags/members/batchunblacklist",
+            data={
+                "openid_list": openid_list,
+            },
+        )

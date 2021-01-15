@@ -72,7 +72,9 @@ class WeChatCalendar(BaseWeChatAPI):
         :rtype: list[dict]
         """
         return self._post(
-            "oa/calendar/get", data={"cal_id_list": calendar_ids}, result_processor=op.itemgetter("calendar_list"),
+            "oa/calendar/get",
+            data={"cal_id_list": calendar_ids},
+            result_processor=op.itemgetter("calendar_list"),
         )
 
     def delete(self, calendar_id):

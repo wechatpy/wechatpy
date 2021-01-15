@@ -133,7 +133,9 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_tag_add_users_with_empty_user_and_dept(self):
         with HTTMock(wechat_api_mock):
             self.assertRaises(
-                ValueError, self.client.tag.add_users, tag_id=1,
+                ValueError,
+                self.client.tag.add_users,
+                tag_id=1,
             )
 
     def test_tag_add_users_with_too_more_users_or_depts(self):
@@ -278,7 +280,14 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_external_contact_add_contact_way(self):
         with HTTMock(wechat_api_mock):
             res = self.client.external_contact.add_contact_way(
-                1, 1, 1, "remark", True, "state", ["UserID1", "UserID2"], ["PartyID1", "PartyID2"],
+                1,
+                1,
+                1,
+                "remark",
+                True,
+                "state",
+                ["UserID1", "UserID2"],
+                ["PartyID1", "PartyID2"],
             )
             self.assertEqual(0, res["errcode"])
 
@@ -396,7 +405,10 @@ class WeChatClientTestCase(unittest.TestCase):
                     "page": "/path/index",
                 },
             }
-            res = self.client.external_contact.add_group_welcome_template(template=template, agentid=1000014,)
+            res = self.client.external_contact.add_group_welcome_template(
+                template=template,
+                agentid=1000014,
+            )
             self.assertEqual(0, res["errcode"])
 
     def test_external_contact_update_group_welcome_template(self):
@@ -421,7 +433,9 @@ class WeChatClientTestCase(unittest.TestCase):
                 },
             }
             res = self.client.external_contact.update_group_welcome_template(
-                template=template, template_id="msgXXXXXXX", agentid=1000014,
+                template=template,
+                template_id="msgXXXXXXX",
+                agentid=1000014,
             )
             self.assertEqual(0, res["errcode"])
 

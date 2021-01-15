@@ -69,7 +69,11 @@ class BaseWeChatClient:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatClientException(
-                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
 
         return self._handle_result(res, method, url, result_processor, **kwargs)
@@ -134,12 +138,20 @@ class BaseWeChatClient:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatClientException(
-                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
         result = res.json()
         if "errcode" in result and result["errcode"] != 0:
             raise WeChatClientException(
-                result["errcode"], result["errmsg"], client=self, request=res.request, response=res,
+                result["errcode"],
+                result["errmsg"],
+                client=self,
+                request=res.request,
+                response=res,
             )
 
         expires_in = 7200

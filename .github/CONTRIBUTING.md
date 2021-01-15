@@ -51,7 +51,7 @@ wechatpy 使用 [black](https://github.com/psf/black/) 自动格式化 Python �
 
 ```bash
 poetry run pip install black
-poetry run black -l 120 -t py35 -t py36 -t py37 -t py38
+poetry run black -l 120 -t py36 -t py37 -t py38 .
 ```
 
 ## 自动化测试

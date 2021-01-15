@@ -42,4 +42,9 @@ class WeChatOAuth(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
 
-        return self._get("user/getuserinfo", params={"code": code,})
+        return self._get(
+            "user/getuserinfo",
+            params={
+                "code": code,
+            },
+        )

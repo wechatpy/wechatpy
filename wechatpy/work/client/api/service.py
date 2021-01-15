@@ -23,7 +23,11 @@ class WeChatService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "service/get_provider_token", data={"corpid": self._client.corp_id, "provider_secret": provider_secret,},
+            "service/get_provider_token",
+            data={
+                "corpid": self._client.corp_id,
+                "provider_secret": provider_secret,
+            },
         )
 
     def get_suite_token(self, suite_id, suite_secret, suite_ticket):
@@ -39,7 +43,11 @@ class WeChatService(BaseWeChatAPI):
         """
         return self._post(
             "service/get_suite_token",
-            data={"suite_id": suite_id, "suite_secret": suite_secret, "suite_ticket": suite_ticket,},
+            data={
+                "suite_id": suite_id,
+                "suite_secret": suite_secret,
+                "suite_ticket": suite_ticket,
+            },
         )
 
     def get_login_info(self, auth_code, provider_access_token=None):
@@ -55,6 +63,10 @@ class WeChatService(BaseWeChatAPI):
         """
         return self._post(
             "service/get_login_info",
-            params={"provider_access_token": provider_access_token,},
-            data={"auth_code": auth_code,},
+            params={
+                "provider_access_token": provider_access_token,
+            },
+            data={
+                "auth_code": auth_code,
+            },
         )

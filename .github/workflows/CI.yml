@@ -33,6 +33,11 @@ jobs:
           pip install poetry
           poetry install
           pip list
+      - name: Check code style
+        if: matrix.python-version == 3.8
+        run: |
+          pip install black
+          black -l 120 -t py36 -t py37 -t py38 --check .
       - name: pytest
         run: |
           poetry run pytest --cov --cov-report=term --cov-report=xml

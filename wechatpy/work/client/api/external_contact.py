@@ -374,7 +374,14 @@ class WeChatExternalContact(BaseWeChatAPI):
         return self._post("externalcontact/get_contact_way", data=data)
 
     def update_contact_way(
-        self, config_id, remark, skip_verify=True, style=None, state=None, user=None, party=None,
+        self,
+        config_id,
+        remark,
+        skip_verify=True,
+        style=None,
+        state=None,
+        user=None,
+        party=None,
     ) -> dict:
         """
         更新企业已配置的「联系我」方式
@@ -536,7 +543,11 @@ class WeChatExternalContact(BaseWeChatAPI):
         return self._post("externalcontact/get_group_msg_result", data=data)
 
     def get_user_behavior_data(
-        self, userid: Optional[List[str]], start_time: int, end_time: int, partyid: Optional[List[str]] = None,
+        self,
+        userid: Optional[List[str]],
+        start_time: int,
+        end_time: int,
+        partyid: Optional[List[str]] = None,
     ) -> dict:
         """
         获取「联系客户统计」数据
@@ -808,7 +819,11 @@ class WeChatExternalContact(BaseWeChatAPI):
         return self._post("externalcontact/get_corp_tag_list", data=data)
 
     def add_corp_tag(
-        self, group_id: Optional[str], group_name: Optional[str], order: Optional[int], tags: dict,
+        self,
+        group_id: Optional[str],
+        group_name: Optional[str],
+        order: Optional[int],
+        tags: dict,
     ) -> dict:
         """
         添加企业客户标签
@@ -1040,7 +1055,11 @@ class WeChatExternalContact(BaseWeChatAPI):
         return self._post("externalcontact/mark_tag", data=data)
 
     def get_group_chat_list(
-        self, limit: int, status_filter: int = 0, owner_filter: Optional[dict] = None, cursor: Optional[str] = None,
+        self,
+        limit: int,
+        status_filter: int = 0,
+        owner_filter: Optional[dict] = None,
+        cursor: Optional[str] = None,
     ) -> dict:
         """
         获取客户群列表

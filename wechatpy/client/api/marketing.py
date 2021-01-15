@@ -55,7 +55,13 @@ class WeChatMarketing(BaseWeChatAPI):
         return self._post("user_actions/add", params={"version": version}, json={"actions": actions})
 
     def get_ad_leads(
-        self, start_date=None, end_date=None, filtering=(), page=1, page_size=100, version="v1.0",
+        self,
+        start_date=None,
+        end_date=None,
+        filtering=(),
+        page=1,
+        page_size=100,
+        version="v1.0",
     ):
         """
          获取朋友圈销售线索数据接口
