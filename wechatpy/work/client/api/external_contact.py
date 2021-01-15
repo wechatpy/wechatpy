@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import Optional, List
+from typing import Optional, List, Iterator
 
 from optionaldict import optionaldict
 
@@ -135,7 +135,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         )
         return self._post("externalcontact/batch/get_by_user", data=data)
 
-    def gen_all_by_user(self, userid: str, limit: int = 50):
+    def gen_all_by_user(self, userid: str, limit: int = 50) -> Iterator[dict]:
         """
         获取企业员工添加的所有客户详情列表的生成器
 
