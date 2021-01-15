@@ -138,7 +138,7 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "optionaldict"
-version = "0.1.1"
+version = "0.1.2"
 description = "A dict-like object that ignore NoneType values for Python"
 category = "main"
 optional = false
@@ -524,9 +524,8 @@ more-itertools = [
     {file = "more_itertools-8.6.0-py3-none-any.whl", hash = "sha256:8e1a2a43b2f2727425f2b5839587ae37093f19153dc26c0927d1048ff6557330"},
 ]
 optionaldict = [
-    {file = "optionaldict-0.1.1-py2.py3-none-any.whl", hash = "sha256:0bfb42d10f0a79b062ec2bdfa010f8346005ec21afdb73d541d13723b128b121"},
-    {file = "optionaldict-0.1.1.tar.gz", hash = "sha256:0bcf077ca329ae337995fc8fe847b580eadbd7f39b3483b274425874a9407768"},
-    {file = "optionaldict-0.1.1.zip", hash = "sha256:2e02e35d80177457f241d841be9f8b3bf1847d72f81be1aab7814885b43b4320"},
+    {file = "optionaldict-0.1.2-py2.py3-none-any.whl", hash = "sha256:278d9b79b3d6a55b1b8ff5f9017bff6383a33426348d09e699ff50162bbcdab7"},
+    {file = "optionaldict-0.1.2.tar.gz", hash = "sha256:175b62ee8259af703def42e0b44b413ea55e7b0732456cb2fd5cbbc998605966"},
 ]
 packaging = [
     {file = "packaging-20.8-py2.py3-none-any.whl", hash = "sha256:24e0da08660a87484d1602c30bb4902d74816b6985b93de36926f5bc95741858"},
