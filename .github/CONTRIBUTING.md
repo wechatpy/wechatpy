@@ -19,7 +19,7 @@ poetry install
 
 ## lint
 
-wechatpy 遵循 [PEP8](http://legacy.python.org/dev/peps/pep-0008/) 代码风格规范，您贡献的代码应当尽可能遵循 PEP8。
+wechatpy 遵循 [PEP8](https://www.python.org/dev/peps/pep-0008/) 代码风格规范，您贡献的代码应当尽可能遵循 PEP8。
 同时，您可以安装 `flake8` 并开启其 git hook 功能自动在每次 commit 之前 lint 代码。
 
 ```bash
