@@ -15,7 +15,8 @@ class MerchantExpress(BaseWeChatAPI):
 
     def update(self, template_id, delivery_template):
         return self._post(
-            "merchant/express/update", data={"template_id": template_id, "delivery_template": delivery_template},
+            "merchant/express/update",
+            data={"template_id": template_id, "delivery_template": delivery_template},
         )
 
     def get(self, template_id):

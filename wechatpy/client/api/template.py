@@ -16,7 +16,8 @@ class WeChatTemplate(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "template/api_set_industry", data={"industry_id1": industry_id1, "industry_id2": industry_id2},
+            "template/api_set_industry",
+            data={"industry_id1": industry_id1, "industry_id2": industry_id2},
         )
 
     def get_industry(self):

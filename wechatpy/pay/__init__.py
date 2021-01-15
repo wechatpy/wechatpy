@@ -108,7 +108,13 @@ class WeChatPay:
     def _fetch_sandbox_api_key(self):
         nonce_str = random_string(32)
         sign = calculate_signature({"mch_id": self.mch_id, "nonce_str": nonce_str}, self.api_key)
-        payload = dict_to_xml({"mch_id": self.mch_id, "nonce_str": nonce_str,}, sign=sign)
+        payload = dict_to_xml(
+            {
+                "mch_id": self.mch_id,
+                "nonce_str": nonce_str,
+            },
+            sign=sign,
+        )
         headers = {"Content-Type": "text/xml"}
         api_url = f"{self.API_BASE_URL}sandboxnew/pay/getsignkey"
         response = self._http.post(api_url, data=payload, headers=headers)
@@ -151,7 +157,10 @@ class WeChatPay:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatPayException(
-                return_code=None, client=self, request=reqe.request, response=reqe.response,
+                return_code=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
 
         return self._handle_result(res)
@@ -175,7 +184,14 @@ class WeChatPay:
         if return_code != "SUCCESS" or result_code != "SUCCESS":
             # 返回状态码不为成功
             raise WeChatPayException(
-                return_code, result_code, return_msg, errcode, errmsg, client=self, request=res.request, response=res,
+                return_code,
+                result_code,
+                return_msg,
+                errcode,
+                errmsg,
+                client=self,
+                request=res.request,
+                response=res,
             )
         return data
 

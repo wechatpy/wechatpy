@@ -12,6 +12,7 @@ import time
 from datetime import datetime
 import base64
 import copy
+from typing import Any, Callable, Optional
 
 from wechatpy.utils import to_text, to_binary, ObjectDict, timezone
 
@@ -42,7 +43,7 @@ class FieldDescriptor:
 
 
 class BaseField:
-    converter = None
+    converter: Optional[Callable[..., Any]] = None
 
     def __init__(self, name, default=None):
         self.name = name
@@ -224,7 +225,12 @@ class ArticlesField(StringField):
     @classmethod
     def from_xml(cls, value):
         return [
-            dict(title=item["Title"], description=item["Description"], image=item["PicUrl"], url=item["Url"],)
+            dict(
+                title=item["Title"],
+                description=item["Description"],
+                image=item["PicUrl"],
+                url=item["Url"],
+            )
             for item in value["item"]
         ]
 

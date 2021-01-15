@@ -5,7 +5,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMedia(BaseWeChatAPI):
-    """ 素材管理
+    """素材管理
 
     https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/New_temporary_materials.html
     """
@@ -57,7 +57,8 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            url="media/uploadvideo", data={"media_id": media_id, "title": title, "description": description},
+            url="media/uploadvideo",
+            data={"media_id": media_id, "title": title, "description": description},
         )
 
     def upload_articles(self, articles):
@@ -93,7 +94,11 @@ class WeChatMedia(BaseWeChatAPI):
         :param media_file: 要上传的文件，一个 File-object
         :return: 上传成功时返回图片 URL
         """
-        res = self._post(url="media/uploadimg", files={"media": media_file}, result_processor=lambda x: x["url"],)
+        res = self._post(
+            url="media/uploadimg",
+            files={"media": media_file},
+            result_processor=lambda x: x["url"],
+        )
         return res
 
     upload_mass_image = upload_image

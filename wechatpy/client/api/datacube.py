@@ -30,7 +30,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getusersummary",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
         )
         return res["list"]
 
@@ -46,7 +49,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getusercumulate",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -63,7 +69,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getinterfacesummary",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -80,7 +89,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getinterfacesummaryhour",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -97,7 +109,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getarticlesummary",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -114,7 +129,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getarticletotal",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -131,7 +149,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getuserread",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -148,7 +169,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getuserreadhour",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -165,7 +189,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getusershare",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -182,7 +209,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getusersharehour",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -199,7 +229,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsg",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -216,7 +249,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsghour",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -233,7 +269,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsgweek",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -250,7 +289,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsgmonth",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -267,7 +309,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsgdist",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -284,7 +329,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsgdistweek",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res
@@ -301,7 +349,10 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         res = self._post(
             "getupstreammsgdistmonth",
-            data={"begin_date": self._to_date_str(begin_date), "end_date": self._to_date_str(end_date),},
+            data={
+                "begin_date": self._to_date_str(begin_date),
+                "end_date": self._to_date_str(end_date),
+            },
             result_processor=lambda x: x["list"],
         )
         return res

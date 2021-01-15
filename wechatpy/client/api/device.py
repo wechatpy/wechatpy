@@ -26,7 +26,12 @@ class WeChatDevice(BaseWeChatAPI):
         content = to_text(base64.b64encode(to_binary(content)))
         return self._post(
             "transmsg",
-            data={"device_type": device_type, "device_id": device_id, "open_id": user_id, "content": content,},
+            data={
+                "device_type": device_type,
+                "device_id": device_id,
+                "open_id": user_id,
+                "content": content,
+            },
         )
 
     def send_status_message(self, device_type, device_id, user_id, msg_type, device_status):
@@ -62,7 +67,10 @@ class WeChatDevice(BaseWeChatAPI):
         :param device_ids: 设备id的列表
         :return: 返回的 JSON 数据包
         """
-        return self._post("create_qrcode", data={"device_num": len(device_ids), "device_id_list": device_ids},)
+        return self._post(
+            "create_qrcode",
+            data={"device_num": len(device_ids), "device_id_list": device_ids},
+        )
 
     def get_qrcode_url(self, ticket, data=None):
         """
@@ -212,5 +220,10 @@ class WeChatDevice(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "authorize_device", data={"device_num": len(devices), "device_list": devices, "op_type": op_type,},
+            "authorize_device",
+            data={
+                "device_num": len(devices),
+                "device_list": devices,
+                "op_type": op_type,
+            },
         )

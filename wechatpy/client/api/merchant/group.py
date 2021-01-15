@@ -9,14 +9,18 @@ class MerchantGroup(BaseWeChatAPI):
 
     def add(self, name, product_list):
         return self._post(
-            "merchant/group/add", data={"group_detail": {"group_name": name, "product_list": product_list}},
+            "merchant/group/add",
+            data={"group_detail": {"group_name": name, "product_list": product_list}},
         )
 
     def delete(self, group_id):
         return self._post("merchant/group/del", data={"group_id": group_id})
 
     def update(self, group_id, name):
-        return self._post("merchant/group/propertymod", data={"group_id": group_id, "group_name": name},)
+        return self._post(
+            "merchant/group/propertymod",
+            data={"group_id": group_id, "group_name": name},
+        )
 
     def update_product(self, group_id, product):
         return self._post("merchant/group/productmod", data={"group_id": group_id, "product": product})
@@ -27,6 +31,8 @@ class MerchantGroup(BaseWeChatAPI):
 
     def get(self, group_id):
         res = self._post(
-            "merchant/group/getbyid", data={"group_id": group_id}, result_processor=lambda x: x["group_detail"],
+            "merchant/group/getbyid",
+            data={"group_id": group_id},
+            result_processor=lambda x: x["group_detail"],
         )
         return res

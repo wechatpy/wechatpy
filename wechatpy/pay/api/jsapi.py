@@ -27,7 +27,8 @@ class WeChatJSAPI(BaseWeChatPayAPI):
             "package": f"prepay_id={prepay_id}",
         }
         return calculate_signature(
-            data, self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key,
+            data,
+            self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key,
         )
 
     def get_jsapi_params(self, prepay_id, timestamp=None, nonce_str=None, jssdk=False):
@@ -50,7 +51,8 @@ class WeChatJSAPI(BaseWeChatPayAPI):
             "package": f"prepay_id={prepay_id}",
         }
         sign = calculate_signature(
-            data, self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key,
+            data,
+            self._client.api_key if not self._client.sandbox else self._client.sandbox_api_key,
         )
         logger.debug("JSAPI payment parameters: data = %s, sign = %s", data, sign)
         data["paySign"] = sign

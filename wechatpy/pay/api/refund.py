@@ -52,7 +52,12 @@ class WeChatRefund(BaseWeChatPayAPI):
         return self._post("secapi/pay/refund", data=data)
 
     def query(
-        self, refund_id=None, out_refund_no=None, transaction_id=None, out_trade_no=None, device_info=None,
+        self,
+        refund_id=None,
+        out_refund_no=None,
+        transaction_id=None,
+        out_trade_no=None,
+        device_info=None,
     ):
         """
         查询退款

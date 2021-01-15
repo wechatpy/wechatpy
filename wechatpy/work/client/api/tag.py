@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -61,7 +61,7 @@ class WeChatTag(BaseWeChatAPI):
             self._validate_tag_id(tag_id)
         self._validate_tag_name(name)
 
-        data = {"tagname": name}
+        data: Dict[str, Any] = {"tagname": name}
         if tag_id:
             data["tagid"] = tag_id
         return self._post("tag/create", data=data)
@@ -247,7 +247,7 @@ class WeChatTag(BaseWeChatAPI):
         if department_ids is not None and len(department_ids) > 100:
             raise ValueError("the length of the department_ids cannot be greater than 100")
 
-        data = {"tagid": tag_id}
+        data: Dict[str, Any] = {"tagid": tag_id}
         if user_ids:
             data["userlist"] = user_ids
         if department_ids:
@@ -318,7 +318,7 @@ class WeChatTag(BaseWeChatAPI):
         if department_ids is not None and len(department_ids) > 100:
             raise ValueError("the length of the department_ids cannot be greater than 100")
 
-        data = {"tagid": tag_id}
+        data: Dict[str, Any] = {"tagid": tag_id}
         if user_ids:
             data["userlist"] = user_ids
         if department_ids:

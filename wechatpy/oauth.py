@@ -17,7 +17,7 @@ from wechatpy.exceptions import WeChatOAuthException
 
 
 class WeChatOAuth:
-    """ 微信公众平台 OAuth 网页授权
+    """微信公众平台 OAuth 网页授权
 
     详情请参考
     https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419316505
@@ -58,7 +58,11 @@ class WeChatOAuth:
             res.raise_for_status()
         except requests.RequestException as reqe:
             raise WeChatOAuthException(
-                errcode=None, errmsg=None, client=self, request=reqe.request, response=reqe.response,
+                errcode=None,
+                errmsg=None,
+                client=self,
+                request=reqe.request,
+                response=reqe.response,
             )
         result = json.loads(res.content.decode("utf-8", "ignore"), strict=False)
 
@@ -122,7 +126,12 @@ class WeChatOAuth:
         """
         res = self._get(
             "sns/oauth2/access_token",
-            params={"appid": self.app_id, "secret": self.secret, "code": code, "grant_type": "authorization_code",},
+            params={
+                "appid": self.app_id,
+                "secret": self.secret,
+                "code": code,
+                "grant_type": "authorization_code",
+            },
         )
         self.access_token = res["access_token"]
         self.open_id = res["openid"]
@@ -138,7 +147,11 @@ class WeChatOAuth:
         """
         res = self._get(
             "sns/oauth2/refresh_token",
-            params={"appid": self.app_id, "grant_type": "refresh_token", "refresh_token": refresh_token,},
+            params={
+                "appid": self.app_id,
+                "grant_type": "refresh_token",
+                "refresh_token": refresh_token,
+            },
         )
         self.access_token = res["access_token"]
         self.open_id = res["openid"]
@@ -156,7 +169,10 @@ class WeChatOAuth:
         """
         openid = openid or self.open_id
         access_token = access_token or self.access_token
-        return self._get("sns/userinfo", params={"access_token": access_token, "openid": openid, "lang": lang},)
+        return self._get(
+            "sns/userinfo",
+            params={"access_token": access_token, "openid": openid, "lang": lang},
+        )
 
     def check_access_token(self, openid=None, access_token=None):
         """检查 access_token 有效性

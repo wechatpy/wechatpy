@@ -4,7 +4,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatPoi(BaseWeChatAPI):
-    """ 微信门店
+    """微信门店
 
     https://developers.weixin.qq.com/doc/offiaccount/WeChat_Stores/WeChat_Store_Interface.html
     """
