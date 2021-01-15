@@ -167,7 +167,7 @@ class WeChatExternalContact(BaseWeChatAPI):
             if response.get('errcode') == 0:
                 yield from response.get('external_contact_list', [])
             if response.get('next_cursor'):
-                cursor = response.get('next_cursor')
+                cursor = response['next_cursor']
             else:
                 break
 
