@@ -42,3 +42,25 @@ jobs:
           file: ./coverage.xml
           flags: unittests
           name: codecov-umbrella
+  mypy:
+    name: mypy-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          poetry install
+          poetry run pip install mypy
+      - name: mypy
+        run: |
+          # run mypy, tee output to file
+          poetry run mypy --show-column-numbers --hide-error-context wechatpy | tee /tmp/mypy.out
+          exit_code="${PIPESTATUS[0]}"
+          # analyze output
+          poetry run python .github/workflows/github.py /tmp/mypy.out
+          exit $exit_code
