@@ -101,9 +101,15 @@ class ComponentOAuthTestCase(unittest.TestCase):
 
     def setUp(self):
         component = WeChatComponent(
-            self.component_appid, self.component_appsecret, self.component_token, self.encoding_aes_key,
+            self.component_appid,
+            self.component_appsecret,
+            self.component_token,
+            self.encoding_aes_key,
         )
-        self.oauth = ComponentOAuth(component, self.app_id,)
+        self.oauth = ComponentOAuth(
+            component,
+            self.app_id,
+        )
 
     def test_get_authorize_url(self):
         authorize_url = self.oauth.get_authorize_url(self.redirect_uri)

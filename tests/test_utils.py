@@ -42,7 +42,12 @@ class UtilityTestCase(unittest.TestCase):
         timestamp = "1410685589"
         nonce = "test"
         self.assertRaises(
-            InvalidSignatureException, check_signature, token, signature, timestamp, nonce,
+            InvalidSignatureException,
+            check_signature,
+            token,
+            signature,
+            timestamp,
+            nonce,
         )
 
     def test_check_wxa_signature(self):
@@ -56,7 +61,11 @@ class UtilityTestCase(unittest.TestCase):
 
         client_signature = "fake_sign"
         self.assertRaises(
-            InvalidSignatureException, check_wxa_signature, session_key, raw_data, client_signature,
+            InvalidSignatureException,
+            check_wxa_signature,
+            session_key,
+            raw_data,
+            client_signature,
         )
 
         # 带中文的示例
@@ -86,5 +95,6 @@ class UtilityTestCase(unittest.TestCase):
         ) as private_fp:
             encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)
             self.assertEqual(
-                rsa_decrypt(encrypted_string, private_fp.read()), target_string.encode("utf-8"),
+                rsa_decrypt(encrypted_string, private_fp.read()),
+                target_string.encode("utf-8"),
             )

@@ -27,21 +27,35 @@ class MessagesTestCase(unittest.TestCase):
     def test_text_message(self):
         from wechatpy.messages import TextMessage
 
-        msg = TextMessage({"Content": "test",})
+        msg = TextMessage(
+            {
+                "Content": "test",
+            }
+        )
 
         self.assertEqual("test", msg.content)
 
     def test_image_message(self):
         from wechatpy.messages import ImageMessage
 
-        msg = ImageMessage({"PicUrl": "http://www.qq.com/1.png",})
+        msg = ImageMessage(
+            {
+                "PicUrl": "http://www.qq.com/1.png",
+            }
+        )
 
         self.assertEqual("http://www.qq.com/1.png", msg.image)
 
     def test_voice_message(self):
         from wechatpy.messages import VoiceMessage
 
-        msg = VoiceMessage({"MediaId": "123456", "Format": "aac", "Recognition": "test",})
+        msg = VoiceMessage(
+            {
+                "MediaId": "123456",
+                "Format": "aac",
+                "Recognition": "test",
+            }
+        )
 
         self.assertEqual("123456", msg.media_id)
         self.assertEqual("aac", msg.format)
@@ -50,7 +64,12 @@ class MessagesTestCase(unittest.TestCase):
     def test_video_message(self):
         from wechatpy.messages import VideoMessage
 
-        msg = VideoMessage({"MediaId": "123456", "ThumbMediaId": "123456",})
+        msg = VideoMessage(
+            {
+                "MediaId": "123456",
+                "ThumbMediaId": "123456",
+            }
+        )
 
         self.assertEqual("123456", msg.media_id)
         self.assertEqual("123456", msg.thumb_media_id)
@@ -58,7 +77,14 @@ class MessagesTestCase(unittest.TestCase):
     def test_location_message(self):
         from wechatpy.messages import LocationMessage
 
-        msg = LocationMessage({"Location_X": "123", "Location_Y": "456", "Scale": "1", "Label": "test",})
+        msg = LocationMessage(
+            {
+                "Location_X": "123",
+                "Location_Y": "456",
+                "Scale": "1",
+                "Label": "test",
+            }
+        )
 
         self.assertEqual("123", msg.location_x)
         self.assertEqual("456", msg.location_y)
@@ -68,7 +94,13 @@ class MessagesTestCase(unittest.TestCase):
     def test_link_message(self):
         from wechatpy.messages import LinkMessage
 
-        msg = LinkMessage({"Title": "test", "Description": "test", "Url": "http://www.qq.com",})
+        msg = LinkMessage(
+            {
+                "Title": "test",
+                "Description": "test",
+                "Url": "http://www.qq.com",
+            }
+        )
 
         self.assertEqual("test", msg.title)
         self.assertEqual("test", msg.description)

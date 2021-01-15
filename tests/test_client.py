@@ -351,7 +351,9 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_customservice_delete_account(self):
         with HTTMock(wechat_api_mock):
-            result = self.client.customservice.delete_account("test1@test",)
+            result = self.client.customservice.delete_account(
+                "test1@test",
+            )
             self.assertEqual(0, result["errcode"])
 
     def test_customservice_upload_headimg(self):
@@ -540,7 +542,9 @@ class WeChatClientTestCase(unittest.TestCase):
         )
         self.assertEqual(
             JsApiCardExt(
-                signature="22dce6bad4db532d4a2ef82ca2ca7bbe1e10ef28", nonce_str=nonce_str, timestamp=timestamp,
+                signature="22dce6bad4db532d4a2ef82ca2ca7bbe1e10ef28",
+                nonce_str=nonce_str,
+                timestamp=timestamp,
             ),
             card_params,
         )
@@ -756,7 +760,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_scan_create_product(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.scan.create_product({"keystandard": "ean13", "keystr": "6900000000000",})
+            res = self.client.scan.create_product(
+                {
+                    "keystandard": "ean13",
+                    "keystr": "6900000000000",
+                }
+            )
         self.assertEqual("5g0B4A90aqc", res["pid"])
 
     def test_scan_publish_product(self):
@@ -786,7 +795,12 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_scan_update_product(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.scan.update_product({"keystandard": "ean13", "keystr": "6900000000000",})
+            res = self.client.scan.update_product(
+                {
+                    "keystandard": "ean13",
+                    "keystr": "6900000000000",
+                }
+            )
         self.assertEqual("5g0B4A90aqc", res["pid"])
 
     def test_scan_clear_product(self):
@@ -802,7 +816,8 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_change_openid(self):
         with HTTMock(wechat_api_mock):
             res = self.client.user.change_openid(
-                "xxxxx", ["oEmYbwN-n24jxvk4Sox81qedINkQ", "oEmYbwH9uVd4RKJk7ZZg6SzL6tTo"],
+                "xxxxx",
+                ["oEmYbwN-n24jxvk4Sox81qedINkQ", "oEmYbwH9uVd4RKJk7ZZg6SzL6tTo"],
             )
         self.assertEqual(2, len(res))
         self.assertEqual("o2FwqwI9xCsVadFah_HtpPfaR-X4", res[0]["new_openid"])

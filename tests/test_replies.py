@@ -80,7 +80,11 @@ class ReplyTestCase(unittest.TestCase):
         self.assertTrue(reply.hq_music_url is None)
 
         reply = MusicReply(
-            thumb_media_id="123456", title="test", description="test", music_url="http://www.qq.com", hq_music_url=None,
+            thumb_media_id="123456",
+            title="test",
+            description="test",
+            music_url="http://www.qq.com",
+            hq_music_url=None,
         )
         self.assertEqual("123456", reply.thumb_media_id)
         self.assertEqual("test", reply.title)

@@ -20,7 +20,12 @@ class CreateReplyTestCase(unittest.TestCase):
     def test_create_reply_with_message(self):
         from wechatpy.messages import TextMessage
 
-        msg = TextMessage({"FromUserName": "user1", "ToUserName": "user2",})
+        msg = TextMessage(
+            {
+                "FromUserName": "user1",
+                "ToUserName": "user2",
+            }
+        )
         reply = create_reply("test", msg, render=False)
 
         self.assertEqual("user1", reply.target)
