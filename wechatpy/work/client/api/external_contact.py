@@ -4,7 +4,6 @@ from typing import Optional, List
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
-from typing import Generator
 
 
 class WeChatExternalContact(BaseWeChatAPI):
@@ -136,7 +135,7 @@ class WeChatExternalContact(BaseWeChatAPI):
         )
         return self._post("externalcontact/batch/get_by_user", data=data)
 
-    def gen_all_by_user(self, userid: str, limit: int = 50) -> Generator[dict]:
+    def gen_all_by_user(self, userid: str, limit: int = 50):
         """
         获取企业员工添加的所有客户详情列表的生成器
 
