@@ -5,17 +5,20 @@ wechatpy 项目欢迎任何人提交 issue 和 Pull Requests 贡献代码，在�
 
 ## 开发环境搭建
 
-使用 `virtualenv` 创建和系统库隔离的 Python 开发环境，并安装所有依赖:
+使用 [poetry](https://python-poetry.org/) 创建和管理项目的 Python 开发环境。
 
+安装 poetry:
 ```bash
 cd wechatpy
-virtualenv venv
-source venv/bin/activate
-pip install poetry
+pip install -U poetry
+```
+
+安装项目环境
+```bash
 poetry install
 ```
 
-> Tips: 安装 [autoenv](https://github.com/kennethreitz/autoenv) 可以让您在进入 wechatpy 文件夹时自动激活虚拟环境，省去每次手动执行 `source venv/bin/activate`
+> Tips: 使用项目Python环境中的命令需要通过 `poetry run` 调用，否则调用的是系统环境中的命令。比如 `poetry run black` 使用的是项目环境中安装的`black`，直接执行 `black` 使用的是系统环境的`black`。
 
 ## lint
 
@@ -33,13 +36,22 @@ flake8 --install-hook git
 export FLAKE8_STRICT=True
 ```
 
-## 代码格式化
+## 静态类型检查
 
-wechatpy 使用 [black](https://github.com/psf/black) 自动格式化 Python 代码并在 CI 上进行代码格式检查，请在提交 PR 前进行代码格式化：
+wechatpy 使用 [mypy](https://github.com/python/mypy/) 进行静态类型检查以提前发现错误。CI 会自动触发这一检查，请在提交 PR 前手动进行检查并修复错误。
 
 ```bash
-pip install black
-black -l 120 -t py35 -t py36 -t py37 -t py38
+poetry run pip install mypy
+poetry run mypy --show-column-numbers --hide-error-context wechatpy
+```
+
+## 代码格式化
+
+wechatpy 使用 [black](https://github.com/psf/black/) 自动格式化 Python 代码并在 CI 上进行代码格式检查，请在提交 PR 前进行代码格式化：
+
+```bash
+poetry run pip install black
+poetry run black -l 120 -t py35 -t py36 -t py37 -t py38
 ```
 
 ## 自动化测试
@@ -47,7 +59,7 @@ black -l 120 -t py35 -t py36 -t py37 -t py38
 在您完成对代码的改进和完善之后，请进行自动化测试，确保全部测试通过。
 
 ```bash
-pytest
+poetry run pytest
 ```
 
 wechatpy 希望支持的 Python 版本有 3.5, 3.6, 3.7 和 3.8。
@@ -55,7 +67,7 @@ wechatpy 希望支持的 Python 版本有 3.5, 3.6, 3.7 和 3.8。
 
 如果出现测试失败，请检查您的修改过的代码或者检查测试用例的代码是否需要更新。
 
-> Tips: 您可以使用 `pytest -s --pdb` 在测试失败的时候自动进入 pdb 进行调试。
+> Tips: 您可以使用 `poetry run pytest -s --pdb` 在测试失败的时候自动进入 pdb 进行调试。
 
 ## Pull Requests
 
