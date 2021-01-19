@@ -58,3 +58,15 @@ class WeChatClientTestCase(unittest.TestCase):
                 add_tag=["etm7wjCgAAD5hhvyfhPUpBbCs0CYuQMg"],
             )
         self.assertEqual(0, res["errcode"])
+
+    def test_ec_batch_get_by_user(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.batch_get_by_user("rocky")
+        self.assertEqual(0, res["errcode"])
+
+    def test_ec_gen_all_by_user(self):
+        external_contact_list = []
+        with HTTMock(wechat_api_mock):
+            for i in self.client.external_contact.gen_all_by_user("rocky"):
+                external_contact_list.append(i)
+        self.assertEqual(2, len(external_contact_list))
