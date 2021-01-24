@@ -357,7 +357,7 @@ def deserialize_reply(xml, update_time=False):
         raise ValueError("unknown reply type")
 
     cls = REPLY_TYPES[msg_type]
-    kwargs = dict()
+    kwargs = {}
     for attr, field in cls._fields.items():
         if field.name in reply_dict:
             str_value = reply_dict[field.name]
