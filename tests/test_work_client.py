@@ -141,7 +141,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_tag_add_users_with_too_more_users_or_depts(self):
         with HTTMock(wechat_api_mock):
             user_ids = [str(i) for i in range(1001)]
-            department_ids = [i for i in range(101)]
+            department_ids = list(range(101))
             self.assertRaises(ValueError, self.client.tag.add_users, tag_id=1, user_ids=user_ids)
             self.assertRaises(ValueError, self.client.tag.add_users, tag_id=1, department_ids=department_ids)
 
@@ -162,7 +162,7 @@ class WeChatClientTestCase(unittest.TestCase):
     def test_tag_delete_users_with_too_more_user_or_dept(self):
         with HTTMock(wechat_api_mock):
             user_ids = [str(i) for i in range(1001)]
-            department_ids = [i for i in range(101)]
+            department_ids = list(range(101))
             self.assertRaises(ValueError, self.client.tag.delete_users, tag_id=1, user_ids=user_ids)
             self.assertRaises(ValueError, self.client.tag.delete_users, tag_id=1, department_ids=department_ids)
 
