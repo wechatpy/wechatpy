@@ -22,7 +22,7 @@ class WeChatWxa(BaseWeChatAPI):
         path,
         width=430,
         auto_color=False,
-        line_color={"r": "0", "g": "0", "b": "0"},
+        line_color=None,
         is_hyaline=False,
     ):
         """
@@ -30,6 +30,8 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
         """
+        if line_color is None:
+            line_color = {"r": "0", "g": "0", "b": "0"}
         return self._post(
             "wxa/getwxacode",
             data={
@@ -46,7 +48,7 @@ class WeChatWxa(BaseWeChatAPI):
         scene,
         width=430,
         auto_color=False,
-        line_color={"r": "0", "g": "0", "b": "0"},
+        line_color=None,
         page=None,
         is_hyaline=False,
     ):
@@ -55,6 +57,8 @@ class WeChatWxa(BaseWeChatAPI):
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
         """
+        if line_color is None:
+            line_color = {"r": "0", "g": "0", "b": "0"}
         return self._post(
             "wxa/getwxacodeunlimit",
             data=optionaldict(
