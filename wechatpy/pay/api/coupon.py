@@ -3,7 +3,7 @@
 import random
 from datetime import datetime
 
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 
 
 class WeChatCoupon(BaseWeChatPayAPI):

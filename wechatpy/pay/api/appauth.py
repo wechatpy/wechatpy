@@ -3,7 +3,7 @@ from urllib.parse import quote
 from typing import Any, Dict
 
 from wechatpy.pay import calculate_signature_hmac
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 
 
 class WeChatAppAuth(BaseWeChatPayAPI):

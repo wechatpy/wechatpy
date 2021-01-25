@@ -2,7 +2,7 @@
 
 from datetime import datetime, date
 
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 
 
 class WeChatTools(BaseWeChatPayAPI):
