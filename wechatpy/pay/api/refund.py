@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 
 
 class WeChatRefund(BaseWeChatPayAPI):

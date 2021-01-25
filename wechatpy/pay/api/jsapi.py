@@ -2,7 +2,7 @@
 import logging
 import time
 
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 from wechatpy.pay.utils import calculate_signature
 from wechatpy.utils import random_string, to_text
 

@@ -4,7 +4,7 @@ import random
 from datetime import datetime
 
 from wechatpy.pay.utils import get_external_ip
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 
 
 class WeChatMicroPay(BaseWeChatPayAPI):

@@ -17,7 +17,7 @@ from wechatpy.pay.utils import (
     _check_signature,
     dict_to_xml,
 )
-from wechatpy.pay.base import BaseWeChatPayAPI
+from wechatpy.pay.api.base import BaseWeChatPayAPI
 from wechatpy.pay import api
 
 logger = logging.getLogger(__name__)
