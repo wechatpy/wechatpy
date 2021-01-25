@@ -86,14 +86,25 @@ Thanks.
 
 ## 发布新版本
 
-在发布新版本前需要更新 [changelog 文档](../docs/changelog.rst)，使用 [`bumpversion`](https://github.com/peritus/bumpversion)
-工具更新代码中的版本号信息：
+在发布新版本前需要更新 [changelog 文档](../docs/changelog.rst)，版本号规则参见[Semantic Versioning](https://semver.org/)。
+
+使用 [`bumpversion`](https://github.com/peritus/bumpversion)自动更新和维护项目版本号，配置文件见根目录 `.bumpversion.cfg` 文件。
+
+对于主要版本：
 
 1. 对于 bugfix 版本：`bumpversion patch`
 2. 对于小 feature 版本：`bumpversion minor`
 3. 大的 breaking change 版本：`bumpversion major`
 
-大部分情况下使用 `bumpversion patch` 即可。完成后将 master 分支代码改动和 `bumpversion` 自动产生的 tag 一起 push 到 GitHub 仓库中, 如:
+大部分情况下使用 `bumpversion patch` 即可。
+
+`patch`、`minor` 和 `major` 都会将版本号进入开发状态，既 `<major>.<minor>.<patch>.<release><build>`，此时：
+* 如果有问题需要修改，合并代码后，应该使用 `bumpversion build` 更新版本号到 `<major>.<minor>.<patch>.alpha.<build + 1>`
+* 如果未发现明显问题，使用 `bumpversion release` 更新版本号到 `<major>.<minor>.<patch>`
+
+配置文件简单设置，目前发布状态（release）只有 `alpha` 和 `stable` 两个。
+
+完成后将 master 分支代码改动和 `bumpversion` 自动产生的 tag 一起 push 到 GitHub 仓库中, 如:
 
 ```bash
 git push origin master --tags
