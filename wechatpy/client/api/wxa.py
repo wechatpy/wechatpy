@@ -106,6 +106,15 @@ class WeChatWxa(BaseWeChatAPI):
         subs_data = optionaldict(touser=user_id, template_id=template_id, page=page, data=data)
         return self._post("cgi-bin/message/subscribe/send", data=subs_data)
 
+    def bizsend_subscribe_message(self, user_id, template_id, miniprogram, data, page=None):
+        """
+        发送公众号订阅消息
+        详情情参考
+        https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html#send
+        """
+        subs_data = optionaldict(touser=user_id, template_id=template_id, page=page, miniprogram=miniprogram, data=data)
+        return self._post("/cgi-bin/message/subscribe/bizsend", data=subs_data)
+
     def modify_domain(
         self,
         action,
