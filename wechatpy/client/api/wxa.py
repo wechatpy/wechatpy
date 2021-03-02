@@ -99,7 +99,7 @@ class WeChatWxa(BaseWeChatAPI):
 
     def send_subscribe_message(self, user_id, template_id, data, page=None):
         """
-        发送订阅消息
+        发送小程序订阅消息
         详情请参考
         https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.send.html
         """

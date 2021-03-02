@@ -711,6 +711,23 @@ class WeChatMessage(BaseWeChatAPI):
             data=post_data,
         )
 
+    def send_subscribe_message(self, openid, template_id, data, miniprogram=None, page=None):
+        """
+        发送服务号订阅消息
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html#send%E5%8F%91%E9%80%81%E8%AE%A2%E9%98%85%E9%80%9A%E7%9F%A5
+
+        备注：page 和 miniprogram 同时不填，无跳转；page 和 miniprogram 同时填写，优先跳转小程序
+        """
+        post_data = optionaldict(
+            touser=openid,
+            template_id=template_id,
+            data=data,
+            page=page,
+            miniprogram=miniprogram,
+        )
+        return self._post("message/subscribe/bizsend", data=post_data)
+
     def send_msg_menu(self, openid, msgmenu, account=None):
         """
         发送菜单消息
