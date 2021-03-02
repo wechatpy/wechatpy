@@ -8,6 +8,8 @@
     :copyright: (c) 2014 by messense.
     :license: MIT, see LICENSE for more details.
 """
+from typing import Dict, List
+
 from wechatpy.fields import (
     Base64DecodeField,
     BaseField,
@@ -166,6 +168,102 @@ class TemplateSendJobFinishEvent(BaseEvent):
     id = IntegerField("MsgID")
     event = "templatesendjobfinish"
     status = StringField("Status")
+
+
+@register_event("subscribe_msg_popup_event")
+class SubscribeMsgPopupEvent(BaseEvent):
+    """
+    用户操作订阅通知弹窗事件
+
+    详情请参阅
+    https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html
+    """
+
+    subscribes_info = BaseField("SubscribeMsgPopupEvent", {})
+
+    @property
+    def subscribes(self) -> List[Dict]:
+        """
+        返回值参考:
+        [
+          {
+            "TemplateId": "VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc",
+            "SubscribeStatusString": "accept",
+            "PopupScene": 2
+          },
+          {
+            "TemplateId": "9nLIlbOQZC5Y89AZteFEux3WCXRRRG5Wfzkpssu4bLI",
+            "SubscribeStatusString": "reject",
+            "PopupScene": 2
+          },
+        ]
+        """
+        subscribes = self.subscribes_info["List"]
+        if not isinstance(subscribes, list):
+            subscribes = [subscribes]
+        return subscribes
+
+
+@register_event("subscribe_msg_change_event")
+class SubscribeMsgChangeEvent(BaseEvent):
+    """
+    用户管理订阅通知事件
+
+    详情请参阅
+    https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html
+    """
+
+    subscribes_info = BaseField("SubscribeMsgChangeEvent", {})
+
+    @property
+    def subscribes(self) -> List[Dict]:
+        """
+        返回值参考:
+        [
+          {
+            "TemplateId": "VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc",
+            "SubscribeStatusString": "accept",
+          },
+          {
+            "TemplateId": "9nLIlbOQZC5Y89AZteFEux3WCXRRRG5Wfzkpssu4bLI",
+            "SubscribeStatusString": "reject",
+          },
+        ]
+        """
+        subscribes = self.subscribes_info["List"]
+        if not isinstance(subscribes, list):
+            subscribes = [subscribes]
+        return subscribes
+
+
+@register_event("subscribe_msg_sent_event")
+class SubscribeMsgSentEvent(BaseEvent):
+    """
+    发送订阅通知事件
+
+    详情请参阅
+    https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html
+    """
+
+    subscribes_info = BaseField("SubscribeMsgSentEvent", {})
+
+    @property
+    def subscribes(self) -> List[Dict]:
+        """
+        返回值参考:
+        [
+          {
+            "TemplateId": "VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc",
+            "MsgID": "1700827132819554304",
+            "ErrorCode": "0",
+            "ErrorStatus": "success",
+          },
+        ]
+        """
+        subscribes = self.subscribes_info["List"]
+        if not isinstance(subscribes, list):
+            subscribes = [subscribes]
+        return subscribes
 
 
 class BaseScanCodeEvent(BaseEvent):

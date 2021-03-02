@@ -56,6 +56,10 @@ class BaseField:
     def from_xml(cls, value):
         raise NotImplementedError()
 
+    def __getitem__(self, item):
+        """ 有时微信会推嵌套的消息，mypy 的类型检查会愣住，所以加个函数敷衍一下 mypy """
+        raise NotImplementedError()
+
     def __repr__(self):
         _repr = f"{self.__class__.__name__}({repr(self.name)})"
         return _repr
