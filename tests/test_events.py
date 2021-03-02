@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import datetime
+
 from wechatpy import parse_message
 
 
@@ -238,6 +239,79 @@ class EventsTestCase(unittest.TestCase):
         self.assertTrue(isinstance(event, TemplateSendJobFinishEvent))
         self.assertEqual(200163836, event.id)
         self.assertEqual("success", event.status)
+
+    def test_template_subscribe_msg_popup_event(self):
+        from wechatpy.events import SubscribeMsgPopupEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_123456789abc]]></ToUserName>
+        <FromUserName><![CDATA[otFpruAK8D-E6EfStSYonYSBZ8_4]]></FromUserName>
+        <CreateTime>1610969440</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe_msg_popup_event]]></Event>
+        <SubscribeMsgPopupEvent>
+            <List>
+                <TemplateId><![CDATA[VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc]]></TemplateId>
+                <SubscribeStatusString><![CDATA[accept]]></SubscribeStatusString>
+                <PopupScene>2</PopupScene>
+            </List>
+            <List>
+                <TemplateId><![CDATA[9nLIlbOQZC5Y89AZteFEux3WCXRRRG5Wfzkpssu4bLI]]></TemplateId>
+                <SubscribeStatusString><![CDATA[reject]]></SubscribeStatusString>
+                <PopupScene>2</PopupScene>
+            </List>
+        </SubscribeMsgPopupEvent>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertIsInstance(event, SubscribeMsgPopupEvent)
+        self.assertEqual(2, len(event.subscribes))
+        self.assertEqual("VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc", event.subscribes[0]["TemplateId"])
+
+    def test_template_subscribe_msg_change_event(self):
+        from wechatpy.events import SubscribeMsgChangeEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_123456789abc]]></ToUserName>
+        <FromUserName><![CDATA[otFpruAK8D-E6EfStSYonYSBZ8_4]]></FromUserName>
+        <CreateTime>1610969440</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe_msg_change_event]]></Event>
+        <SubscribeMsgChangeEvent>
+            <List>
+                <TemplateId><![CDATA[VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc]]></TemplateId>
+                <SubscribeStatusString><![CDATA[reject]]></SubscribeStatusString>
+            </List>
+        </SubscribeMsgChangeEvent>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertIsInstance(event, SubscribeMsgChangeEvent)
+        self.assertEqual(1, len(event.subscribes))
+        self.assertEqual("VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc", event.subscribes[0]["TemplateId"])
+        self.assertEqual("reject", event.subscribes[0]["SubscribeStatusString"])
+
+    def test_template_subscribe_msg_sent_event(self):
+        from wechatpy.events import SubscribeMsgSentEvent
+
+        xml = """<xml>
+        <ToUserName><![CDATA[gh_123456789abc]]></ToUserName>
+        <FromUserName><![CDATA[otFpruAK8D-E6EfStSYonYSBZ8_4]]></FromUserName>
+        <CreateTime>1610969468</CreateTime>
+        <MsgType><![CDATA[event]]></MsgType>
+        <Event><![CDATA[subscribe_msg_sent_event]]></Event>
+        <SubscribeMsgSentEvent>
+            <List>
+                <TemplateId><![CDATA[VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc]]></TemplateId>
+                <MsgID>1700827132819554304</MsgID>
+                <ErrorCode>0</ErrorCode>
+                <ErrorStatus><![CDATA[success]]></ErrorStatus>
+            </List>
+        </SubscribeMsgSentEvent>
+        </xml>"""
+        event = parse_message(xml)
+        self.assertIsInstance(event, SubscribeMsgSentEvent)
+        self.assertEqual(1, len(event.subscribes))
+        self.assertEqual("VRR0UEO9VJOLs0MHlU0OilqX6MVFDwH3_3gz3Oc0NIc", event.subscribes[0]["TemplateId"])
+        self.assertEqual("1700827132819554304", event.subscribes[0]["MsgID"])
 
     def test_shakearound_user_shake_event(self):
         from wechatpy.events import ShakearoundUserShakeEvent

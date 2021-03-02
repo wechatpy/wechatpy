@@ -575,7 +575,7 @@ class WeChatMessage(BaseWeChatAPI):
         发送模板消息
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1445241432&lang=zh_CN
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html#5
 
         :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
         :param template_id: 模板 ID。在公众平台线上模板库中选用模板获得
