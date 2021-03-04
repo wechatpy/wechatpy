@@ -290,3 +290,60 @@ class ChangeExternalContactEvent(events.BaseEvent):
     state = StringField("State")
     user_id = StringField("UserID")
     external_user_id = StringField("ExternalUserID")
+
+@register_event("sys_approval_change")
+class SysApprovalChangeEvent(events.BaseEvent):
+    """
+    系统审批状态通知事件
+
+    详情请参阅
+    https://work.weixin.qq.com/api/doc/90000/90135/91815
+    """
+
+    event = "sys_approval_change"
+    agent = IntegerField("AgentID", 0)
+    approval_info = BaseField("ApprovalInfo")
+
+    @property
+    def sp_no(self):
+        return self.approval_info["SpNo"]
+
+    @property
+    def sp_name(self):
+        return self.approval_info["SpName"]
+
+    @property
+    def template_id(self):
+        return self.approval_info["TemplateId"]
+
+    @property
+    def sp_status(self):
+        return self.approval_info["SpStatus"]
+
+    @property
+    def apply_time(self):
+        return self.approval_info["ApplyTime"]
+
+    @property
+    def apply_user_id(self):
+        return self.approval_info["Applyer"]["UserId"]
+
+    @property
+    def apply_user_party(self):
+        return self.approval_info["Applyer"]["Party"]
+
+    @property
+    def sp_record(self):
+        return self.approval_info["SpRecord"]
+
+    @property
+    def notifyer(self):
+        return self.approval_info["Notifyer"]
+
+    @property
+    def comments(self):
+        return self.approval_info["Comments"]
+
+    @property
+    def statu_change_event(self):
+        return self.approval_info["StatuChangeEvent"]
