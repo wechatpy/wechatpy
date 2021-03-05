@@ -291,6 +291,7 @@ class ChangeExternalContactEvent(events.BaseEvent):
     user_id = StringField("UserID")
     external_user_id = StringField("ExternalUserID")
 
+
 @register_event("sys_approval_change")
 class SysApprovalChangeEvent(events.BaseEvent):
     """
