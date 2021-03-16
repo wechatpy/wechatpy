@@ -170,6 +170,22 @@ class LinkMessage(BaseMessage):
     url = StringField("Url")
 
 
+@register_message("miniprogrampage")
+class MiniProgramPageMessage(BaseMessage):
+    """
+    小程序卡片消息
+    详情请参阅
+    https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/receive.html#小程序卡片消息
+    """
+
+    type = "miniprogrampage"
+    app_id = StringField("AppId")
+    title = StringField("Title")
+    page_path = StringField("PagePath")
+    thumb_url = StringField("ThumbUrl")
+    thumb_media_id = StringField("ThumbMediaId")
+
+
 class UnknownMessage(BaseMessage):
     """未知消息类型"""
 

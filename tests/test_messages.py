@@ -105,3 +105,26 @@ class MessagesTestCase(unittest.TestCase):
         self.assertEqual("test", msg.title)
         self.assertEqual("test", msg.description)
         self.assertEqual("http://www.qq.com", msg.url)
+
+    def test_miniprogrampage_message(self):
+        from wechatpy.messages import MiniProgramPageMessage
+
+        msg = MiniProgramPageMessage(
+            {
+                "ToUserName": "toUser",
+                "FromUserName": "fromUser",
+                "CreateTime": 1482048670,
+                "MsgType": "miniprogrampage",
+                "MsgId": 1234567890123456,
+                "Title": "title",
+                "AppId": "appid",
+                "PagePath": "path",
+                "ThumbUrl": "thumburl",
+                "ThumbMediaId": "thumbmediaid",
+            }
+        )
+        self.assertEqual("appid", msg.app_id)
+        self.assertEqual("title", msg.title)
+        self.assertEqual("path", msg.page_path)
+        self.assertEqual("thumburl", msg.thumb_url)
+        self.assertEqual("thumbmediaid", msg.thumb_media_id)
