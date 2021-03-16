@@ -519,6 +519,23 @@ class WeChatWxa(BaseWeChatAPI):
             }
         )
 
+    def check_media_async(self, media_url, media_type):
+        """异步校验图片/音频是否含有违法违规内容。
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.mediaCheckAsync.html
+
+        :param media_url: 要检测的多媒体url
+        :param media_type: 1:音频;2:图片
+        :return:
+        """
+        return self._post(
+            'wxa/media_check_async',
+            data={
+                'media_url': media_url,
+                'media_type': media_type
+            }
+        )
+
     def speed_up_audit(self, auditid):
         """
         加急审核申请
