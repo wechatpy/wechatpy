@@ -36,10 +36,8 @@ jobs:
           TOX_ENV: py${{ matrix.python-version }}-${{ matrix.crypto_lib }}
         run: tox -e $TOX_ENV
       - name: Upload to codecov.io
-        uses: codecov/codecov-action@v1.0.2
+        uses: codecov/codecov-action@v1
         with:
-          token: ${{secrets.CODECOV_TOKEN}}
           file: ./coverage.xml
           flags: unittests
           name: codecov-umbrella
-          fail_ci_if_error: true
