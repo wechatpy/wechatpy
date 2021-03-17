@@ -979,3 +979,22 @@ class ViewMiniProgramEvent(BaseEvent):
     event = "view_miniprogram"
     page_path = StringField("EventKey")  # 小程序路径
     menu_id = StringField("MenuId")  # 菜单ID
+
+
+@register_event("wxa_media_check")
+class WxaMediaCheckEvent(BaseEvent):
+    """
+    异步检测结果通知事件
+    详情请参考
+    https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.mediaCheckAsync.html
+    """
+
+    event = "wxa_media_check"
+    is_risky = IntegerField("isrisky")  # 检测结果，0：暂未检测到风险，1：风险
+    extra_info_json = StringField("extra_info_json")  # 附加信息，默认为空
+    trace_id = StringField("trace_id")  # 任务 id
+    status_code = IntegerField("status_code")  # 默认为：0，4294966288(-1008)为链接无法下载
+
+    @property
+    def is_valid(self):
+        return self.is_risky == 0 and self.status_code == 0
