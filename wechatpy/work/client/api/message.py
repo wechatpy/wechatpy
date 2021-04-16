@@ -261,10 +261,5 @@ class WeChatMessage(BaseWeChatAPI):
         Returns:
             dict: 接口返回结果
         """
-        data = {
-            "userids": user_ids,
-            "agentid": agent_id,
-            "task_id": task_id,
-            "replace_name": replace_name
-        }
+        data = {"userids": user_ids, "agentid": agent_id, "task_id": task_id, "replace_name": replace_name}
         return self._post("message/update_taskcard", data=data)

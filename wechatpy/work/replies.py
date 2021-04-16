@@ -2,7 +2,7 @@
 
 
 from wechatpy import replies
-from wechatpy.fields import IntegerField,TaskCardField
+from wechatpy.fields import IntegerField, TaskCardField
 
 REPLY_TYPES = {}
 
@@ -39,15 +39,17 @@ class VideoReply(replies.VideoReply):
 class ArticlesReply(replies.ArticlesReply):
     agent = IntegerField("AgentID", 0)
 
+
 @register_reply("update_taskcard")
 class TaskCardReply(replies.BaseReply):
     """被动回复格式-任务卡更新消息
     接口详细文档：
     https://work.weixin.qq.com/api/doc/90000/90135/90241#%E4%BB%BB%E5%8A%A1%E5%8D%A1%E7%89%87%E6%9B%B4%E6%96%B0%E6%B6%88%E6%81%AF
-    """    
-    agent = IntegerField("AgentID", 0)    
+    """
+
+    agent = IntegerField("AgentID", 0)
     type = "update_taskcard"
-    taskcard=TaskCardField("")
+    taskcard = TaskCardField("")
 
     @property
     def replace_name(self):
