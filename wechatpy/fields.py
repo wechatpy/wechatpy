@@ -239,6 +239,18 @@ class ArticlesField(StringField):
         ]
 
 
+class TaskCardField(StringField):
+    def to_xml(self, value):
+        value = self.converter(value)
+        return f"""<TaskCard>
+            <ReplaceName><![CDATA[{value}]]></ReplaceName>
+        </TaskCard>"""
+
+    @classmethod
+    def from_xml(cls, value):
+        return value["ReplaceName"]
+
+
 class Base64EncodeField(StringField):
     def __base64_encode(self, text):
         return to_text(base64.b64encode(to_binary(text)))
