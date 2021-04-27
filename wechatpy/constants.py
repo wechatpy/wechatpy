@@ -294,6 +294,9 @@ class WeChatErrorCode(IntEnum):
 
     # 模板消息与行业信息冲突
     TEMPLATE_CONFLICT_WITH_INDUSTRY = 45027
+    
+    # 客服接口下行条数超过上限
+    OUT_OF_RESPONSE_COUNT_LIMIT = 45047
 
     # 不支持的图文消息内容
     # 请确认 content 里没有超链接标签
