@@ -66,3 +66,39 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.external_contact.mark_tag('zm', 'wmm7wjCgAAkLAv_eiVt53eBokOC3_Tww',
                                                         add_tag=['etm7wjCgAAD5hhvyfhPUpBbCs0CYuQMg'])
         self.assertEqual(0, res['errcode'])
+
+    def test_ec_list_groupchat(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.list_groupchat()
+
+        self.assertEqual(0, res['errcode'])
+
+    def test_ec_iter_groupchat(self):
+        @urlmatch(netloc=r'(.*\.)?qyapi\.weixin\.qq\.com$', path=r'.*externalcontact')
+        def next_cursor_mock(url, request):
+            """伪造第二页的请求"""
+            data = json.loads(request.body.decode())
+            if not data.get('cursor'):
+                return wechat_api_mock(url, request)
+
+            content = {
+                "errcode": 0,
+                "errmsg": "ok",
+                "group_chat_list": [],
+                "next_cursor": None
+            }
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            return response(200, content, headers, request=request)
+
+        with HTTMock(next_cursor_mock, wechat_api_mock):
+            groups = list(self.client.external_contact.iter_groupchat())
+            self.assertEqual(2, len(groups))
+
+    def test_ec_get_groupchat(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.external_contact.get_groupchat('wrOgQhDgAAMYQiS5ol9G7gK9JVAAAA')
+
+        self.assertEqual(0, res['errcode'])
