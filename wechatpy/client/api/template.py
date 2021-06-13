@@ -180,3 +180,19 @@ class WeChatTemplate(BaseWeChatAPI):
         return self._get("wxaapi/newtmpl/gettemplate", result_processor=operator.itemgetter("data"))
 
     # send 接口参见 wechatpy.client.api.message.WeChatMessage.send_subscribe_message
+
+    def send_templates_message(self, templateId, toUser, data) -> Dict:
+        """
+        发送模板消息
+        templateId: 模板ID
+        data: 字典型，用于直接提交
+        详情参考：
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html#5
+
+        """
+        return self._post("cgi-bin/message/template/send",
+                          data={
+                              "touser": toUser,
+                              "template_id": templateId,
+                              "data": data
+                          })
