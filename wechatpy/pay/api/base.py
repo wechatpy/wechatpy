@@ -2,7 +2,7 @@
 
 
 class BaseWeChatPayAPI:
-    """ WeChat Pay API base class """
+    """WeChat Pay API base class"""
 
     def __init__(self, client=None):
         self._client = client

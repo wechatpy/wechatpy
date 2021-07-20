@@ -5,7 +5,7 @@ from wechatpy.constants import WeChatErrorCode
 
 
 class WeChatErrorCodeTestCase(unittest.TestCase):
-    """ ensure python compatibility """
+    """ensure python compatibility"""
 
     def test_error_code(self):
         self.assertEqual(-1000, WeChatErrorCode.SYSTEM_ERROR.value)

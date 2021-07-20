@@ -135,7 +135,7 @@ class BaseWeChatComponent:
         )
 
     def _fetch_access_token(self, url, data):
-        """ The real fetch access token """
+        """The real fetch access token"""
         logger.info("Fetching component access token")
         res = self._http.post(url=url, data=data)
         try:
@@ -167,7 +167,7 @@ class BaseWeChatComponent:
 
     @property
     def access_token(self):
-        """ WeChat component access token """
+        """WeChat component access token"""
         access_token = self.session.get("component_access_token")
         if access_token:
             if not self.expires_at:

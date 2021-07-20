@@ -46,7 +46,7 @@ class WeChatClient(BaseWeChatClient):
         return f"{self.corp_id}_{self.secret[:10]}_access_token"
 
     def fetch_access_token(self):
-        """ Fetch access token"""
+        """Fetch access token"""
         return self._fetch_access_token(
             url="https://qyapi.weixin.qq.com/cgi-bin/gettoken",
             params={"corpid": self.corp_id, "corpsecret": self.secret},
