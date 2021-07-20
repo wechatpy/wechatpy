@@ -22,7 +22,7 @@ jobs:
           - 11211:11211
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
@@ -64,7 +64,7 @@ jobs:
       - name: mypy
         run: |
           # run mypy, tee output to file
-          poetry run mypy --show-column-numbers --hide-error-context wechatpy | tee /tmp/mypy.out
+          poetry run mypy --non-interactive --install-types --show-column-numbers --hide-error-context wechatpy | tee /tmp/mypy.out
           exit_code="${PIPESTATUS[0]}"
           # analyze output
           poetry run python .github/workflows/github.py /tmp/mypy.out
