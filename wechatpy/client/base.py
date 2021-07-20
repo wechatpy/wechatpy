@@ -131,7 +131,7 @@ class BaseWeChatClient:
         return self._request(method="post", url_or_endpoint=url, **kwargs)
 
     def _fetch_access_token(self, url, params):
-        """ The real fetch access token """
+        """The real fetch access token"""
         logger.info("Fetching access token")
         res = self._http.get(url=url, params=params)
         try:
@@ -166,7 +166,7 @@ class BaseWeChatClient:
 
     @property
     def access_token(self):
-        """ WeChat access token """
+        """WeChat access token"""
         access_token = self.session.get(self.access_token_key)
         if access_token:
             if not self.expires_at:

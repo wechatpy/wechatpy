@@ -259,7 +259,7 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual("keystr", msg.key)
 
     def test_parse_user_authorize_invoice_event(self):
-        """ Test parsing xml for UserAuthorizeInvoiceEvent """
+        """Test parsing xml for UserAuthorizeInvoiceEvent"""
         from wechatpy.events import UserAuthorizeInvoiceEvent
 
         xml = """<xml>
@@ -282,7 +282,7 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual(None, msg.auth_source)
 
     def test_parse_update_invoice_status_event(self):
-        """ Test parsing xml for UpdateInvoiceStatusEvent """
+        """Test parsing xml for UpdateInvoiceStatusEvent"""
         from wechatpy.events import UpdateInvoiceStatusEvent
 
         xml = """<xml>
@@ -303,7 +303,7 @@ class ParseMessageTestCase(unittest.TestCase):
         self.assertEqual("186921658591", msg.code)
 
     def test_parse_submit_invoice_title_event(self):
-        """ Test parsing xml for SubmitInvoiceTitleEvent """
+        """Test parsing xml for SubmitInvoiceTitleEvent"""
         from wechatpy.events import SubmitInvoiceTitleEvent
 
         xml = """<xml>

@@ -4,7 +4,7 @@ from enum import Enum, IntEnum, unique
 
 @unique
 class UserFormInfoFlag(Enum):
-    """ 微信卡券会员卡格式化的选项类型 """
+    """微信卡券会员卡格式化的选项类型"""
 
     MOBILE = "USER_FORM_INFO_FLAG_MOBILE"  # 手机号
     SEX = "USER_FORM_INFO_FLAG_SEX"  # 性别
@@ -21,7 +21,7 @@ class UserFormInfoFlag(Enum):
 
 @unique
 class ReimburseStatus(Enum):
-    """ 发票报销状态 """
+    """发票报销状态"""
 
     INIT = "INVOICE_REIMBURSE_INIT"  # 初始状态，未锁定，可提交报销
     LOCK = "INVOICE_REIMBURSE_LOCK"  # 已锁定，无法重复提交报销
