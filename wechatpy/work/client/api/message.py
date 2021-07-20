@@ -246,3 +246,20 @@ class WeChatMessage(BaseWeChatAPI):
         """
         msg = {"msgtype": "markdown", "markdown": {"content": content}}
         return self.send(agent_id, user_ids, party_ids, tag_ids, msg=msg)
+
+    def update_taskcard(self, agent_id, user_ids, task_id, replace_name):
+        """更新任务卡片消息状态
+
+        https://work.weixin.qq.com/api/doc/90000/90135/91579
+
+        Args:
+            agent_id (integer): 应用的agentid
+            user_ids (list): 企业的成员ID列表（消息接收者，最多支持1000个）。
+            task_id (string): 发送任务卡片消息时指定的task_id
+            replace_name (string): 设置替换文案
+
+        Returns:
+            dict: 接口返回结果
+        """
+        data = {"userids": user_ids, "agentid": agent_id, "task_id": task_id, "replace_name": replace_name}
+        return self._post("message/update_taskcard", data=data)
