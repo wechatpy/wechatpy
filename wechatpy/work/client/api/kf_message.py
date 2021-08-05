@@ -132,3 +132,19 @@ class WeChatKFMessage(BaseWeChatAPI):
                 "msgmenu": {"name": name, "address": address, "latitude": latitude, "longitude": longitude},
             },
         )
+
+    def send_miniprogram(self, user_id, open_kfid, appid, title, thumb_media_id, pagepath, msgid=""):
+        return self.send(
+            user_id,
+            open_kfid,
+            msgid,
+            msg={
+                "msgtype": "miniprogram",
+                "msgmenu": {
+                    "appid": appid,
+                    "title": title,
+                    "thumb_media_id": thumb_media_id,
+                    "pagepath": pagepath
+                },
+            },
+        )

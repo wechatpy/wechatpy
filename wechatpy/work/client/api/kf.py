@@ -131,6 +131,14 @@ class WeChatKF(BaseWeChatAPI):
             external_userid_list = [external_userid_list]
 
         data = {
-            "external_userid_list": userid_list,
+            "external_userid_list": external_userid_list,
         }
         return self._post("kf/customer/batchget", data=data)
+
+    def get_account_list(self):
+        """
+        获取客服帐号列表
+
+        :return: 接口调用结果
+        """
+        return self._get("kf/account/list")
