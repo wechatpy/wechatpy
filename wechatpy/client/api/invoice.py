@@ -257,7 +257,7 @@ class WeChatInvoice(BaseWeChatAPI):
                 "reimburse_status": reimburse_status,
             },
         )
-    
+
     def set_contact(self, phone, time_out):
         """
         商户获取授权链接之前，需要先设置商户的联系方式
@@ -279,13 +279,13 @@ class WeChatInvoice(BaseWeChatAPI):
                 },
             },
         )
-    
+
     def get_contact(self):
         """
         商户获取授权链接之前，需要先设置商户的联系方式
         详情请参考
         https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html#17
-       
+
         """
         return self._post(
             "setbizattr",
@@ -294,7 +294,7 @@ class WeChatInvoice(BaseWeChatAPI):
             },
             data={},
         )
-    
+
     def set_pay_mch(self, mchid, s_pappid):
         """
         关联商户号与开票平台，设置支付后开票
