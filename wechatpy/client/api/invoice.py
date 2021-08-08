@@ -262,7 +262,7 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         商户获取授权链接之前，需要先设置商户的联系方式
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561731_2Z55U
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html#17
 
         :param phone: 联系电话
         :param time_out: 开票超时时间
@@ -284,7 +284,7 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         商户获取授权链接之前，需要先设置商户的联系方式
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561731_2Z55U
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html#17
        
         """
         return self._post(
