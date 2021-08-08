@@ -21,7 +21,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         goods_tag=None,
         device_info=None,
         limit_pay=None,
-        receipt='Y'
+        receipt="Y",
     ):
         """
         刷卡支付接口
@@ -55,7 +55,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
             "goods_tag": goods_tag,
             "limit_pay": limit_pay,
             "auth_code": auth_code,
-            "receipt": receipt
+            "receipt": receipt,
         }
         return self._post("pay/micropay", data=data)
 
