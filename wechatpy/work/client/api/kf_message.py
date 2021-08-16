@@ -56,7 +56,7 @@ class WeChatKFMessage(BaseWeChatAPI):
             msg={"msgtype": "text", "text": {"content": content}},
         )
 
-    def send_image(self, user_id, open_kfid, msgid=""):
+    def send_image(self, user_id, open_kfid, media_id, msgid=""):
         return self.send(
             user_id,
             open_kfid,
