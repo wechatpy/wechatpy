@@ -69,7 +69,7 @@ class WeChatKF(BaseWeChatAPI):
             "service_state": service_state,
         }
         if servicer_userid:
-            data['servicer_userid'] = servicer_userid
+            data["servicer_userid"] = servicer_userid
         return self._post("kf/service_state/trans", data=data)
 
     def get_servicer_list(self, open_kfid):

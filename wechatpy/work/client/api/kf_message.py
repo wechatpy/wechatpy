@@ -72,13 +72,7 @@ class WeChatKFMessage(BaseWeChatAPI):
             msg={"msgtype": "voice", "voice": {"media_id": media_id}},
         )
 
-    def send_video(
-        self,
-        user_id,
-        open_kfid,
-        media_id,
-        msgid=""
-    ):
+    def send_video(self, user_id, open_kfid, media_id, msgid=""):
         video_data = optionaldict()
         video_data["media_id"] = media_id
 
@@ -140,11 +134,6 @@ class WeChatKFMessage(BaseWeChatAPI):
             msgid,
             msg={
                 "msgtype": "miniprogram",
-                "msgmenu": {
-                    "appid": appid,
-                    "title": title,
-                    "thumb_media_id": thumb_media_id,
-                    "pagepath": pagepath
-                },
+                "msgmenu": {"appid": appid, "title": title, "thumb_media_id": thumb_media_id, "pagepath": pagepath},
             },
         )
