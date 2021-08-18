@@ -142,3 +142,49 @@ class WeChatKF(BaseWeChatAPI):
         :return: 接口调用结果
         """
         return self._get("kf/account/list")
+
+    def get_upgrade_service_config(self):
+        """
+        获取配置的专员与客户群
+
+        :return: 接口调用结果
+        """
+        return self._get("kf/customer/get_upgrade_service_config")
+
+    def upgrade_service(self, open_kfid, external_userid, service_type, member=None, groupchat=None):
+        """
+        为客户升级为专员或客户群服务
+
+        :param open_kfid: 	客服帐号ID
+        :param external_userid: 微信客户的external_userid
+        :param service_type: 表示是升级到专员服务还是客户群服务。1:专员服务。2:客户群服务
+        :param member: 推荐的服务专员，type等于1时有效
+        :param groupchat: 推荐的客户群，type等于2时有效
+        :return: 接口调用结果
+        """
+
+        data = {
+            "open_kfid": open_kfid,
+            "external_userid": external_userid,
+            "type": service_type,
+        }
+        if service_type == 1:
+            data["member"] = member
+        else:
+            data["groupchat"] = groupchat
+        return self._post("kf/customer/upgrade_service", data=data)
+
+    def cancel_upgrade_service(self, open_kfid, external_userid):
+        """
+        为客户取消推荐
+
+        :param open_kfid: 	客服帐号ID
+        :param external_userid: 微信客户的external_userid
+        :return: 接口调用结果
+        """
+
+        data = {
+            "open_kfid": open_kfid,
+            "external_userid": external_userid
+        }
+        return self._post("kf/customer/cancel_upgrade_service", data=data)
