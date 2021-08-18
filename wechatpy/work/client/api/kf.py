@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-from optionaldict import optionaldict
-
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
@@ -183,8 +181,5 @@ class WeChatKF(BaseWeChatAPI):
         :return: 接口调用结果
         """
 
-        data = {
-            "open_kfid": open_kfid,
-            "external_userid": external_userid
-        }
+        data = {"open_kfid": open_kfid, "external_userid": external_userid}
         return self._post("kf/customer/cancel_upgrade_service", data=data)
