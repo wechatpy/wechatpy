@@ -150,7 +150,7 @@ class WeChatKF(BaseWeChatAPI):
         :return: 接口调用结果
         """
         data = {"open_kfid": open_kfid, "scene": scene}
-        return self._post("kf/customer/add_contact_way", data=data)
+        return self._post("kf/add_contact_way", data=data)
 
     def get_upgrade_service_config(self):
         """
