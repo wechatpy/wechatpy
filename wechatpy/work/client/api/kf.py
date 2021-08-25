@@ -141,6 +141,17 @@ class WeChatKF(BaseWeChatAPI):
         """
         return self._get("kf/account/list")
 
+    def add_contact_way(self, open_kfid, scene):
+        """
+        获取客服帐号链接
+
+        :param open_kfid: 	客服帐号ID
+        :param scene: 场景值，字符串类型，由开发者自定义。不多于32字节;字符串取值范围(正则表达式)：[0-9a-zA-Z_-]*
+        :return: 接口调用结果
+        """
+        data = {"open_kfid": open_kfid, "scene": scene}
+        return self._post("kf/customer/add_contact_way", data=data)
+
     def get_upgrade_service_config(self):
         """
         获取配置的专员与客户群
