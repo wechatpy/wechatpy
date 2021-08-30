@@ -54,7 +54,7 @@ class WeChatMarketing(BaseWeChatAPI):
         """
         return self._post("user_actions/add", params={"version": version}, json={"actions": actions})
 
-    def user_action_set_reports(
+    def get_user_action_set_reports(
         self,
         user_action_set_id,
         start_date=None,
