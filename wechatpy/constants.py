@@ -164,6 +164,9 @@ class WeChatErrorCode(IntEnum):
     # 不合法的 url 长度
     INVALID_URL_SIZE = 40039
 
+    # 无效的 url
+    INVALID_URL_DOMAIN = 40048
+
     # 不合法的分组 ID
     INVALID_GROUP_ID = 40050
 
@@ -190,8 +193,26 @@ class WeChatErrorCode(IntEnum):
     # 不支持的 MediaID 长度
     INVALID_MEDIA_ID_SIZE = 40118
 
+    # button 类型错误
+    INVALID_USE_BUTTON_TYPE = 40119
+
+    # 子 button 类型错误
+    INVALID_USE_SUB_BUTTON_TYPE = 40120
+
     # 不支持的 MediaID 类型
     INVALID_MEDIA_ID_TYPE = 40121
+
+    # 无效的 AppSecret
+    INVALID_APP_SECRET = 40125
+
+    # 不支持的图片格式
+    INVALID_IMAGE_FORMAT = 40137
+
+    # 请勿添加其他公众号的主页链接
+    CONTAIN_OTHER_HOME_PAGE_URL = 40155
+
+    # OAuth Code 已使用
+    CODE_BEEN_USED = 40163
 
     # 缺少 Access Token 参数
     MISSING_ACCESS_TOKEN = 41001
@@ -219,6 +240,9 @@ class WeChatErrorCode(IntEnum):
 
     # 缺少 OpenID
     MISSING_OPENID = 41009
+
+    # page 路径不正确，需要保证在现网版本小程序中存在，与 app.json 保持一致
+    INVALID_PAGE = 41030
 
     # Access Token 已失效
     # 请检查 Access Token 的有效期，重新刷新 Access Token
@@ -254,6 +278,21 @@ class WeChatErrorCode(IntEnum):
     # 一个月最多换一次
     OUT_OF_CHANGE_INDUSTRY_LIMIT = 43100
 
+    # 用户拒绝接受消息，如果用户之前曾经订阅过，则表示用户取消了订阅关系
+    USER_REFUSE_TO_ACCEPT_THE_MESSAGE = 43101
+
+    # 多媒体文件为空
+    EMPTY_MEDIA_DATA = 44001
+
+    # POST 的数据包为空
+    EMPTY_POST_DATA = 44002
+
+    # 图文消息内容为空
+    EMPTY_NEWS_DATA = 44003
+
+    # 文本消息内容为空
+    EMPTY_CONTENT = 44004
+
     # 多媒体文件大小超过限制
     # 最大允许 1MB
     OUT_OF_MEDIA_SIZE_LIMIT = 45001
@@ -285,6 +324,9 @@ class WeChatErrorCode(IntEnum):
     # 接口调用频率超过限制
     OUT_OF_API_FREQ_LIMIT = 45009
 
+    # API 调用太频繁，请稍候再试
+    API_MINUTE_QUOTA_REACH_LIMIT = 45011
+
     # 回复时间超过限制
     # 接受推送后，5 秒内未被动响应。或者是用户与公众号 48 小时无互动后，调用客服接口主动推送消息。
     OUT_OF_RESPONSE_TIME_LIMIT = 45015
@@ -294,13 +336,37 @@ class WeChatErrorCode(IntEnum):
 
     # 模板消息与行业信息冲突
     TEMPLATE_CONFLICT_WITH_INDUSTRY = 45027
-    
+
     # 客服接口下行条数超过上限
     OUT_OF_RESPONSE_COUNT_LIMIT = 45047
+
+    # 创建菜单包含未关联的小程序
+    NO_PERMISSION_TO_USE_WEAPP_IN_MENU = 45064
+
+    # 相同 clientmsgid 已存在群发记录，返回数据中带有已存在的群发任务的 msgid
+    CLIENTMSGID_EXIST = 45065
+
+    # clientmsgid 长度超过限制
+    CLIENTMSGID_SIZE_OUT_OF_LIMIT = 45067
 
     # 不支持的图文消息内容
     # 请确认 content 里没有超链接标签
     INVALID_CONTENT = 45166
+
+    # 不存在媒体数据
+    MEDIA_DATA_NO_EXIST = 46001
+
+    # 不存在的菜单数据
+    MENU_NO_EXIST = 46003
+
+    # 不存在的用户
+    USER_NOT_EXIST = 46004
+
+    # 解析 JSON/XML 内容错误
+    DATA_FORMAT_ERROR = 47001
+
+    # 模板参数不准确，可能为空或者不满足规则，errmsg 会提示具体是哪个字段出错
+    INVALID_TEMPLATE_ARGUMENT = 47003
 
     # API 功能未授权
     # 请确认公众号已获得该接口，可以在公众平台官网-开发者中心页中查看接口权限
@@ -324,6 +390,15 @@ class WeChatErrorCode(IntEnum):
     # API 清零次数失败，因为清零次数达到上限
     OUT_OF_RESET_LIMIT = 48006
 
+    # 没有该类型消息的发送权限
+    NO_PERMISSION_FOR_THIS_MSGTYPE = 48008
+
+    # 用户未授权该 API
+    USER_UNAUTHORIZED = 50001
+
+    # 用户受限，可能是违规后接口被封禁
+    USER_LIMITED = 50002
+
     # 公众号未授权给开放平台
     UNAUTHORIZED_COMPONENT = 61003
 
@@ -332,3 +407,30 @@ class WeChatErrorCode(IntEnum):
 
     # 错误的开放平台 Refresh Token
     INVALID_COMPONENT_REFRESH_TOKEN = 61023
+
+    # 日期格式错误
+    DATE_FORMAT_ERROR = 61500
+
+    # 无效的 JS SDK 签名
+    INVALID_JS_SDK_SIGNATURE = 63002
+
+    # 没有默认菜单，不能创建个性化菜单
+    THERE_IS_NO_SELFMENU = 65303
+
+    # MatchRule 信息为空
+    MATCH_RULE_EMPTY = 65304
+
+    # 个性化菜单数量受限
+    MENU_COUNT_LIMIT = 65305
+
+    # 不合法的城市信息
+    INVALID_CITY_INFO = 65314
+
+    # 该公众号的菜单设置了过多的域名外跳（最多跳转到 3 个域名的链接）
+    DOMAIN_COUNT_REACH_LIMIT = 65316
+
+    # 无效的签名
+    INVALID_SIGNATURE = 87009
+
+    # 内容可能潜在风险
+    RISKY_CONTENT = 87014
