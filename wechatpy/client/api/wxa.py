@@ -13,7 +13,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         创建小程序二维码（接口C：适用于需要的码数量较少的业务场景）
         详情请参考
-        https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html
         """
         return self._post("cgi-bin/wxaapp/createwxaqrcode", data={"path": path, "width": width})
 
@@ -28,7 +28,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
         详情请参考
-        https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.get.html
         """
         if line_color is None:
             line_color = {"r": "0", "g": "0", "b": "0"}
@@ -55,7 +55,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
-        https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html
         """
         if line_color is None:
             line_color = {"r": "0", "g": "0", "b": "0"}
@@ -82,6 +82,7 @@ class WeChatWxa(BaseWeChatAPI):
         emphasis_keyword=None,
     ):
         """
+        ⚠️已废弃
         发送模板消息
         详情请参考
         https://mp.weixin.qq.com/debug/wxadoc/dev/api/notice.html
@@ -183,6 +184,70 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._get("wxa/get_qrcode")
 
+    def get_url_scheme(self, is_expire=False, expire_type=0, expire_time=None, expire_interval=None, jump_wxa=()):
+        """
+        获取小程序 scheme 码，适用于短信、邮件、外部网页、微信内等拉起小程序的业务场景。
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html
+        :param is_expire, 到期失效：True，永久有效：False 默认False， 永久有效上限10万
+        :params expire_type, 失效时间：0，失效间隔天数：1
+        :params expire_time, 到期失效的 scheme 码的失效时间, Unix 时间戳, is_expire 为 true 且 expire_type 为 0 时必填
+        :params expire_interval, 到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。
+        最长间隔天数为365天。is_expire 为 true 且 expire_type 为 1 时必填
+        :params jump_wxa, 跳转到的目标小程序信息。
+
+        :rtype: requests.Response
+        """
+        return self._post(
+            "wxa/generatescheme",
+            data=optionaldict(
+                jump_wxa=jump_wxa,
+                ie_expire=is_expire,
+                expire_type=expire_type,
+                expire_time=expire_time,
+                expire_interval=expire_interval,
+            ),
+        )
+
+    def get_url_link(
+        self,
+        path=None,
+        query=None,
+        is_expire=False,
+        expire_type=0,
+        expire_time=None,
+        expire_interval=None,
+        cloud_base=(),
+    ):
+        """
+        获取小程序 URL Link，适用于短信、邮件、网页、微信内等拉起小程序的业务场景。
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-link/urllink.generate.html
+
+        :param path, 通过 URL Link 进入的小程序页面路径，必须是已经发布的小程序存在的页面，不可携带 query
+        :param query, 通过 URL Link 进入小程序时的query，最大1024个字符，只支持数字，大小写英文以及部分特殊字符
+        :param is_expire, 到期失效：True，永久有效：False 默认False， 永久有效上限10万
+        :params expire_type, 失效时间：0，失效间隔天数：1
+        :params expire_time, 到期失效的 scheme 码的失效时间, Unix 时间戳, is_expire 为 true 且 expire_type 为 0 时必填
+        :params expire_interval, 到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。
+        最长间隔天数为365天。is_expire 为 true 且 expire_type 为 1 时必填
+        :params cloud_base, 云开发静态网站自定义 H5 配置参数，可配置中转的云开发 H5 页面。不填默认用官方 H5 页面。
+
+        :rtype: requests.Response
+        """
+        return self._post(
+            "wxa/generate_urllink",
+            data=optionaldict(
+                path=path,
+                query=query,
+                ie_expire=is_expire,
+                expire_type=expire_type,
+                expire_time=expire_time,
+                expire_interval=expire_interval,
+                cloud_base=cloud_base,
+            ),
+        )
+
     def get_category(self):
         """
         获取授权小程序账号的可选类目
@@ -272,6 +337,7 @@ class WeChatWxa(BaseWeChatAPI):
 
     def list_library_templates(self, offset=0, count=20):
         """
+        ⚠️已废弃
         获取小程序模板库里，所有模板的ID与标题
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
@@ -287,6 +353,7 @@ class WeChatWxa(BaseWeChatAPI):
 
     def get_library_template(self, template_short_id):
         """
+        ⚠️已废弃
         获取小程序模板库里，某个模板的详细信息
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
@@ -298,6 +365,7 @@ class WeChatWxa(BaseWeChatAPI):
 
     def list_templates(self, offset=0, count=20):
         """
+        ⚠️已废弃
         获取本账号内所有模板
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
@@ -317,6 +385,7 @@ class WeChatWxa(BaseWeChatAPI):
 
     def add_template(self, template_short_id, keyword_id_list):
         """
+        ⚠️已废弃
         组合模板，并将其添加至账号下的模板列表里
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
@@ -334,6 +403,7 @@ class WeChatWxa(BaseWeChatAPI):
 
     def del_template(self, template_id):
         """
+        ⚠️已废弃
         删除本账号内某个模板
         详情请参考
         https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1500465446_j4CgR
