@@ -194,3 +194,20 @@ class WeChatKF(BaseWeChatAPI):
 
         data = {"open_kfid": open_kfid, "external_userid": external_userid}
         return self._post("kf/customer/cancel_upgrade_service", data=data)
+
+    def send_msg_on_event(self, code, msgid, msgtype, msg_content):
+        """
+        当特定的事件回调消息包含code字段，可以此code为凭证，调用该接口给用户发送相应事件场景下的消息，如客服欢迎语。
+        支持发送消息类型：文本、菜单消息。
+
+        :param code: 事件响应消息对应的code。通过事件回调下发，仅可使用一次。
+        :param msgid: 消息ID。如果请求参数指定了msgid，则原样返回，否则系统自动生成并返回。不多于32字节；
+                      字符串取值范围(正则表达式)：[0-9a-zA-Z_-]*
+        :param msgtype: 消息类型。对不同的msgtype，有相应的结构描述，详见消息类型
+        :param msg_content: 目前支持文本与菜单消息，具体查看文档
+        :return: 接口调用结果
+        """
+
+        data = {"msgid": msgid, "code": code, "msgtype": msgtype}
+        data.update(msg_content)
+        return self._post("kf/send_msg_on_event", data=data)
