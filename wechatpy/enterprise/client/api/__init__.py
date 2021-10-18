@@ -8,6 +8,7 @@ from wechatpy.enterprise.client.api.calendar import WeChatCalendar  # NOQA
 from wechatpy.enterprise.client.api.chat import WeChatChat  # NOQA
 from wechatpy.enterprise.client.api.department import WeChatDepartment  # NOQA
 from wechatpy.enterprise.client.api.external_contact import WeChatExternalContact  # NOQA
+from wechatpy.enterprise.client.api.external_contact_group_chat import WeChatExternalContactGroupChat  # NOQA
 from wechatpy.enterprise.client.api.jsapi import WeChatJSAPI  # NOQA
 from wechatpy.enterprise.client.api.material import WeChatMaterial  # NOQA
 from wechatpy.enterprise.client.api.media import WeChatMedia  # NOQA
