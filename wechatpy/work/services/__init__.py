@@ -14,6 +14,7 @@ class WeChatServiceClient(BaseWeChatClient):
     """
     注意：access_token在第三方应用变更为suite_access_token参数
     """
+
     API_BASE_URL = "https://qyapi.weixin.qq.com/cgi-bin/"
 
     auth = api.WeChatAuth()
