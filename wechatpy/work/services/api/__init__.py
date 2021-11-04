@@ -1,0 +1,1 @@
+from wechatpy.work.services.api.auth import WeChatAuth  # NOQA
