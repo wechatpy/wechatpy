@@ -258,6 +258,43 @@ class WeChatInvoice(BaseWeChatAPI):
             },
         )
 
+    def set_contact(self, phone, time_out):
+        """
+        商户获取授权链接之前，需要先设置商户的联系方式
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html#17
+
+        :param phone: 联系电话
+        :param time_out: 开票超时时间
+        """
+        return self._post(
+            "setbizattr",
+            params={
+                "action": "set_contact",
+            },
+            data={
+                "contact": {
+                    "phone": phone,
+                    "time_out": time_out,
+                },
+            },
+        )
+
+    def get_contact(self):
+        """
+        商户获取授权链接之前，需要先设置商户的联系方式
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html#17
+
+        """
+        return self._post(
+            "setbizattr",
+            params={
+                "action": "get_contact",
+            },
+            data={},
+        )
+
     def set_pay_mch(self, mchid, s_pappid):
         """
         关联商户号与开票平台，设置支付后开票

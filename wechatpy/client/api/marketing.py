@@ -54,6 +54,54 @@ class WeChatMarketing(BaseWeChatAPI):
         """
         return self._post("user_actions/add", params={"version": version}, json={"actions": actions})
 
+    def get_user_action_set_reports(
+        self,
+        user_action_set_id,
+        start_date=None,
+        end_date=None,
+        time_granularity=None,
+        aggregation=None,
+        version="v1.0",
+    ):
+        """
+        数据源报表查询
+
+        :param user_action_set_id: 数据源唯一ID
+        :param start_date: 开始日期 默认今天
+        :param end_date: 结束日期 默认今天
+        :param time_granularity: 时间粒度 枚举 {'DAILY'（按天） 'HOURLY'（按小时）}
+        :param aggregation: 聚合纬度 枚举 {'DOMAIN' 'ACTION_TYPE'}
+        :param version: 版本号 v1.0
+        :return:
+        """
+        today = datetime.date.today()
+        if start_date is None:
+            start_date = today
+        if end_date is None:
+            end_date = today
+        if isinstance(start_date, datetime.date):
+            start_date = start_date.strftime("%Y-%m-%d")
+        if isinstance(end_date, datetime.date):
+            end_date = end_date.strftime("%Y-%m-%d")
+
+        if time_granularity not in ("DAILY", "HOURLY"):
+            time_granularity = None
+
+        if aggregation not in ("DOMAIN", "ACTION_TYPE"):
+            aggregation = None
+
+        return self._get(
+            "user_action_set_reports/get",
+            params=optionaldict(
+                user_action_set_id=user_action_set_id,
+                date_range=json.dumps({"start_date": start_date, "end_date": end_date}),
+                time_granularity=time_granularity,
+                aggregation=aggregation,
+                version=version,
+            ),
+            result_processor=lambda x: x["data"],
+        )
+
     def get_ad_leads(
         self,
         start_date=None,

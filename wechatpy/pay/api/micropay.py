@@ -21,6 +21,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         goods_tag=None,
         device_info=None,
         limit_pay=None,
+        receipt="Y",
     ):
         """
         刷卡支付接口
@@ -35,6 +36,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         :param goods_tag: 可选，商品标记，代金券或立减优惠功能的参数
         :param limit_pay: 可选，指定支付方式，no_credit--指定不能使用信用卡支付
         :param auth_code: 授权码，扫码支付授权码，设备读取用户微信中的条码或者二维码信息
+        :param receipt: Y，传入Y时，支付成功消息和支付详情页将出现开票入口。需要在微信支付商户平台或微信公众平台开通电子发票功能，传此字段才可生效
         :return: 返回的结果数据
         """
         now = datetime.now()
@@ -53,6 +55,7 @@ class WeChatMicroPay(BaseWeChatPayAPI):
             "goods_tag": goods_tag,
             "limit_pay": limit_pay,
             "auth_code": auth_code,
+            "receipt": receipt,
         }
         return self._post("pay/micropay", data=data)
 
