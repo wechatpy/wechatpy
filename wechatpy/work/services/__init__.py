@@ -42,7 +42,7 @@ class WeChatServiceClient(BaseWeChatClient):
     def _fetch_access_token(self, url, data):
         """The real fetch access token"""
         logger.info("Fetching access token")
-        res = self._http.post(url=url, data=data)
+        res = self._http.post(url=url, json=data)
         try:
             res.raise_for_status()
         except requests.RequestException as reqe:
