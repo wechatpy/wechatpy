@@ -24,7 +24,7 @@ class WeChatMiniProgram(BaseWeChatAPI):
         """
         return self._get(
             "service/miniprogram/jscode2session",
-            data={
+            params={
                 "js_code": js_code,
                 "grant_type": "authorization_code"
             },
