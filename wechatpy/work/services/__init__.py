@@ -17,6 +17,7 @@ class WeChatServiceClient(BaseWeChatClient):
     API_BASE_URL = "https://qyapi.weixin.qq.com/cgi-bin/"
 
     auth = api.WeChatAuth()
+    miniprogram = api.WeChatMiniProgram()
 
     def __init__(
         self,
