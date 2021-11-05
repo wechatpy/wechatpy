@@ -1,0 +1,33 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "total": 2,
+    "next_offset": 2,
+    "items": [{
+            "owner": "zhangsan",
+            "data": {
+                "new_chat_cnt": 2,
+                "chat_total": 2,
+                "chat_has_msg": 0,
+                "new_member_cnt": 0,
+                "member_total": 6,
+                "member_has_msg": 0,
+                "msg_total": 0,
+                "migrate_trainee_chat_cnt": 3
+            }
+        },
+        {
+            "owner": "lisi",
+            "data": {
+                "new_chat_cnt": 1,
+                "chat_total": 3,
+                "chat_has_msg": 2,
+                "new_member_cnt": 0,
+                "member_total": 6,
+                "member_has_msg": 0,
+                "msg_total": 0,
+                "migrate_trainee_chat_cnt": 3
+            }
+        }
+    ]
+}
