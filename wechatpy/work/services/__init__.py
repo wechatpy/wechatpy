@@ -3,6 +3,7 @@ import json
 import time
 import logging
 import requests
+
 from wechatpy.client.base import BaseWeChatClient
 from wechatpy.exceptions import WeChatClientException
 from wechatpy.work.services import api
