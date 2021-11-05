@@ -189,12 +189,13 @@ class WeChatWxa(BaseWeChatAPI):
         获取小程序 scheme 码，适用于短信、邮件、外部网页、微信内等拉起小程序的业务场景。
         详情请参考
         https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html
+
         :param is_expire, 到期失效：True，永久有效：False 默认False， 永久有效上限10万
-        :params expire_type, 失效时间：0，失效间隔天数：1
-        :params expire_time, 到期失效的 scheme 码的失效时间, Unix 时间戳, is_expire 为 true 且 expire_type 为 0 时必填
-        :params expire_interval, 到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。
-        最长间隔天数为365天。is_expire 为 true 且 expire_type 为 1 时必填
-        :params jump_wxa, 跳转到的目标小程序信息。
+        :param expire_type, 失效时间：0，失效间隔天数：1
+        :param expire_time, 到期失效的 scheme 码的失效时间, Unix 时间戳, is_expire 为 true 且 expire_type 为 0 时必填
+        :param expire_interval, 到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。最长间隔天数为365天。
+                                is_expire 为 true 且 expire_type 为 1 时必填。
+        :param jump_wxa, 跳转到的目标小程序信息。
 
         :rtype: requests.Response
         """
@@ -227,11 +228,11 @@ class WeChatWxa(BaseWeChatAPI):
         :param path, 通过 URL Link 进入的小程序页面路径，必须是已经发布的小程序存在的页面，不可携带 query
         :param query, 通过 URL Link 进入小程序时的query，最大1024个字符，只支持数字，大小写英文以及部分特殊字符
         :param is_expire, 到期失效：True，永久有效：False 默认False， 永久有效上限10万
-        :params expire_type, 失效时间：0，失效间隔天数：1
-        :params expire_time, 到期失效的 scheme 码的失效时间, Unix 时间戳, is_expire 为 true 且 expire_type 为 0 时必填
-        :params expire_interval, 到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。
-        最长间隔天数为365天。is_expire 为 true 且 expire_type 为 1 时必填
-        :params cloud_base, 云开发静态网站自定义 H5 配置参数，可配置中转的云开发 H5 页面。不填默认用官方 H5 页面。
+        :param expire_type, 失效时间：0，失效间隔天数：1
+        :param expire_time, 到期失效的 scheme 码的失效时间, Unix 时间戳, is_expire 为 true 且 expire_type 为 0 时必填
+        :param expire_interval, 到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。
+                                最长间隔天数为365天。is_expire 为 true 且 expire_type 为 1 时必填
+        :param cloud_base, 云开发静态网站自定义 H5 配置参数，可配置中转的云开发 H5 页面。不填默认用官方 H5 页面。
 
         :rtype: requests.Response
         """
