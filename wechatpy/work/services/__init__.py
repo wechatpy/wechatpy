@@ -108,5 +108,5 @@ class WeChatServiceClient(BaseWeChatClient):
         """Fetch access token"""
         return self._fetch_access_token(
             url="https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token",
-            data={"suite_id": self.suite_id, "suite_secret": self.suite_secret, "suite_ticket": self.suite_ticket},
+            params={"suite_id": self.suite_id, "suite_secret": self.suite_secret, "suite_ticket": self.suite_ticket},
         )
