@@ -74,14 +74,13 @@ def rsa_encrypt(data, pem, b64_encode=True):
     :param b64_encode: 是否对输出进行 base64 encode
     :return: 如果 b64_encode=True 的话，返回加密并 base64 处理后的 string；否则返回加密后的 binary
     """
-    from cryptography.hazmat.backends import default_backend
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.asymmetric import padding
 
     encoded_data = to_binary(data)
     pem = to_binary(pem)
-    public_key = serialization.load_pem_public_key(pem, backend=default_backend())
+    public_key = serialization.load_pem_public_key(pem)
     encrypted_data = public_key.encrypt(
         encoded_data,
         padding=padding.OAEP(
@@ -103,14 +102,13 @@ def rsa_decrypt(encrypted_data, pem, password=None):
     :param password: RSA private key pass phrase
     :return: 解密后的 binary
     """
-    from cryptography.hazmat.backends import default_backend
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.asymmetric import padding
 
     encrypted_data = to_binary(encrypted_data)
     pem = to_binary(pem)
-    private_key = serialization.load_pem_private_key(pem, password, backend=default_backend())
+    private_key = serialization.load_pem_private_key(pem, password)
     data = private_key.decrypt(
         encrypted_data,
         padding=padding.OAEP(

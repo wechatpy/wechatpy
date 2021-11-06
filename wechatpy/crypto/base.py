@@ -5,13 +5,9 @@ import socket
 import base64
 
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
 
 from wechatpy.utils import to_text, to_binary, random_string
 from wechatpy.crypto.pkcs7 import PKCS7Encoder
-
-
-_backend = default_backend()
 
 
 class BaseWeChatCipher:
@@ -30,12 +26,12 @@ class BaseWeChatCipher:
 class WeChatCipher(BaseWeChatCipher):
     def __init__(self, key, iv=None):
         iv = iv or key[:16]
-        super().__init__(Cipher(algorithms.AES(key), modes.CBC(iv), backend=_backend))
+        super().__init__(Cipher(algorithms.AES(key), modes.CBC(iv)))
 
 
 class AesEcbCipher(BaseWeChatCipher):
     def __init__(self, key):
-        super().__init__(Cipher(algorithms.AES(key), modes.ECB(), backend=_backend))
+        super().__init__(Cipher(algorithms.AES(key), modes.ECB()))
 
 
 class BasePrpCrypto:
