@@ -1,7 +1,17 @@
-formats:
-  - none
+# https://docs.readthedocs.io/en/stable/config-file/v2.html#supported-settings
+
+version: 2
+
+sphinx:
+  builder: html
+
+build:
+  os: "ubuntu-20.04"
+  tools:
+    python: "3.9"
+
 python:
-  version: 3
-  pip_install: true
-  extra_requirements:
-    - cryptography
+  install:
+    - requirements: docs/requirements.txt
+    - method: pip
+      path: .
