@@ -81,7 +81,7 @@ setup(
         'Topic :: Utilities',
     ],
     extras_require={
-        'cryptography': ['cryptography'],
+        'cryptography': ['cryptography>=3.1'],
         'pycrypto': ['pycryptodome'],
     }
 )
