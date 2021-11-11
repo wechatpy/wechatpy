@@ -22,6 +22,9 @@ jobs:
           - 11211:11211
     steps:
       - uses: actions/checkout@v2
+      - uses: codespell-project/actions-codespell@master
+        with:
+          ignore_words_list: ba
       - name: Setup Python
         uses: actions/setup-python@v2
         with:

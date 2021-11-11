@@ -143,7 +143,7 @@ Released on 2019-03-15
 Version 1.7.6
 -----------------
 
-Relased on 2019-01-04
+Released on 2019-01-04
 
 + 增加获取所有用户 openid API
 + 增加菜单进入小程序事件

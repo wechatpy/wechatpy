@@ -117,7 +117,7 @@ class WeChatOA(BaseWeChatAPI):
         :return: 公费电话拨打记录
         """
         if start_time and end_time and end_time <= start_time:
-            raise ValueError("the end time must be greater than the begining time")
+            raise ValueError("the end time must be greater than the beginning time")
 
         data = {"start_time": start_time, "end_time": end_time, "offset": offset, "limit": limit}
         return self._post("dial/get_dial_record", data=data)
@@ -142,7 +142,7 @@ class WeChatOA(BaseWeChatAPI):
             raise ValueError(f"data_type must be in {list(checkin_data_type.keys())}")
 
         if end_time <= start_time:
-            raise ValueError("the end time must be greater than the begining time")
+            raise ValueError("the end time must be greater than the beginning time")
 
         if not userid_list:
             raise ValueError("the userid_list can't be an empty list")
