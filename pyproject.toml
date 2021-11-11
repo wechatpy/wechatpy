@@ -39,12 +39,12 @@ dataclasses = { version = "^0.7", python = "~3.6" }
 requests-pkcs12 = "^1.7"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.4.1"
-pytest-cov = "^2.8.1"
-httmock = "^1.3.0"
-coverage = "^5.0.4"
-redis = "^3.4.1"
-pymemcache = "^3.0.1"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+httmock = "^1.4.0"
+coverage = "^6.1.2"
+redis = "^3.5.3"
+pymemcache = "^3.5.0"
 
 [tool.poetry.urls]
 issues = "https://github.com/wechatpy/wechatpy/issues"
