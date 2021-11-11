@@ -24,13 +24,6 @@ WeChatComponent的基本使用方法:
 
 此后，可以调用component的其它方法完成公众号的授权、令牌刷新、获取或者设置公众号信息等操作。
 
-
-component_verify_ticket 的处理
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-收到微信服务器发送的推送请求之后，只要调用 ``cache_component_verify_ticket(self, msg, signature, timestamp, nonce)`` 即可恰当地缓存component_verify_ticket。
-
-
 公众号 client 对象的获取
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
