@@ -60,7 +60,7 @@ class BaseWeChatComponent:
 
     @property
     def component_verify_ticket(self):
-        return self.session.get("component_verify_ticket")
+        return self.session.get("{}_component_verify_ticket".format(self.component_appid))
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
@@ -105,7 +105,9 @@ class BaseWeChatComponent:
             ):
                 logger.info("Component access token expired, fetch a new one and retry request")
                 self.fetch_access_token()
-                kwargs["params"]["component_access_token"] = self.session.get("component_access_token")
+                kwargs["params"]["component_access_token"] = self.session.get(
+                    "{}_component_access_token".format(self.component_appid)
+                )
                 return self._request(method=method, url_or_endpoint=url, **kwargs)
             elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
@@ -161,14 +163,16 @@ class BaseWeChatComponent:
         expires_in = 7200
         if "expires_in" in result:
             expires_in = result["expires_in"]
-        self.session.set("component_access_token", result["component_access_token"], expires_in)
+        self.session.set(
+            "{}_component_access_token".format(self.component_appid), result["component_access_token"], expires_in
+        )
         self.expires_at = int(time.time()) + expires_in
         return result
 
     @property
     def access_token(self):
         """WeChat component access token"""
-        access_token = self.session.get("component_access_token")
+        access_token = self.session.get("{}_component_access_token".format(self.component_appid))
         if access_token:
             if not self.expires_at:
                 # user provided access_token, just return it
@@ -179,7 +183,7 @@ class BaseWeChatComponent:
                 return access_token
 
         self.fetch_access_token()
-        return self.session.get("component_access_token")
+        return self.session.get("{}_component_access_token".format(self.component_appid))
 
     def get(self, url, **kwargs):
         return self._request(method="get", url_or_endpoint=url, **kwargs)
@@ -377,7 +381,7 @@ class WeChatComponent(BaseWeChatComponent):
         message_class = COMPONENT_MESSAGE_TYPES.get(message_type, ComponentUnknownMessage)
         msg = message_class(message)
         if msg.type == "component_verify_ticket":
-            self.session.set(msg.type, msg.verify_ticket)
+            self.session.set("{}_{}".format(self.component_appid, msg.type), msg.verify_ticket)
         elif msg.type in ("authorized", "updateauthorized"):
             msg.query_auth_result = self.query_auth(msg.authorization_code)
         return msg
