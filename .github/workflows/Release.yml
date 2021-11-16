@@ -10,6 +10,9 @@ jobs:
   release:
     name: Release
     runs-on: ${{ matrix.os }}
+    environment:
+      name: PyPI
+      url: https://pypi.org/project/wechatpy/
     strategy:
       matrix:
         os: [ubuntu-latest]
