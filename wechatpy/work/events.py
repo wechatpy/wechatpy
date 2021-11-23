@@ -325,7 +325,7 @@ class ChangeExternalTagEvent(events.BaseEvent):
     event = "change_external_tag"
     change_type = StringField("ChangeType")
 
-    id = StringField("Id")
+    tag_id = StringField("Id")
     tag_type = StringField("TagType")
 
 
