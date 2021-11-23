@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wechatpy"
-version = "2.0.0.alpha14"
+version = "2.0.0.alpha15"
 description = "WeChat SDK for Python"
 authors = ["messense <messense@icloud.com>"]
 license = "MIT"
