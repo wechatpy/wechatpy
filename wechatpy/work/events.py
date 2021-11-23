@@ -290,6 +290,43 @@ class ChangeExternalContactEvent(events.BaseEvent):
     state = StringField("State")
     user_id = StringField("UserID")
     external_user_id = StringField("ExternalUserID")
+    del_source = StringField("Source")
+    fail_reason = StringField("FailReason")
+
+
+@register_event("change_external_chat")
+class ChangeExternalChatEvent(events.BaseEvent):
+    """
+    客户群变动事件
+
+    详情请参阅
+    https://work.weixin.qq.com/api/doc/90000/90135/92130#%E6%B7%BB%E5%8A%A0%E5%A4%96%E9%83%A8%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BA%8B%E4%BB%B6
+    """
+
+    event = "change_external_chat"
+    change_type = StringField("ChangeType")
+    update_detail = StringField("UpdateDetail")
+
+    chat_id = StringField("ChatId")
+    join_scene = StringField("JoinScene")
+    quit_scene = StringField("QuitScene")
+    mem_change_cnt = StringField("MemChangeCnt")
+
+
+@register_event("change_external_tag")
+class ChangeExternalTagEvent(events.BaseEvent):
+    """
+    企业客户标签变动事件
+
+    详情请参阅
+    https://work.weixin.qq.com/api/doc/90000/90135/92130#%E6%B7%BB%E5%8A%A0%E5%A4%96%E9%83%A8%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BA%8B%E4%BB%B6
+    """
+
+    event = "change_external_tag"
+    change_type = StringField("ChangeType")
+
+    tag_id = StringField("Id")
+    tag_type = StringField("TagType")
 
 
 @register_event("sys_approval_change")
