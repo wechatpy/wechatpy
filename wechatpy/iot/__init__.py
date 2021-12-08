@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
 
-from wechatpy.iot.client import WeChatClient  # NOQA
+from wechatpy.iot.client import IotClient  # NOQA
