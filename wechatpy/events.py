@@ -856,3 +856,38 @@ class WxaMediaCheckEvent(BaseEvent):
     @property
     def is_valid(self):
         return self.is_risky == 0 and self.status_code == 0
+
+
+@register_event('user_info_modified')
+class UserInfoModifiedEvent(BaseEvent):
+    """
+    授权用户资料变更
+
+    详情请参考
+    公众号：https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/authorization_change.html
+    移动应用：https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/authorization_change.html
+    网页应用：https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/authorization_change.html
+    小程序：https://developers.weixin.qq.com/miniprogram/dev/framework/security.html#授权用户资料变更
+    """
+
+    event = 'user_info_modified'
+    open_id = StringField('OpenID')  # 撤回或变更资料的用户 OpenID
+    app_id = StringField('AppID')  # 应用的 AppID
+    revoke_info = StringField('RevokeInfo')  # 用户撤回的授权信息
+    plugin_id = StringField('PluginID')  # 插件场景用户撤回，插件的 AppID
+    open_pid = StringField('OpenPID')  # 插件场景用户撤回，撤回用户的 OpenPID
+
+
+@register_event('user_authorization_revoke')
+class UserAuthorizationRevokeEvent(UserInfoModifiedEvent):
+    """
+    用户撤回
+
+    详情请参考
+    公众号：https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/authorization_change.html
+    移动应用：https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/authorization_change.html
+    网页应用：https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/authorization_change.html
+    小程序：https://developers.weixin.qq.com/miniprogram/dev/framework/security.html#授权用户资料变更
+    """
+
+    event = 'user_authorization_revoke'
