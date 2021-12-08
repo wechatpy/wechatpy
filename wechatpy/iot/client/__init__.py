@@ -8,6 +8,9 @@ from wechatpy.iot.client import api
 class IotClient(BaseWeChatClient):
     API_BASE_URL = "https://api.weixin.qq.com/ilink/api/"
 
+    cloud = api.IotCloud()
+    device = api.IotDevice()
+
     def __init__(
         self,
         app_id,
