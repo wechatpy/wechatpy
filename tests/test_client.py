@@ -3,6 +3,7 @@ import io
 import json
 import os
 import inspect
+import time
 import unittest
 from datetime import datetime
 
@@ -830,3 +831,16 @@ class WeChatClientTestCase(unittest.TestCase):
         self.assertEqual("D1ZWEygStjuLCnZ9IN2l4Q==", res["session_key"])
         self.assertEqual("o16wA0b4AZKzgVJR3MBwoUdTfU_E", res["openid"])
         self.assertEqual("or4zX05h_Ykt4ju0TUfx3CQsvfTo", res["unionid"])
+
+    def test_client_expires_at_consistency(self):
+        from redis import Redis
+        from wechatpy.session.redisstorage import RedisStorage
+
+        redis = Redis()
+        session = RedisStorage(redis)
+        client1 = WeChatClient(self.app_id, self.secret, session=session)
+        client2 = WeChatClient(self.app_id, self.secret, session=session)
+        assert client1.expires_at == client2.expires_at
+        expires_at = time.time() + 7200
+        client1.expires_at = expires_at
+        assert client1.expires_at == client2.expires_at == expires_at
