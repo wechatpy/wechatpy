@@ -47,22 +47,21 @@ def wechat():
         else:
             reply = create_reply("Sorry, can not handle this for now", msg)
         return reply.render()
-    else:
-        # encryption mode
-        from wechatpy.crypto import WeChatCrypto
+    # encryption mode
+    from wechatpy.crypto import WeChatCrypto
 
-        crypto = WeChatCrypto(TOKEN, AES_KEY, APPID)
-        try:
-            msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
-        except (InvalidSignatureException, InvalidAppIdException):
-            abort(403)
+    crypto = WeChatCrypto(TOKEN, AES_KEY, APPID)
+    try:
+        msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
+    except (InvalidSignatureException, InvalidAppIdException):
+        abort(403)
+    else:
+        msg = parse_message(msg)
+        if msg.type == "text":
+            reply = create_reply(msg.content, msg)
         else:
-            msg = parse_message(msg)
-            if msg.type == "text":
-                reply = create_reply(msg.content, msg)
-            else:
-                reply = create_reply("Sorry, can not handle this for now", msg)
-            return crypto.encrypt_message(reply.render(), nonce, timestamp)
+            reply = create_reply("Sorry, can not handle this for now", msg)
+        return crypto.encrypt_message(reply.render(), nonce, timestamp)
 
 
 if __name__ == "__main__":

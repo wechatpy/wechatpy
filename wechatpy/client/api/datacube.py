@@ -13,10 +13,9 @@ class WeChatDataCube(BaseWeChatAPI):
     def _to_date_str(cls, date):
         if isinstance(date, (datetime.datetime, datetime.date)):
             return date.strftime("%Y-%m-%d")
-        elif isinstance(date, str):
+        if isinstance(date, str):
             return date
-        else:
-            raise ValueError("Can not convert %s type to str", type(date))
+        raise ValueError("Can not convert %s type to str", type(date))
 
     def get_user_summary(self, begin_date, end_date):
         """

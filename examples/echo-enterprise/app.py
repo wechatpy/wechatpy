@@ -34,18 +34,17 @@ def wechat():
         except InvalidSignatureException:
             abort(403)
         return echo_str
+    try:
+        msg = crypto.decrypt_message(request.data, signature, timestamp, nonce)
+    except (InvalidSignatureException, InvalidCorpIdException):
+        abort(403)
+    msg = parse_message(msg)
+    if msg.type == "text":
+        reply = create_reply(msg.content, msg).render()
     else:
-        try:
-            msg = crypto.decrypt_message(request.data, signature, timestamp, nonce)
-        except (InvalidSignatureException, InvalidCorpIdException):
-            abort(403)
-        msg = parse_message(msg)
-        if msg.type == "text":
-            reply = create_reply(msg.content, msg).render()
-        else:
-            reply = create_reply("Can not handle this for now", msg).render()
-        res = crypto.encrypt_message(reply, nonce, timestamp)
-        return res
+        reply = create_reply("Can not handle this for now", msg).render()
+    res = crypto.encrypt_message(reply, nonce, timestamp)
+    return res
 
 
 if __name__ == "__main__":

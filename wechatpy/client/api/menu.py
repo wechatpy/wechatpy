@@ -28,8 +28,7 @@ class WeChatMenu(BaseWeChatAPI):
             if e.errcode == 46003:
                 # menu not exist
                 return None
-            else:
-                raise e
+            raise e
 
     def create(self, menu_data):
         """

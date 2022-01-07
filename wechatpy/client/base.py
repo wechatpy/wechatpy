@@ -127,7 +127,7 @@ class BaseWeChatClient:
                 access_token = self.session.get(self.access_token_key)
                 kwargs["params"]["access_token"] = access_token
                 return self._request(method=method, url_or_endpoint=url, result_processor=result_processor, **kwargs)
-            elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
+            if errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
                 raise APILimitedException(errcode, errmsg, client=self, request=res.request, response=res)
             else:

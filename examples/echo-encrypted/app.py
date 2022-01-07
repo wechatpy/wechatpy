@@ -44,20 +44,19 @@ def wechat():
         abort(403)
     if request.method == "GET":
         return echo_str
+    print(f"Raw message: \n{request.data}")
+    crypto = WeChatCrypto(TOKEN, EncodingAESKey, AppId)
+    try:
+        msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
+        print(f"Descypted message: \n{msg}")
+    except (InvalidSignatureException, InvalidAppIdException):
+        abort(403)
+    msg = parse_message(msg)
+    if msg.type == "text":
+        reply = create_reply(msg.content, msg)
     else:
-        print(f"Raw message: \n{request.data}")
-        crypto = WeChatCrypto(TOKEN, EncodingAESKey, AppId)
-        try:
-            msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
-            print(f"Descypted message: \n{msg}")
-        except (InvalidSignatureException, InvalidAppIdException):
-            abort(403)
-        msg = parse_message(msg)
-        if msg.type == "text":
-            reply = create_reply(msg.content, msg)
-        else:
-            reply = create_reply("Sorry, can not handle this for now", msg)
-        return crypto.encrypt_message(reply.render(), nonce, timestamp)
+        reply = create_reply("Sorry, can not handle this for now", msg)
+    return crypto.encrypt_message(reply.render(), nonce, timestamp)
 
 
 if __name__ == "__main__":

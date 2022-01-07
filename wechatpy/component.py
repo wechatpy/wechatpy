@@ -109,7 +109,7 @@ class BaseWeChatComponent:
                     "{}_component_access_token".format(self.component_appid)
                 )
                 return self._request(method=method, url_or_endpoint=url, **kwargs)
-            elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
+            if errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
                 raise APILimitedException(errcode, errmsg, client=self, request=res.request, response=res)
             else:
@@ -547,7 +547,7 @@ class ComponentOAuth:
                 self.component.fetch_access_token()
                 kwargs["params"]["component_access_token"] = self.component.access_token
                 return self._request(method=method, url_or_endpoint=url, **kwargs)
-            elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
+            if errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
                 raise APILimitedException(errcode, errmsg, client=self, request=res.request, response=res)
             else:
