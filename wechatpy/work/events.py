@@ -385,3 +385,16 @@ class SysApprovalChangeEvent(events.BaseEvent):
     @property
     def statu_change_event(self):
         return self.approval_info["StatuChangeEvent"]
+
+
+@register_event("kf_msg_or_event")
+class KFMsgOrEventEvent(events.BaseEvent):
+    """
+    微信客服消息事件
+
+    详情请参阅
+    https://work.weixin.qq.com/api/doc/90000/90135/94670
+    """
+
+    event = "kf_msg_or_event"
+    token = StringField("Token")

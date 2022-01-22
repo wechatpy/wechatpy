@@ -20,3 +20,5 @@ from wechatpy.work.client.api.schedule import WeChatSchedule  # NOQA
 from wechatpy.work.client.api.service import WeChatService  # NOQA
 from wechatpy.work.client.api.tag import WeChatTag  # NOQA
 from wechatpy.work.client.api.user import WeChatUser  # NOQA
+from wechatpy.work.client.api.kf import WeChatKF  # NOQA
+from wechatpy.work.client.api.kf_message import WeChatKFMessage  # NOQA
