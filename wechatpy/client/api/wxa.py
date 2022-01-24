@@ -476,6 +476,26 @@ class WeChatWxa(BaseWeChatAPI):
             },
         )
 
+    def get_phone_number(self, access_token, code):
+        """
+        code换取用户手机号。 每个code只能使用一次，code的有效期为5min
+        详情请参考
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html
+
+        :param access_token
+        :param code
+        :return:
+        """
+        return self._post(
+            'wxa/business/getuserphonenumber',
+            data={
+                'code': code,
+            },
+            params={
+                'access_token': access_token,
+            },
+        )
+
     def check_image_security(self, media):
         """
         校验一张图片是否含有违法违规内容。
