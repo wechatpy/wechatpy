@@ -487,12 +487,12 @@ class WeChatWxa(BaseWeChatAPI):
         :return:
         """
         return self._post(
-            'wxa/business/getuserphonenumber',
+            "wxa/business/getuserphonenumber",
             data={
-                'code': code,
+                "code": code,
             },
             params={
-                'access_token': access_token,
+                "access_token": access_token,
             },
         )
 
