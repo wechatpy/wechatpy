@@ -832,6 +832,11 @@ class WeChatClientTestCase(unittest.TestCase):
         self.assertEqual("o16wA0b4AZKzgVJR3MBwoUdTfU_E", res["openid"])
         self.assertEqual("or4zX05h_Ykt4ju0TUfx3CQsvfTo", res["unionid"])
 
+    def test_get_phone_number(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wxa.get_phone_number("D1ZWEygStjuLCnZ9IN2l4Q==", "code")
+        self.assertEqual("13123456789", res["phone_info"]["purePhoneNumber"])
+
     def test_client_expires_at_consistency(self):
         from redis import Redis
         from wechatpy.session.redisstorage import RedisStorage
