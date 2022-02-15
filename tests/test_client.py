@@ -834,7 +834,7 @@ class WeChatClientTestCase(unittest.TestCase):
 
     def test_get_phone_number(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.wxa.get_phone_number("D1ZWEygStjuLCnZ9IN2l4Q==", "code")
+            res = self.client.wxa.get_phone_number("code")
         self.assertEqual("13123456789", res["phone_info"]["purePhoneNumber"])
 
     def test_client_expires_at_consistency(self):
