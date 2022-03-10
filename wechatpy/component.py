@@ -357,7 +357,6 @@ class WeChatComponent(BaseWeChatComponent):
         if not access_token:
             ret = self.refresh_authorizer_token(authorizer_appid, refresh_token)
             access_token = ret["authorizer_access_token"]
-            refresh_token = ret["authorizer_refresh_token"]
             access_token_key = f"{authorizer_appid}_access_token"
             expires_in = 7200
             if "expires_in" in ret:
@@ -392,7 +391,7 @@ class WeChatComponent(BaseWeChatComponent):
 
         :params authorizer_appid: 授权公众号appid
         """
-        return ComponentOAuth(authorizer_appid, component=self)
+        return ComponentOAuth(self, authorizer_appid)
 
 
 class ComponentOAuth:
