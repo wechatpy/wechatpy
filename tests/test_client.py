@@ -488,6 +488,13 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.datacube.get_upstream_msg_dist_month("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
+    def test_device_get_qrcode_url(self):
+        with HTTMock(wechat_api_mock):
+            qrcode_url = self.client.device.get_qrcode_url(123)
+            self.assertEqual("https://we.qq.com/d/123", qrcode_url)
+            qrcode_url = self.client.device.get_qrcode_url(123, {"a": "a"})
+            self.assertEqual("https://we.qq.com/d/123#YT1h", qrcode_url)
+
     def test_jsapi_get_ticket_response(self):
         with HTTMock(wechat_api_mock):
             result = self.client.jsapi.get_ticket()
