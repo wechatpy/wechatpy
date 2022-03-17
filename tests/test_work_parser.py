@@ -1,10 +1,26 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from wechatpy.work import parse_message
+from wechatpy.work import events, parse_message
 
 
 class ParseMessageTestCase(unittest.TestCase):
+    def test_subscribe_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[UserID]]></FromUserName>
+            <CreateTime>1348831860</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[subscribe]]></Event>
+            <AgentID>1</AgentID>
+        </xml>
+        """
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.SubscribeEvent)
+        self.assertEqual(1, event.agent)
+
     def test_parse_text_message(self):
         xml = """<xml>
         <ToUserName><![CDATA[toUser]]></ToUserName>
