@@ -41,8 +41,6 @@ class EventsTestCase(unittest.TestCase):
         self.assertEqual("toUser", event.target)
 
     def test_subscribe_scan_event(self):
-        from wechatpy.events import SubscribeScanEvent
-
         xml = """
         <xml>
             <ToUserName><![CDATA[toUser]]></ToUserName>
