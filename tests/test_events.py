@@ -139,7 +139,7 @@ class EventsTestCase(unittest.TestCase):
 
     def test_mass_send_job_finish_event(self):
         xml = """
-        <xml> 
+        <xml>
             <ToUserName><![CDATA[gh_4d00ed8d6399]]></ToUserName>
             <FromUserName><![CDATA[oV5CrjpxgaGXNHIQigzNlgLTnwic]]></FromUserName>
             <CreateTime>1481013459</CreateTime>
@@ -151,7 +151,7 @@ class EventsTestCase(unittest.TestCase):
             <FilterCount>0</FilterCount>
             <SentCount>0</SentCount>
             <ErrorCount>0</ErrorCount>
-            <CopyrightCheckResult> 
+            <CopyrightCheckResult>
                 <Count>2</Count>
                 <ResultList>
                     <item>
