@@ -247,7 +247,7 @@ class ParseMessageTestCase(unittest.TestCase):
         """
         msg = parse_message(xml)
 
-        self.assertIsInstance(msg, events.AddSchedule)
+        self.assertIsInstance(msg, events.AddScheduleEvent)
         self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
         self.assertEqual("17c7d2bd9f20d652840f72f59e796AAA", msg.schedule_id)
 
@@ -265,7 +265,7 @@ class ParseMessageTestCase(unittest.TestCase):
         """
         msg = parse_message(xml)
 
-        self.assertIsInstance(msg, events.ModifySchedule)
+        self.assertIsInstance(msg, events.ModifyScheduleEvent)
         self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
         self.assertEqual("17c7d2bd9f20d652840f72f59e796AAA", msg.schedule_id)
 
@@ -283,6 +283,6 @@ class ParseMessageTestCase(unittest.TestCase):
         """
         msg = parse_message(xml)
 
-        self.assertIsInstance(msg, events.DeleteSchedule)
+        self.assertIsInstance(msg, events.DeleteScheduleEvent)
         self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
         self.assertEqual("17c7d2bd9f20d652840f72f59e796AAA", msg.schedule_id)

@@ -472,7 +472,7 @@ class DeleteCalendarEvent(BaseEvent):
     calendar_id = StringField("CalId")
 
 
-class AddSchedule(BaseEvent):
+class AddScheduleEvent(BaseEvent):
     """
     添加日程事件
 
@@ -485,7 +485,7 @@ class AddSchedule(BaseEvent):
     schedule_id = StringField("ScheduleId")
 
 
-class ModifySchedule(BaseEvent):
+class ModifyScheduleEvent(BaseEvent):
     """
     修改日程事件
 
@@ -498,7 +498,7 @@ class ModifySchedule(BaseEvent):
     schedule_id = StringField("ScheduleId")
 
 
-class DeleteSchedule(BaseEvent):
+class DeleteScheduleEvent(BaseEvent):
     """
     删除日程事件
 
