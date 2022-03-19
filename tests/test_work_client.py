@@ -624,17 +624,17 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual("lisi@gzdev.com", res[1]["groupid"])
             self.assertEqual("李四", res[1]["groupname"])
 
-    def test_create_public_mail(self):
+    def test_create_public_email(self):
         with HTTMock(wechat_api_mock):
             res = self.client.email.create_public_email("1@1", "1")
             self.assertEqual(100, res)
 
-    def test_update_public_mail(self):
+    def test_update_public_email(self):
         with HTTMock(wechat_api_mock):
             res = self.client.email.update_public_email("1@1", "1")
             self.assertEqual(0, res["errcode"])
 
-    def test_delete_public_mail(self):
+    def test_delete_public_email(self):
         with HTTMock(wechat_api_mock):
             res = self.client.email.delete_public_email("1@1")
             self.assertEqual(0, res["errcode"])
@@ -649,13 +649,13 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.email.batch_get_public_email(["1@1"])
             self.assertEqual("apitest3@gzdev.com", res[0]["email"])
 
-    def test_search_public_mail(self):
+    def test_search_public_email(self):
         with HTTMock(wechat_api_mock):
             res = self.client.email.search_public_email("1@1")
             self.assertEqual("apitest3@gzdev.com", res[0]["email"])
             self.assertEqual("apitest4@gzdev.com", res[1]["email"])
 
-    def test_active_mail(self):
+    def test_active_email(self):
         with HTTMock(wechat_api_mock):
             res = self.client.email.active_email("1")
             self.assertEqual(0, res["errcode"])
