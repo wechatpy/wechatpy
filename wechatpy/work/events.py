@@ -446,3 +446,66 @@ class KFMsgOrEventEvent(BaseEvent):
 
     event = "kf_msg_or_event"
     token = StringField("Token")
+
+
+class ModifyCalendarEvent(BaseEvent):
+    """
+    修改日历事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "modify_calendar"
+    calendar_id = StringField("CalId")
+
+
+class DeleteCalendarEvent(BaseEvent):
+    """
+    删除日历事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "delete_calendar"
+    calendar_id = StringField("CalId")
+
+
+class AddScheduleEvent(BaseEvent):
+    """
+    添加日程事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "add_schedule"
+    calendar_id = StringField("CalId")
+    schedule_id = StringField("ScheduleId")
+
+
+class ModifyScheduleEvent(BaseEvent):
+    """
+    修改日程事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "modify_schedule"
+    calendar_id = StringField("CalId")
+    schedule_id = StringField("ScheduleId")
+
+
+class DeleteScheduleEvent(BaseEvent):
+    """
+    删除日程事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "delete_schedule"
+    calendar_id = StringField("CalId")
+    schedule_id = StringField("ScheduleId")

@@ -200,3 +200,89 @@ class ParseMessageTestCase(unittest.TestCase):
         msg = parse_message(xml)
 
         self.assertTrue(isinstance(msg, UnknownMessage))
+
+    def test_parse_modify_calendar(self):
+        xml = """
+        <xml>
+           <ToUserName><![CDATA[toUser]]></ToUserName>
+           <FromUserName><![CDATA[fromUser]]></FromUserName>
+           <CreateTime>1348831860</CreateTime>
+           <MsgType><![CDATA[event]]></MsgType>
+           <Event><![CDATA[modify_calendar]]></Event>
+           <CalId><![CDATA[wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA]]></CalId>
+        </xml>
+        """
+        msg = parse_message(xml)
+
+        self.assertIsInstance(msg, events.ModifyCalendarEvent)
+        self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
+
+    def test_parse_delete_calendar(self):
+        xml = """
+        <xml>
+           <ToUserName><![CDATA[toUser]]></ToUserName>
+           <FromUserName><![CDATA[fromUser]]></FromUserName>
+           <CreateTime>1348831860</CreateTime>
+           <MsgType><![CDATA[event]]></MsgType>
+           <Event><![CDATA[delete_calendar]]></Event>
+           <CalId><![CDATA[wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA]]></CalId>
+        </xml>
+        """
+        msg = parse_message(xml)
+
+        self.assertIsInstance(msg, events.DeleteCalendarEvent)
+        self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
+
+    def test_parse_add_schedule(self):
+        xml = """
+        <xml>
+           <ToUserName><![CDATA[toUser]]></ToUserName>
+           <FromUserName><![CDATA[fromUser]]></FromUserName>
+           <CreateTime>1348831860</CreateTime>
+           <MsgType><![CDATA[event]]></MsgType>
+           <Event><![CDATA[add_schedule]]></Event>
+           <CalId><![CDATA[wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA]]></CalId>
+           <ScheduleId><![CDATA[17c7d2bd9f20d652840f72f59e796AAA]]></ScheduleId>
+        </xml>
+        """
+        msg = parse_message(xml)
+
+        self.assertIsInstance(msg, events.AddScheduleEvent)
+        self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
+        self.assertEqual("17c7d2bd9f20d652840f72f59e796AAA", msg.schedule_id)
+
+    def test_parse_modify_schedule(self):
+        xml = """
+        <xml>
+           <ToUserName><![CDATA[toUser]]></ToUserName>
+           <FromUserName><![CDATA[fromUser]]></FromUserName>
+           <CreateTime>1348831860</CreateTime>
+           <MsgType><![CDATA[event]]></MsgType>
+           <Event><![CDATA[modify_schedule]]></Event>
+           <CalId><![CDATA[wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA]]></CalId>
+           <ScheduleId><![CDATA[17c7d2bd9f20d652840f72f59e796AAA]]></ScheduleId>
+        </xml>
+        """
+        msg = parse_message(xml)
+
+        self.assertIsInstance(msg, events.ModifyScheduleEvent)
+        self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
+        self.assertEqual("17c7d2bd9f20d652840f72f59e796AAA", msg.schedule_id)
+
+    def test_parse_delete_schedule(self):
+        xml = """
+        <xml>
+           <ToUserName><![CDATA[toUser]]></ToUserName>
+           <FromUserName><![CDATA[fromUser]]></FromUserName>
+           <CreateTime>1348831860</CreateTime>
+           <MsgType><![CDATA[event]]></MsgType>
+           <Event><![CDATA[delete_schedule]]></Event>
+           <CalId><![CDATA[wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA]]></CalId>
+           <ScheduleId><![CDATA[17c7d2bd9f20d652840f72f59e796AAA]]></ScheduleId>
+        </xml>
+        """
+        msg = parse_message(xml)
+
+        self.assertIsInstance(msg, events.DeleteScheduleEvent)
+        self.assertEqual("wcjgewCwAAqeJcPI1d8Pwbjt7nttzAAA", msg.calendar_id)
+        self.assertEqual("17c7d2bd9f20d652840f72f59e796AAA", msg.schedule_id)

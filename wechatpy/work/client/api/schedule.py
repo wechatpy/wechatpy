@@ -7,10 +7,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatSchedule(BaseWeChatAPI):
-    """
-    https://work.weixin.qq.com/api/doc/90000/90135/92617
-    """
-
     def add(
         self,
         organizer,
@@ -28,7 +24,9 @@ class WeChatSchedule(BaseWeChatAPI):
     ):
         """
         创建日程
-        https://work.weixin.qq.com/api/doc/90000/90135/92622
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93648#%E5%88%9B%E5%BB%BA%E6%97%A5%E7%A8%8B
 
         :param organizer: 组织者
         :param start_time: 日程开始时间，Unix时间戳
@@ -103,7 +101,9 @@ class WeChatSchedule(BaseWeChatAPI):
     ):
         """
         更新日程
-        https://work.weixin.qq.com/api/doc/90000/90135/92623
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93648#%E6%9B%B4%E6%96%B0%E6%97%A5%E7%A8%8B
 
         :param organizer: 组织者
         :param schedule_id: 日程ID
@@ -163,7 +163,9 @@ class WeChatSchedule(BaseWeChatAPI):
     def get(self, schedule_ids):
         """
         获取日程
-        https://work.weixin.qq.com/api/doc/90000/90135/92624
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93648#%E8%8E%B7%E5%8F%96%E6%97%A5%E7%A8%8B%E8%AF%A6%E6%83%85
 
         :param schedule_ids: 日程ID列表。一次最多可获取1000条
         :type schedule_ids: list[str]
@@ -180,7 +182,9 @@ class WeChatSchedule(BaseWeChatAPI):
     def delete(self, schedule_id):
         """
         取消日程（删除日程）
-        https://work.weixin.qq.com/api/doc/90000/90135/92625
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93648#%E5%8F%96%E6%B6%88%E6%97%A5%E7%A8%8B
 
         :param schedule_id: 日程ID
         """
@@ -189,7 +193,9 @@ class WeChatSchedule(BaseWeChatAPI):
     def get_by_calendar(self, calendar_id, offset=0, limit=500):
         """
         获取日历下的日程列表
-        https://work.weixin.qq.com/api/doc/90000/90135/92626
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93648#%E8%8E%B7%E5%8F%96%E6%97%A5%E5%8E%86%E4%B8%8B%E7%9A%84%E6%97%A5%E7%A8%8B%E5%88%97%E8%A1%A8
         （注意，被取消的日程也可以拉取详情，调用者需要检查status）
 
         :param calendar_id: 日历ID
@@ -204,3 +210,18 @@ class WeChatSchedule(BaseWeChatAPI):
             data={"cal_id": calendar_id, "offset": offset, "limit": limit},
             result_processor=op.itemgetter("schedule_list"),
         )
+
+    def del_users(self, schedule_id, users):
+        """
+        删除日程参与者
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93648#%E5%88%A0%E9%99%A4%E6%97%A5%E7%A8%8B%E5%8F%82%E4%B8%8E%E8%80%85
+
+        :param schedule_id: 日程 ID
+        :param users: 日程参与者 ID 列表
+
+        :type users: list[str]
+        """
+        attendees = [{"userid": i for i in users}]
+        return self._post("oa/schedule/del_attendees", data={"schedule_id": schedule_id, "attendees": attendees})
