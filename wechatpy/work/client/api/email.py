@@ -86,7 +86,7 @@ class WeChatEMail(BaseWeChatAPI):
                 )
             else:
                 raise ValueError("Unsupported allow_type. Valid allow_types are 0, 1, 2 or 3")
-        self._post("exmail/group/create", data=data)
+        return self._post("exmail/group/create", data=data)
 
     def update_group(
         self,
@@ -131,7 +131,7 @@ class WeChatEMail(BaseWeChatAPI):
             data["allow_departmentlist"] = {"list": allow_departmentlist}
         if allow_taglist is not None:
             data["allow_taglist"] = {"list": allow_taglist}
-        self._post("exmail/group/update", data=data)
+        return self._post("exmail/group/update", data=data)
 
     def delete_group(self, group_id):
         """
@@ -142,7 +142,7 @@ class WeChatEMail(BaseWeChatAPI):
 
         :param group_id: 必填，邮件群组 ID，邮箱格式。
         """
-        self._post("exmail/group/delete", data={"groupid": group_id})
+        return self._post("exmail/group/delete", data={"groupid": group_id})
 
     def get_group(self, group_id):
         """
@@ -153,7 +153,7 @@ class WeChatEMail(BaseWeChatAPI):
 
         :param group_id: 必填，邮件群组 ID，邮箱格式。
         """
-        self._get("exmail/group/get", params={"groupid": group_id})
+        return self._get("exmail/group/get", params={"groupid": group_id})
 
     def search_group(self, fuzzy, group_id=None):
         """
@@ -168,9 +168,9 @@ class WeChatEMail(BaseWeChatAPI):
         params = {"fuzzy": fuzzy}
         if group_id is not None:
             params["groupid"] = group_id
-        self._get("exmail/group/search", params=params, result_processor=itemgetter("groups"))
+        return self._get("exmail/group/search", params=params, result_processor=itemgetter("groups"))
 
-    def create_public_mail(self, email, name, userid_list=None, department_list=None, tag_list=None):
+    def create_public_email(self, email, name, userid_list=None, department_list=None, tag_list=None):
         """
         创建业务邮箱
 
@@ -192,7 +192,7 @@ class WeChatEMail(BaseWeChatAPI):
             data["tag_list"] = {"list": tag_list}
         return self._post("exmail/publicmail/create", data=data, result_processor=itemgetter("id"))
 
-    def update_public_mail(self, email_id, name=None, userid_list=None, department_list=None, tag_list=None):
+    def update_public_email(self, email_id, name=None, userid_list=None, department_list=None, tag_list=None):
         """
         更新业务邮箱
         该接口用于更新业务邮箱，支持更新名称、使用权限。需要注意的是Json数组类型传空值将会清空其内容，不传则保持不变，传空为清空。
@@ -270,7 +270,7 @@ class WeChatEMail(BaseWeChatAPI):
         params = {"fuzzy": fuzzy}
         if email is not None:
             params["email"] = email
-        self._get("exmail/publicmail/search", params=params, result_processor=itemgetter("list"))
+        return self._get("exmail/publicmail/search", params=params, result_processor=itemgetter("list"))
 
     def active_email(self, user_id=None, public_email_id=None):
         """
