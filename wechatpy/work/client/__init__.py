@@ -16,6 +16,7 @@ class WeChatClient(BaseWeChatClient):
     external_contact = api.WeChatExternalContact()
     external_contact_group_chat = api.WeChatExternalContactGroupChat()
     jsapi = api.WeChatJSAPI()
+    mail = api.WeChatMail()
     media = api.WeChatMedia()
     menu = api.WeChatMenu()
     message = api.WeChatMessage()
