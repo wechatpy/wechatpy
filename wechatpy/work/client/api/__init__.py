@@ -10,7 +10,7 @@ from wechatpy.work.client.api.external_contact import WeChatExternalContact  # N
 from wechatpy.work.client.api.external_contact_group_chat import WeChatExternalContactGroupChat
 from wechatpy.work.client.api.invoice import WeChatInvoice  # NOQA
 from wechatpy.work.client.api.jsapi import WeChatJSAPI  # NOQA
-from wechatpy.work.client.api.mail import WeChatMail  # NOQA
+from wechatpy.work.client.api.mail import WeChatEMail  # NOQA
 from wechatpy.work.client.api.media import WeChatMedia  # NOQA
 from wechatpy.work.client.api.menu import WeChatMenu  # NOQA
 from wechatpy.work.client.api.message import WeChatMessage  # NOQA
