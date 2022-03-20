@@ -13,6 +13,7 @@ class WeChatClient(BaseWeChatClient):
     batch = api.WeChatBatch()
     calendar = api.WeChatCalendar()
     department = api.WeChatDepartment()
+    email = api.WeChatEMail()
     external_contact = api.WeChatExternalContact()
     external_contact_group_chat = api.WeChatExternalContactGroupChat()
     jsapi = api.WeChatJSAPI()
