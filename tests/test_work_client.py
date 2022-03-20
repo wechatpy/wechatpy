@@ -68,9 +68,9 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.department.delete(2)
             self.assertEqual(0, res["errcode"])
 
-    def test_department_get(self):
+    def test_department_list(self):
         with HTTMock(wechat_api_mock):
-            res = self.client.department.get()
+            res = self.client.department.list()
             self.assertEqual(2, len(res))
 
     def test_department_get_users(self):
