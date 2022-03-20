@@ -54,9 +54,8 @@ class WeChatDepartment(BaseWeChatAPI):
         """
         return self._get("department/delete", params={"id": id})
 
-    def get(self, id=None):
+    def list(self, id=None):
         """
-        # TODO 此接口应重命名为 list
         获取指定部门列表
 
         详情请参考
@@ -76,7 +75,7 @@ class WeChatDepartment(BaseWeChatAPI):
 
     def simple_list(self, id=None):
         """
-        获取子部门 ID 列表，和 get 接口相比，此接口只返回部门 ID，ORDER 和 PARENTID 字段
+        获取子部门 ID 列表，和 list 接口相比，此接口只返回部门 ID，ORDER 和 PARENTID 字段
 
         详情请参考
         https://developer.work.weixin.qq.com/document/path/95350
@@ -90,7 +89,7 @@ class WeChatDepartment(BaseWeChatAPI):
             res = self._get("department/simplelist", params={"id": id})
         return res["department_id"]
 
-    def retrieve(self, id):
+    def get(self, id):
         """
         获取单个部门详情
 
@@ -137,7 +136,7 @@ class WeChatDepartment(BaseWeChatAPI):
         :param fetch_child: 1/0：是否递归获取子部门下面的成员
         :return: dict - 部门成员指定字段到 user_id 的 map  ``{ key: user_id }``
         """
-        ids = [id] if id is not None else [item["id"] for item in self.get()]
+        ids = [id] if id is not None else [item["id"] for item in self.list()]
         users_info = list(
             chain(*[self.get_users(department, fetch_child=fetch_child, simple=False) for department in ids])
         )
