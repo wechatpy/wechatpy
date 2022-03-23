@@ -43,36 +43,6 @@ class WeChatMaterial(BaseWeChatAPI):
         """
         return self._post("freepublish/submit", data={"media_id": media_id})
 
-    def add_articles(self, articles):
-        """
-        deprecated: 微信已不再支持使用此接口，建议全部替换为add_drafts接口
-        公告：https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11644831863qFQSh
-
-        新增永久图文素材
-        详情请参考
-        https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html
-
-        :param articles: 图文素材数组
-        :type articles: list[dict]
-        :return: 返回的 JSON 数据包
-        """
-        articles_data = []
-        for article in articles:
-            articles_data.append(
-                {
-                    "thumb_media_id": article["thumb_media_id"],
-                    "title": article["title"],
-                    "content": article["content"],
-                    "author": article.get("author", ""),
-                    "content_source_url": article.get("content_source_url", ""),
-                    "digest": article.get("digest", ""),
-                    "show_cover_pic": article.get("show_cover_pic", 0),
-                    "need_open_comment": int(article.get("need_open_comment", False)),
-                    "only_fans_can_comment": int(article.get("only_fans_can_comment", False)),
-                }
-            )
-        return self._post("material/add_news", data={"articles": articles_data})
-
     def add(self, media_type, media_file, title=None, introduction=None):
         """
         新增其它类型永久素材
@@ -121,47 +91,6 @@ class WeChatMaterial(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post("material/del_material", data={"media_id": media_id})
-
-    def update_article(self, media_id, index, article):
-        """
-        deprecated: 此接口也不再可以使用，采用add drafts接口来操作
-        公告：https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11644831863qFQSh
-
-        修改永久图文素材
-        详情请参考
-        https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Editing_Permanent_Rich_Media_Assets.html
-
-        :param media_id: 要修改的图文消息的 id
-        :param index: 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为 0
-        :param article: 图文素材
-        :return: 返回的 JSON 数据包
-        """
-        article_data = {
-            "thumb_media_id": article["thumb_media_id"],
-            "title": article["title"],
-            "content": article["content"],
-            "author": article.get("author", ""),
-            "content_source_url": article.get("content_source_url", ""),
-            "digest": article.get("digest", ""),
-            "show_cover_pic": article.get("show_cover_pic", 0),
-        }
-        return self._post(
-            "material/update_news",
-            data={"media_id": media_id, "index": index, "articles": article_data},
-        )
-
-    def update_articles(self, media_id, index, articles):
-        """
-        修改永久图文素材
-        详情请参考
-        https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Editing_Permanent_Rich_Media_Assets.html
-
-        :param media_id: 要修改的图文消息的 id
-        :param index: 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为 0
-        :param articles: 图文素材数组
-        :return: 返回的 JSON 数据包
-        """
-        return self.update_article(media_id, index, articles[index])
 
     def batchget(self, media_type, offset=0, count=20):
         """
