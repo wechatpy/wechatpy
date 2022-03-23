@@ -44,3 +44,16 @@ class WeChatDraft(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post("draft/get", data={"media_id": media_id})
+
+    def delete(self, media_id: str) -> dict:
+        """
+        删除草稿
+        新增草稿后，开发者可以根据本接口来删除不再需要的草稿，节省空间。此操作无法撤销，请谨慎操作。
+        详情参考
+        https://developers.weixin.qq.com/doc/offiaccount/Draft_Box/Delete_draft.html
+
+        :param media_id: 要删除的草稿的 media_id
+        :type media_id: str
+        :return: 返回的 JSON 数据包
+        """
+        return self._post("draft/delete", data={"media_id": media_id})
