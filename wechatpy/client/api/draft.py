@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-import json
-
 from wechatpy.client.api.base import BaseWeChatAPI
 
 
