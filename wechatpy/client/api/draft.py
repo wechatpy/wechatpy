@@ -57,3 +57,39 @@ class WeChatDraft(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post("draft/delete", data={"media_id": media_id})
+
+    def update(self, media_id, index, articles) -> dict:
+        """
+        修改草稿
+        开发者可通过本接口对草稿进行修改。
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Draft_Box/Update_draft.html
+
+        :param media_id: 要修改的图文消息的 id
+        :param index: 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为 0
+        :param articles: 草稿内容，详情见链接
+        :return: 返回的 JSON 数据包
+        """
+        return self._post("draft/update", data={"media_id": media_id, "index": index, "articles": articles})
+
+    def count(self) -> dict:
+        """
+        获取草稿总数
+        开发者可以根据本接口来获取草稿的总数。此接口只统计数量，不返回草稿的具体内容。
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Draft_Box/Count_drafts.html
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._get("draft/count")
+
+    def batchget(self) -> dict:
+        """
+        获取草稿列表
+        新增草稿之后，开发者可以获取草稿的列表。
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Draft_Box/Get_draft_list.html
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._post("draft/batchget")
