@@ -203,7 +203,7 @@ class WeChatWxa(BaseWeChatAPI):
             "wxa/generatescheme",
             data=optionaldict(
                 jump_wxa=jump_wxa,
-                ie_expire=is_expire,
+                is_expire=is_expire,
                 expire_type=expire_type,
                 expire_time=expire_time,
                 expire_interval=expire_interval,
@@ -241,7 +241,7 @@ class WeChatWxa(BaseWeChatAPI):
             data=optionaldict(
                 path=path,
                 query=query,
-                ie_expire=is_expire,
+                is_expire=is_expire,
                 expire_type=expire_type,
                 expire_time=expire_time,
                 expire_interval=expire_interval,
