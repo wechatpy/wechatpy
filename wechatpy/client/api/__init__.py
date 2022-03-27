@@ -6,8 +6,8 @@ from wechatpy.client.api.cloud import WeChatCloud  # NOQA
 from wechatpy.client.api.customservice import WeChatCustomService  # NOQA
 from wechatpy.client.api.datacube import WeChatDataCube  # NOQA
 from wechatpy.client.api.device import WeChatDevice  # NOQA
-from wechatpy.client.api.draft import WeChatDraft # NOQA
-from wechatpy.client.api.freepublish import WeChatFreePublish # NOQA
+from wechatpy.client.api.draft import WeChatDraft  # NOQA
+from wechatpy.client.api.freepublish import WeChatFreePublish  # NOQA
 from wechatpy.client.api.group import WeChatGroup  # NOQA
 from wechatpy.client.api.invoice import WeChatInvoice  # NOQA
 from wechatpy.client.api.jsapi import WeChatJSAPI  # NOQA
