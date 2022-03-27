@@ -5,17 +5,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatMaterial(BaseWeChatAPI):
-    def submit(self, media_id):
-        """
-        发布图文消息，前置条件是先将其存为草稿（使用add_drafts方法）
-        详情请参考：
-        https://developers.weixin.qq.com/doc/offiaccount/Publish/Publish.html
-        :param media_id: 图文素材ID
-        :type media_id: str
-        :return: 返回的 JSON 数据包
-        """
-        return self._post("freepublish/submit", data={"media_id": media_id})
-
     def add(self, media_type, media_file, title=None, introduction=None):
         """
         新增其它类型永久素材
