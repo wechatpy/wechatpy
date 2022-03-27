@@ -40,3 +40,31 @@ class WeChatFreePublish(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post("freepublish/delete", data={"article_id": article_id, "index": index})
+
+    def getarticle(self, article_id: str) -> dict:
+        """
+        通过 article_id 获取已发布文章
+        开发者可以通过 article_id 获取已发布的图文信息。
+
+        详情请参考：
+        https://developers.weixin.qq.com/doc/offiaccount/Publish/Get_article_from_id.html
+
+        :param article_id: 要获取的草稿的article_id
+        :return: 返回的 JSON 数据包
+        """
+        return self._post("freepublish/getarticle", data={"article_id": article_id})
+
+    def batchget(self, offset: int, count: int, no_content: int = 0) -> dict:
+        """
+        获取成功发布列表
+        开发者可以获取已成功发布的消息列表。
+
+        详情请参考：
+        https://developers.weixin.qq.com/doc/offiaccount/Publish/Get_publication_records.html
+
+        :param offset: 从全部素材的该偏移位置开始返回，0表示从第一个素材返回
+        :param count: 返回素材的数量，取值在1到20之间
+        :param no_content: 1 表示不返回 content 字段，0 表示正常返回，默认为 0
+        :return: 返回的 JSON 数据包
+        """
+        return self._post("freepublish/batchget", data={"offset": offset, "count": count, "no_content": no_content})
