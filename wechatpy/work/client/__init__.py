@@ -16,18 +16,20 @@ class WeChatClient(BaseWeChatClient):
     email = api.WeChatEMail()
     external_contact = api.WeChatExternalContact()
     external_contact_group_chat = api.WeChatExternalContactGroupChat()
+    invoice = api.WeChatInvoice()
     jsapi = api.WeChatJSAPI()
+    kf = api.WeChatKF()
+    kf_message = api.WeChatKFMessage()
     media = api.WeChatMedia()
     menu = api.WeChatMenu()
     message = api.WeChatMessage()
     misc = api.WeChatMisc()
+    oa = api.WeChatOA()
     oauth = api.WeChatOAuth()
     schedule = api.WeChatSchedule()
     service = api.WeChatService()
     tag = api.WeChatTag()
     user = api.WeChatUser()
-    oa = api.WeChatOA()
-    invoice = api.WeChatInvoice()
 
     def __init__(
         self,
