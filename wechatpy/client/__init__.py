@@ -17,12 +17,16 @@ class WeChatClient(BaseWeChatClient):
     API_BASE_URL = "https://api.weixin.qq.com/cgi-bin/"
 
     card = api.WeChatCard()
+    cloud = api.WeChatCloud()
     customservice = api.WeChatCustomService()
     datacube = api.WeChatDataCube()
     device = api.WeChatDevice()
+    draft = api.WeChatDraft()
+    freepublish = api.WeChatFreePublish()
     group = api.WeChatGroup()
     invoice = api.WeChatInvoice()
     jsapi = api.WeChatJSAPI()
+    marketing = api.WeChatMarketing()
     material = api.WeChatMaterial()
     media = api.WeChatMedia()
     menu = api.WeChatMenu()
@@ -39,8 +43,6 @@ class WeChatClient(BaseWeChatClient):
     user = api.WeChatUser()
     wifi = api.WeChatWiFi()
     wxa = api.WeChatWxa()
-    marketing = api.WeChatMarketing()
-    cloud = api.WeChatCloud()
 
     def __init__(
         self,
