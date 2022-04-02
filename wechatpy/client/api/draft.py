@@ -95,5 +95,5 @@ class WeChatDraft(BaseWeChatAPI):
                 "offset": offset,
                 "count": count,
                 "no_content": no_content,
-            }
+            },
         )
