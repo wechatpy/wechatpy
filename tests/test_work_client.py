@@ -674,7 +674,30 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.email.update_user_option(1, {})
             self.assertEqual(0, res["errcode"])
 
-    def get_new_email_count(self):
+    def test_get_new_email_count(self):
         with HTTMock(wechat_api_mock):
             res = self.client.email.get_new_email_count(1)
             self.assertEqual(100, res)
+
+    def test_export(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.export.export_simple_user("1")
+            self.assertEqual("jobid_94410ed7f49d4d9c98f9dd59ccf0251d", res)
+
+        with HTTMock(wechat_api_mock):
+            res = self.client.export.export_user("1")
+            self.assertEqual("jobid_6a5471bd193e4e6d9138dfc601dd2829", res)
+
+        with HTTMock(wechat_api_mock):
+            res = self.client.export.export_department("1")
+            self.assertEqual("jobid_dd5663f6a9344362ad971394bd3f551b", res)
+
+        with HTTMock(wechat_api_mock):
+            res = self.client.export.export_taguser("1", "1")
+            self.assertEqual("jobid_c5e9794bd6ed4c9da3441cbe33c6d205", res)
+
+        with HTTMock(wechat_api_mock):
+            res = self.client.export.get_result("1")
+            self.assertEqual(2, res["status"])
+            self.assertEqual("ce96d691c59b453abf209f2048e19e97", res["data_list"][0]["md5"])
+            self.assertEqual("0410e6b66555408abbefbb99f07be3c6", res["data_list"][1]["md5"])
