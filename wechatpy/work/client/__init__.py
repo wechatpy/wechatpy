@@ -14,6 +14,7 @@ class WeChatClient(BaseWeChatClient):
     calendar = api.WeChatCalendar()
     department = api.WeChatDepartment()
     email = api.WeChatEMail()
+    export = api.WeChatExport()
     external_contact = api.WeChatExternalContact()
     external_contact_group_chat = api.WeChatExternalContactGroupChat()
     invoice = api.WeChatInvoice()
