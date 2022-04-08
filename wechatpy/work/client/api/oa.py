@@ -155,6 +155,63 @@ class WeChatOA(BaseWeChatAPI):
         }
         return self._post("checkin/getcheckindata", data=data)
 
+    def get_checkin_daydata(self, start_time: int, end_time: int, userid_list: List[str]) -> dict:
+        """
+        获取打卡日报数据
+        https://developer.work.weixin.qq.com/document/path/93374
+
+        - 接口调用频率限制为100次/分钟
+
+        :param start_time: 获取打卡记录的开始时间。Unix时间戳
+        :param end_time: 获取打卡记录的结束时间。Unix时间戳
+        :param userid_list: 获取日报的userid列表。可填充个数：1 ~ 100
+        :return: 打卡数据
+        """
+        if end_time <= start_time:
+            raise ValueError("the end time must be greater than the beginning time")
+
+        if not userid_list:
+            raise ValueError("the userid_list can't be an empty list")
+
+        data = {
+            "starttime": start_time,
+            "endtime": end_time,
+            "useridlist": userid_list,
+        }
+        return self._post("checkin/getcheckin_daydata", data=data)
+
+    def get_checkin_monthdata(self, start_time: int, end_time: int, userid_list: List[str]) -> dict:
+        """
+        获取打卡月报数据
+        https://developer.work.weixin.qq.com/document/path/93374
+
+        - 接口调用频率限制为100次/分钟
+
+        :param start_time: 获取打卡记录的开始时间。Unix时间戳
+        :param end_time: 获取打卡记录的结束时间。Unix时间戳
+        :param userid_list: 获取月报的userid列表。可填充个数：1 ~ 100
+        :return: 打卡数据
+        """
+        if end_time <= start_time:
+            raise ValueError("the end time must be greater than the beginning time")
+
+        if not userid_list:
+            raise ValueError("the userid_list can't be an empty list")
+
+        data = {
+            "starttime": start_time,
+            "endtime": end_time,
+            "useridlist": userid_list,
+        }
+        return self._post("checkin/getcheckin_monthdata", data=data)
+
+    def get_corp_checkin_option(self):
+        """
+        获取企业所有打卡规则
+        https://developer.work.weixin.qq.com/document/path/93384
+        """
+        return self._post("checkin/getcorpcheckinoption")
+
     def get_checkin_option(self, datetime: int, userid_list: List[str]) -> dict:
         """
         获取打卡规则
@@ -172,6 +229,102 @@ class WeChatOA(BaseWeChatAPI):
 
         data = {"datetime": datetime, "useridlist": userid_list}
         return self._post("checkin/getcheckinoption", data=data)
+
+    def get_checkin_schedu_list(self, start_time: int, end_time: int, userid_list: List[str]) -> dict:
+        """
+        获取打卡人员排班信息
+        https://developer.work.weixin.qq.com/document/path/93380
+
+        :param start_time: 获取排班信息的开始时间。Unix时间戳
+        :param end_time: 获取排班信息的结束时间。Unix时间戳（与 start_time 跨度不超过一个月）
+        :param userid_list: 需要获取排班信息的用户列表（不超过100个）
+        :return: 排班信息
+        """
+        if end_time <= start_time:
+            raise ValueError("the end time must be greater than the beginning time")
+
+        if end_time - start_time > 31 * 86400:
+            raise ValueError("the difference between the start_time and the end_time cannot be more than one month")
+
+        if not userid_list:
+            raise ValueError("the userid_list can't be an empty list")
+
+        data = {
+            "starttime": start_time,
+            "endtime": end_time,
+            "useridlist": userid_list,
+        }
+        return self._post("checkin/getcheckinschedulist", data=data)
+
+    def set_checkin_schedu_list(self, group_id: int, items: list, yearmonth: int) -> dict:
+        """
+        为打卡人员排班
+        https://developer.work.weixin.qq.com/document/path/93385
+
+        :param group_id: 打卡规则的规则 id，可通过“获取打卡规则”、“获取打卡数据”、“获取打卡人员排班信息”等相关接口获取
+        :param items: 排班表信息，字典结构，包含 userid，day，schedule_id 三个字段
+                    - userid: 打卡人员userid
+                    - day: 要设置的天日期，取值在1-31之间。联合 yearmonth 组成唯一日期 比如20201205
+                    - schedule_id: 对应 groupid 规则下的班次 id，通过预先拉取规则信息获取，0 代表休息
+        :param yearmonth: 排班表月份，格式为年月，如202011
+        """
+        data = {
+            "groupid": group_id,
+            "items": items,
+            "yearmonth": yearmonth,
+        }
+        return self._post("checkin/setcheckinschedulist", data=data)
+
+    def add_checkin_userface(self, user_id: str, user_face: str) -> dict:
+        """
+        录入打卡人员人脸信息
+        https://developer.work.weixin.qq.com/document/path/93378
+
+        :param user_id: 需要录入的用户id
+        :param user_face: 需要录入的人脸图片数据，需要将图片数据base64处理后填入，对已录入的人脸会进行更新处理
+        """
+        data = {
+            "userid": user_id,
+            "userface": user_face,
+        }
+        return self._post("checkin/addcheckinuserface", data=data)
+
+    def get_hardware_checkin_data(
+        self, start_time: int, end_time: int, userid_list: List[str], filter_type: int = 1
+    ) -> dict:
+        """
+        获取设备打卡数据
+        https://developer.work.weixin.qq.com/document/path/94126
+
+        :param filter_type: 过滤类型，1 表示按打卡时间过滤，2 表示按设备上传打卡记录的时间过滤，默认值是 1
+        :param start_time: Unix时间戳，当 filter_type 为 1 时，表示打卡的开始时间；当 filter_type 为 2 时，表示设备上传记录的开始时间
+        :param end_time: Unix时间戳，当 filter_type 为 1 时，表示打卡的结束时间；当 filter_type 为 2 时，表示设备上传记录的结束时间
+        :param userid_list: 需要获取打卡记录的用户列表（不超过100个）
+
+        - 获取记录时间跨度不超过一个月
+        - 用户列表不超过100个。若用户超过100个，请分批获取
+        - 获取的是通过考勤设备打卡的原始记录，不包含企业微信app手机打卡的记录
+        - userid无效时，忽略该参数，不报错
+        """
+        if end_time <= start_time:
+            raise ValueError("the end time must be greater than the beginning time")
+
+        if end_time - start_time > 31 * 86400:
+            raise ValueError("the difference between the start_time and the end_time cannot be more than one month")
+
+        if not userid_list:
+            raise ValueError("the userid_list can't be an empty list")
+
+        if filter_type not in {1, 2}:
+            raise ValueError("Unsupported filter_type. Valid filter_type are 1 or 2")
+
+        data = {
+            "filter_type": filter_type,
+            "starttime": start_time,
+            "endtime": end_time,
+            "useridlist": userid_list,
+        }
+        return self._post("hardware/get_hardware_checkin_data", data=data)
 
     def get_open_approval_data(self, third_no: str) -> dict:
         """
