@@ -80,7 +80,7 @@ class WeChatDraft(BaseWeChatAPI):
         """
         return self._get("draft/count")
 
-    def batchget(self) -> dict:
+    def batchget(self, offset=0, count=20, no_content=0) -> dict:
         """
         获取草稿列表
         新增草稿之后，开发者可以获取草稿的列表。
@@ -89,4 +89,11 @@ class WeChatDraft(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._post("draft/batchget")
+        return self._post(
+            "draft/batchget",
+            data={
+                "offset": offset,
+                "count": count,
+                "no_content": no_content,
+            },
+        )
