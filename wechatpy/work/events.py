@@ -529,3 +529,25 @@ class ExportEvent(BaseEvent):
     @property
     def job_type(self):
         return self.batch_job["JobType"]
+
+
+class BookMeetingRoom(BaseEvent):
+    """
+    会议室预定事件
+    https://developer.work.weixin.qq.com/document/path/95333
+    """
+
+    event = "book_meeting_room"
+    meeting_room_id = IntegerField("MeetingRoomId")
+    meeting_id = StringField("MeetingId")
+
+
+class CancelMeetingRoom(BaseEvent):
+    """
+    会议室取消事件
+    https://developer.work.weixin.qq.com/document/path/95333
+    """
+
+    event = "cancel_meeting_room"
+    meeting_room_id = IntegerField("MeetingRoomId")
+    meeting_id = StringField("MeetingId")
