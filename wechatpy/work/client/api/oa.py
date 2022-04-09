@@ -557,7 +557,7 @@ class WeChatOA(BaseWeChatAPI):
             data["attendees"] = attendees
         return self._post("oa/meetingroom/book", data=data)
 
-    def cancle_meetingroom_book(self, meeting_id: str, keep_schedule: int = None) -> dict:
+    def cancle_meetingroom_book(self, meeting_id: str, keep_schedule=None) -> dict:
         """
         取消预定会议室
         https://developer.work.weixin.qq.com/document/path/93619
