@@ -337,9 +337,7 @@ class WeChatOA(BaseWeChatAPI):
         data = {"thirdNo": third_no}
         return self._post("corp/getopenapprovaldata", data=data)
 
-    def get_journal_record_list(
-        self, start_time: int, end_time: int, cursor: int, limit: int, filters: list = None
-    ) -> dict:
+    def get_journal_record_list(self, start_time: int, end_time: int, cursor: int, limit: int, filters=None) -> dict:
         """
         批量获取汇报记录单号
         https://developer.work.weixin.qq.com/document/path/93393
