@@ -336,3 +336,249 @@ class WeChatOA(BaseWeChatAPI):
         """
         data = {"thirdNo": third_no}
         return self._post("corp/getopenapprovaldata", data=data)
+
+    def get_journal_record_list(self, start_time: int, end_time: int, cursor: int, limit: int, filters: list) -> dict:
+        """
+        批量获取汇报记录单号
+        https://developer.work.weixin.qq.com/document/path/93393
+
+        :param start_time: 开始时间
+        :param end_time: 结束时间,开始时间和结束时间间隔不能超过一个月
+        :param cursor: 游标首次请求传0，非首次请求携带上一次请求返回的next_cursor
+        :param limit: 拉取条数
+        :param filters: 过滤条件
+        """
+        if end_time <= start_time:
+            raise ValueError("the end time must be greater than the beginning time")
+
+        if end_time - start_time > 31 * 86400:
+            raise ValueError("the difference between the start_time and the end_time cannot be more than one month")
+
+        data = {
+            "starttime": start_time,
+            "endtime": end_time,
+            "cursor": cursor,
+            "limit": limit,
+            "filters": filters,
+        }
+        return self._post("oa/journal/get_record_list", data=data)
+
+    def get_journal_record_detail(self, journal_uuid: str) -> dict:
+        """
+        获取汇报记录详情
+        https://developer.work.weixin.qq.com/document/path/93394
+
+        :param journal_uuid: 汇报记录单号
+        """
+        return self._post("oa/journal/get_record_detail", data={"journaluuid": journal_uuid})
+
+    def get_journal_stat_list(self, start_time: int, end_time: int, template_id: str) -> dict:
+        """
+        获取汇报统计数据
+        https://developer.work.weixin.qq.com/document/path/93395
+
+        :param start_time: 开始时间
+        :param end_time: 结束时间，时间区间最大长度为一年
+        :param template_id: 汇报表单id
+        """
+        data = {"template_id": template_id, "starttime": start_time, "endtime": end_time}
+        return self._post("oa/journal/get_stat_list", data=data)
+
+    def add_meetingroom(
+        self,
+        name: str,
+        capacity: int,
+        city: str = None,
+        building: str = None,
+        floor: str = None,
+        equipment: list = None,
+        latitude: str = None,
+        longitude: str = None,
+    ):
+        """
+        添加会议室
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        - 如果需要为会议室设置位置信息，则必须同时填写城市（city），楼宇（building）和楼层(floor)三个参数。
+
+        :param name: 会议室名称，最多30个字符
+        :param capacity: 会议室所能容纳的人数
+        :param city: 会议室所在城市
+        :param building: 会议室所在楼宇
+        :param floor: 会议室所在楼层
+        :param equipment: 会议室支持的设备列表,参数详细含义见附录
+        :param latitude: 会议室所在建筑纬度,可通过腾讯地图坐标拾取器获取
+        :param longitude: 会议室所在建筑经度,可通过腾讯地图坐标拾取器获取
+        """
+        data = {
+            "name": name,
+            "capacity": capacity,
+        }
+        if all([city, building, floor]):
+            data["city"] = city
+            data["building"] = building
+            data["floor"] = floor
+        if equipment:
+            data["equipment"] = equipment
+        if latitude and longitude:
+            data["coordinate"] = {"latitude": latitude, "longitude": longitude}
+        return self._post("oa/meetingroom/add", data=data)
+
+    def get_meetingroom_list(
+        self,
+        city: str = None,
+        building: str = None,
+        floor: str = None,
+        equipment: list = None,
+    ):
+        """
+        查询会议室
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        - 如果需要为会议室设置位置信息，则必须同时填写城市（city），楼宇（building）和楼层(floor)三个参数。
+        """
+        data = {"city": city, "building": building, "floor": floor, "equipment": equipment}
+        data = {k: v for k, v in data.items() if v is not None}
+        return self._post("oa/meetingroom/list", data=data)
+
+    def edit_meetingroom(
+        self,
+        meetingroom_id: int,
+        name: str,
+        capacity: int,
+        city: str = None,
+        building: str = None,
+        floor: str = None,
+        equipment: list = None,
+        latitude: str = None,
+        longitude: str = None,
+    ):
+        """
+        编辑会议室
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        - 如果需要为会议室设置位置信息，则必须同时填写城市（city），楼宇（building）和楼层(floor)三个参数。
+
+        :param meetingroom_id: 会议室的id
+        :param name: 会议室名称，最多30个字符
+        :param capacity: 会议室所能容纳的人数
+        :param city: 会议室所在城市
+        :param building: 会议室所在楼宇
+        :param floor: 会议室所在楼层
+        :param equipment: 会议室支持的设备列表,参数详细含义见附录
+        :param latitude: 会议室所在建筑纬度,可通过腾讯地图坐标拾取器获取
+        :param longitude: 会议室所在建筑经度,可通过腾讯地图坐标拾取器获取
+        """
+        data = {
+            "meetingroom_id": meetingroom_id,
+            "name": name,
+            "capacity": capacity,
+        }
+        if all([city, building, floor]):
+            data["city"] = city
+            data["building"] = building
+            data["floor"] = floor
+        if equipment:
+            data["equipment"] = equipment
+        if latitude and longitude:
+            data["coordinate"] = {"latitude": latitude, "longitude": longitude}
+        return self._post("oa/meetingroom/edit", data=data)
+
+    def delete_meetingroom(self, meetingroom_id: int) -> dict:
+        """
+        删除会议室
+        https://developer.work.weixin.qq.com/document/path/93619
+        """
+        return self._post("oa/meetingroom/del", data={"meetingroom_id": meetingroom_id})
+
+    def get_meetingroom_booking_info(
+        self,
+        meetingroom_id: int = None,
+        start_time: int = None,
+        end_time: int = None,
+        city: str = None,
+        building: str = None,
+        floor: str = None,
+    ) -> dict:
+        """
+        查询会议室的预定信息
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        - 如果需要根据位置信息查询，则需要保证其上一级的位置信息已填写，即如需使用楼宇进行过滤，则必须同时填写城市字段。
+
+        :param meetingroom_id: 会议室id
+        :param start_time: 查询预定的起始时间，默认为当前时间
+        :param end_time: 查询预定的结束时间， 默认为明日0时
+        :param city: 会议室所在城市
+        :param building: 会议室所在楼宇
+        :param floor: 会议室所在楼层
+        """
+        data = {
+            "meetingroom_id": meetingroom_id,
+            "start_time": start_time,
+            "end_time": end_time,
+            "city": city,
+            "building": building,
+            "floor": floor,
+        }
+        data = {k: v for k, v in data.items() if v is not None}
+        return self._post("oa/meetingroom/get_booking_info", data=data)
+
+    def book_meetingroom(
+        self,
+        meetingroom_id: int,
+        start_time: int,
+        end_time: int,
+        booker: str,
+        subject: str = None,
+        attendees: list = None,
+    ) -> dict:
+        """
+        预定会议室
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        :param meetingroom_id: 会议室id
+        :param start_time: 预定开始时间
+        :param end_time: 预定结束时间
+        :param booker: 预定人的userid
+        :param subject: 会议主题
+        :param attendees: 参与人的userid列表
+        """
+        data = {
+            "meetingroom_id": meetingroom_id,
+            "start_time": start_time,
+            "end_time": end_time,
+            "booker": booker,
+        }
+        if subject:
+            data["subject"] = subject
+        if attendees:
+            data["attendees"] = attendees
+        return self._post("oa/meetingroom/book", data=data)
+
+    def cancle_meetingroom_book(self, meeting_id: str, keep_schedule: int = None) -> dict:
+        """
+        取消预定会议室
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        :param meeting_id: 会议的id
+        :param keep_schedule: 是否保留日程，0-同步删除 1-保留
+        """
+        data = {"meeting_id": meeting_id}
+        if keep_schedule is not None:
+            data["keep_schedule"] = keep_schedule
+        return self._post("oa/meetingroom/cancel_book", data=data)
+
+    def get_booking_info_by_meeting_id(self, meetingroom_id: int, meeting_id: str) -> dict:
+        """
+        根据会议ID查询会议室的预定信息
+        https://developer.work.weixin.qq.com/document/path/93619
+
+        :param meetingroom_id: 会议室id
+        :param meeting_id: 会议的id
+        """
+        data = {
+            "meetingroom_id": meetingroom_id,
+            "meeting_id": meeting_id,
+        }
+        return self._post("oa/meetingroom/get_booking_info_by_meeting_id", data=data)
