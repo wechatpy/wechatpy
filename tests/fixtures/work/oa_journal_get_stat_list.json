@@ -1,0 +1,82 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "stat_list": [
+        {
+            "template_id": "3TmALk1ogfgKiQE3e3jRwnTUhMTh8vca1N8zUVNU",
+            "template_name": "日报",
+            "report_range": {
+                "user_list": [
+                    {
+                        "userid": "user1"
+                    }
+                ],
+                "party_list": [
+                    {
+                        "open_partyid": "1"
+                    }
+                ],
+                "tag_list": []
+            },
+            "white_range": {
+                "user_list": [],
+                "party_list": [],
+                "tag_list": []
+            },
+            "receivers": {
+                "user_list": [
+                    {
+                        "userid": "user3"
+                    }
+                ],
+                "tag_list": [],
+                "leader_list": []
+            },
+            "cycle_begin_time": 1606147200,
+            "cycle_end_time": 1606233600,
+            "stat_begin_time": 1606147200,
+            "stat_end_time": 1606230000,
+            "report_list": [
+                {
+                    "user": {
+                        "userid": "user2"
+                    },
+                    "itemlist": [
+                        {
+                            "journaluuid": "4U9abSUrpY78VNxeNNv3J5TW5e9VLj8cDymH9py1Efpuj5X8QCDQx3stKr69pia3UL8auRjrCMsiRjgzL8mvKnff",
+                            "reporttime": 1606218548,
+                            "flag": 0
+                        }
+                    ]
+                }
+            ],
+            "unreport_list": [
+                {
+                    "user": {
+                        "userid": "user1"
+                    },
+                    "itemlist": [
+                        {
+                            "journaluuid": "",
+                            "reporttime": 1606147200,
+                            "flag": 0
+                        }
+                    ]
+                },
+                {
+                    "user": {
+                        "userid": "user3"
+                    },
+                    "itemlist": [
+                        {
+                            "journaluuid": "",
+                            "reporttime": 1606147200,
+                            "flag": 0
+                        }
+                    ]
+                }
+            ],
+            "report_type": 2
+        }
+    ]
+}
