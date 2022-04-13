@@ -24,3 +24,4 @@ from wechatpy.work.client.api.user import WeChatUser  # NOQA
 from wechatpy.work.client.api.kf import WeChatKF  # NOQA
 from wechatpy.work.client.api.kf_message import WeChatKFMessage  # NOQA
 from wechatpy.work.client.api.export import WeChatExport  # NOQA
+from wechatpy.work.client.api.living import WeChatLiving  # NOQA
