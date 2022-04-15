@@ -205,14 +205,17 @@ class WeChatUser(BaseWeChatAPI):
         resp = self._post("user/get_active_stat", data={"date": date})
         return resp["active_cnt"]
 
-    def mobile_to_userid(self, mobile):
+    def mobile_to_user_id(self, mobile: str) -> str:
         """
-        通过手机号(mobile)获取其所对应的userid
+        手机号获取userid.
 
-        https://developer.work.weixin.qq.com/document/path/95402
+        该接口用于通过手机号（mobile）获取其所对应的userid，详细接口细节请查看 `接口文档`_。
 
         :param mobile: 用户在企业微信通讯录中的手机号码。长度为5~32个字节
         :return: 该 user_id 在企业微信中对应的成员 mobile
+
+        .. warning: 应用须拥有指定成员的查看权限。请确保手机号的正确性，若出错的次数较多，会导致1天不可调用。
+        .. _接口文档: https://developer.work.weixin.qq.com/document/path/95402
         """
         res = self._post("user/getuserid", data={"mobile": mobile})
         return res["userid"]
