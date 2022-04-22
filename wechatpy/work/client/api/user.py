@@ -218,4 +218,4 @@ class WeChatUser(BaseWeChatAPI):
         :return:
         """
         resp = self._post("user/getuserid", data={"mobile": mobile})
-        return resp["active_cnt"]
+        return resp["userid"]
