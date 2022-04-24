@@ -204,3 +204,18 @@ class WeChatUser(BaseWeChatAPI):
         """
         resp = self._post("user/get_active_stat", data={"date": date})
         return resp["active_cnt"]
+
+    def getuserid(self, mobile: str) -> int:
+        """
+        手机号获取 userid
+
+        Warning: 应用须拥有指定成员的查看权限。请确保手机号的正确性，若出错的次数较多，会导致1天不可调用。
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/95402
+
+        :param mobile: 用户在企业微信通讯录中的手机号码。长度为5~32个字节
+        :return:
+        """
+        resp = self._post("user/getuserid", data={"mobile": mobile})
+        return resp["userid"]
