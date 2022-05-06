@@ -701,3 +701,63 @@ class WeChatClientTestCase(unittest.TestCase):
             self.assertEqual(2, res["status"])
             self.assertEqual("ce96d691c59b453abf209f2048e19e97", res["data_list"][0]["md5"])
             self.assertEqual("0410e6b66555408abbefbb99f07be3c6", res["data_list"][1]["md5"])
+
+    def test_get_journal_record_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_journal_record_list(1, 2, 0, 10)
+            self.assertEqual(34, res["next_cursor"])
+            self.assertEqual(
+                "41eJejN57EJNzr8HrZfmKyCN7xwKw1qRxCZUxCVuo9fsWVMSKac6nk4q8rARTDaVNdg", res["journaluuid_list"][0]
+            )
+
+    def test_get_journal_record_detail(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_journal_record_detail("1")
+            self.assertEqual(
+                "41eJejN57EJNzr8HrZfmKyJZ6E3W9NQbr94x6QEA6MwvK2sVqFQNWy4BaF4Ptyzk26", res["info"]["journal_uuid"]
+            )
+
+    def test_get_journal_stat_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_journal_stat_list(1, 2, 3)
+            self.assertEqual("3TmALk1ogfgKiQE3e3jRwnTUhMTh8vca1N8zUVNU", res["stat_list"][0]["template_id"])
+
+    def test_add_meetingroom(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.add_meetingroom("1", 10, "beijing", "wangjing", "1F")
+            self.assertEqual(100, res["meetingroom_id"])
+
+    def test_get_meetingroom_list(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_meetingroom_list("beijing", "wangjing", "1F", [1, 2, 3])
+            self.assertEqual("18F-会议室", res["meetingroom_list"][0]["name"])
+
+    def test_edit_meetingroom(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.edit_meetingroom(1, 2, 1, "1", "2", "2F")
+            self.assertEqual(0, res["errcode"])
+
+    def test_delete_meetingroom(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.delete_meetingroom(1)
+            self.assertEqual(0, res["errcode"])
+
+    def test_meetingroom_booking_info(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_meetingroom_booking_info(1, 1, 2, "1", "2", "3")
+            self.assertEqual(1, res["booking_list"][0]["meetingroom_id"])
+
+    def test_book_meetingroom(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.book_meetingroom(1, 1, 2, "1", "2", [])
+            self.assertEqual("mtgsaseb6e027c123cbafAAA", res["meeting_id"])
+
+    def test_cancel_meetingroom_book(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.cancle_meetingroom_book(1, 1)
+            self.assertEqual(0, res["errcode"])
+
+    def test_get_booking_info_by_meeting_id(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.oa.get_booking_info_by_meeting_id(1, 1)
+            self.assertEqual("mtebsada6e027c123cbafAAA", res["schedule"]["meeting_id"])
