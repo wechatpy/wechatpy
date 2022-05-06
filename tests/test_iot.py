@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-import io
 import json
 import os
 import unittest
 
 from httmock import HTTMock, response, urlmatch
 
-from wechatpy.exceptions import WeChatClientException
 from wechatpy.iot import IotClient
 
 _TESTS_PATH = os.path.abspath(os.path.dirname(__file__))
