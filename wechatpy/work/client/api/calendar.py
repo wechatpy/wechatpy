@@ -8,13 +8,15 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 class WeChatCalendar(BaseWeChatAPI):
     """
-    https://work.weixin.qq.com/api/doc/90000/90135/92616
+    https://developer.work.weixin.qq.com/document/path/93624
     """
 
     def add(self, organizer, summary, color, description="", shares=()):
         """
         创建日历
-        https://work.weixin.qq.com/api/doc/90000/90135/92618
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93647
 
         :param organizer: 指定的组织者userid。注意该字段指定后不可更新
         :param summary: 日历标题。1 ~ 128 字符
@@ -40,7 +42,9 @@ class WeChatCalendar(BaseWeChatAPI):
     def update(self, calendar_id, summary, color, description="", shares=()):
         """
         更新日历
-        https://work.weixin.qq.com/api/doc/90000/90135/92619
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93647
 
         :param calendar_id: 日历ID
         :param summary: 日历标题。1 ~ 128 字符
@@ -63,7 +67,9 @@ class WeChatCalendar(BaseWeChatAPI):
     def get(self, calendar_ids):
         """
         获取日历
-        https://work.weixin.qq.com/api/doc/90000/90135/92621
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93647
 
         :param calendar_ids: 日历ID列表。一次最多可获取1000条
         :type calendar_ids: list[str]
@@ -80,7 +86,9 @@ class WeChatCalendar(BaseWeChatAPI):
     def delete(self, calendar_id):
         """
         删除日历
-        https://work.weixin.qq.com/api/doc/90000/90135/92620
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/93647
 
         :param calendar_id: 日历ID
         """

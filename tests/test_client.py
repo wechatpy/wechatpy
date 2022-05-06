@@ -3,6 +3,7 @@ import io
 import json
 import os
 import inspect
+import time
 import unittest
 from datetime import datetime
 
@@ -487,6 +488,13 @@ class WeChatClientTestCase(unittest.TestCase):
             result = self.client.datacube.get_upstream_msg_dist_month("2014-12-06", "2014-12-07")
             self.assertEqual(1, len(result))
 
+    def test_device_get_qrcode_url(self):
+        with HTTMock(wechat_api_mock):
+            qrcode_url = self.client.device.get_qrcode_url(123)
+            self.assertEqual("https://we.qq.com/d/123", qrcode_url)
+            qrcode_url = self.client.device.get_qrcode_url(123, {"a": "a"})
+            self.assertEqual("https://we.qq.com/d/123#YT1h", qrcode_url)
+
     def test_jsapi_get_ticket_response(self):
         with HTTMock(wechat_api_mock):
             result = self.client.jsapi.get_ticket()
@@ -830,3 +838,21 @@ class WeChatClientTestCase(unittest.TestCase):
         self.assertEqual("D1ZWEygStjuLCnZ9IN2l4Q==", res["session_key"])
         self.assertEqual("o16wA0b4AZKzgVJR3MBwoUdTfU_E", res["openid"])
         self.assertEqual("or4zX05h_Ykt4ju0TUfx3CQsvfTo", res["unionid"])
+
+    def test_get_phone_number(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wxa.get_phone_number("code")
+        self.assertEqual("13123456789", res["phone_info"]["purePhoneNumber"])
+
+    def test_client_expires_at_consistency(self):
+        from redis import Redis
+        from wechatpy.session.redisstorage import RedisStorage
+
+        redis = Redis()
+        session = RedisStorage(redis)
+        client1 = WeChatClient(self.app_id, self.secret, session=session)
+        client2 = WeChatClient(self.app_id, self.secret, session=session)
+        assert client1.expires_at == client2.expires_at
+        expires_at = time.time() + 7200
+        client1.expires_at = expires_at
+        assert client1.expires_at == client2.expires_at == expires_at

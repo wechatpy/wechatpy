@@ -6,12 +6,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatTag(BaseWeChatAPI):
-    """
-    标签管理
-
-    https://work.weixin.qq.com/api/doc#90000/90135/90209
-    """
-
     @staticmethod
     def _validate_tag_id(tag_id):
         if tag_id < 0:
@@ -25,7 +19,7 @@ class WeChatTag(BaseWeChatAPI):
     def create(self, name: str, tag_id: Optional[int] = None) -> dict:
         """创建标签
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90210
+        参考：https://developer.work.weixin.qq.com/document/path/90210
 
         **权限说明**： 创建的标签属于该应用，只有该应用才可以增删成员。
 
@@ -69,7 +63,7 @@ class WeChatTag(BaseWeChatAPI):
     def update(self, tag_id: int, name: str) -> dict:
         """更新标签名字
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90211
+        参考：https://developer.work.weixin.qq.com/document/path/90211
 
         **权限说明**：调用的应用必须是指定标签的创建者。
 
@@ -102,7 +96,7 @@ class WeChatTag(BaseWeChatAPI):
     def delete(self, tag_id: int) -> dict:
         """删除标签
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90212
+        参考：https://developer.work.weixin.qq.com/document/path/90212
 
         **权限说明**：调用的应用必须是指定标签的创建者。
 
@@ -132,7 +126,7 @@ class WeChatTag(BaseWeChatAPI):
     def get_users(self, tag_id: int) -> dict:
         """获取标签成员
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90213
+        参考：https://developer.work.weixin.qq.com/document/path/90213
 
         **权限说明**：
         无限制，但返回列表仅包含应用可见范围的成员；第三方可获取自己创建的标签及应用可见
@@ -186,7 +180,7 @@ class WeChatTag(BaseWeChatAPI):
     ) -> dict:
         """增加标签成员
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90214
+        参考：https://developer.work.weixin.qq.com/document/path/90214
 
         **权限说明**：
         调用的应用必须是指定标签的创建者；成员属于应用的可见范围。
@@ -260,7 +254,7 @@ class WeChatTag(BaseWeChatAPI):
     ) -> dict:
         """删除标签成员
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90215
+        参考：https://developer.work.weixin.qq.com/document/path/90215
 
         **权限说明**：
         调用的应用必须是指定标签的创建者；成员属于应用的可见范围。
@@ -324,12 +318,12 @@ class WeChatTag(BaseWeChatAPI):
         if department_ids:
             data["partylist"] = department_ids
 
-        return self._post("tag/deltagusers", data={"tagid": tag_id, "userlist": user_ids})
+        return self._post("tag/deltagusers", data=data)
 
     def list(self) -> List[dict]:
         """获取标签列表
 
-        参考：https://work.weixin.qq.com/api/doc/90000/90135/90216
+        参考：https://developer.work.weixin.qq.com/document/path/90216
 
         **权限说明**：
         自建应用或通讯同步助手可以获取所有标签列表；第三方应用仅可获取自己创建的标签。

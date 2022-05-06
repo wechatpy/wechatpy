@@ -85,7 +85,7 @@ class WeChatDevice(BaseWeChatAPI):
         url = f"https://we.qq.com/d/{ticket}"
         if data:
             if isinstance(data, (dict, tuple, list)):
-                data = urllib.urlencode(data)
+                data = urllib.parse.urlencode(data)
             data = to_text(base64.b64encode(to_binary(data)))
             url = f"{url}#{data}"
         return url

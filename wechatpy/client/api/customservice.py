@@ -3,6 +3,7 @@
 import hashlib
 import time
 import datetime
+from operator import itemgetter
 from urllib.parse import quote
 
 from optionaldict import optionaldict
@@ -11,11 +12,13 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatCustomService(BaseWeChatAPI):
+    API_BASE_URL = "https://api.weixin.qq.com/customservice/"
+
     def add_account(self, account, nickname, password):
         """
         添加客服账号
         详情请参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#%E6%B7%BB%E5%8A%A0%E5%AE%A2%E6%9C%8D%E5%B8%90%E5%8F%B7
 
         :param account: 完整客服账号，格式为：账号前缀@公众号微信号
         :param nickname: 客服昵称，最长6个汉字或12个英文字符
@@ -25,15 +28,15 @@ class WeChatCustomService(BaseWeChatAPI):
         password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
-            "https://api.weixin.qq.com/customservice/kfaccount/add",
+            "kfaccount/add",
             data={"kf_account": account, "nickname": nickname, "password": password},
         )
 
     def update_account(self, account, nickname, password):
         """
-        更新客服账号
+        修改客服账号
         详情请参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#%E4%BF%AE%E6%94%B9%E5%AE%A2%E6%9C%8D%E5%B8%90%E5%8F%B7
 
         :param account: 完整客服账号，格式为：账号前缀@公众号微信号
         :param nickname: 客服昵称，最长6个汉字或12个英文字符
@@ -43,7 +46,7 @@ class WeChatCustomService(BaseWeChatAPI):
         password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
-            "https://api.weixin.qq.com/customservice/kfaccount/update",
+            "kfaccount/update",
             data={"kf_account": account, "nickname": nickname, "password": password},
         )
 
@@ -51,7 +54,7 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         删除客服账号
         详情请参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#%E5%88%A0%E9%99%A4%E5%AE%A2%E6%9C%8D%E5%B8%90%E5%8F%B7
 
         :param account: 完整客服账号，格式为：账号前缀@公众号微信号
         :return: 返回的 JSON 数据包
@@ -61,31 +64,31 @@ class WeChatCustomService(BaseWeChatAPI):
             f"kf_account={quote(to_binary(account), safe=b'/@')}",
         ]
         params = "&".join(params_data)
-        return self._get("https://api.weixin.qq.com/customservice/kfaccount/del", params=params)
+        return self._get("kfaccount/del", params=params)
 
     def get_accounts(self):
         """
-        获取客服账号列表
+        获取所有客服账号
         详情请参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E5%AE%A2%E6%9C%8D%E8%B4%A6%E5%8F%B7
 
         :return: 客服账号列表
         """
-        res = self._get("customservice/getkflist", result_processor=lambda x: x["kf_list"])
+        res = self._get("getkflist", result_processor=itemgetter("kf_list"))
         return res
 
     def upload_headimg(self, account, media_file):
         """
-        上传客服账号头像
+        设置客服帐号的头像
         详情请参考
-        http://mp.weixin.qq.com/wiki/1/70a29afed17f56d537c833f89be979c9.html
+        https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#%E8%AE%BE%E7%BD%AE%E5%AE%A2%E6%9C%8D%E5%B8%90%E5%8F%B7%E7%9A%84%E5%A4%B4%E5%83%8F
 
-        :param account: 完整客服账号
+        :param account: 完整客服帐号，格式为：帐号前缀@公众号微信号
         :param media_file: 要上传的头像文件，一个 File-Object
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg",
+            "kfaccount/uploadheadimg",
             params={"kf_account": account},
             files={"media": media_file},
         )
@@ -99,8 +102,8 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 客服接待信息列表
         """
         res = self._get(
-            "customservice/getonlinekflist",
-            result_processor=lambda x: x["kf_online_list"],
+            "getonlinekflist",
+            result_processor=itemgetter("kf_online_list"),
         )
         return res
 
@@ -108,41 +111,41 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         多客服创建会话
         详情请参考
-        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Session_control.html
 
         :param openid: 客户 openid
-        :param account: 完整客服账号
+        :param account: 完整客服帐号，格式为：帐号前缀@公众号微信号
         :param text: 附加信息，可选
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(openid=openid, kf_account=account, text=text)
-        return self._post("https://api.weixin.qq.com/customservice/kfsession/create", data=data)
+        return self._post("kfsession/create", data=data)
 
     def close_session(self, openid, account, text=None):
         """
         多客服关闭会话
         详情请参考
-        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Session_control.html
 
         :param openid: 客户 openid
-        :param account: 完整客服账号
+        :param account: 完整客服帐号，格式为：帐号前缀@公众号微信号
         :param text: 附加信息，可选
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(openid=openid, kf_account=account, text=text)
-        return self._post("https://api.weixin.qq.com/customservice/kfsession/close", data=data)
+        return self._post("kfsession/close", data=data)
 
     def get_session(self, openid):
         """
-        获取客户的会话状态
+        获取客户的会话状态，如果不存在，则 kf_account 为空
         详情请参考
-        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Session_control.html
 
-        :param openid: 客户 openid
+        :param openid: 粉丝的 openid
         :return: 返回的 JSON 数据包
         """
         return self._get(
-            "https://api.weixin.qq.com/customservice/kfsession/getsession",
+            "kfsession/getsession",
             params={"openid": openid},
         )
 
@@ -150,15 +153,15 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         获取客服的会话列表
         详情请参考
-        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Session_control.html
 
-        :param account: 完整客服账号
+        :param account: 完整客服帐号，格式为：帐号前缀@公众号微信号
         :return: 客服的会话列表
         """
         res = self._get(
-            "https://api.weixin.qq.com/customservice/kfsession/getsessionlist",
+            "kfsession/getsessionlist",
             params={"kf_account": account},
-            result_processor=lambda x: x["sessionlist"],
+            result_processor=itemgetter("sessionlist"),
         )
         return res
 
@@ -166,15 +169,17 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         获取未接入会话列表
         详情请参考
-        http://mp.weixin.qq.com/wiki/2/6c20f3e323bdf5986cfcb33cbd3b829a.html
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Session_control.html
 
         :return: 返回的 JSON 数据包
         """
-        return self._get("https://api.weixin.qq.com/customservice/kfsession/getwaitcase")
+        return self._get("kfsession/getwaitcase")
 
     def get_records(self, start_time, end_time, msgid=1, number=10000):
         """
         获取客服聊天记录
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Obtain_chat_transcript.html
 
         :param start_time: 查询开始时间，UNIX 时间戳
         :param end_time: 查询结束时间，UNIX 时间戳，每次查询不能跨日查询
@@ -194,7 +199,7 @@ class WeChatCustomService(BaseWeChatAPI):
             "number": number,
         }
         res = self._post(
-            "https://api.weixin.qq.com/customservice/msgrecord/getmsglist",
+            "msgrecord/getmsglist",
             data=record_data,
         )
         return res

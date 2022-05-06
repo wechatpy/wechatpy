@@ -34,7 +34,6 @@ class BaseWeChatClient:
     def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
         self._http = requests.Session()
         self.appid = appid
-        self.expires_at = None
         self.session = session or MemoryStorage()
         self.timeout = timeout
         self.auto_retry = auto_retry
@@ -45,6 +44,18 @@ class BaseWeChatClient:
     @property
     def access_token_key(self):
         return f"{self.appid}_access_token"
+
+    @property
+    def access_token_expires_at_key(self):
+        return f"{self.appid}_access_token_expires_at"
+
+    @property
+    def expires_at(self):
+        return self.session.get(self.access_token_expires_at_key, None)
+
+    @expires_at.setter
+    def expires_at(self, value):
+        self.session.set(self.access_token_expires_at_key, value)
 
     def _request(self, method, url_or_endpoint, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
