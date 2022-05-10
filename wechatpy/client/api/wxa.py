@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -685,3 +683,46 @@ class WeChatWxa(BaseWeChatAPI):
         :return: 参考文档
         """
         return self._post("wxa/del_store", data={"poi_id": poi_id})
+
+    def ocr_idcard(
+        self,
+        mode: str = "photo",
+        img_url: str = None,
+        filename: str = None,
+        file_bytes: bytes = None,
+        mime_type: str = None,
+    ) -> dict:
+        """
+        基于小程序的身份证 OCR 识别
+
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/ocr/ocr.idcard.html
+
+        :param img_url: 要检测的图片 url，传这个则不用传 img 参数。
+        :param mode: photo：拍照模型，带背景的图片, scan：扫描模式，不带背景的图片
+        :param filename: 要检测的图片文件名。
+        :param file_bytes: 要检测的图片二进制数据。
+        :param mime_type: 要检测的图片格式。
+        :return: 参考文档
+        """
+        if img_url:
+            return self._post("cv/ocr/idcard", params={"img_url": img_url, "type": mode})
+        else:
+            return self._post(f"cv/ocr/idcard?type={mode}", files=[("img", (filename, file_bytes, mime_type))])
+
+    def ocr_biz_license(
+        self, img_url: str = None, filename: str = None, file_bytes: bytes = None, mime_type: str = None
+    ) -> dict:
+        """
+        基于小程序的营业执照 OCR 识别
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/ocr/ocr.businessLicense.html
+
+        :param img_url: 要检测的图片 url，传这个则不用传 img 参数。
+        :param filename: 要检测的图片文件名。
+        :param file_bytes: 要检测的图片二进制数据。
+        :param mime_type: 要检测的图片格式。
+        :return: 参考文档
+        """
+        if img_url:
+            return self._post("cv/ocr/bizlicense", params={"img_url": img_url})
+        else:
+            return self._post("cv/ocr/bizlicense", files=[("img", (filename, file_bytes, mime_type))])
