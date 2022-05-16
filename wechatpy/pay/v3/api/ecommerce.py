@@ -184,7 +184,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "refund_account": refund_account,
             "funds_account": funds_account,
         }
-        return self._post("ecommerce/refunds/apply", data=data)
+        return self._post("ecommerce/refunds/apply", json=data)
 
     def refund_query(
         self,
@@ -201,7 +201,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         query = {
             "sub_mchid": sub_mchid,
         }
-        return self._get(f"ecommerce/refunds/id/{refund_id}", query=query)
+        return self._get(f"ecommerce/refunds/id/{refund_id}", params=query)
 
     def refund_query_by_out_refund_no(
         self,
@@ -217,7 +217,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         query = {
             "sub_mchid": sub_mchid,
         }
-        return self._get(f"ecommerce/refunds/out-refund-no/{out_refund_no}", query=query)
+        return self._get(f"ecommerce/refunds/out-refund-no/{out_refund_no}", params=query)
 
     def fund_balance_query(
         self,
@@ -234,7 +234,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         query = {
             "account_type": account_type,
         }
-        return self._get(f"ecommerce/fund/balance/{sub_mchid}", query=query)
+        return self._get(f"ecommerce/fund/balance/{sub_mchid}", params=query)
 
     def merchant_balance_query(
         self,
@@ -277,7 +277,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "bank_memo": bank_memo,
             "remark": remark,
         }
-        return self._post("ecommerce/fund/withdraw", data=data)
+        return self._post("ecommerce/fund/withdraw", json=data)
 
     def fund_withdraw_query(
         self,
@@ -294,7 +294,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         query = {
             "sub_mchid": sub_mchid,
         }
-        return self._get(f"ecommerce/fund/withdraw/{withdraw_id}", query=query)
+        return self._get(f"ecommerce/fund/withdraw/{withdraw_id}", params=query)
 
     def fund_withdraw_query_by_out_refund_no(
         self,
@@ -310,7 +310,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         query = {
             "sub_mchid": sub_mchid,
         }
-        return self._get(f"ecommerce/fund/withdraw/out-request-no/{out_request_no}", query=query)
+        return self._get(f"ecommerce/fund/withdraw/out-request-no/{out_request_no}", params=query)
 
     def profit_sharing(self, appid, sub_mchid, transaction_id, out_order_no, receivers, finish):
         """
@@ -333,7 +333,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "receivers": receivers,
             "finish": finish,
         }
-        return self._post("ecommerce/profitsharing/orders", data=data)
+        return self._post("ecommerce/profitsharing/orders", json=data)
 
     def profit_sharing_query(self, sub_mchid, transaction_id, out_order_no):
         """
@@ -350,7 +350,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "transaction_id": transaction_id,
             "out_order_no": out_order_no,
         }
-        return self._get("ecommerce/profitsharing/orders", query=query)
+        return self._get("ecommerce/profitsharing/orders", params=query)
 
     def profit_sharing_return_orders(
         self, sub_mchid, out_return_no, return_mchid, amount, description, order_id=None, out_order_no=None
@@ -377,7 +377,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "amount": amount,
             "description": description,
         }
-        return self._post("ecommerce/profitsharing/returnorders", data=data)
+        return self._post("ecommerce/profitsharing/returnorders", json=data)
 
     def profit_sharing_return_orders_query(
         self,
@@ -402,7 +402,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "out_order_no": out_order_no,
             "out_return_no": out_return_no,
         }
-        return self._get("ecommerce/profitsharing/returnorders", query=query)
+        return self._get("ecommerce/profitsharing/returnorders", params=query)
 
     def profit_sharing_finish_orders_query(
         self,
@@ -427,7 +427,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "out_order_no": out_order_no,
             "description": description,
         }
-        return self._post("ecommerce/profitsharing/finish-order", data=data)
+        return self._post("ecommerce/profitsharing/finish-order", json=data)
 
     def profit_sharing_orders_amounts_query(self, transaction_id):
         """

@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import time
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 
 import cryptography
 import requests
@@ -109,7 +109,12 @@ class WeChatPay:
         else:
             url = url_or_endpoint
 
-        endpoint = urlparse(url).path
+        params = kwargs.get("params", None)
+        url_parse = urlparse(url)
+        if params:
+            endpoint = url_parse.path + "?" + urlencode(params)
+        else:
+            endpoint = url_parse.path
 
         nonce_str = random_string(32).upper()
         timestamp = str(int(time.time()))
@@ -145,9 +150,14 @@ class WeChatPay:
 
     def _handle_result(self, res, skip_check_signature):
         logger.debug("Response from WeChat API \n %s", res.text)
+
+        # 无内容返回
+        if res.status_code == 204:
+            return {}
+
         try:
             data = res.json()
-        except json.JSONDecoder:
+        except json.JSONDecodeError:
             # 解析 json 失败
             logger.debug("WeChat payment result json parsing error", exc_info=True)
             return res.text

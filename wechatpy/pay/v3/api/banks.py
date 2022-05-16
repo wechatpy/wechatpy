@@ -19,7 +19,7 @@ class WeChatBanks(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         return self._get(
-            "capital/capitallhh/banks/search-banks-by-bank-account", query={"account_number": account_number}
+            "capital/capitallhh/banks/search-banks-by-bank-account", params={"account_number": account_number}
         )
 
     def query_personal_banking(self, limit, offset=0):
@@ -30,7 +30,7 @@ class WeChatBanks(BaseWeChatPayAPI):
         :param offset: 本次查询偏移量
         :return: 返回的结果数据
         """
-        return self._get("capital/capitallhh/banks/personal-banking", query={"offset": offset, "limit": limit})
+        return self._get("capital/capitallhh/banks/personal-banking", params={"offset": offset, "limit": limit})
 
     def query_corporate_banking(self, limit, offset=0):
         """
@@ -40,7 +40,7 @@ class WeChatBanks(BaseWeChatPayAPI):
         :param offset: 本次查询偏移量
         :return: 返回的结果数据
         """
-        return self._get("capital/capitallhh/banks/corporate-banking", query={"offset": offset, "limit": limit})
+        return self._get("capital/capitallhh/banks/corporate-banking", params={"offset": offset, "limit": limit})
 
     def query_provinces(self):
         """
@@ -70,4 +70,4 @@ class WeChatBanks(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         query = {"city_code": city_code, "offset": offset, "limit": limit}
-        return self._get(f"capital/capitallhh/banks/{bank_alias_code}/branches", query=query)
+        return self._get(f"capital/capitallhh/banks/{bank_alias_code}/branches", params=query)

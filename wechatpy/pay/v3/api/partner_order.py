@@ -81,7 +81,7 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
             "scene_info": scene_info,
         }
         data.update(kwargs)
-        return self._post("pay/partner/transactions/jsapi", data=data)
+        return self._post("pay/partner/transactions/jsapi", json=data)
 
     def query(self, sub_mchid, transaction_id):
         """
@@ -95,7 +95,7 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
             "sp_mchid": self.mch_id,
             "sub_mchid": sub_mchid,
         }
-        return self._post(f"pay/partner/transactions/id/{transaction_id}", data=data)
+        return self._post(f"pay/partner/transactions/id/{transaction_id}", json=data)
 
     def query_by_out_trade_no(self, sub_mchid, out_trade_no):
         """
@@ -109,7 +109,7 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
             "sp_mchid": self.mch_id,
             "sub_mchid": sub_mchid,
         }
-        return self._post(f"pay/partner/transactions/out-trade-no/{out_trade_no}", data=data)
+        return self._post(f"pay/partner/transactions/out-trade-no/{out_trade_no}", json=data)
 
     def close(self, sub_mchid, out_trade_no):
         """
@@ -123,7 +123,7 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
             "sp_mchid": self.mch_id,
             "sub_mchid": sub_mchid,
         }
-        return self._post(f"pay/partner/transactions/out-trade-no/{out_trade_no}/close", data=data)
+        return self._post(f"pay/partner/transactions/out-trade-no/{out_trade_no}/close", json=data)
 
     def get_api_params(self, sub_appid, prepay_id, timestamp=None, nonce_str=None):
         """
