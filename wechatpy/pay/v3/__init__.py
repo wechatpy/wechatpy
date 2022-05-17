@@ -268,18 +268,24 @@ class WeChatPay:
 
         return check_rsa_signature(certificate, timestamp, nonce_str, response_body, signature)
 
-    def parse_message(self, content):
-        """解析回调结果"""
-        if not content:
+    def parse_message(self, message: [bytes, dict]):
+        """
+        解析回调结果
+        :param message: 微信返回的原始内容
+        :return: 解密结果
+        """
+        if not message:
             return {}
-        message = json.loads(to_text(content))
+        if isinstance(message, bytes):
+            message = json.loads(to_text(message))
 
         # 解密数据
+        decrypt_data = {}
         resource = message.get("resource")
         if resource.get("algorithm") == "AEAD_AES_256_GCM":
             nonce = resource.get("nonce")
             ciphertext = resource.get("ciphertext")
             associated_data = resource.get("associated_data")
             encrypt_data = aes_decrypt(nonce, ciphertext, associated_data, self.apiv3_key)
-            message["decrypt_data"] = encrypt_data
-        return message
+            decrypt_data = encrypt_data
+        return decrypt_data
