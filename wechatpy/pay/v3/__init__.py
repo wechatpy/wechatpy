@@ -13,7 +13,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
 from wechatpy.exceptions import InvalidSignatureException, WeChatPayV3Exception
-from wechatpy.pay.api.base import BaseWeChatPayAPI
+from wechatpy.pay.v3.api.base import BaseWeChatPayAPI
 from wechatpy.pay.utils import (
     calculate_signature_rsa,
     check_rsa_signature,
