@@ -22,7 +22,7 @@ from wechatpy.pay.utils import (
     calculate_pay_params_signature_rsa,
     get_serial_no,
 )
-from wechatpy.utils import random_string
+from wechatpy.utils import random_string, to_text
 from wechatpy.pay.v3 import api
 
 logger = logging.getLogger(__name__)
@@ -267,3 +267,19 @@ class WeChatPay:
             self.wechat_cert_dict[serial_no] = certificate
 
         return check_rsa_signature(certificate, timestamp, nonce_str, response_body, signature)
+
+    def parse_message(self, content):
+        """解析回调结果"""
+        if not content:
+            return {}
+        message = json.loads(to_text(content))
+
+        # 解密数据
+        resource = message.get("resource")
+        if resource.get("algorithm") == "AEAD_AES_256_GCM":
+            nonce = resource.get("nonce")
+            ciphertext = resource.get("ciphertext")
+            associated_data = resource.get("associated_data")
+            encrypt_data = aes_decrypt(nonce, ciphertext, associated_data, self.apiv3_key)
+            message["decrypt_data"] = encrypt_data
+        return message

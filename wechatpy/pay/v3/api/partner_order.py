@@ -24,13 +24,13 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
         out_trade_no,
         notify_url,
         amount,
-        payer=None,
-        detail=None,
-        settle_info=None,
+        payer: dict = None,
+        detail: dict = None,
+        settle_info: dict = None,
         attach=None,
         time_expire=None,
         goods_tag=None,
-        scene_info=None,
+        scene_info: dict = None,
         **kwargs,
     ):
         """
@@ -50,19 +50,17 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
         :param scene_info: 可选，上报支付的场景信息
         :param payer: 小程序必填，支付者信息
         :param kwargs: 其他未列举在上述参数中的统一下单接口调用参数,例如电子发票入口开放标识receipt
-        :type scene_info: dict
         :return: 返回的结果数据
         """
-        now = datetime.fromtimestamp(time.time(), tz=timezone("Asia/Shanghai"))
-        hours_later = now + timedelta(hours=2)
+
         if time_expire is None:
+            now = datetime.fromtimestamp(time.time(), tz=timezone("Asia/Shanghai"))
+            hours_later = now + timedelta(hours=2)
             time_expire = hours_later
         else:
             time_expire = time_expire.astimezone(timezone("Asia/Shanghai"))
         if not out_trade_no:
             out_trade_no = f"{self.mch_id}{now.strftime('%Y%m%d%H%M%S')}{random.randint(1000, 10000)}"
-        if scene_info is not None:
-            scene_info = json.dumps(scene_info, ensure_ascii=False)
         data = {
             "sp_appid": self.appid,
             "sp_mchid": self.mch_id,
@@ -70,16 +68,18 @@ class WeChatPartnerOrder(BaseWeChatPayAPI):
             "sub_mchid": sub_mchid,
             "description": description,
             "out_trade_no": out_trade_no,
-            "time_expire": time_expire.strftime("%Y%m%d%H%M%S"),
-            "attach": attach,
+            "time_expire": time_expire.isoformat("T"),
+            "attach": attach or "",
             "notify_url": notify_url,
-            "goods_tag": goods_tag,
+            "goods_tag": goods_tag or "",
             "settle_info": settle_info,
             "amount": amount,
-            "detail": detail,
             "payer": payer,
             "scene_info": scene_info,
         }
+        # 字典类型，不传参不能有这个字段
+        if detail:
+            data["detail"] = detail
         data.update(kwargs)
         return self._post("pay/partner/transactions/jsapi", json=data)
 
