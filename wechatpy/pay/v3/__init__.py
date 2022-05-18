@@ -287,5 +287,5 @@ class WeChatPay:
             ciphertext = resource.get("ciphertext")
             associated_data = resource.get("associated_data")
             encrypt_data = aes_decrypt(nonce, ciphertext, associated_data, self.apiv3_key)
-            decrypt_data = encrypt_data
+            decrypt_data = json.loads(encrypt_data)
         return decrypt_data
