@@ -27,7 +27,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         authorize_letter_copy=None,
         id_card_info=None,
         owner=True,
-        ubo_info=None,
+        ubo_info_list=None,
         account_info=None,
         settlement_info=None,
         qualifications=None,
@@ -36,7 +36,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
     ):
         """
         二级商户进件申请
-        https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter7_1_1.shtml
+        https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter7_1_8.shtml
 
         :param out_request_no: 业务申请编号
         :param organization_type: 主体类型
@@ -48,7 +48,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param authorize_letter_copy: 法定代表人授权函 条件选填
         :param id_card_info: 经营者/法人身份证信息
         :param owner: 经营者/法人是否为受益人
-        :param ubo_info: 最终受益人信息
+        :param ubo_info_list: 最终受益人列表
         :param need_account_info: 是否填写结算账户信息
         :param account_info: 结算账户信息
         :param contact_info: 超级管理员信息
@@ -72,7 +72,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "authorize_letter_copy": authorize_letter_copy,
             "id_card_info": id_card_info,
             "owner": owner,
-            "ubo_info": ubo_info,
+            "ubo_info_list": ubo_info_list,
             "need_account_info": need_account_info,
             "account_info": account_info,
             "contact_info": contact_info,
