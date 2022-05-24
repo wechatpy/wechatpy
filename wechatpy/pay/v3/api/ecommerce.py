@@ -147,7 +147,6 @@ class WeChatEcommerce(BaseWeChatPayAPI):
     def refund_apply(
         self,
         sub_mchid,
-        sp_appid,
         sub_appid,
         out_refund_no,
         amount,
@@ -162,7 +161,6 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         申请退款
 
         :param sub_mchid: 微信支付分配二级商户的商户号。
-        :param sp_appid: 电商平台APPID
         :param sub_appid: 退款总金额，单位为分
         :param out_refund_no: 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
         :param transaction_id: 可选，微信订单号
@@ -175,8 +173,8 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         data = {
+            "sp_appid": self.appid,
             "sub_mchid": sub_mchid,
-            "sp_appid": sp_appid,
             "sub_appid": sub_appid,
             "transaction_id": transaction_id,
             "out_trade_no": out_trade_no,
