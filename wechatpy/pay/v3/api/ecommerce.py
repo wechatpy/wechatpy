@@ -150,6 +150,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         sp_appid,
         sub_appid,
         out_refund_no,
+        amount,
         transaction_id=None,
         out_trade_no=None,
         reason=None,
@@ -167,6 +168,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param transaction_id: 可选，微信订单号
         :param out_trade_no: 可选，商户系统内部的订单号，与 transaction_id 二选一
         :param reason: 可选，退款原因
+        :param amount: 订单金额信息
         :param refund_account: 可选，退款资金来源，仅针对老资金流商户使用，默认使用未结算资金退款
         :param notify_url: 可选，异步接收微信支付退款结果通知的回调地址
         :param funds_account: 资金账户
@@ -180,6 +182,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "out_trade_no": out_trade_no,
             "out_refund_no": out_refund_no,
             "reason": reason,
+            "amount": amount,
             "notify_url": notify_url,
             "refund_account": refund_account,
             "funds_account": funds_account,
