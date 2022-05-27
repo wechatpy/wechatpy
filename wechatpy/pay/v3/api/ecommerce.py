@@ -283,7 +283,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
     def fund_withdraw_query(
         self,
         sub_mchid,
-        withdraw_id=None,
+        withdraw_id,
     ):
         """
         微信支付预约提现单号查询
