@@ -405,7 +405,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         }
         return self._get("ecommerce/profitsharing/returnorders", params=query)
 
-    def profit_sharing_finish_orders_query(
+    def profit_sharing_finish_orders(
         self,
         sub_mchid,
         transaction_id,
