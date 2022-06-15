@@ -72,7 +72,6 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "authorize_letter_copy": authorize_letter_copy,
             "id_card_info": id_card_info,
             "owner": owner,
-            "ubo_info_list": ubo_info_list,
             "need_account_info": need_account_info,
             "account_info": account_info,
             "contact_info": contact_info,
@@ -83,6 +82,8 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "business_addition_pics": business_addition_pics,
             "business_addition_desc": business_addition_desc,
         }
+        if ubo_info_list:
+            data['ubo_info_list'] = ubo_info_list
         return self._post("ecommerce/applyments/", json=data)
 
     def applyments_query_by_applyment_id(self, applyment_id):
