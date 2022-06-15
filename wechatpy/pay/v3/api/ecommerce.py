@@ -72,17 +72,19 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "owner": owner,
             "account_info": account_info,
             "contact_info": contact_info,
+            "ubo_info_list": ubo_info_list,
+            "settlement_info": settlement_info,
             "sales_scene_info": sales_scene_info,
             "merchant_shortname": merchant_shortname,
             "qualifications": qualifications,
             "business_addition_pics": business_addition_pics,
             "business_addition_desc": business_addition_desc,
         }
-        if settlement_info:
-            data['settlement_info'] = settlement_info
-        if ubo_info_list:
-            data['ubo_info_list'] = ubo_info_list
-        return self._post("ecommerce/applyments/", json=data)
+        post_data = {}
+        for key, val in data.items():
+            if val is not None:
+                post_data[key] = val
+        return self._post("ecommerce/applyments/", json=post_data)
 
     def applyments_query_by_applyment_id(self, applyment_id):
         """
