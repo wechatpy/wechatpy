@@ -11,7 +11,7 @@ class WeChatUser(BaseWeChatAPI):
     """
     成员管理
 
-    https://work.weixin.qq.com/api/doc#90000/90135/90194
+    https://developer.work.weixin.qq.com/document/path/90195
 
     邀请成员接口位于 `WeChatBatch.invite`
     """
@@ -54,7 +54,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         读取成员
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90196
+        https://developer.work.weixin.qq.com/document/path/90196
         """
         return self._get("user/get", params={"userid": user_id})
 
@@ -76,7 +76,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         更新成员
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90197
+        https://developer.work.weixin.qq.com/document/path/90197
         """
         user_data = optionaldict()
         user_data["userid"] = user_id
@@ -98,7 +98,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         删除成员
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90198
+        https://developer.work.weixin.qq.com/document/path/90198
         """
         return self._get("user/delete", params={"userid": user_id})
 
@@ -106,7 +106,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         批量删除成员
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90199
+        https://developer.work.weixin.qq.com/document/path/90199
         """
         return self._post("user/batchdelete", data={"useridlist": user_ids})
 
@@ -114,8 +114,8 @@ class WeChatUser(BaseWeChatAPI):
         """
         批量获取部门成员 / 批量获取部门成员详情
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90200
-        https://work.weixin.qq.com/api/doc#90000/90135/90201
+        https://developer.work.weixin.qq.com/document/path/90200
+        https://developer.work.weixin.qq.com/document/path/90201
 
         此接口和 `WeChatDepartment.get_users` 是同一个接口，区别为 simple 的默认值不同。
         """
@@ -134,7 +134,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         user_id 转成 openid
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90202
+        https://developer.work.weixin.qq.com/document/path/90202
 
         :param user_id: 企业微信内的成员 ID
         :param agent_id: 可选，需要发送红包的应用ID，若只是使用微信支付和企业转账，则无需该参数
@@ -147,7 +147,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         openid 转成 user_id
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90202
+        https://developer.work.weixin.qq.com/document/path/90202
 
         :param openid: 在使用微信支付、微信红包和企业转账之后，返回结果的openid
         :return: 该 openid 在企业微信中对应的成员 user_id
@@ -159,7 +159,7 @@ class WeChatUser(BaseWeChatAPI):
         """
         二次验证
 
-        https://work.weixin.qq.com/api/doc#90000/90135/90203
+        https://developer.work.weixin.qq.com/document/path/90203
 
         :param user_id: 成员UserID。对应管理端的帐号
         """
@@ -180,7 +180,7 @@ class WeChatUser(BaseWeChatAPI):
             4: 2052 x 2052
         :return: 二维码链接
 
-        .. _接口文档: https://work.weixin.qq.com/api/doc/90000/90135/91714
+        .. _接口文档: https://developer.work.weixin.qq.com/document/path/91714
 
         .. warning:: 使用本接口请确保开启了 **通讯录同步** 的API接口同步，并使用
           **通讯录同步** 的 ``secret``，否则调用接口时会出现错误。
@@ -198,9 +198,24 @@ class WeChatUser(BaseWeChatAPI):
         :param date: 具体某天的活跃人数，最长支持获取30天前数据。格式为: ``YYYY-MM-DD``。
         :return: 成员活跃数量
 
-        .. _接口文档:: https://work.weixin.qq.com/api/doc/90000/90135/92714
+        .. _接口文档:: https://developer.work.weixin.qq.com/document/path/92714
 
         .. warning:: 仅通讯录同步助手可调用。
         """
         resp = self._post("user/get_active_stat", data={"date": date})
         return resp["active_cnt"]
+
+    def getuserid(self, mobile: str) -> int:
+        """
+        手机号获取 userid
+
+        Warning: 应用须拥有指定成员的查看权限。请确保手机号的正确性，若出错的次数较多，会导致1天不可调用。
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/95402
+
+        :param mobile: 用户在企业微信通讯录中的手机号码。长度为5~32个字节
+        :return:
+        """
+        resp = self._post("user/getuserid", data={"mobile": mobile})
+        return resp["userid"]

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from operator import itemgetter
 
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -12,14 +13,18 @@ class WeChatCard(BaseWeChatAPI):
         """
         创建卡券
 
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Create_a_Coupon_Voucher_or_Card.html#8
+
         :param card_data: 卡券信息
         :return: 创建的卡券 ID
         """
-        result = self._post("card/create", data=card_data, result_processor=lambda x: x["card_id"])
+        result = self._post("card/create", data=card_data, result_processor=itemgetter("card_id"))
         return result
 
     def batch_add_locations(self, location_data):
         """
+        ⚠️已废弃
         批量导入门店信息
 
         :param location_data: 门店信息
@@ -28,12 +33,13 @@ class WeChatCard(BaseWeChatAPI):
         result = self._post(
             "card/location/batchadd",
             data=location_data,
-            result_processor=lambda x: x["location_id_list"],
+            result_processor=itemgetter("location_id_list"),
         )
         return result
 
     def batch_get_locations(self, offset=0, count=0):
         """
+        ⚠️已废弃
         批量获取门店信息
         """
         return self._post("card/location/batchget", data={"offset": offset, "count": count})
@@ -41,14 +47,36 @@ class WeChatCard(BaseWeChatAPI):
     def get_colors(self):
         """
         获得卡券的最新颜色列表，用于创建卡券
+        目前微信提供包括十四种色值供开发者使用。
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Create_a_Coupon_Voucher_or_Card.html#7
+
         :return: 颜色列表
         """
-        result = self._get("card/getcolors", result_processor=lambda x: x["colors"])
-        return result
+        return [
+            "Color010",  # "#63b359"
+            "Color020",  # "#2c9f67"
+            "Color030",  # "#509fc9"
+            "Color040",  # "#5885cf"
+            "Color050",  # "#9062c0"
+            "Color060",  # "#d09a45"
+            "Color070",  # "#e4b138"
+            "Color080",  # "#ee903c"
+            "Color081",  # "#f08500"
+            "Color082",  # "#a9d92d"
+            "Color090",  # "#dd6549"
+            "Color100",  # "#cc463d"
+            "Color101",  # "#cf3e36"
+            "Color102",  # "#5E6671"
+        ]
 
     def create_qrcode(self, qrcode_data):
         """
         创建卡券二维码
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Distributing_Coupons_Vouchers_and_Cards.html#0
 
         :param qrcode_data: 二维码信息
         :return: 二维码 ticket，可使用 :func:show_qrcode 换取二维码文件
@@ -56,13 +84,17 @@ class WeChatCard(BaseWeChatAPI):
         result = self._post(
             "card/qrcode/create",
             data=qrcode_data,
-            result_processor=lambda x: x["ticket"],
+            result_processor=itemgetter("ticket"),
         )
         return result
 
     def create_landingpage(self, buffer_data):
         """
         创建货架
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Distributing_Coupons_Vouchers_and_Cards.html#3
+
         """
         result = self._post("card/landingpage/create", data=buffer_data)
         return result
@@ -70,17 +102,23 @@ class WeChatCard(BaseWeChatAPI):
     def get_html(self, card_id):
         """
         图文消息群发卡券
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Distributing_Coupons_Vouchers_and_Cards.html#6
         """
         result = self._post(
             "card/mpnews/gethtml",
             data={"card_id": card_id},
-            result_processor=lambda x: x["content"],
+            result_processor=itemgetter("content"),
         )
         return result
 
     def consume_code(self, code, card_id=None):
         """
         消耗 code
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Redeeming_a_coupon_voucher_or_card.html#0
         """
         card_data = {"code": code}
         if card_id:
@@ -90,23 +128,32 @@ class WeChatCard(BaseWeChatAPI):
     def decrypt_code(self, encrypt_code):
         """
         解码加密的 code
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Redeeming_a_coupon_voucher_or_card.html#0
         """
         result = self._post(
             "card/code/decrypt",
             data={"encrypt_code": encrypt_code},
-            result_processor=lambda x: x["code"],
+            result_processor=itemgetter("code"),
         )
         return result
 
     def delete(self, card_id):
         """
         删除卡券
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#7
         """
         return self._post("card/delete", data={"card_id": card_id})
 
     def get_code(self, code, card_id=None, check_consume=True):
         """
         查询 code 信息
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#0
         """
         card_data = {"code": code}
         if card_id:
@@ -118,6 +165,9 @@ class WeChatCard(BaseWeChatAPI):
     def get_card_list(self, openid, card_id=None):
         """
         用于获取用户卡包里的，属于该appid下的卡券。
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#1
         """
         card_data = {"openid": openid}
         if card_id:
@@ -127,7 +177,16 @@ class WeChatCard(BaseWeChatAPI):
     def batch_get(self, offset=0, count=50, status_list=None):
         """
         批量查询卡券信息
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#3
+
+        :param offset: 查询卡列表的起始偏移量，从0开始，即offset: 5是指从从列表里的第六个开始读取。
+        :param count: 需要查询的卡片的数量（数量最大50）
+        :param status_list: 支持开发者拉出指定状态的卡券列表
         """
+        if count > 50:
+            raise ValueError("count cannot be greater than 50")
         card_data = {"offset": offset, "count": count}
         if status_list:
             card_data["status_list"] = status_list
@@ -136,13 +195,23 @@ class WeChatCard(BaseWeChatAPI):
     def get(self, card_id):
         """
         查询卡券详情
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#2
         """
-        result = self._post("card/get", data={"card_id": card_id}, result_processor=lambda x: x["card"])
+        result = self._post("card/get", data={"card_id": card_id}, result_processor=itemgetter("card"))
         return result
 
     def update_code(self, card_id, old_code, new_code):
         """
         更新卡券 code
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#6
+
+        :param card_id: 卡券ID。自定义 Code 码卡券为必填
+        :param old_code: 需变更的 Code 码
+        :param new_code: 变更后的有效 Code 码
         """
         return self._post(
             "card/code/update",
@@ -152,6 +221,9 @@ class WeChatCard(BaseWeChatAPI):
     def invalid_code(self, code, card_id=None):
         """
         设置卡券失效
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#8
         """
         card_data = {"code": code}
         if card_id:
@@ -161,18 +233,27 @@ class WeChatCard(BaseWeChatAPI):
     def update(self, card_data):
         """
         更新卡券信息
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#4
         """
         return self._post("card/update", data=card_data)
 
     def set_paycell(self, card_id, is_open):
         """
-        更新卡券信息
+        设置买单接口
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Create_a_Coupon_Voucher_or_Card.html#12
         """
         return self._post("card/paycell/set", data={"card_id": card_id, "is_open": is_open})
 
     def set_test_whitelist(self, openids=None, usernames=None):
         """
         设置卡券测试用户白名单
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Distributing_Coupons_Vouchers_and_Cards.html#12
         """
         openids = openids or []
         usernames = usernames or []
@@ -181,8 +262,9 @@ class WeChatCard(BaseWeChatAPI):
     def activate_membercard(self, membership_number, code, **kwargs):
         """
         激活会员卡 - 接口激活方式
+
         详情请参见
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#14
 
         参数示例：
         {
@@ -203,7 +285,6 @@ class WeChatCard(BaseWeChatAPI):
 
         :param membership_number: 必填，会员卡编号，由开发者填入，作为序列号显示在用户的卡包里。可与Code码保持等值
         :param code: 必填，领取会员卡用户获得的code
-        :param kwargs: 其他非必填字段，包含则更新对应字段。详情参见微信文档 “6 激活会员卡” 部分
         :return: 参见返回示例
         """
         kwargs["membership_number"] = membership_number
@@ -213,8 +294,9 @@ class WeChatCard(BaseWeChatAPI):
     def update_membercard(self, code, card_id, **kwargs):
         """
         更新会员信息
+
         详情请参见
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#18
 
         注意事项：
         1.开发者可以同时传入add_bonus和bonus解决由于同步失败带来的幂等性问题。同时传入add_bonus和bonus时
@@ -266,8 +348,9 @@ class WeChatCard(BaseWeChatAPI):
     def get_membercard_user_info(self, card_id, code):
         """
         查询会员卡的会员信息
+
         详情请参见
-        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#16
 
         :param card_id: 查询会员卡的 Card ID
         :param code: 所查询用户领取到的 code 值
@@ -284,8 +367,9 @@ class WeChatCard(BaseWeChatAPI):
     def add_pay_giftcard(self, base_info, extra_info, is_membercard):
         """
         新增支付后投放卡券的规则，支持支付后领卡，支付后赠券
+
         详情请参见
-        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Manage_Member_Card.html#4
 
         :param base_info: 营销规则结构体
         :type base_info: dict
@@ -315,8 +399,9 @@ class WeChatCard(BaseWeChatAPI):
     def del_pay_giftcard(self, rule_id):
         """
         删除支付后投放卡券的规则
+
         详情请参见
-        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Manage_Member_Card.html#4
 
         :param rule_id: 支付即会员的规则 ID
         """
@@ -330,8 +415,9 @@ class WeChatCard(BaseWeChatAPI):
     def get_pay_giftcard(self, rule_id):
         """
         查询支付后投放卡券的规则
+
         详情请参见
-        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Manage_Member_Card.html#4
 
         :param rule_id: 支付即会员的规则 ID
         :return: 支付后投放卡券的规则
@@ -342,15 +428,15 @@ class WeChatCard(BaseWeChatAPI):
             data={
                 "rule_id": rule_id,
             },
-            result_processor=lambda x: x["rule_info"],
+            result_processor=itemgetter("rule_info"),
         )
 
     def batch_get_pay_giftcard(self, effective=True, offset=0, count=10):
         """
         批量查询支付后投放卡券的规则
-        详情请参见
-        https://mp.weixin.qq.com/wiki?id=mp1466494654_K9rNz
 
+        详情请参见
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Manage_Member_Card.html#4
 
         :param effective: 是否仅查询生效的规则
         :type effective: bool
@@ -382,6 +468,9 @@ class WeChatCard(BaseWeChatAPI):
     ):
         """
         更新电影票
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Special_ticket.html#7
         """
         ticket = {
             "code": code,
@@ -410,6 +499,9 @@ class WeChatCard(BaseWeChatAPI):
     ):
         """
         飞机票接口
+
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Special_ticket.html#3
         """
         data = {
             "code": code,
@@ -430,6 +522,7 @@ class WeChatCard(BaseWeChatAPI):
 
     def update_luckymoney_balance(self, code, balance, card_id=None):
         """
+        ⚠️已废弃
         更新红包余额
         """
         card_data = {"code": code, "balance": balance}
@@ -513,8 +606,9 @@ class WeChatCard(BaseWeChatAPI):
     def get_activate_info(self, activate_ticket):
         """
         获取用户开卡时提交的信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1499332673_Unm7V
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#16
 
         :param activate_ticket: 跳转型开卡组件开卡后回调中的激活票据，可以用来获取用户开卡资料
         :return: 用户开卡时填写的字段值
@@ -524,14 +618,16 @@ class WeChatCard(BaseWeChatAPI):
             data={
                 "activate_ticket": activate_ticket,
             },
-            result_processor=lambda x: x["info"],
+            result_processor=itemgetter("info"),
         )
 
     def set_activate_user_form(self, card_id, **kwargs):
         """
         设置开卡字段接口
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025283
+        https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#16
+
         "6 激活会员卡" -> "6.2 一键激活" -> "步骤二：设置开卡字段接口"
 
         参数示例：

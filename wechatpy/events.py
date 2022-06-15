@@ -23,28 +23,19 @@ from wechatpy.messages import BaseMessage
 EVENT_TYPES = {}
 
 
-def register_event(event_type):
-    """
-    Register the event class so that they can be accessed from EVENT_TYPES
-
-    :param event_type: Event type
-    """
-
-    def register(cls):
-        EVENT_TYPES[event_type] = cls
-        return cls
-
-    return register
-
-
 class BaseEvent(BaseMessage):
     """Base class for all events"""
 
     type = "event"
     event = ""
 
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        # 注册子类
+        if cls.event:
+            EVENT_TYPES[cls.event] = cls
 
-@register_event("subscribe")
+
 class SubscribeEvent(BaseEvent):
     """
     用户关注事件
@@ -57,7 +48,6 @@ class SubscribeEvent(BaseEvent):
     key = StringField("EventKey", "")
 
 
-@register_event("unsubscribe")
 class UnsubscribeEvent(BaseEvent):
     """
     用户取消关注事件
@@ -69,7 +59,6 @@ class UnsubscribeEvent(BaseEvent):
     event = "unsubscribe"
 
 
-@register_event("subscribe_scan")
 class SubscribeScanEvent(BaseEvent):
     """
     用户扫描二维码关注事件
@@ -83,7 +72,6 @@ class SubscribeScanEvent(BaseEvent):
     ticket = StringField("Ticket")
 
 
-@register_event("scan")
 class ScanEvent(BaseEvent):
     """
     用户扫描二维码事件
@@ -97,7 +85,6 @@ class ScanEvent(BaseEvent):
     ticket = StringField("Ticket")
 
 
-@register_event("location")
 class LocationEvent(BaseEvent):
     """
     上报地理位置事件
@@ -112,7 +99,6 @@ class LocationEvent(BaseEvent):
     precision = FloatField("Precision", 0.0)
 
 
-@register_event("click")
 class ClickEvent(BaseEvent):
     """
     点击菜单拉取消息事件
@@ -125,7 +111,6 @@ class ClickEvent(BaseEvent):
     key = StringField("EventKey")
 
 
-@register_event("view")
 class ViewEvent(BaseEvent):
     """
     点击菜单跳转链接事件
@@ -138,7 +123,6 @@ class ViewEvent(BaseEvent):
     url = StringField("EventKey")
 
 
-@register_event("masssendjobfinish")
 class MassSendJobFinishEvent(BaseEvent):
     """
     群发消息任务完成事件
@@ -156,7 +140,6 @@ class MassSendJobFinishEvent(BaseEvent):
     error_count = IntegerField("ErrorCount", 0)
 
 
-@register_event("templatesendjobfinish")
 class TemplateSendJobFinishEvent(BaseEvent):
     """
     模板消息任务完成事件
@@ -170,7 +153,6 @@ class TemplateSendJobFinishEvent(BaseEvent):
     status = StringField("Status")
 
 
-@register_event("subscribe_msg_popup_event")
 class SubscribeMsgPopupEvent(BaseEvent):
     """
     用户操作订阅通知弹窗事件
@@ -179,6 +161,7 @@ class SubscribeMsgPopupEvent(BaseEvent):
     https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html
     """
 
+    event = "subscribe_msg_popup_event"
     subscribes_info = BaseField("SubscribeMsgPopupEvent", {})
 
     @property
@@ -204,7 +187,6 @@ class SubscribeMsgPopupEvent(BaseEvent):
         return subscribes
 
 
-@register_event("subscribe_msg_change_event")
 class SubscribeMsgChangeEvent(BaseEvent):
     """
     用户管理订阅通知事件
@@ -213,6 +195,7 @@ class SubscribeMsgChangeEvent(BaseEvent):
     https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html
     """
 
+    event = "subscribe_msg_change_event"
     subscribes_info = BaseField("SubscribeMsgChangeEvent", {})
 
     @property
@@ -236,7 +219,6 @@ class SubscribeMsgChangeEvent(BaseEvent):
         return subscribes
 
 
-@register_event("subscribe_msg_sent_event")
 class SubscribeMsgSentEvent(BaseEvent):
     """
     发送订阅通知事件
@@ -245,6 +227,7 @@ class SubscribeMsgSentEvent(BaseEvent):
     https://developers.weixin.qq.com/doc/offiaccount/Subscription_Messages/api.html
     """
 
+    event = "subscribe_msg_sent_event"
     subscribes_info = BaseField("SubscribeMsgSentEvent", {})
 
     @property
@@ -279,7 +262,6 @@ class BaseScanCodeEvent(BaseEvent):
         return self.scan_code_info["ScanResult"]
 
 
-@register_event("scancode_push")
 class ScanCodePushEvent(BaseScanCodeEvent):
     """
     扫码推事件
@@ -291,7 +273,6 @@ class ScanCodePushEvent(BaseScanCodeEvent):
     event = "scancode_push"
 
 
-@register_event("scancode_waitmsg")
 class ScanCodeWaitMsgEvent(BaseScanCodeEvent):
     """
     扫码推事件且弹出“消息接收中”提示框的事件
@@ -321,7 +302,6 @@ class BasePictureEvent(BaseEvent):
         return []
 
 
-@register_event("pic_sysphoto")
 class PicSysPhotoEvent(BasePictureEvent):
     """
     弹出系统拍照发图的事件
@@ -333,7 +313,6 @@ class PicSysPhotoEvent(BasePictureEvent):
     event = "pic_sysphoto"
 
 
-@register_event("pic_photo_or_album")
 class PicPhotoOrAlbumEvent(BasePictureEvent):
     """
     弹出拍照或者相册发图的事件
@@ -345,7 +324,6 @@ class PicPhotoOrAlbumEvent(BasePictureEvent):
     event = "pic_photo_or_album"
 
 
-@register_event("pic_weixin")
 class PicWeChatEvent(BasePictureEvent):
     """
     弹出微信相册发图器的事件
@@ -357,7 +335,6 @@ class PicWeChatEvent(BasePictureEvent):
     event = "pic_weixin"
 
 
-@register_event("location_select")
 class LocationSelectEvent(BaseEvent):
     """
     弹出地理位置选择器的事件
@@ -395,7 +372,6 @@ class LocationSelectEvent(BaseEvent):
         return self.location_info["Poiname"]
 
 
-@register_event("card_pass_check")
 class CardPassCheckEvent(BaseEvent):
     """
     卡券审核事件推送
@@ -407,14 +383,12 @@ class CardPassCheckEvent(BaseEvent):
     card_id = StringField("CardId")
 
 
-@register_event("card_not_pass_check")
 class CardNotPassCheckEvent(BaseEvent):
     event = "card_not_pass_check"
     card_id = StringField("CardId")
     refuse_reason = StringField("RefuseReason")
 
 
-@register_event("user_get_card")
 class UserGetCardEvent(BaseEvent):
     """
     领取事件推送
@@ -436,7 +410,6 @@ class UserGetCardEvent(BaseEvent):
     union_id = StringField("UnionId")
 
 
-@register_event("user_gifting_card")
 class UserGiftingCardEvent(BaseEvent):
     """
     转赠事件推送
@@ -453,7 +426,6 @@ class UserGiftingCardEvent(BaseEvent):
     is_chat_room = IntegerField("IsChatRoom")
 
 
-@register_event("user_del_card")
 class UserDeleteCardEvent(BaseEvent):
     """
     卡券删除事件推送
@@ -467,7 +439,6 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField("UserCardCode")
 
 
-@register_event("user_consume_card")
 class UserConsumeCardEvent(BaseEvent):
     """
     卡券核销事件推送
@@ -487,7 +458,6 @@ class UserConsumeCardEvent(BaseEvent):
     outer_str = StringField("OuterStr")
 
 
-@register_event("user_pay_from_pay_cell")
 class UserPayFromPayCell(BaseEvent):
     """
     卡券买单事件推送
@@ -505,7 +475,6 @@ class UserPayFromPayCell(BaseEvent):
     original_fee = IntegerField("OriginalFee")
 
 
-@register_event("user_view_card")
 class UserViewCard(BaseEvent):
     """
     进入会员卡事件推送
@@ -520,7 +489,6 @@ class UserViewCard(BaseEvent):
     outer_str = StringField("OuterStr")
 
 
-@register_event("user_enter_session_from_card")
 class UserEnterSessionFromCardEvent(BaseEvent):
     """
     从卡券进入公众号会话事件推送
@@ -534,7 +502,6 @@ class UserEnterSessionFromCardEvent(BaseEvent):
     code = StringField("UserCardCode")
 
 
-@register_event("update_member_card")
 class UpdateMemberCard(BaseEvent):
     """
     会员卡内容更新事件
@@ -550,7 +517,6 @@ class UpdateMemberCard(BaseEvent):
     modify_balance = IntegerField("ModifyBalance")
 
 
-@register_event("card_sku_remind")
 class CardSkuRemindEvent(BaseEvent):
     """
     卡券库存报警事件
@@ -564,7 +530,6 @@ class CardSkuRemindEvent(BaseEvent):
     detail = StringField("Detail")
 
 
-@register_event("card_pay_order")
 class CardPayOrderEvent(BaseEvent):
     """
     券点流水详情事件
@@ -588,7 +553,6 @@ class CardPayOrderEvent(BaseEvent):
     receipt_info = StringField("ReceiptInfo")
 
 
-@register_event("submit_membercard_user_info")
 class SubmitMembercardUserInfo(BaseEvent):
     """
     会员卡激活事件推送
@@ -602,7 +566,6 @@ class SubmitMembercardUserInfo(BaseEvent):
     card_code = StringField("UserCardCode")
 
 
-@register_event("merchant_order")
 class MerchantOrderEvent(BaseEvent):
     event = "merchant_order"
     order_id = StringField("OrderId")
@@ -611,26 +574,22 @@ class MerchantOrderEvent(BaseEvent):
     sku_info = StringField("SkuInfo")
 
 
-@register_event("kf_create_session")
 class KfCreateSessionEvent(BaseEvent):
     event = "kf_create_session"
     account = StringField("KfAccount")
 
 
-@register_event("kf_close_session")
 class KfCloseSessionEvent(BaseEvent):
     event = "kf_close_session"
     account = StringField("KfAccount")
 
 
-@register_event("kf_switch_session")
 class KfSwitchSessionEvent(BaseEvent):
     event = "kf_switch_session"
     from_account = StringField("FromKfAccount")
     to_account = StringField("ToKfAccount")
 
 
-@register_event("device_text")
 class DeviceTextEvent(BaseEvent):
     event = "device_text"
     device_type = StringField("DeviceType")
@@ -640,7 +599,6 @@ class DeviceTextEvent(BaseEvent):
     open_id = StringField("OpenID")
 
 
-@register_event("device_bind")
 class DeviceBindEvent(BaseEvent):
     event = "device_bind"
     device_type = StringField("DeviceType")
@@ -650,7 +608,6 @@ class DeviceBindEvent(BaseEvent):
     open_id = StringField("OpenID")
 
 
-@register_event("device_unbind")
 class DeviceUnbindEvent(BaseEvent):
     event = "device_unbind"
     device_type = StringField("DeviceType")
@@ -660,7 +617,6 @@ class DeviceUnbindEvent(BaseEvent):
     open_id = StringField("OpenID")
 
 
-@register_event("device_subscribe_status")
 class DeviceSubscribeStatusEvent(BaseEvent):
     event = "device_subscribe_status"
     device_type = StringField("DeviceType")
@@ -669,7 +625,6 @@ class DeviceSubscribeStatusEvent(BaseEvent):
     op_type = IntegerField("OpType")
 
 
-@register_event("device_unsubscribe_status")
 class DeviceUnsubscribeStatusEvent(BaseEvent):
     event = "device_unsubscribe_status"
     device_type = StringField("DeviceType")
@@ -678,9 +633,8 @@ class DeviceUnsubscribeStatusEvent(BaseEvent):
     op_type = IntegerField("OpType")
 
 
-@register_event("shakearoundusershake")
 class ShakearoundUserShakeEvent(BaseEvent):
-    event = "shakearound_user_shake"
+    event = "shakearoundusershake"
     _chosen_beacon = BaseField("ChosenBeacon", {})
     _around_beacons = BaseField("AroundBeacons", {})
 
@@ -715,7 +669,6 @@ class ShakearoundUserShakeEvent(BaseEvent):
         return ret
 
 
-@register_event("poi_check_notify")
 class PoiCheckNotifyEvent(BaseEvent):
     event = "poi_check_notify"
     poi_id = StringField("PoiId")
@@ -724,9 +677,8 @@ class PoiCheckNotifyEvent(BaseEvent):
     message = StringField("Msg")
 
 
-@register_event("wificonnected")
 class WiFiConnectedEvent(BaseEvent):
-    event = "wificconnected"
+    event = "wificonnected"
     connect_time = IntegerField("ConnectTime")
     expire_time = IntegerField("ExpireTime")
     vendor_id = StringField("VendorId")
@@ -737,7 +689,6 @@ class WiFiConnectedEvent(BaseEvent):
 # ============================================================================
 # 微信认证事件推送
 # ============================================================================
-@register_event("qualification_verify_success")
 class QualificationVerifySuccessEvent(BaseEvent):
     """
     资质认证成功事件
@@ -750,7 +701,6 @@ class QualificationVerifySuccessEvent(BaseEvent):
     expired_time = DateTimeField("ExpiredTime")
 
 
-@register_event("qualification_verify_fail")
 class QualificationVerifyFailEvent(BaseEvent):
     """
     资质认证失败事件
@@ -764,7 +714,6 @@ class QualificationVerifyFailEvent(BaseEvent):
     fail_reason = StringField("FailReason")
 
 
-@register_event("naming_verify_success")
 class NamingVerifySuccessEvent(BaseEvent):
     """
     名称认证成功事件
@@ -777,7 +726,6 @@ class NamingVerifySuccessEvent(BaseEvent):
     expired_time = DateTimeField("ExpiredTime")
 
 
-@register_event("naming_verify_fail")
 class NamingVerifyFailEvent(BaseEvent):
     """
     名称认证失败事件
@@ -791,7 +739,6 @@ class NamingVerifyFailEvent(BaseEvent):
     fail_reason = StringField("FailReason")
 
 
-@register_event("annual_renew")
 class AnnualRenewEvent(BaseEvent):
     """
     年审通知事件
@@ -804,7 +751,6 @@ class AnnualRenewEvent(BaseEvent):
     expired_time = DateTimeField("ExpiredTime")
 
 
-@register_event("verify_expired")
 class VerifyExpiredEvent(BaseEvent):
     """
     认证过期失效通知
@@ -817,7 +763,6 @@ class VerifyExpiredEvent(BaseEvent):
     expired_time = DateTimeField("ExpiredTime")
 
 
-@register_event("user_scan_product")
 class UserScanProductEvent(BaseEvent):
     """
     打开商品主页事件
@@ -836,7 +781,6 @@ class UserScanProductEvent(BaseEvent):
     scene = IntegerField("Scene")
 
 
-@register_event("user_scan_product_enter_session")
 class UserScanProductEnterSessionEvent(BaseEvent):
     """
     进入公众号事件
@@ -850,7 +794,6 @@ class UserScanProductEnterSessionEvent(BaseEvent):
     key = StringField("KeyStr")
 
 
-@register_event("user_scan_product_async")
 class UserScanProductAsyncEvent(BaseEvent):
     """
     地理位置信息异步推送事件
@@ -865,7 +808,6 @@ class UserScanProductAsyncEvent(BaseEvent):
     region_code = StringField("RegionCode")
 
 
-@register_event("user_scan_product_verify_action")
 class UserScanProductVerifyActionEvent(BaseEvent):
     """
     商品审核结果事件
@@ -881,7 +823,6 @@ class UserScanProductVerifyActionEvent(BaseEvent):
     reason = StringField("ReasonMsg")
 
 
-@register_event("subscribe_scan_product")
 class SubscribeScanProductEvent(BaseEvent):
     """
     用户在商品主页中关注公众号事件
@@ -906,7 +847,6 @@ class SubscribeScanProductEvent(BaseEvent):
         return self.event_key.split("|")[2]
 
 
-@register_event("user_authorize_invoice")
 class UserAuthorizeInvoiceEvent(BaseEvent):
     """
     用户授权发票事件
@@ -923,7 +863,6 @@ class UserAuthorizeInvoiceEvent(BaseEvent):
     auth_source = StringField("Source")  # 授权来源，web表示来自微信内H5，app标识来自app
 
 
-@register_event("update_invoice_status")
 class UpdateInvoiceStatusEvent(BaseEvent):
     """
     发票状态更新事件
@@ -938,7 +877,6 @@ class UpdateInvoiceStatusEvent(BaseEvent):
     code = StringField("Code")  # 发票 Code
 
 
-@register_event("submit_invoice_title")
 class SubmitInvoiceTitleEvent(BaseEvent):
     """
     用户提交发票抬头事件
@@ -958,7 +896,6 @@ class SubmitInvoiceTitleEvent(BaseEvent):
     title_type = StringField("title_type")  # 抬头类型，个人InvoiceUserTitlePersonType, 公司InvoiceUserTitleBusinessType
 
 
-@register_event("user_enter_tempsession")
 class UserEnterTempSessionEvent(BaseEvent):
     """
     小程序用户进入客服消息
@@ -970,7 +907,6 @@ class UserEnterTempSessionEvent(BaseEvent):
     session_from = StringField("SessionFrom")
 
 
-@register_event("view_miniprogram")
 class ViewMiniProgramEvent(BaseEvent):
     """
     从菜单进入小程序事件
@@ -981,7 +917,6 @@ class ViewMiniProgramEvent(BaseEvent):
     menu_id = StringField("MenuId")  # 菜单ID
 
 
-@register_event("wxa_media_check")
 class WxaMediaCheckEvent(BaseEvent):
     """
     异步检测结果通知事件

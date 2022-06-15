@@ -6,6 +6,7 @@ from wechatpy.work.client.api.appchat import WeChatAppChat  # NOQA
 from wechatpy.work.client.api.batch import WeChatBatch  # NOQA
 from wechatpy.work.client.api.calendar import WeChatCalendar  # NOQA
 from wechatpy.work.client.api.department import WeChatDepartment  # NOQA
+from wechatpy.work.client.api.email import WeChatEMail  # NOQA
 from wechatpy.work.client.api.external_contact import WeChatExternalContact  # NOQA
 from wechatpy.work.client.api.external_contact_group_chat import WeChatExternalContactGroupChat
 from wechatpy.work.client.api.invoice import WeChatInvoice  # NOQA
@@ -22,3 +23,5 @@ from wechatpy.work.client.api.tag import WeChatTag  # NOQA
 from wechatpy.work.client.api.user import WeChatUser  # NOQA
 from wechatpy.work.client.api.kf import WeChatKF  # NOQA
 from wechatpy.work.client.api.kf_message import WeChatKFMessage  # NOQA
+from wechatpy.work.client.api.export import WeChatExport  # NOQA
+from wechatpy.work.client.api.living import WeChatLiving  # NOQA

@@ -1,0 +1,27 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "list": [{
+    "id": 1,
+    "email": "apitest3@gzdev.com",
+    "name": "测试",
+    "userid_list": {
+      "list": [
+        "member",
+        "member2"
+      ]
+    },
+    "department_list": {
+      "list": [
+        1,
+        2
+      ]
+    },
+    "tag_list": {
+      "list": [
+        1,
+        2
+      ]
+    }
+  }]
+}

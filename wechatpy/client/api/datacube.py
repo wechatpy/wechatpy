@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+from operator import itemgetter
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -11,7 +12,7 @@ class WeChatDataCube(BaseWeChatAPI):
 
     @classmethod
     def _to_date_str(cls, date):
-        if isinstance(date, (datetime.datetime, datetime.date)):
+        if isinstance(date, datetime.date):
             return date.strftime("%Y-%m-%d")
         elif isinstance(date, str):
             return date
@@ -22,7 +23,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取用户增减数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/User_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -41,7 +42,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取累计用户数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/User_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -53,7 +54,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -61,7 +62,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取接口分析数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/30ed81ae38cf4f977194bf1a5db73668.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Analytics_API.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -73,7 +74,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -81,7 +82,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取接口分析分时数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/30ed81ae38cf4f977194bf1a5db73668.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Analytics_API.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -93,7 +94,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -101,7 +102,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取图文群发每日数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/c0453610fb5131d1fcb17b4e87c82050.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Graphic_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -113,7 +114,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -121,7 +122,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取图文群发总数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/c0453610fb5131d1fcb17b4e87c82050.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Graphic_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -133,7 +134,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -141,7 +142,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取图文统计数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/c0453610fb5131d1fcb17b4e87c82050.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Graphic_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -153,7 +154,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -161,7 +162,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取图文分时统计数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/c0453610fb5131d1fcb17b4e87c82050.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Graphic_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -173,7 +174,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -181,7 +182,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取图文分享转发数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/c0453610fb5131d1fcb17b4e87c82050.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Graphic_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -193,7 +194,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -201,7 +202,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取图文分享转发分时数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/8/c0453610fb5131d1fcb17b4e87c82050.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Graphic_Analysis_Data_Interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -213,7 +214,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -221,7 +222,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取消息发送概况数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/12/32d42ad542f2e4fc8a8aa60e1bce9838.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Message_analysis_data_interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -233,7 +234,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -241,7 +242,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取消息发送分时数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/12/32d42ad542f2e4fc8a8aa60e1bce9838.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Message_analysis_data_interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -253,7 +254,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -261,7 +262,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取消息发送周数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/12/32d42ad542f2e4fc8a8aa60e1bce9838.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Message_analysis_data_interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -273,7 +274,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -293,7 +294,7 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
@@ -301,7 +302,7 @@ class WeChatDataCube(BaseWeChatAPI):
         """
         获取消息发送分布数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/12/32d42ad542f2e4fc8a8aa60e1bce9838.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Message_analysis_data_interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -313,15 +314,15 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
     def get_upstream_msg_dist_week(self, begin_date, end_date):
         """
-        获取消息发送分布数据
+        获取消息发送分布周数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/12/32d42ad542f2e4fc8a8aa60e1bce9838.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Message_analysis_data_interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -333,15 +334,15 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res
 
     def get_upstream_msg_dist_month(self, begin_date, end_date):
         """
-        获取消息发送分布数据
+        获取消息发送分布月数据
         详情请参考
-        http://mp.weixin.qq.com/wiki/12/32d42ad542f2e4fc8a8aa60e1bce9838.html
+        https://developers.weixin.qq.com/doc/offiaccount/Analytics/Message_analysis_data_interface.html
 
         :param begin_date: 起始日期
         :param end_date: 结束日期
@@ -353,6 +354,6 @@ class WeChatDataCube(BaseWeChatAPI):
                 "begin_date": self._to_date_str(begin_date),
                 "end_date": self._to_date_str(end_date),
             },
-            result_processor=lambda x: x["list"],
+            result_processor=itemgetter("list"),
         )
         return res

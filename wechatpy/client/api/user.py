@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from operator import itemgetter
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -8,8 +8,9 @@ class WeChatUser(BaseWeChatAPI):
     def get(self, user_id, lang="zh_CN"):
         """
         获取用户基本信息（包括UnionID机制）
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839
+        https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
 
         :param user_id: 普通用户的标识，对当前公众号唯一
         :param lang: 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
@@ -17,10 +18,10 @@ class WeChatUser(BaseWeChatAPI):
 
         使用示例::
 
-            from wechatpy import WeChatClient
-
-            client = WeChatClient('appid', 'secret')
-            user = client.user.get('openid')
+        >>>    from wechatpy import WeChatClient
+        >>>
+        >>>    client = WeChatClient('appid', 'secret')
+        >>>    user = client.user.get('openid')
 
         """
         assert lang in (
@@ -36,17 +37,17 @@ class WeChatUser(BaseWeChatAPI):
         获取一页用户列表(当关注用户过多的情况下，这个接口只会返回一部分用户)
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840
+        https://developers.weixin.qq.com/doc/offiaccount/User_Management/Getting_a_User_List.html
 
         :param first_user_id: 可选。第一个拉取的 OPENID，不填默认从头开始拉取
         :return: 返回的 JSON 数据包
 
         使用示例::
 
-            from wechatpy import WeChatClient
-
-            client = WeChatClient('appid', 'secret')
-            followers = client.user.get_followers()
+        >>>    from wechatpy import WeChatClient
+        >>>
+        >>>    client = WeChatClient('appid', 'secret')
+        >>>    followers = client.user.get_followers()
 
         """
         params = {}
@@ -59,17 +60,17 @@ class WeChatUser(BaseWeChatAPI):
         获取所有的用户openid列表
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840
+        https://developers.weixin.qq.com/doc/offiaccount/User_Management/Getting_a_User_List.html
 
         :return: 返回一个迭代器，可以用for进行循环，得到openid
 
         使用示例::
 
-            from wechatpy import WeChatClient
-
-            client = WeChatClient('appid', 'secret')
-            for openid in client.user.iter_followers():
-                print(openid)
+        >>>    from wechatpy import WeChatClient
+        >>>
+        >>>    client = WeChatClient('appid', 'secret')
+        >>>    for openid in client.user.iter_followers():
+        >>>        print(openid)
 
         """
         while True:
@@ -90,7 +91,7 @@ class WeChatUser(BaseWeChatAPI):
         设置用户备注名
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140838
+        https://developers.weixin.qq.com/doc/offiaccount/User_Management/Configuring_user_notes.html
 
         :param user_id: 用户标识
         :param remark: 新的备注名，长度必须小于30字符
@@ -98,16 +99,17 @@ class WeChatUser(BaseWeChatAPI):
 
         使用示例::
 
-            from wechatpy import WeChatClient
-
-            client = WeChatClient('appid', 'secret')
-            client.user.update_remark('openid', 'Remark')
+        >>>    from wechatpy import WeChatClient
+        >>>
+        >>>    client = WeChatClient('appid', 'secret')
+        >>>    client.user.update_remark('openid', 'Remark')
 
         """
         return self._post("user/info/updateremark", data={"openid": user_id, "remark": remark})
 
     def get_group_id(self, user_id):
         """
+        ⚠️已废弃
         获取用户所在分组 ID
 
         详情请参考
@@ -127,7 +129,7 @@ class WeChatUser(BaseWeChatAPI):
         res = self._post(
             "groups/getid",
             data={"openid": user_id},
-            result_processor=lambda x: x["groupid"],
+            result_processor=itemgetter("groupid"),
         )
         return res
 
@@ -137,29 +139,31 @@ class WeChatUser(BaseWeChatAPI):
         开发者可通过该接口来批量获取用户基本信息。最多支持一次拉取100条。
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839
+        https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
 
         :param user_list: user_list，支持“使用示例”中两种输入格式
         :return: 用户信息的 list
 
         使用示例::
 
-            from wechatpy import WeChatClient
+        >>>    from wechatpy import WeChatClient
+        >>>
+        >>>    client = WeChatClient('appid', 'secret')
+        >>>    users = client.user.get_batch(['openid1', 'openid2'])
+        >>>    users = client.user.get_batch([
+        >>>      {'openid': 'openid1', 'lang': 'zh-CN'},
+        >>>      {'openid': 'openid2', 'lang': 'en'},
+        >>>    ])
 
-            client = WeChatClient('appid', 'secret')
-            users = client.user.get_batch(['openid1', 'openid2'])
-            users = client.user.get_batch([
-              {'openid': 'openid1', 'lang': 'zh-CN'},
-              {'openid': 'openid2', 'lang': 'en'},
-            ])
-
+        opendid: 必填，用户的标识，对当前公众号唯一
+        lang: 非必填，国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语，默认为zh-CN
         """
         if all((isinstance(x, str) for x in user_list)):
             user_list = [{"openid": oid} for oid in user_list]
         res = self._post(
             "user/info/batchget",
             data={"user_list": user_list},
-            result_processor=lambda x: x["user_info_list"],
+            result_processor=itemgetter("user_info_list"),
         )
         return res
 
@@ -176,5 +180,5 @@ class WeChatUser(BaseWeChatAPI):
         return self._post(
             "changeopenid",
             data={"from_appid": from_appid, "openid_list": openid_list},
-            result_processor=lambda x: x["result_list"],
+            result_processor=itemgetter("result_list"),
         )

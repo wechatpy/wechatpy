@@ -2,10 +2,197 @@
 import unittest
 from datetime import datetime
 
-from wechatpy import parse_message
+from wechatpy import events, parse_message
 
 
 class EventsTestCase(unittest.TestCase):
+    def test_subscribe_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[FromUser]]></FromUserName>
+            <CreateTime>123456789</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[subscribe]]></Event>
+        </xml>
+        """
+
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.SubscribeEvent)
+        self.assertEqual("FromUser", event.source)
+        self.assertEqual("toUser", event.target)
+
+    def test_unsubscribe_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[FromUser]]></FromUserName>
+            <CreateTime>123456789</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[unsubscribe]]></Event>
+        </xml>
+        """
+
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.UnsubscribeEvent)
+        self.assertEqual("FromUser", event.source)
+        self.assertEqual("toUser", event.target)
+
+    def test_subscribe_scan_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[FromUser]]></FromUserName>
+            <CreateTime>123456789</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[subscribe]]></Event>
+            <EventKey><![CDATA[qrscene_123123]]></EventKey>
+            <Ticket><![CDATA[TICKET]]></Ticket>
+        </xml>
+        """
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.SubscribeScanEvent)
+        self.assertEqual("FromUser", event.source)
+        self.assertEqual("toUser", event.target)
+        self.assertEqual("123123", event.scene_id)
+        self.assertEqual("TICKET", event.ticket)
+
+    def test_scan_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[FromUser]]></FromUserName>
+            <CreateTime>123456789</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[SCAN]]></Event>
+            <EventKey><![CDATA[SCENE_VALUE]]></EventKey>
+            <Ticket><![CDATA[TICKET]]></Ticket>
+        </xml>
+        """
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.ScanEvent)
+        self.assertEqual("FromUser", event.source)
+        self.assertEqual("toUser", event.target)
+        self.assertEqual("SCENE_VALUE", event.scene_id)
+        self.assertEqual("TICKET", event.ticket)
+
+    def test_location_event(self):
+        xml = """
+        <xml>
+          <ToUserName><![CDATA[toUser]]></ToUserName>
+          <FromUserName><![CDATA[fromUser]]></FromUserName>
+          <CreateTime>123456789</CreateTime>
+          <MsgType><![CDATA[event]]></MsgType>
+          <Event><![CDATA[LOCATION]]></Event>
+          <Latitude>23.137466</Latitude>
+          <Longitude>113.352425</Longitude>
+          <Precision>119.385040</Precision>
+        </xml>
+        """
+
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.LocationEvent)
+        self.assertEqual(23.137466, event.latitude)
+        self.assertEqual(113.352425, event.longitude)
+        self.assertEqual(119.385040, event.precision)
+
+    def test_click_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[FromUser]]></FromUserName>
+            <CreateTime>123456789</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[CLICK]]></Event>
+            <EventKey><![CDATA[EVENTKEY]]></EventKey>
+        </xml>
+        """
+
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.ClickEvent)
+        self.assertEqual("EVENTKEY", event.key)
+
+    def test_view_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[FromUser]]></FromUserName>
+            <CreateTime>123456789</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[VIEW]]></Event>
+            <EventKey><![CDATA[www.qq.com]]></EventKey>
+        </xml>
+        """
+
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.ViewEvent)
+        self.assertEqual("www.qq.com", event.url)
+
+    def test_mass_send_job_finish_event(self):
+        xml = """
+        <xml>
+            <ToUserName><![CDATA[gh_4d00ed8d6399]]></ToUserName>
+            <FromUserName><![CDATA[oV5CrjpxgaGXNHIQigzNlgLTnwic]]></FromUserName>
+            <CreateTime>1481013459</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[MASSSENDJOBFINISH]]></Event>
+            <MsgID>1000001625</MsgID>
+            <Status><![CDATA[err(30003)]]></Status>
+            <TotalCount>0</TotalCount>
+            <FilterCount>0</FilterCount>
+            <SentCount>0</SentCount>
+            <ErrorCount>0</ErrorCount>
+            <CopyrightCheckResult>
+                <Count>2</Count>
+                <ResultList>
+                    <item>
+                        <ArticleIdx>1</ArticleIdx>
+                        <UserDeclareState>0</UserDeclareState>
+                        <AuditState>2</AuditState>
+                        <OriginalArticleUrl><![CDATA[Url_1]]></OriginalArticleUrl>
+                        <OriginalArticleType>1</OriginalArticleType>
+                        <CanReprint>1</CanReprint>
+                        <NeedReplaceContent>1</NeedReplaceContent>
+                        <NeedShowReprintSource>1</NeedShowReprintSource>
+                    </item>
+                    <item>
+                        <ArticleIdx>2</ArticleIdx>
+                        <UserDeclareState>0</UserDeclareState>
+                        <AuditState>2</AuditState>
+                        <OriginalArticleUrl><![CDATA[Url_2]]></OriginalArticleUrl>
+                        <OriginalArticleType>1</OriginalArticleType>
+                        <CanReprint>1</CanReprint>
+                        <NeedReplaceContent>1</NeedReplaceContent>
+                        <NeedShowReprintSource>1</NeedShowReprintSource>
+                    </item>
+                </ResultList>
+                <CheckState>2</CheckState>
+            </CopyrightCheckResult>
+            <ArticleUrlResult>
+                <Count>1</Count>
+                <ResultList>
+                    <item>
+                        <ArticleIdx>1</ArticleIdx>
+                        <ArticleUrl><![CDATA[Url]]></ArticleUrl>
+                    </item>
+               </ResultList>
+            </ArticleUrlResult>
+        </xml>
+        """
+
+        event = parse_message(xml)
+
+        self.assertIsInstance(event, events.MassSendJobFinishEvent)
+        self.assertEqual(1000001625, event.id)
+        self.assertEqual("err(30003)", event.status)
+
     def test_scan_code_push_event(self):
         from wechatpy.events import ScanCodePushEvent
 

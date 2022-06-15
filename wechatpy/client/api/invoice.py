@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from operator import itemgetter
 
 from wechatpy.client.api.base import BaseWeChatAPI
 
@@ -9,32 +9,35 @@ class WeChatInvoice(BaseWeChatAPI):
 
     def get_url(self):
         """
-        获取自身开票平台专用的授权链接
+        获取自身的开票平台识别码
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561481_1TyO7
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Invoicing_Platform_API_List.html
 
         :return:该开票平台专用的授权链接
         """
         return self._post(
             "seturl",
             data={},
-            result_processor=lambda x: x["invoice_url"],
+            result_processor=itemgetter("invoice_url"),
         )
 
     def create_card(self, base_info, payee, invoice_type, detail=None):
         """
         创建发票卡券模板
         注意这里的对象和会员卡有类似之处，但是含义有不同。创建发票卡券模板是创建发票卡券的基础。
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561481_1TyO7
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Invoicing_Platform_API_List.html
 
         :param base_info:发票卡券模板基础信息
         :type base_info: dict
         :param payee: 收款方（开票方）全称，显示在发票详情内。建议一个收款方对应一个发票卡券模板
-        :param invoice_type: 发票类型描述
+        :param invoice_type: 发票类型
         :param detail: 备注详情
         :return: 发票卡券模板的编号，用于后续该商户发票生成后，作为必填参数在调用插卡接口时传入
         """
+        # FIXME 新版接口已经移除了 detail 参数，请确认此参数是否需要保留
         return self._post(
             "platform/createcard",
             data={
@@ -61,8 +64,9 @@ class WeChatInvoice(BaseWeChatAPI):
     ):
         """
         获取授权页链接
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html
 
         :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
         :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
@@ -70,7 +74,7 @@ class WeChatInvoice(BaseWeChatAPI):
         :type money: int
         :param timestamp: Unix 时间戳
         :type timestamp: int
-        :param source: 开票来源。app: App开票, web: 微信H5开票, wap: 普通网页开票
+        :param source: 开票来源。app: App开票, web: 微信H5开票, wap: 普通网页开票, wxa：小程序开发票
         :param ticket: 根据获取授权ticket接口取得
         :param auth_type: 授权类型。0: 开票授权，1: 填写字段开票授权，2: 领票授权
         :type auth_type: int
@@ -81,7 +85,7 @@ class WeChatInvoice(BaseWeChatAPI):
             raise ValueError('Unsupported source. Valid sources are "app", "web" or "wap"')
         if source == "web" and redirect_url is None:
             raise ValueError("redirect_url is required if source is web")
-        if not (0 <= auth_type <= 2):
+        if auth_type not in {0, 1, 2}:
             raise ValueError("Unsupported auth type. Valid auth types are 0, 1 or 2")
         return self._post(
             "getauthurl",
@@ -95,14 +99,15 @@ class WeChatInvoice(BaseWeChatAPI):
                 "type": auth_type,
                 "redirect_url": redirect_url,
             },
-            result_processor=lambda x: x["auth_url"],
+            result_processor=itemgetter("auth_url"),
         )
 
     def set_auth_field(self, user_field, biz_field):
         """
         设置授权页字段信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html
 
         :param user_field: 授权页个人发票字段
         :type user_field: dict
@@ -125,8 +130,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def get_auth_field(self):
         """
         获取授权页字段信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html
 
         :return: 授权页的字段设置
         :rtype: dict
@@ -142,10 +148,11 @@ class WeChatInvoice(BaseWeChatAPI):
     def get_auth_data(self, s_pappid, order_id):
         """
         查询授权数据
-        详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
 
-        :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html
+
+        :param s_pappid: 开票平台在微信的标识，由开票平台告知商户
         :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
         :return: 用户的开票信息
         :rtype: dict
@@ -161,13 +168,14 @@ class WeChatInvoice(BaseWeChatAPI):
     def reject_insert(self, s_pappid, order_id, reason, redirect_url=None):
         """
         拒绝用户的开发票请求
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html
 
         :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
         :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
-        :param reason: 拒绝原因
-        :param redirect_url: 跳转链接
+        :param reason: 商家解释拒绝开票的原因，如重复开票，抬头无效、已退货无法开票等
+        :param redirect_url: 跳转链接，引导用户进行下一步处理，如重新发起开票、重新填写抬头、展示订单情况等
         """
         return self._post(
             "rejectinsert",
@@ -181,11 +189,12 @@ class WeChatInvoice(BaseWeChatAPI):
 
     def insert(self, order_id, card_id, appid, card_ext):
         """
-        制作发票卡券，并放入用户卡包
-        详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        将电子发票卡券插入用户卡包
 
-        :param order_id: 订单id，在商户内单笔开票请求的唯一识别号
+        详情请参考
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Invoicing_Platform_API_List.html
+
+        :param order_id: 发票order_id，既商户给用户授权开票的订单号
         :param card_id: 发票卡券模板的编号
         :param appid: 商户 AppID
         :param card_ext: 发票具体内容
@@ -205,8 +214,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def upload_pdf(self, pdf):
         """
         上传电子发票中的消费凭证 PDF
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Invoicing_Platform_API_List.html
 
         :param pdf: 要上传的 PDF 文件，一个 File-object
         :return: 64位整数，在将发票卡券插入用户卡包时使用用于关联pdf和发票卡券。有效期为3天。
@@ -216,14 +226,15 @@ class WeChatInvoice(BaseWeChatAPI):
             files={
                 "pdf": pdf,
             },
-            result_processor=lambda x: x["s_media_id"],
+            result_processor=itemgetter("s_media_id"),
         )
 
     def get_pdf(self, s_media_id):
         """
         查询已上传的 PDF
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Invoicing_Platform_API_List.html
 
         :param s_media_id: PDF 文件上传时的 s_media_id
         :return: PDF 文件的 URL，以及过期时间
@@ -242,8 +253,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def update_status(self, card_id, code, reimburse_status):
         """
         更新发票卡券的状态
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1497082828_r1cI2
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Invoicing_Platform_API_List.html
 
         :param card_id: 发票卡券模板的编号
         :param code: 发票卡券的编号
@@ -298,8 +310,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def set_pay_mch(self, mchid, s_pappid):
         """
         关联商户号与开票平台，设置支付后开票
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561731_2Z55U
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html#17
 
         :param mchid: 微信支付商户号
         :param s_pappid: 开票平台在微信的标识号，商户需要找开票平台提供
@@ -320,8 +333,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def get_pay_mch(self):
         """
         查询商户号与开票平台关联情况
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561731_2Z55U
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Vendor_API_List.html
 
         :return: mchid 和 s_pappid
         :rtype: dict
@@ -337,8 +351,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def get_reimburse(self, card_id, encrypt_code):
         """
         报销方查询发票信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561749_f7T6D
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/Auto-print/API_Documentation.html#_5-2-%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F
 
         :param card_id: 发票卡券的 Card ID
         :param encrypt_code: 发票卡券的加密 Code
@@ -356,8 +371,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def update_reimburse(self, card_id, encrypt_code, reimburse_status):
         """
         报销方更新发票信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561749_f7T6D
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Reimburser_API_List.html
 
         :param card_id: 发票卡券的 Card ID
         :param encrypt_code: 发票卡券的加密 Code
@@ -375,8 +391,9 @@ class WeChatInvoice(BaseWeChatAPI):
     def batch_update_reimburse(self, openid, reimburse_status, invoice_list):
         """
         报销方批量更新发票信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496561749_f7T6D
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/E_Invoice/Reimburser_API_List.html
 
         :param openid: 用户的 Open ID
         :param reimburse_status: 发票报销状态
@@ -406,8 +423,9 @@ class WeChatInvoice(BaseWeChatAPI):
         """
         获取添加发票链接
         获取链接，发送给用户。用户同意以后，发票抬头信息将会录入到用户微信中
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496554912_vfWU0
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/Quick_issuing/Interface_Instructions.html
 
         :param user_fill: 企业设置抬头为0，用户自己填写抬头为1
         :type user_fill: bool
@@ -434,15 +452,16 @@ class WeChatInvoice(BaseWeChatAPI):
                 "bank_no": bank_no,
                 "out_title_id": out_title_id,
             },
-            result_processor=lambda x: x["url"],
+            result_processor=itemgetter("url"),
         )
 
     def get_select_title_url(self, attach=None):
         """
         获取商户专属开票链接
         商户调用接口，获取链接。用户扫码，可以选择抬头发给商户。可以将链接转成二维码，立在收银台。
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496554912_vfWU0
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/Quick_issuing/Interface_Instructions.html
 
         :param attach: 附加字段，用户提交发票时会发送给商户
         :return: 商户专属开票链接
@@ -452,15 +471,16 @@ class WeChatInvoice(BaseWeChatAPI):
             data={
                 "attach": attach,
             },
-            result_processor=lambda x: x["url"],
+            result_processor=itemgetter("url"),
         )
 
     def scan_title(self, scan_text):
         """
         根据扫描码，获取用户发票抬头
         商户扫用户“我的—个人信息—我的发票抬头”里面的抬头二维码后，通过调用本接口，可以获取用户抬头信息
+
         详情请参考
-        https://mp.weixin.qq.com/wiki?id=mp1496554912_vfWU0
+        https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/Quick_issuing/Interface_Instructions.html
 
         :param scan_text: 扫码后获取的文本
         :return: 用户的发票抬头数据

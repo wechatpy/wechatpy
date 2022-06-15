@@ -9,8 +9,9 @@ class WeChatMenu(BaseWeChatAPI):
     def get(self):
         """
         查询自定义菜单。
+
         详情请参考
-        http://mp.weixin.qq.com/wiki/16/ff9b7b85220e1396ffa16794a9d95adc.html
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Querying_Custom_Menus.html
 
         :return: 返回的 JSON 数据包
 
@@ -74,7 +75,7 @@ class WeChatMenu(BaseWeChatAPI):
             })
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Creating_Custom-Defined_Menu.html
 
         :param menu_data: Python 字典
 
@@ -125,7 +126,7 @@ class WeChatMenu(BaseWeChatAPI):
             })
 
         详情请参考
-        https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Creating_Custom-Defined_Menu.html
 
         :param menu_data: Python 字典
 
@@ -136,8 +137,9 @@ class WeChatMenu(BaseWeChatAPI):
     def delete(self):
         """
         删除自定义菜单。
+
         详情请参考
-        http://mp.weixin.qq.com/wiki/16/8ed41ba931e4845844ad6d1eeb8060c8.html
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Deleting_Custom-Defined_Menu.html
 
         :return: 返回的 JSON 数据包
 
@@ -154,8 +156,9 @@ class WeChatMenu(BaseWeChatAPI):
     def get_menu_info(self):
         """
         获取自定义菜单配置
+
         详情请参考
-        http://mp.weixin.qq.com/wiki/17/4dc4b0514fdad7a5fbbd477aa9aab5ed.html
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Getting_Custom_Menu_Configurations.html
 
         :return: 返回的 JSON 数据包
 
@@ -220,7 +223,7 @@ class WeChatMenu(BaseWeChatAPI):
             })
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Personalized_menu_interface.html
 
         :param menu_data: Python 字典
 
@@ -233,7 +236,7 @@ class WeChatMenu(BaseWeChatAPI):
         删除个性化菜单
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Personalized_menu_interface.html
 
         :param menu_id: 菜单ID
 
@@ -254,7 +257,7 @@ class WeChatMenu(BaseWeChatAPI):
         测试个性化菜单匹配结果
 
         详情请参考
-        http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+        https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Personalized_menu_interface.html
 
         :param user_id: 可以是粉丝的OpenID，也可以是粉丝的微信号。
 

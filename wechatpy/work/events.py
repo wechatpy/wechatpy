@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
-from wechatpy import events
-from wechatpy.fields import BaseField, IntegerField, StringField
+from wechatpy.fields import BaseField, FloatField, IntegerField, StringField
+from wechatpy.messages import BaseMessage
 
 EVENT_TYPES = {}
 
 
-def register_event(event_type):
-    def register(cls):
-        EVENT_TYPES[event_type] = cls
-        return cls
+class BaseEvent(BaseMessage):
+    """Base class for Wechat Work events"""
 
-    return register
+    type = "event"
+    event = ""
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        # 注册子类
+        if cls.event:
+            EVENT_TYPES[cls.event] = cls
 
 
-@register_event("subscribe")
-class SubscribeEvent(events.SubscribeEvent):
+class SubscribeEvent(BaseEvent):
     """
     成员关注事件
 
@@ -23,11 +27,11 @@ class SubscribeEvent(events.SubscribeEvent):
     """
 
     agent = IntegerField("AgentID", 0)
+    key = StringField("EventKey", "")
     event = "subscribe"
 
 
-@register_event("unsubscribe")
-class UnsubscribeEvent(events.UnsubscribeEvent):
+class UnsubscribeEvent(BaseEvent):
     """
     成员取消关注事件
 
@@ -39,8 +43,7 @@ class UnsubscribeEvent(events.UnsubscribeEvent):
     event = "unsubscribe"
 
 
-@register_event("click")
-class ClickEvent(events.ClickEvent):
+class ClickEvent(BaseEvent):
     """
     点击菜单拉取消息事件
 
@@ -49,11 +52,11 @@ class ClickEvent(events.ClickEvent):
     """
 
     agent = IntegerField("AgentID", 0)
+    key = StringField("EventKey")
     event = "click"
 
 
-@register_event("view")
-class ViewEvent(events.ViewEvent):
+class ViewEvent(BaseEvent):
     """
     点击菜单跳转链接事件
 
@@ -62,11 +65,11 @@ class ViewEvent(events.ViewEvent):
     """
 
     agent = IntegerField("AgentID", 0)
+    url = StringField("EventKey")
     event = "view"
 
 
-@register_event("location")
-class LocationEvent(events.LocationEvent):
+class LocationEvent(BaseEvent):
     """
     上报地理位置事件
 
@@ -75,11 +78,26 @@ class LocationEvent(events.LocationEvent):
     """
 
     agent = IntegerField("AgentID", 0)
+    latitude = FloatField("Latitude", 0.0)
+    longitude = FloatField("Longitude", 0.0)
+    precision = FloatField("Precision", 0.0)
     event = "location"
 
 
-@register_event("scancode_push")
-class ScanCodePushEvent(events.ScanCodePushEvent):
+class BaseScanCodeEvent(BaseEvent):
+    key = StringField("EventKey")
+    scan_code_info = BaseField("ScanCodeInfo", {})
+
+    @property
+    def scan_type(self):
+        return self.scan_code_info["ScanType"]
+
+    @property
+    def scan_result(self):
+        return self.scan_code_info["ScanResult"]
+
+
+class ScanCodePushEvent(BaseScanCodeEvent):
     """
     扫码推事件的事件
 
@@ -91,8 +109,7 @@ class ScanCodePushEvent(events.ScanCodePushEvent):
     event = "scancode_push"
 
 
-@register_event("scancode_waitmsg")
-class ScanCodeWaitMsgEvent(events.ScanCodeWaitMsgEvent):
+class ScanCodeWaitMsgEvent(BaseScanCodeEvent):
     """
     扫码推事件且弹出“消息接收中”提示框的事件
 
@@ -104,8 +121,25 @@ class ScanCodeWaitMsgEvent(events.ScanCodeWaitMsgEvent):
     event = "scancode_waitmsg"
 
 
-@register_event("pic_sysphoto")
-class PicSysPhotoEvent(events.PicSysPhotoEvent):
+class BasePictureEvent(BaseEvent):
+    key = StringField("EventKey")
+    pictures_info = BaseField("SendPicsInfo", {})
+
+    @property
+    def count(self):
+        return int(self.pictures_info["Count"])
+
+    @property
+    def pictures(self):
+        if self.pictures_info["PicList"]:
+            items = self.pictures_info["PicList"]["item"]
+            if self.count > 1:
+                return items
+            return [items]
+        return []
+
+
+class PicSysPhotoEvent(BasePictureEvent):
     """
     弹出系统拍照发图事件
 
@@ -117,8 +151,7 @@ class PicSysPhotoEvent(events.PicSysPhotoEvent):
     event = "pic_sysphoto"
 
 
-@register_event("pic_photo_or_album")
-class PicPhotoOrAlbumEvent(events.PicPhotoOrAlbumEvent):
+class PicPhotoOrAlbumEvent(BasePictureEvent):
     """
     弹出拍照或相册发图事件
 
@@ -130,8 +163,7 @@ class PicPhotoOrAlbumEvent(events.PicPhotoOrAlbumEvent):
     event = "pic_photo_or_album"
 
 
-@register_event("pic_weixin")
-class PicWeChatEvent(events.PicWeChatEvent):
+class PicWeChatEvent(BasePictureEvent):
     """
     弹出微信相册发图器事件
 
@@ -143,21 +175,45 @@ class PicWeChatEvent(events.PicWeChatEvent):
     event = "pic_weixin"
 
 
-@register_event("location_select")
-class LocationSelectEvent(events.LocationSelectEvent):
+class LocationSelectEvent(BaseEvent):
     """
-    弹出地理位置选择器事件
+    弹出地理位置选择器的事件
 
     详情请参阅
     https://work.weixin.qq.com/api/doc/90000/90135/90240#%E5%BC%B9%E5%87%BA%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BA%8B%E4%BB%B6%E6%8E%A8%E9%80%81
     """
 
+    key = StringField("EventKey")
+    location_info = BaseField("SendLocationInfo", {})
     agent = IntegerField("AgentID", 0)
     event = "location_select"
 
+    @property
+    def location_x(self):
+        return self.location_info["Location_X"]
 
-@register_event("enter_agent")
-class EnterAgentEvent(events.BaseEvent):
+    @property
+    def location_y(self):
+        return self.location_info["Location_Y"]
+
+    @property
+    def location(self):
+        return self.location_x, self.location_y
+
+    @property
+    def scale(self):
+        return self.location_info["Scale"]
+
+    @property
+    def label(self):
+        return self.location_info["Label"]
+
+    @property
+    def poiname(self):
+        return self.location_info["Poiname"]
+
+
+class EnterAgentEvent(BaseEvent):
     """
     用户进入应用的事件推送
 
@@ -169,8 +225,7 @@ class EnterAgentEvent(events.BaseEvent):
     event = "enter_agent"
 
 
-@register_event("batch_job_result")
-class BatchJobResultEvent(events.BaseEvent):
+class BatchJobResultEvent(BaseEvent):
     """
     异步任务完成事件
 
@@ -198,8 +253,7 @@ class BatchJobResultEvent(events.BaseEvent):
         return self.batch_job["ErrMsg"]
 
 
-@register_event("open_approval_change")
-class OpenApprovalChangeEvent(events.BaseEvent):
+class OpenApprovalChangeEvent(BaseEvent):
     """
     审批状态通知事件
 
@@ -260,8 +314,7 @@ class OpenApprovalChangeEvent(events.BaseEvent):
         return self.approval_info["approverstep"]
 
 
-@register_event("taskcard_click")
-class TaskCardClickEvent(events.BaseEvent):
+class TaskCardClickEvent(BaseEvent):
     """
     任务卡片事件推送
 
@@ -275,8 +328,7 @@ class TaskCardClickEvent(events.BaseEvent):
     task_id = StringField("TaskId")
 
 
-@register_event("change_external_contact")
-class ChangeExternalContactEvent(events.BaseEvent):
+class ChangeExternalContactEvent(BaseEvent):
     """
     外部联系人事件
 
@@ -294,8 +346,7 @@ class ChangeExternalContactEvent(events.BaseEvent):
     fail_reason = StringField("FailReason")
 
 
-@register_event("change_external_chat")
-class ChangeExternalChatEvent(events.BaseEvent):
+class ChangeExternalChatEvent(BaseEvent):
     """
     客户群变动事件
 
@@ -313,8 +364,7 @@ class ChangeExternalChatEvent(events.BaseEvent):
     mem_change_cnt = StringField("MemChangeCnt")
 
 
-@register_event("change_external_tag")
-class ChangeExternalTagEvent(events.BaseEvent):
+class ChangeExternalTagEvent(BaseEvent):
     """
     企业客户标签变动事件
 
@@ -329,8 +379,7 @@ class ChangeExternalTagEvent(events.BaseEvent):
     tag_type = StringField("TagType")
 
 
-@register_event("sys_approval_change")
-class SysApprovalChangeEvent(events.BaseEvent):
+class SysApprovalChangeEvent(BaseEvent):
     """
     系统审批状态通知事件
 
@@ -387,8 +436,7 @@ class SysApprovalChangeEvent(events.BaseEvent):
         return self.approval_info["StatuChangeEvent"]
 
 
-@register_event("kf_msg_or_event")
-class KFMsgOrEventEvent(events.BaseEvent):
+class KFMsgOrEventEvent(BaseEvent):
     """
     微信客服消息事件
 
@@ -398,3 +446,108 @@ class KFMsgOrEventEvent(events.BaseEvent):
 
     event = "kf_msg_or_event"
     token = StringField("Token")
+
+
+class ModifyCalendarEvent(BaseEvent):
+    """
+    修改日历事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "modify_calendar"
+    calendar_id = StringField("CalId")
+
+
+class DeleteCalendarEvent(BaseEvent):
+    """
+    删除日历事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "delete_calendar"
+    calendar_id = StringField("CalId")
+
+
+class AddScheduleEvent(BaseEvent):
+    """
+    添加日程事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "add_schedule"
+    calendar_id = StringField("CalId")
+    schedule_id = StringField("ScheduleId")
+
+
+class ModifyScheduleEvent(BaseEvent):
+    """
+    修改日程事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "modify_schedule"
+    calendar_id = StringField("CalId")
+    schedule_id = StringField("ScheduleId")
+
+
+class DeleteScheduleEvent(BaseEvent):
+    """
+    删除日程事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/93651
+    """
+
+    event = "delete_schedule"
+    calendar_id = StringField("CalId")
+    schedule_id = StringField("ScheduleId")
+
+
+class ExportEvent(BaseEvent):
+    """
+    导出任务完成事件
+
+    详情请参考
+    https://developer.work.weixin.qq.com/document/path/94946
+    """
+
+    event = "batch_job_result"
+    batch_job = BaseField("BatchJob")
+
+    @property
+    def job_id(self):
+        return self.batch_job["JobId"]
+
+    @property
+    def job_type(self):
+        return self.batch_job["JobType"]
+
+
+class BookMeetingRoom(BaseEvent):
+    """
+    会议室预定事件
+    https://developer.work.weixin.qq.com/document/path/95333
+    """
+
+    event = "book_meeting_room"
+    meeting_room_id = IntegerField("MeetingRoomId")
+    meeting_id = StringField("MeetingId")
+
+
+class CancelMeetingRoom(BaseEvent):
+    """
+    会议室取消事件
+    https://developer.work.weixin.qq.com/document/path/95333
+    """
+
+    event = "cancel_meeting_room"
+    meeting_room_id = IntegerField("MeetingRoomId")
+    meeting_id = StringField("MeetingId")
