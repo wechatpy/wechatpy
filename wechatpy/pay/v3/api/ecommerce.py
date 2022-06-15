@@ -48,7 +48,6 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param id_card_info: 经营者/法人身份证信息
         :param owner: 经营者/法人是否为受益人
         :param ubo_info_list: 最终受益人列表
-        :param need_account_info: 是否填写结算账户信息
         :param account_info: 结算账户信息
         :param contact_info: 超级管理员信息
         :param sales_scene_info: 店铺信息
@@ -74,12 +73,13 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "account_info": account_info,
             "contact_info": contact_info,
             "sales_scene_info": sales_scene_info,
-            "settlement_info": settlement_info,
             "merchant_shortname": merchant_shortname,
             "qualifications": qualifications,
             "business_addition_pics": business_addition_pics,
             "business_addition_desc": business_addition_desc,
         }
+        if settlement_info:
+            data['settlement_info'] = settlement_info
         if ubo_info_list:
             data['ubo_info_list'] = ubo_info_list
         return self._post("ecommerce/applyments/", json=data)
