@@ -213,3 +213,19 @@ class WeChatKF(BaseWeChatAPI):
             data["msgid"] = msgid
         data.update(msg_content)
         return self._post("kf/send_msg_on_event", data=data)
+
+    def get_corp_statistic(self):
+        """
+        获取「客户数据统计」企业汇总数据
+
+        :return: 接口调用结果
+        """
+        return self._get("kf/customer/get_corp_statistic")
+
+    def get_servicer_statistic(self):
+        """
+        获取「客户数据统计」接待人员明细数据
+
+        :return: 接口调用结果
+        """
+        return self._get("kf/customer/get_servicer_statistic")
