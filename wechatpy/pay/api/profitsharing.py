@@ -86,7 +86,7 @@ class WechatProfitSharing(BaseWeChatPayAPI):
             "appid": self.appid,
             "mch_id": self.mch_id,
             "sign_type": "HMAC-SHA256",
-            "receivers": json.dumps(receiver),
+            "receiver": json.dumps(receiver),
         }
         return self._post("pay/profitsharingaddreceiver", data=data)
 
@@ -104,7 +104,7 @@ class WechatProfitSharing(BaseWeChatPayAPI):
             "appid": self.appid,
             "mch_id": self.mch_id,
             "sign_type": "HMAC-SHA256",
-            "receivers": json.dumps(receiver),
+            "receiver": json.dumps(receiver),
         }
         return self._post("pay/profitsharingremovereceiver", data=data)
 
