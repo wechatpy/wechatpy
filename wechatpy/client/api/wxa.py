@@ -547,7 +547,7 @@ class WeChatWxa(BaseWeChatAPI):
                 "nickname": nickname,
                 "title": title,
                 "signature": signature,
-                "version": version
+                "version": version,
             }
 
         return self._post("wxa/msg_sec_check", data=data)
