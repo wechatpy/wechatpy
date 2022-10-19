@@ -534,8 +534,8 @@ class WeChatWxa(BaseWeChatAPI):
         :param version: 接口版本号，2.0版本为固定值2
         :return:
         """
-        
-        if open_id None:
+
+        if open_id is None:
             data = {"content": content}
         else:
             data = {
@@ -549,7 +549,6 @@ class WeChatWxa(BaseWeChatAPI):
             }
 
         return self._post("wxa/msg_sec_check", data=data)
-            
 
     def speed_up_audit(self, auditid):
         """
