@@ -519,16 +519,37 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post("wxa/media_check_async", data={"media_url": media_url, "media_type": media_type})
 
-    def check_text_security(self, content):
+    def check_text_security(self, content, open_id=None, scene=None, nickname=None, title=None, signature=None, version=2):
         """
         检查一段文本是否含有违法违规内容。
         详情请参考
         https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.msgSecCheck.html
 
-        :param content: 要检测的文本内容，长度不超过 500KB
+        :param content: 需检测的文本内容，文本字数的上限为2500字，需使用UTF-8编码
+        :param open_id: 用户的openid（用户需在近两小时访问过小程序）不传openid使用v1接口，后面参数都忽略
+        :param scene: 场景枚举值（1 资料；2 评论；3 论坛；4 社交日志）
+        :param nickname: 用户昵称，需使用UTF-8编码
+        :param title: 文本标题，需使用UTF-8编码
+        :param signature: 个性签名，该参数仅在资料类场景有效(scene=1)，需使用UTF-8编码
+        :param version: 接口版本号，2.0版本为固定值2
         :return:
         """
-        return self._post("wxa/msg_sec_check", data={"content": content})
+        
+        if open_id None:
+            data = {"content": content}
+        else:
+            data = {
+                "content": content,
+                "openid": open_id,
+                "scene": scene,
+                "nickname": nickname,
+                "title": title,
+                "signature": signature,
+                "version": version
+            }
+
+        return self._post("wxa/msg_sec_check", data=data)
+            
 
     def speed_up_audit(self, auditid):
         """
