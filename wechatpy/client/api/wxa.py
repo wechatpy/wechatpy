@@ -519,7 +519,9 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post("wxa/media_check_async", data={"media_url": media_url, "media_type": media_type})
 
-    def check_text_security(self, content, open_id=None, scene=None, nickname=None, title=None, signature=None, version=2):
+    def check_text_security(
+        self, content, open_id=None, scene=None, nickname=None, title=None, signature=None, version=2
+    ):
         """
         检查一段文本是否含有违法违规内容。
         详情请参考
