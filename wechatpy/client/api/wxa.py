@@ -22,6 +22,7 @@ class WeChatWxa(BaseWeChatAPI):
         auto_color=False,
         line_color=None,
         is_hyaline=False,
+        env_version="release",
     ):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
@@ -38,6 +39,7 @@ class WeChatWxa(BaseWeChatAPI):
                 "auto_color": auto_color,
                 "line_color": line_color,
                 "is_hyaline": is_hyaline,
+                "env_version": env_version,
             },
         )
 
