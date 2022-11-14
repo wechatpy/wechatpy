@@ -224,7 +224,7 @@ class WeChatKF(BaseWeChatAPI):
         :return: 接口调用结果
         """
         data = {"open_kfid": open_kfid, "start_time": start_time, "end_time": end_time}
-        return self._post("kf/customer/get_corp_statistic", data=data)
+        return self._post("kf/get_corp_statistic", data=data)
 
     def get_servicer_statistic(self, start_time, end_time, open_kfid=None, servicer_userid=None):
         """
@@ -242,4 +242,4 @@ class WeChatKF(BaseWeChatAPI):
             "start_time": start_time,
             "end_time": end_time,
         }
-        return self._post("kf/customer/get_servicer_statistic", data=data)
+        return self._post("kf/get_servicer_statistic", data=data)
