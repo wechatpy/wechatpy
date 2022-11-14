@@ -214,18 +214,32 @@ class WeChatKF(BaseWeChatAPI):
         data.update(msg_content)
         return self._post("kf/send_msg_on_event", data=data)
 
-    def get_corp_statistic(self):
+    def get_corp_statistic(self, start_time, end_time, open_kfid=None):
         """
         获取「客户数据统计」企业汇总数据
 
+        :param start_time: 开始时间
+        :param end_time: 结束时间
+        :param open_kfid: 	客服帐号ID
         :return: 接口调用结果
         """
-        return self._get("kf/customer/get_corp_statistic")
+        data = {"open_kfid": open_kfid, "start_time": start_time, "end_time": end_time}
+        return self._post("kf/customer/get_corp_statistic", data=data)
 
-    def get_servicer_statistic(self):
+    def get_servicer_statistic(self, start_time, end_time, open_kfid=None, servicer_userid=None):
         """
         获取「客户数据统计」接待人员明细数据
 
+        :param start_time: 开始时间
+        :param end_time: 结束时间
+        :param open_kfid: 	客服帐号ID
+        :param servicer_userid: 接待人员
         :return: 接口调用结果
         """
-        return self._get("kf/customer/get_servicer_statistic")
+        data = {
+            "open_kfid": open_kfid,
+            "servicer_userid": servicer_userid,
+            "start_time": start_time,
+            "end_time": end_time,
+        }
+        return self._post("kf/customer/get_servicer_statistic", data=data)
