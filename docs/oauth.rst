@@ -50,7 +50,7 @@
 
     def oauth(method):
         @functools.wraps(method)
-        def warpper(*args, **kwargs):
+        def wrapper(*args, **kwargs):
             code = request.args.get('code', None)
             url = client.oauth.authorize_url(request.url)
 
@@ -67,7 +67,7 @@
                 return redirect(url)
 
             return method(*args, **kwargs)
-        return warpper
+        return wrapper
 
 
     @app.route('/')
