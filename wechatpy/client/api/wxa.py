@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 from optionaldict import optionaldict
 
 from wechatpy.client.api.base import BaseWeChatAPI
@@ -521,16 +519,38 @@ class WeChatWxa(BaseWeChatAPI):
         """
         return self._post("wxa/media_check_async", data={"media_url": media_url, "media_type": media_type})
 
-    def check_text_security(self, content):
+    def check_text_security(
+        self, content, open_id=None, scene=None, nickname=None, title=None, signature=None, version=2
+    ):
         """
         检查一段文本是否含有违法违规内容。
         详情请参考
         https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.msgSecCheck.html
 
-        :param content: 要检测的文本内容，长度不超过 500KB
+        :param content: 需检测的文本内容，文本字数的上限为2500字，需使用UTF-8编码
+        :param open_id: 用户的openid（用户需在近两小时访问过小程序）不传openid使用v1接口，后面参数都忽略
+        :param scene: 场景枚举值（1 资料；2 评论；3 论坛；4 社交日志）
+        :param nickname: 用户昵称，需使用UTF-8编码
+        :param title: 文本标题，需使用UTF-8编码
+        :param signature: 个性签名，该参数仅在资料类场景有效(scene=1)，需使用UTF-8编码
+        :param version: 接口版本号，2.0版本为固定值2
         :return:
         """
-        return self._post("wxa/msg_sec_check", data={"content": content})
+
+        if open_id is None:
+            data = {"content": content}
+        else:
+            data = {
+                "content": content,
+                "openid": open_id,
+                "scene": scene,
+                "nickname": nickname,
+                "title": title,
+                "signature": signature,
+                "version": version,
+            }
+
+        return self._post("wxa/msg_sec_check", data=data)
 
     def speed_up_audit(self, auditid):
         """
@@ -685,3 +705,46 @@ class WeChatWxa(BaseWeChatAPI):
         :return: 参考文档
         """
         return self._post("wxa/del_store", data={"poi_id": poi_id})
+
+    def ocr_idcard(
+        self,
+        mode: str = "photo",
+        img_url: str = None,
+        filename: str = None,
+        file_bytes: bytes = None,
+        mime_type: str = None,
+    ) -> dict:
+        """
+        基于小程序的身份证 OCR 识别
+
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/ocr/ocr.idcard.html
+
+        :param img_url: 要检测的图片 url，传这个则不用传 img 参数。
+        :param mode: photo：拍照模型，带背景的图片, scan：扫描模式，不带背景的图片
+        :param filename: 要检测的图片文件名。
+        :param file_bytes: 要检测的图片二进制数据。
+        :param mime_type: 要检测的图片格式。
+        :return: 参考文档
+        """
+        if img_url:
+            return self._post("cv/ocr/idcard", params={"img_url": img_url, "type": mode})
+        else:
+            return self._post(f"cv/ocr/idcard?type={mode}", files=[("img", (filename, file_bytes, mime_type))])
+
+    def ocr_biz_license(
+        self, img_url: str = None, filename: str = None, file_bytes: bytes = None, mime_type: str = None
+    ) -> dict:
+        """
+        基于小程序的营业执照 OCR 识别
+        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/ocr/ocr.businessLicense.html
+
+        :param img_url: 要检测的图片 url，传这个则不用传 img 参数。
+        :param filename: 要检测的图片文件名。
+        :param file_bytes: 要检测的图片二进制数据。
+        :param mime_type: 要检测的图片格式。
+        :return: 参考文档
+        """
+        if img_url:
+            return self._post("cv/ocr/bizlicense", params={"img_url": img_url})
+        else:
+            return self._post("cv/ocr/bizlicense", files=[("img", (filename, file_bytes, mime_type))])

@@ -10,3 +10,4 @@ from wechatpy.pay.api.jsapi import WeChatJSAPI  # NOQA
 from wechatpy.pay.api.micropay import WeChatMicroPay  # NOQA
 from wechatpy.pay.api.withhold import WeChatWithhold  # NOQA
 from wechatpy.pay.api.appauth import WeChatAppAuth  # NOQA
+from wechatpy.pay.api.profitsharing import WechatProfitSharing  # NOQA
