@@ -37,7 +37,7 @@ class WeChatOA(BaseWeChatAPI):
         :return:
         """
         data = optionaldict(
-            {"starttime": str(start_time), "endtime": str(end_time), "cursor": cursor, "size": size, "filter": filters}
+            {"starttime": str(start_time), "endtime": str(end_time), "cursor": cursor, "size": size, "filters": filters}
         )
 
         return self._post("oa/getapprovalinfo", data=data)
