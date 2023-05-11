@@ -112,3 +112,38 @@ class WeChatPayException(WeChatClientException):
     def __repr__(self):
         _repr = f"{self.__class__.__name__}({self.return_code}, {self.return_msg}). Pay({self.errcode}, {self.errmsg})"
         return _repr
+
+
+class WeChatPayScoreException(WeChatClientException):
+    """WeChat Pay API exception class"""
+
+    def __init__(
+        self,
+        return_code,
+        result_code=None,
+        return_msg=None,
+        errcode=None,
+        errmsg=None,
+        client=None,
+        request=None,
+        response=None,
+    ):
+        """
+        :param return_code: 返回状态码
+        :param result_code: 业务结果
+        :param return_msg: 返回信息
+        :param errcode: 错误代码
+        :param errmsg: 错误代码描述
+        """
+        super().__init__(errcode, errmsg, client, request, response)
+        self.return_code = return_code
+        self.result_code = result_code
+        self.return_msg = return_msg
+
+    def __str__(self):
+        _str = f"Error code: {self.return_code}, message: {self.return_msg}. PayScore Error code: {self.errcode}, message: {self.errmsg}"
+        return _str
+
+    def __repr__(self):
+        _repr = f"{self.__class__.__name__}({self.return_code}, {self.return_msg}). PayScore({self.errcode}, {self.errmsg})"
+        return _repr
