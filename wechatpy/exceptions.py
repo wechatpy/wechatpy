@@ -106,9 +106,40 @@ class WeChatPayException(WeChatClientException):
         self.return_msg = return_msg
 
     def __str__(self):
-        _str = f"Error code: {self.return_code}, message: {self.return_msg}. Pay Error code: {self.errcode}, message: {self.errmsg}"
+        _str = (
+            f"Error code: {self.return_code}, message: {self.return_msg}. "
+            f"Pay Error code: {self.errcode}, message: {self.errmsg}"
+        )
         return _str
 
     def __repr__(self):
         _repr = f"{self.__class__.__name__}({self.return_code}, {self.return_msg}). Pay({self.errcode}, {self.errmsg})"
+        return _repr
+
+
+class WeChatPayV3Exception(WeChatClientException):
+    """WeChat Pay API exception class"""
+
+    def __init__(
+        self,
+        code,
+        message,
+        client=None,
+        request=None,
+        response=None,
+    ):
+        """
+        :param code: 返回状态码
+        :param message: 返回信息
+        """
+        super().__init__(code, message, client, request, response)
+        self.code = code
+        self.message = message
+
+    def __str__(self):
+        _str = f"Error code: {self.code}, message: {self.message}"
+        return _str
+
+    def __repr__(self):
+        _repr = f"{self.__class__.__name__}({self.code}, {self.message})"
         return _repr
