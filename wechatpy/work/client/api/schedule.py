@@ -19,6 +19,7 @@ class WeChatSchedule(BaseWeChatAPI):
         remind_before_event_secs=3600,
         is_repeat=False,
         repeat_type=0,
+        repeat_until=0,
         location="",
         calendar_id="",
     ):
@@ -76,6 +77,7 @@ class WeChatSchedule(BaseWeChatAPI):
                     "remind_before_event_secs": remind_before_event_secs,
                     "is_repeat": int(is_repeat),
                     "repeat_type": repeat_type,
+                    'repeat_until': repeat_until,
                 },
                 "location": location,
                 "cal_id": calendar_id,
@@ -96,6 +98,7 @@ class WeChatSchedule(BaseWeChatAPI):
         remind_before_event_secs=3600,
         is_repeat=False,
         repeat_type=0,
+        repeat_until=0,
         location="",
         calendar_id="",
     ):
@@ -153,6 +156,7 @@ class WeChatSchedule(BaseWeChatAPI):
                     "remind_before_event_secs": remind_before_event_secs,
                     "is_repeat": int(is_repeat),
                     "repeat_type": repeat_type,
+                    'repeat_until': repeat_until,
                 },
                 "location": location,
                 "cal_id": calendar_id,
