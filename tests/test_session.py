@@ -33,7 +33,6 @@ def wechat_api_mock(url, request):
 
 
 class WeChatSessionTestCase(unittest.TestCase):
-
     app_id = "123456"
     secret = "123456"
 
