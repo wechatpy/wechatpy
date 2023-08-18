@@ -221,4 +221,4 @@ class WeChatCustomService(BaseWeChatAPI):
             "invite_wx": wx_id
         }
 
-        return self._post("/kfaccount/inviteworker",data=data)
+        return self._post("kfaccount/inviteworker",data=data)
