@@ -203,3 +203,22 @@ class WeChatCustomService(BaseWeChatAPI):
             data=record_data,
         )
         return res
+
+    def bind_service_wx(self,account_id,wx_id):
+        """
+        邀请绑定客服微信号
+
+        详细：
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Customer_Service_Management.html#3
+
+        :parmas account_id: 客服账号
+        :parmas wx_id:被邀请绑定客服的微信号
+
+        :return: 返回的 JSON 数据包
+        """
+        data = {
+            "kf_account": account_id,
+            "invite_wx": wx_id
+        }
+
+        return self._post("/kfaccount/inviteworker",data)
