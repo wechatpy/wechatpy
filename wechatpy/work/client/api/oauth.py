@@ -25,7 +25,7 @@ class WeChatOAuth(BaseWeChatAPI):
             self._client.corp_id,
             "&redirect_uri=",
             redirect_uri,
-            "&agent_id",
+            "&agent_id=",
             agent_id,
             f"&response_type=code&scope={scope}",
         ]
