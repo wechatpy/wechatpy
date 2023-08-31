@@ -25,7 +25,7 @@ class WeChatOAuth(BaseWeChatAPI):
             self._client.corp_id,
             "&redirect_uri=",
             redirect_uri,
-            "&agent_id=",
+            "&agentid=",
             agent_id,
             f"&response_type=code&scope={scope}",
         ]
@@ -49,4 +49,20 @@ class WeChatOAuth(BaseWeChatAPI):
             params={
                 "code": code,
             },
+        )
+
+    def get_user_detail(self,ticket):
+        """
+        获取用户敏感信息
+
+        https://developer.work.weixin.qq.com/document/path/95833
+        :param ticket: 用户OAuth授权后拿到的票据
+        :return: 包含敏感信息的用户信息
+        """
+
+        return self._post(
+            "auth/getuserdetail",
+            data={
+                "user_ticket": ticket
+            }
         )
