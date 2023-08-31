@@ -50,6 +50,7 @@ class WeChatWxa(BaseWeChatAPI):
         page=None,
         is_hyaline=False,
         env_version="release",
+        check_path=True,
     ):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
@@ -68,6 +69,7 @@ class WeChatWxa(BaseWeChatAPI):
                 line_color=line_color,
                 is_hyaline=is_hyaline,
                 env_version=env_version,
+                check_path=check_path,
             ),
         )
 
