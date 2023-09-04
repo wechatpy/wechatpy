@@ -32,6 +32,7 @@ class WeChatClient(BaseWeChatClient):
     tag = api.WeChatTag()
     user = api.WeChatUser()
     living = api.WeChatLiving()
+    workbench = api.WeChatWorkBench()
 
     def __init__(
         self,
