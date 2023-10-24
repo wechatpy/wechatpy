@@ -62,6 +62,8 @@ class WeChatPay:
     """代扣接口"""
     app_auth = api.WeChatAppAuth()
     """实名认证接口"""
+    profit_sharing = api.WechatProfitSharing()
+    """分账接口"""
 
     API_BASE_URL = "https://api.mch.weixin.qq.com/"
 
