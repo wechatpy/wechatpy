@@ -11,7 +11,7 @@ class WeChatKF(BaseWeChatAPI):
     https://work.weixin.qq.com/api/doc/90000/90135/94670
     """
 
-    def sync_msg(self, token, cursor="", limit=1000):
+    def sync_msg(self, token, open_kfid, cursor="", limit=1000):
         """
         微信客户发送的消息、接待人员在企业微信回复的消息、发送消息接口发送失败事件（如被用户拒收）
         、客户点击菜单消息的回复消息，可以通过该接口获取具体的消息内容和事件。不支持读取通过发送消息接口发送的消息。
@@ -28,6 +28,7 @@ class WeChatKF(BaseWeChatAPI):
             "token": token,
             "cursor": cursor,
             "limit": limit,
+            "open_kfid": open_kfid
         }
         return self._post("kf/sync_msg", data=data)
 
