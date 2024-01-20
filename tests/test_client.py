@@ -856,3 +856,23 @@ class WeChatClientTestCase(unittest.TestCase):
         expires_at = time.time() + 7200
         client1.expires_at = expires_at
         assert client1.expires_at == client2.expires_at == expires_at
+
+    def test_client_with_gc(self):
+        import gc
+        client = WeChatClient(self.app_id, self.secret)
+        assert len(gc.get_referrers(client)) == 1
+
+    def test_client_with_finalizer(self):
+        temp = 0
+
+        def temp_add():
+            nonlocal temp
+            temp += 1
+
+        import weakref
+        client = WeChatClient(self.app_id, self.secret)
+        assert client._finalizer.alive is True
+        client._finalizer.detach()
+        client._finalizer = weakref.finalize(client, temp_add)
+        del client
+        assert temp == 1
