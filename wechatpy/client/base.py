@@ -3,6 +3,7 @@ import json
 import time
 import inspect
 import logging
+import weakref
 
 import requests
 
@@ -27,12 +28,13 @@ class BaseWeChatClient:
         api_endpoints = inspect.getmembers(self, _is_api_endpoint)
         for name, api in api_endpoints:
             api_cls = type(api)
-            api = api_cls(self)
+            api = api_cls(weakref.proxy(self))
             setattr(self, name, api)
         return self
 
     def __init__(self, appid, access_token=None, session=None, timeout=None, auto_retry=True):
         self._http = requests.Session()
+        self._finalizer = weakref.finalize(self, self._http.close)
         self.appid = appid
         self.session = session or MemoryStorage()
         self.timeout = timeout
