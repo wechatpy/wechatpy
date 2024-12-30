@@ -27,7 +27,7 @@ class UtilityTestCase(unittest.TestCase):
         obj.xxx = 1
         self.assertEqual(1, obj.xxx)
 
-    def test_check_signature_should_ok(self):
+    def test_check_signature_should_ok(self):  # skipcq: PYL-R0201
         token = "test"
         signature = "f21891de399b4e33a1a93c9a7b8a8fffb5a443ff"
         timestamp = "1410685589"
@@ -90,9 +90,9 @@ class UtilityTestCase(unittest.TestCase):
         from wechatpy.pay.utils import rsa_encrypt, rsa_decrypt
 
         target_string = "hello world"
-        with open(os.path.join(_CERTS_PATH, "rsa_public_key.pem"), "rb") as public_fp, open(
-            os.path.join(_CERTS_PATH, "rsa_private_key.pem"), "rb"
-        ) as private_fp:
+        public_filepath = os.path.join(_CERTS_PATH, "rsa_public_key.pem")
+        private_filepath = os.path.join(_CERTS_PATH, "rsa_private_key.pem")
+        with open(public_filepath, "rb") as public_fp, open(private_filepath, "rb") as private_fp:
             encrypted_string = rsa_encrypt(target_string, public_fp.read(), b64_encode=False)
             self.assertEqual(
                 rsa_decrypt(encrypted_string, private_fp.read()),
