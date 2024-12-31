@@ -1,0 +1,19 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "url_link_info": {
+    "appid": "appid",
+    "path": "",
+    "query": "a=hello",
+    "create_time": 611928113,
+    "expire_time": 0,
+    "env_version": "release",
+    "cloud_base": {
+      "env": "",
+      "domain": "",
+      "path": "",
+      "query": "",
+      "resource_appid": ""
+    }
+  }
+}
