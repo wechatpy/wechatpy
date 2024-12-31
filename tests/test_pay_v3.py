@@ -70,9 +70,9 @@ class WeChatPayTestCase(unittest.TestCase):
     @pytest.mark.skip(reason="no way of currently testing this, need encrypt cert")
     def test_update_certificates(self):
         with HTTMock(wechat_api_mock):
-            response = self.client.update_certificates(skip_check_signature=True)
+            self.client.update_certificates(skip_check_signature=True)
             self.assertEqual(
-                response["data"],
+                self.client.wechat_cert_dict,
                 [{"encrypt_certificate": "", "serial_no": ""}, {"encrypt_certificate": "", "serial_no": ""}],
             )
 
