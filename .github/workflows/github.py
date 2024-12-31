@@ -1,6 +1,7 @@
 """
 quick script to write mypy errors to github comments
 """
+
 import re
 import sys
 
@@ -18,7 +19,7 @@ def error(file: str, line: int = 0, col: int = 0, message: str = "error", warn: 
 def main(file_path: str) -> None:
     """read the given file, and print errors"""
     data = ""
-    with open(file_path) as file:
+    with open(file_path) as file:  # skipcq: PTC-W6004
         data = file.read()
 
     for line in data.split("\n"):
@@ -37,5 +38,5 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("you must specify a json file path!")
         sys.exit(1)
-    file_path = sys.argv[1]
-    main(file_path)
+    filepath = sys.argv[1]
+    main(filepath)

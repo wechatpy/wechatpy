@@ -49,7 +49,7 @@ def wechat():
         crypto = WeChatCrypto(TOKEN, EncodingAESKey, AppId)
         try:
             msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
-            print(f"Descypted message: \n{msg}")
+            print(f"Decrypted message: \n{msg}")
         except (InvalidSignatureException, InvalidAppIdException):
             abort(403)
         msg = parse_message(msg)
