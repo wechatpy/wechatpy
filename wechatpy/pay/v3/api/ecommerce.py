@@ -113,6 +113,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         account_number,
         bank_name=None,
         bank_branch_id=None,
+        account_name=None,
     ):
         """
         修改结算账户
@@ -124,6 +125,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param bank_name: 开户银行全称（含支行）
         :param bank_branch_id: 开户银行联行号
         :param account_number: 银行账号
+        :param account_name: 开户名称
         :return: 返回的结果数据
         """
         data = {
@@ -133,8 +135,13 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "bank_name": bank_name,
             "bank_branch_id": bank_branch_id,
             "account_number": account_number,
+            "account_name": account_name,
         }
-        return self._post(f"apply4sub/sub_merchants/{sub_mchid}/modify-settlement", json=data)
+        post_data = {}
+        for key, val in data.items():
+            if val is not None:
+                post_data[key] = val
+        return self._post(f"apply4sub/sub_merchants/{sub_mchid}/modify-settlement", json=post_data)
 
     def settlement_query(self, sub_mchid):
         """
@@ -144,6 +151,16 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :return: 返回的结果数据
         """
         return self._get(f"apply4sub/sub_merchants/{sub_mchid}/settlement")
+
+    def settlement_application_query(self, sub_mchid, application_no):
+        """
+        查询结算账户修改申请状态
+
+        :param sub_mchid: 特约商户/二级商户号
+        :param application_no: 【修改结算账户申请单号】 提交二级商户修改结算账户申请后，由微信支付返回的单号，作为查询申请状态的唯一标识。
+        :return: 返回的结果数据
+        """
+        return self._get(f"apply4sub/sub_merchants/{sub_mchid}/application/{application_no}")
 
     def refund_apply(
         self,
