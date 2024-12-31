@@ -268,7 +268,7 @@ class WeChatPay:
 
         return check_rsa_signature(certificate, timestamp, nonce_str, response_body, signature)
 
-    def parse_message(self, message: [bytes, dict]) -> dict:
+    def parse_message(self, message) -> dict:
         """
         解析回调结果
         :param message: 微信返回的原始内容
