@@ -26,6 +26,7 @@ jobs:
       - uses: codespell-project/actions-codespell@master
         with:
           ignore_words_list: assertin,ba,checkin
+          skip_list: "*.pem"
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
