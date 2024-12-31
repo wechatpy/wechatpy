@@ -12,7 +12,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatCustomService(BaseWeChatAPI):
-    API_BASE_URL = "https://api.weixin.qq.com/customservice/"
+    API_BASE_URL = "https://api.weixin.qq.com/"
 
     def add_account(self, account, nickname, password):
         """
@@ -28,7 +28,7 @@ class WeChatCustomService(BaseWeChatAPI):
         password = to_binary(password)
         password = hashlib.md5(password).hexdigest()
         return self._post(
-            "kfaccount/add",
+            "customservice/kfaccount/add",
             data={"kf_account": account, "nickname": nickname, "password": password},
         )
 
@@ -47,7 +47,7 @@ class WeChatCustomService(BaseWeChatAPI):
         password = hashlib.md5(password).hexdigest()
         return self._post(
             "kfaccount/update",
-            data={"kf_account": account, "nickname": nickname, "password": password},
+            data={"customservice/kf_account": account, "nickname": nickname, "password": password},
         )
 
     def delete_account(self, account):
@@ -64,7 +64,7 @@ class WeChatCustomService(BaseWeChatAPI):
             f"kf_account={quote(to_binary(account), safe=b'/@')}",
         ]
         params = "&".join(params_data)
-        return self._get("kfaccount/del", params=params)
+        return self._get("customservice/kfaccount/del", params=params)
 
     def get_accounts(self):
         """
@@ -74,7 +74,7 @@ class WeChatCustomService(BaseWeChatAPI):
 
         :return: 客服账号列表
         """
-        res = self._get("getkflist", result_processor=itemgetter("kf_list"))
+        res = self._get("cgi-bin/customservice/getkflist", result_processor=itemgetter("kf_list"))
         return res
 
     def upload_headimg(self, account, media_file):
@@ -88,7 +88,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            "kfaccount/uploadheadimg",
+            "customservice/kfaccount/uploadheadimg",
             params={"kf_account": account},
             files={"media": media_file},
         )
@@ -97,12 +97,12 @@ class WeChatCustomService(BaseWeChatAPI):
         """
         获取在线客服接待信息
         详情请参考
-        http://mp.weixin.qq.com/wiki/9/6fff6f191ef92c126b043ada035cc935.html
+        https://developers.weixin.qq.com/doc/offiaccount/Customer_Service/Customer_Service_Management.html
 
         :return: 客服接待信息列表
         """
         res = self._get(
-            "getonlinekflist",
+            "cgi-bin/customservice/getonlinekflist",
             result_processor=itemgetter("kf_online_list"),
         )
         return res
@@ -119,7 +119,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(openid=openid, kf_account=account, text=text)
-        return self._post("kfsession/create", data=data)
+        return self._post("customservice/kfsession/create", data=data)
 
     def close_session(self, openid, account, text=None):
         """
@@ -133,7 +133,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         data = optionaldict(openid=openid, kf_account=account, text=text)
-        return self._post("kfsession/close", data=data)
+        return self._post("customservice/kfsession/close", data=data)
 
     def get_session(self, openid):
         """
@@ -145,7 +145,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._get(
-            "kfsession/getsession",
+            "customservice/kfsession/getsession",
             params={"openid": openid},
         )
 
@@ -159,7 +159,7 @@ class WeChatCustomService(BaseWeChatAPI):
         :return: 客服的会话列表
         """
         res = self._get(
-            "kfsession/getsessionlist",
+            "customservice/kfsession/getsessionlist",
             params={"kf_account": account},
             result_processor=itemgetter("sessionlist"),
         )
@@ -173,7 +173,7 @@ class WeChatCustomService(BaseWeChatAPI):
 
         :return: 返回的 JSON 数据包
         """
-        return self._get("kfsession/getwaitcase")
+        return self._get("customservice/kfsession/getwaitcase")
 
     def get_records(self, start_time, end_time, msgid=1, number=10000):
         """
@@ -199,7 +199,7 @@ class WeChatCustomService(BaseWeChatAPI):
             "number": number,
         }
         res = self._post(
-            "msgrecord/getmsglist",
+            "customservice/msgrecord/getmsglist",
             data=record_data,
         )
         return res
