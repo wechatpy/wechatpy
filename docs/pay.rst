@@ -1,6 +1,18 @@
 微信支付接口
 ===========================================
 
+WeChatPay Version 3
+----------------
+
+.. module:: wechatpy.pay.v3
+
+.. autoclass:: WeChatPay
+   :members:
+   :inherited-members:
+
+
+.. module:: wechatpy.pay.v3.api
+
 WeChatPay
 ----------------
 
