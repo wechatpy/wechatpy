@@ -446,6 +446,7 @@ class KFMsgOrEventEvent(BaseEvent):
 
     event = "kf_msg_or_event"
     token = StringField("Token")
+    open_kfid = StringField("OpenKfId")
 
 
 class ModifyCalendarEvent(BaseEvent):
