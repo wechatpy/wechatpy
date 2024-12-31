@@ -109,7 +109,7 @@ class WeChatPay:
         else:
             url = url_or_endpoint
 
-        params = kwargs.get("params", None)
+        params = kwargs.get("params")
         url_parse = urlparse(url)
         if params:
             endpoint = url_parse.path + "?" + urlencode(params)
@@ -170,7 +170,7 @@ class WeChatPay:
             # 返回状态码不为成功
             raise WeChatPayV3Exception(code, message)
 
-        if not skip_check_signature and self.skip_check_signature is False:
+        if self.skip_check_signature is False:
             if self.check_response_signature(res.headers, res.text) is False:
                 raise InvalidSignatureException()
 

@@ -15,7 +15,6 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.exceptions import InvalidSignature, InvalidTag
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.hashes import SHA256
 
@@ -85,9 +84,6 @@ def rsa_encrypt(data, pem, b64_encode=True):
     :param b64_encode: 是否对输出进行 base64 encode
     :return: 如果 b64_encode=True 的话，返回加密并 base64 处理后的 string；否则返回加密后的 binary
     """
-    from cryptography.hazmat.primitives import serialization
-    from cryptography.hazmat.primitives import hashes
-    from cryptography.hazmat.primitives.asymmetric import padding
 
     encoded_data = to_binary(data)
     pem = to_binary(pem)
@@ -146,7 +142,7 @@ def calculate_signature_rsa(private_key, request_method, request_path, request_b
     encoded_data = to_binary(data)
     pem = to_binary(private_key)
     public_key = serialization.load_pem_private_key(pem, password=None, backend=default_backend())
-    encrypted_data = public_key.sign(encoded_data, padding=PKCS1v15(), algorithm=SHA256())
+    encrypted_data = public_key.sign(encoded_data, padding=padding.PKCS1v15(), algorithm=SHA256())
     encrypted_data = base64.b64encode(encrypted_data)
     return to_text(encrypted_data)
 
@@ -169,7 +165,7 @@ def calculate_pay_params_signature_rsa(private_key, app_id, package, timestamp=N
     encoded_data = to_binary(data)
     pem = to_binary(private_key)
     public_key = serialization.load_pem_private_key(pem, password=None, backend=default_backend())
-    encrypted_data = public_key.sign(encoded_data, padding=PKCS1v15(), algorithm=SHA256())
+    encrypted_data = public_key.sign(encoded_data, padding=padding.PKCS1v15(), algorithm=SHA256())
     encrypted_data = base64.b64encode(encrypted_data)
     return to_text(encrypted_data)
 
@@ -188,7 +184,7 @@ def check_rsa_signature(certificate, timestamp, nonce_str, response_body, signat
     signature = base64.b64decode(signature)
     public_key = certificate.public_key()
     try:
-        public_key.verify(signature, message, PKCS1v15(), SHA256())
+        public_key.verify(signature, message, padding.PKCS1v15(), SHA256())
     except InvalidSignature:
         return False
     return True
@@ -230,5 +226,5 @@ def rsa_public_encrypt(data, certificate):
 
 
 def get_serial_no(cert_pem):
-    serial_no = "{0:x}".format(cert_pem.serial_number).upper()
+    serial_no = f"{cert_pem.serial_number:x}".upper()
     return serial_no
