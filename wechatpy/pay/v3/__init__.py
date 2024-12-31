@@ -47,13 +47,13 @@ class WeChatPay:
     :param timeout: 可选，请求超时时间，单位秒，默认无超时设置
     """
 
-    """媒体文件接口"""
+    # 媒体文件接口
     media = api.WeChatMedia()
-    """订单接口"""
+    # 订单接口
     partner_order = api.WeChatPartnerOrder()
-    """银行信息接口"""
+    # 银行信息接口
     banks = api.WeChatBanks()
-    """电商收付通接口"""
+    # 电商收付通接口
     ecommerce = api.WeChatEcommerce()
 
     API_BASE_URL = "https://api.mch.weixin.qq.com/v3/"
@@ -170,9 +170,8 @@ class WeChatPay:
             # 返回状态码不为成功
             raise WeChatPayV3Exception(code, message)
 
-        if self.skip_check_signature is False:
-            if self.check_response_signature(res.headers, res.text) is False:
-                raise InvalidSignatureException()
+        if self.skip_check_signature is False and self.check_response_signature(res.headers, res.text) is False:
+            raise InvalidSignatureException()
 
         return data
 

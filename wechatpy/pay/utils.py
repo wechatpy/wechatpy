@@ -216,8 +216,8 @@ def rsa_public_encrypt(data, certificate):
     encrypted_data = public_key.encrypt(
         encoded_data,
         padding=padding.OAEP(
-            mgf=padding.MGF1(hashes.SHA1()),
-            algorithm=hashes.SHA1(),
+            mgf=padding.MGF1(hashes.SHA1()),  # skipcq: PTC-W1003
+            algorithm=hashes.SHA1(),  # skipcq: PTC-W1003
             label=None,
         ),
     )
