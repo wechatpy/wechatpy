@@ -17,8 +17,8 @@ class BaseWeChatPayAPI:
             kwargs["api_base_url"] = self.API_BASE_URL
         return self._client.post(url, **kwargs)
 
-    def _down_file(self,url, **kwargs):
-        return self._client.down_file(url, **kwargs)
+    def _download_file(self, url, **kwargs):
+        return self._client.download_file(url, **kwargs)
 
     @property
     def appid(self):

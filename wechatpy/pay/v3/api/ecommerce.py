@@ -577,4 +577,4 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param url: 下载的账单地址，示例值:https://api.mch.weixin.qq.com/v3/billdownload/file?token=xxx
         :return: 返回的结果数据
         """
-        return self._down_file(url)
+        return self._download_file(url)

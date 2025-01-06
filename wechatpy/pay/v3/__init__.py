@@ -102,7 +102,7 @@ class WeChatPay:
         pem_x509 = cryptography.x509.load_pem_x509_certificate(self.apiclient_cert)
         self.serial_no = get_serial_no(pem_x509)
 
-    def down_file(self,url,method="get",headers=None, **kwargs):
+    def download_file(self, url, method="get", headers=None, **kwargs):
         nonce_str = random_string(32).upper()
         timestamp = str(int(time.time()))
         sign = calculate_signature_rsa(
@@ -131,7 +131,7 @@ class WeChatPay:
         res_text = res.text
         if res_code != 200:
             if res_code == 401:
-                raise InvalidSignatureException(res_code,res_text)
+                raise InvalidSignatureException(res_code, res_text)
             # 返回状态码不为成功
             raise WeChatPayV3Exception(res_code, res_text)
         return res.content
