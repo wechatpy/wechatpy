@@ -15,8 +15,8 @@ _FIXTURE_PATH = os.path.join(_TESTS_PATH, "fixtures", "pay/v3/")
 def wechat_api_down_file_mock(url, request):
     res_file = os.path.join(_FIXTURE_PATH, "bill.xlsx")
     headers = {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  # 指定内容类型为纯文本
-        'Content-Disposition': 'attachment; filename=zd.xlsx'  # 可选，提示浏览器以文件下载的方式处理响应
+        "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",  # 指定内容类型为纯文本
+        "Content-Disposition": "attachment; filename=zd.xlsx",  # 可选，提示浏览器以文件下载的方式处理响应
     }
     try:
         bill_file = open(res_file, "rb")
@@ -84,16 +84,16 @@ class DownBillFileTestCase(unittest.TestCase):
 
     def test_sub_mch_fund_flow_bill(self):
         with HTTMock(wechat_api_mock):
-            response = self.client.ecommerce.sub_mch_fund_flow_bill(1657489417, "2024-12-31", 'BASIC')
+            response = self.client.ecommerce.sub_mch_fund_flow_bill(1657489417, "2024-12-31", "BASIC")
             self.assertIn("download_bill_count", response)
             self.assertIn("download_bill_list", response)
 
     def test_download_bill(self):
         with HTTMock(wechat_api_down_file_mock):
-            content = self.client.ecommerce.download_bill('https://api.mch.weixin.qq.com/v3/billdownload/file')
+            content = self.client.ecommerce.download_bill("https://api.mch.weixin.qq.com/v3/billdownload/file")
             target_file_path = os.path.join(_FIXTURE_PATH, "downloadBill.xlsx")
             try:
-                with open(target_file_path, 'wb') as target_file:
+                with open(target_file_path, "wb") as target_file:
                     target_file.write(content)
             except Exception as e:
                 print(e)

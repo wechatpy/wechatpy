@@ -458,13 +458,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
 
         return self._get(f"ecommerce/profitsharing/orders/{transaction_id}/amounts")
 
-    def trade_bill(
-            self,
-            bill_date,
-            sub_mchid=None,
-            bill_type='ALL',
-            tar_type=None
-    ):
+    def trade_bill(self, bill_date, sub_mchid=None, bill_type="ALL", tar_type=None):
         """
         申请交易账单
         https://pay.weixin.qq.com/doc/v3/partner/4012760667
@@ -481,20 +475,10 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param tar_type: 压缩类型，不填则以不压缩的方式返回数据流 枚举值:'GZIP':返回格式为.gzip的压缩包账单
         :return: 返回的结果数据
         """
-        query = {
-            "bill_date": bill_date,
-            "sub_mchid": sub_mchid,
-            "bill_type": bill_type,
-            "tar_type": tar_type
-        }
+        query = {"bill_date": bill_date, "sub_mchid": sub_mchid, "bill_type": bill_type, "tar_type": tar_type}
         return self._get("bill/tradebill", params=query)
 
-    def fund_flow_bill(
-            self,
-            bill_date,
-            account_type='BASIC',
-            tar_type=None
-    ):
+    def fund_flow_bill(self, bill_date, account_type="BASIC", tar_type=None):
         """
         申请资金账单
         https://pay.weixin.qq.com/doc/v3/partner/4012760672
@@ -503,11 +487,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param tar_type: 压缩类型，不填则以不压缩的方式返回数据流 枚举值:'GZIP':返回格式为.gzip的压缩包账单
         :return: 返回的结果数据
         """
-        query = {
-            "bill_date": bill_date,
-            "account_type": account_type,
-            "tar_type": tar_type
-        }
+        query = {"bill_date": bill_date, "account_type": account_type, "tar_type": tar_type}
         return self._get("bill/fundflowbill", params=query)
 
     def profit_sharing_bill(self, bill_date, tar_type=None, sub_mchid=None):
@@ -527,11 +507,11 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         return self._get("profitsharing/bills", params=query)
 
     def eco_fund_flow_bill(
-            self,
-            bill_date,
-            algorithm='AEAD_AES_256_GCM',
-            tar_type=None,
-            account_type='ALL',
+        self,
+        bill_date,
+        algorithm="AEAD_AES_256_GCM",
+        tar_type=None,
+        account_type="ALL",
     ):
         """
         申请二级商户资金账单
@@ -542,15 +522,10 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         :param algorithm: 账单文件加密算法,枚举值:AEAD_AES_256_GCM: AEAD_AES_256_GCM加密算法，SM4_GCM: SM4_GCM加密算法，密钥长度128bit
         :return: 返回的结果数据
         """
-        query = {
-            "bill_date": bill_date,
-            "account_type": account_type,
-            "tar_type": tar_type,
-            "algorithm": algorithm
-        }
+        query = {"bill_date": bill_date, "account_type": account_type, "tar_type": tar_type, "algorithm": algorithm}
         return self._get("ecommerce/bill/fundflowbill", params=query)
 
-    def sub_mch_fund_flow_bill(self, sub_mchid, bill_date, account_type, algorithm='AEAD_AES_256_GCM', tar_type=None):
+    def sub_mch_fund_flow_bill(self, sub_mchid, bill_date, account_type, algorithm="AEAD_AES_256_GCM", tar_type=None):
         """
         申请单个子商户资金账单
         https://pay.weixin.qq.com/doc/v3/partner/4012760697
@@ -566,7 +541,7 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "bill_date": bill_date,
             "account_type": account_type,
             "tar_type": tar_type,
-            "algorithm": algorithm
+            "algorithm": algorithm,
         }
         return self._get("bill/sub-merchant-fundflowbill", params=query)
 
