@@ -27,6 +27,7 @@ def wechat_api_down_file_mock(url, request):
         pass
     return response(200, f1, headers, request=request)
 
+
 @urlmatch(netloc=r"(.*\.)?api\.mch\.weixin\.qq\.com$")
 def wechat_api_mock(url, request):
     path = (url.path[1:] if url.path.startswith("/") else url.path).replace("v3/", "").replace("/", "_")
@@ -42,6 +43,7 @@ def wechat_api_mock(url, request):
     except (IOError, ValueError):
         pass
     return response(200, content, headers, request=request)
+
 
 class DownBillFileTestCase(unittest.TestCase):
     def setUp(self):
@@ -69,7 +71,6 @@ class DownBillFileTestCase(unittest.TestCase):
             self.assertIn("hash_value", response)
             self.assertIn("download_url", response)
 
-
     def test_profit_sharing_bill(self):
         with HTTMock(wechat_api_mock):
             response = self.client.ecommerce.profit_sharing_bill("2024-12-31")
@@ -85,10 +86,9 @@ class DownBillFileTestCase(unittest.TestCase):
 
     def test_sub_mch_fund_flow_bill(self):
         with HTTMock(wechat_api_mock):
-            response = self.client.ecommerce.sub_mch_fund_flow_bill(1657489417,"2024-12-31",'BASIC')
+            response = self.client.ecommerce.sub_mch_fund_flow_bill(1657489417, "2024-12-31", 'BASIC')
             self.assertIn("download_bill_count", response)
             self.assertIn("download_bill_list", response)
-
 
     def test_download_bill(self):
         with HTTMock(wechat_api_down_file_mock):

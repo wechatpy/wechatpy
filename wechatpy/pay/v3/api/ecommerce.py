@@ -458,13 +458,12 @@ class WeChatEcommerce(BaseWeChatPayAPI):
 
         return self._get(f"ecommerce/profitsharing/orders/{transaction_id}/amounts")
 
-
     def trade_bill(
-        self,
-        bill_date,
-        sub_mchid = None,
-        bill_type = 'ALL',
-        tar_type = None
+            self,
+            bill_date,
+            sub_mchid=None,
+            bill_type='ALL',
+            tar_type=None
     ):
         """
         申请交易账单
@@ -491,10 +490,10 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         return self._get("bill/tradebill", params=query)
 
     def fund_flow_bill(
-        self,
-        bill_date,
-        account_type = 'BASIC',
-        tar_type = None
+            self,
+            bill_date,
+            account_type='BASIC',
+            tar_type=None
     ):
         """
         申请资金账单
@@ -510,7 +509,6 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "tar_type": tar_type
         }
         return self._get("bill/fundflowbill", params=query)
-
 
     def profit_sharing_bill(self, bill_date, tar_type=None, sub_mchid=None):
         """
@@ -528,13 +526,12 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         }
         return self._get("profitsharing/bills", params=query)
 
-
     def eco_fund_flow_bill(
-        self,
-        bill_date,
-        algorithm='AEAD_AES_256_GCM',
-        tar_type=None,
-        account_type = 'ALL',
+            self,
+            bill_date,
+            algorithm='AEAD_AES_256_GCM',
+            tar_type=None,
+            account_type='ALL',
     ):
         """
         申请二级商户资金账单
@@ -552,7 +549,6 @@ class WeChatEcommerce(BaseWeChatPayAPI):
             "algorithm": algorithm
         }
         return self._get("ecommerce/bill/fundflowbill", params=query)
-
 
     def sub_mch_fund_flow_bill(self, sub_mchid, bill_date, account_type, algorithm='AEAD_AES_256_GCM', tar_type=None):
         """
