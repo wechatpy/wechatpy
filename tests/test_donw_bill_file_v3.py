@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import hashlib
 import json
 import os
 import unittest
-import pytest
 from httmock import urlmatch, response, HTTMock
 
 from wechatpy.pay.v3 import WeChatPay
