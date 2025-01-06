@@ -457,3 +457,99 @@ class WeChatEcommerce(BaseWeChatPayAPI):
         """
 
         return self._get(f"ecommerce/profitsharing/orders/{transaction_id}/amounts")
+
+    def trade_bill(self, bill_date, sub_mchid=None, bill_type="ALL", tar_type=None):
+        """
+        申请交易账单
+        https://pay.weixin.qq.com/doc/v3/partner/4012760667
+        :param bill_date: 账单日期，格式yyyy-MM-DD，仅支持三个月内的账单下载申请。
+        :param sub_mchid: 若商户是直连商户无需填写该字段，若商户是服务商不填则默认返回服务商下的交易或退款数据，如需下载某个子商户下的交易或退款数据，则该字段必填
+        :param bill_type: 账单类型，不填则默认是ALL 枚举值:
+               ALL: 返回当日所有订单信息（不含充值退款订单）
+               SUCCESS: 返回当日成功支付的订单（不含充值退款订单）
+               REFUND: 返回当日退款订单（不含充值退款订单）
+               RECHARGE_REFUND: 返回当日充值退款订单
+               ALL_SPECIAL: 返回个性化账单当日所有订单信息
+               SUC_SPECIAL: 返回个性化账单当日成功支付的订单
+               REF_SPECIAL: 返回个性化账单当日退款订单
+        :param tar_type: 压缩类型，不填则以不压缩的方式返回数据流 枚举值:'GZIP':返回格式为.gzip的压缩包账单
+        :return: 返回的结果数据
+        """
+        query = {"bill_date": bill_date, "sub_mchid": sub_mchid, "bill_type": bill_type, "tar_type": tar_type}
+        return self._get("bill/tradebill", params=query)
+
+    def fund_flow_bill(self, bill_date, account_type="BASIC", tar_type=None):
+        """
+        申请资金账单
+        https://pay.weixin.qq.com/doc/v3/partner/4012760672
+        :param bill_date: 账单日期，格式yyyy-MM-DD，仅支持三个月内的账单下载申请。
+        :param account_type:  资金账户类型，枚举值:'BASIC':基本账户，'OPERATION':运营账户，'FEES':手续费账户
+        :param tar_type: 压缩类型，不填则以不压缩的方式返回数据流 枚举值:'GZIP':返回格式为.gzip的压缩包账单
+        :return: 返回的结果数据
+        """
+        query = {"bill_date": bill_date, "account_type": account_type, "tar_type": tar_type}
+        return self._get("bill/fundflowbill", params=query)
+
+    def profit_sharing_bill(self, bill_date, tar_type=None, sub_mchid=None):
+        """
+        申请分账账单
+        https://pay.weixin.qq.com/doc/v3/partner/4012761131
+        :param bill_date: 账单日期，格式yyyy-MM-DD，仅支持三个月内的账单下载申请。
+        :param tar_type: 压缩类型，不填则以不压缩的方式返回数据流
+        :param sub_mchid:  子商户号 若商户是直连商户无需填写该字段。若商户是服务商：不填则默认返回服务商下的所有分账账单。如需下载某个子商户下的分账账单，则填指定的子商户号。
+        :return: 返回的结果数据
+        """
+        query = {
+            "bill_date": bill_date,
+            "tar_type": tar_type,
+            "sub_mchid": sub_mchid,
+        }
+        return self._get("profitsharing/bills", params=query)
+
+    def eco_fund_flow_bill(
+        self,
+        bill_date,
+        algorithm="AEAD_AES_256_GCM",
+        tar_type=None,
+        account_type="ALL",
+    ):
+        """
+        申请二级商户资金账单
+        https://pay.weixin.qq.com/doc/v3/partner/4012760697
+        :param bill_date: 账单日期，格式yyyy-MM-DD，仅支持三个月内的账单下载申请
+        :param account_type:  资金账户类型，本接口只支持填ALL,枚举值:ALL:所有账户（该枚举值只限电商平台下载二级商户资金流水账单场景使用）
+        :param tar_type: 压缩类型，不填则以不压缩的方式返回数据流,枚举值:'GZIP':返回格式为.gzip的压缩包账单
+        :param algorithm: 账单文件加密算法,枚举值:AEAD_AES_256_GCM: AEAD_AES_256_GCM加密算法，SM4_GCM: SM4_GCM加密算法，密钥长度128bit
+        :return: 返回的结果数据
+        """
+        query = {"bill_date": bill_date, "account_type": account_type, "tar_type": tar_type, "algorithm": algorithm}
+        return self._get("ecommerce/bill/fundflowbill", params=query)
+
+    def sub_mch_fund_flow_bill(self, sub_mchid, bill_date, account_type, algorithm="AEAD_AES_256_GCM", tar_type=None):
+        """
+        申请单个子商户资金账单
+        https://pay.weixin.qq.com/doc/v3/partner/4012760697
+        :param sub_mchid: 子商户号，示例值:'19000000001'
+        :param bill_date: 账单日期，仅支持三个月内的账单下载申请，格式YYYY-MM-DD，示例值:'2019-06-11'
+        :param account_type: 资金账户类型，枚举值:'BASIC':基本账户，'OPERATION':运营账户，'FEES':手续费账户
+        :param algorithm: 加密算法，枚举值:'AEAD_AES_256_GCM'
+        :param tar_type: 压缩格式，枚举值:'GZIP':返回格式为.gzip的压缩包账单
+        :return: 返回的结果数据
+        """
+        query = {
+            "sub_mchid": sub_mchid,
+            "bill_date": bill_date,
+            "account_type": account_type,
+            "tar_type": tar_type,
+            "algorithm": algorithm,
+        }
+        return self._get("bill/sub-merchant-fundflowbill", params=query)
+
+    def download_bill(self, url):
+        """
+        下载账单
+         https://pay.weixin.qq.com/doc/v3/partner/4012124894
+        :param url: 下载的账单地址，示例值:https://api.mch.weixin.qq.com/v3/billdownload/file?token=xxx
+        :return: 返回的结果数据
+        """
+        return self._download_file(url)
