@@ -25,12 +25,7 @@ class WeChatKF(BaseWeChatAPI):
         注意：可能会出现返回条数少于limit的情况，需结合返回的has_more字段判断是否继续请求。
         :return: 接口调用结果
         """
-        data = {
-            "token": token,
-            "cursor": cursor,
-            "limit": limit,
-            "open_kfid": open_kfid
-        }
+        data = {"token": token, "cursor": cursor, "limit": limit, "open_kfid": open_kfid}
         return self._post("kf/sync_msg", data=data)
 
     def get_service_state(self, open_kfid, external_userid):
@@ -256,9 +251,5 @@ class WeChatKF(BaseWeChatAPI):
 
         :return: 接口调用结果
         """
-        data = {
-            "open_kfid": open_kfid,
-            "name": name,
-            "media_id": media_id
-        }
+        data = {"open_kfid": open_kfid, "name": name, "media_id": media_id}
         return self._post("kf/account/update", data=data)
