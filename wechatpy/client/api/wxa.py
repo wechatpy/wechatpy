@@ -27,7 +27,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
         详情请参考
-        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.get.html
+        https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getQRCode.html
         """
         if line_color is None:
             line_color = {"r": "0", "g": "0", "b": "0"}
@@ -57,7 +57,7 @@ class WeChatWxa(BaseWeChatAPI):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
-        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html
+        https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getUnlimitedQRCode.html
         """
         if line_color is None:
             line_color = {"r": "0", "g": "0", "b": "0"}
