@@ -761,3 +761,19 @@ class WeChatClientTestCase(unittest.TestCase):
         with HTTMock(wechat_api_mock):
             res = self.client.oa.get_booking_info_by_meeting_id(1, 1)
             self.assertEqual("mtebsada6e027c123cbafAAA", res["schedule"]["meeting_id"])
+
+    def test_set_workbench_template(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.workbench.set_template("normal", "1000014")
+            self.assertEqual(res["errcode"], 0)
+
+    def test_get_template(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.workbench.get_template("1000014")
+            self.assertEqual(res["errcode"], 0)
+
+    def test_set_user_data(self):
+        with HTTMock(wechat_api_mock):
+            data = {"items": [{"key": "待审批", "data": "2", "jump_url": "http://www.qq.com", "pagepath": "pages/index"}]}
+            res = self.client.workbench.set_user_data("1000014", "x123123", "keydata", data)
+            self.assertEqual(res["errcode"], 0)

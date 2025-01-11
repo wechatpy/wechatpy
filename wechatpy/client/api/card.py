@@ -6,7 +6,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatCard(BaseWeChatAPI):
-
     API_BASE_URL = "https://api.weixin.qq.com/"
 
     def create(self, card_data):
