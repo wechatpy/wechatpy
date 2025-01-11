@@ -844,6 +844,20 @@ class WeChatClientTestCase(unittest.TestCase):
             res = self.client.wxa.get_phone_number("code")
         self.assertEqual("13123456789", res["phone_info"]["purePhoneNumber"])
 
+    def test_generate_url_link(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wxa.generate_url_link("/pages/publishHomework/publishHomework", "", 1, 30)
+        self.assertEqual(0, res["errcode"])
+        self.assertEqual("ok", res["errmsg"])
+        self.assertIn("url_link", res)
+
+    def test_query_url_link(self):
+        with HTTMock(wechat_api_mock):
+            res = self.client.wxa.query_url_link("https://wxaurl.cn/BQZRrcFCPvg?cq=a%3Dhello", 0)
+        self.assertEqual(0, res["errcode"])
+        self.assertEqual("ok", res["errmsg"])
+        self.assertIn("url_link_info", res)
+
     def test_client_expires_at_consistency(self):
         from redis import Redis
         from wechatpy.session.redisstorage import RedisStorage
