@@ -228,3 +228,8 @@ def rsa_public_encrypt(data, certificate):
 def get_serial_no(cert_pem):
     serial_no = f"{cert_pem.serial_number:x}".upper()
     return serial_no
+
+
+def filter_none_values(dict_obj):
+    filtered_data = {k: v for k, v in dict_obj.items() if v is not None}
+    return filtered_data

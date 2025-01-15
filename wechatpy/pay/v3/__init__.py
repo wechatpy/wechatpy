@@ -134,7 +134,7 @@ class WeChatPay:
                 raise InvalidSignatureException(res_code, res_text)
             # 返回状态码不为成功
             raise WeChatPayV3Exception(res_code, res_text)
-        return res.content
+        return res
 
     def _request(self, method, url_or_endpoint, headers=None, sign_data=None, skip_check_signature=False, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
