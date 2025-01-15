@@ -11,7 +11,7 @@ class WeChatKF(BaseWeChatAPI):
     https://work.weixin.qq.com/api/doc/90000/90135/94670
     """
 
-    def sync_msg(self, token, cursor="", limit=1000):
+    def sync_msg(self, token, open_kfid, cursor="", limit=1000):
         """
         微信客户发送的消息、接待人员在企业微信回复的消息、发送消息接口发送失败事件（如被用户拒收）
         、客户点击菜单消息的回复消息，可以通过该接口获取具体的消息内容和事件。不支持读取通过发送消息接口发送的消息。
@@ -19,16 +19,13 @@ class WeChatKF(BaseWeChatAPI):
 
 
         :param token: 回调事件返回的token字段，10分钟内有效；可不填，如果不填接口有严格的频率限制。不多于128字节
+        :param open_kfid: 客服帐号ID
         :param cursor: 上一次调用时返回的next_cursor，第一次拉取可以不填。不多于64字节
         :param limit: 期望请求的数据量，默认值和最大值都为1000。
         注意：可能会出现返回条数少于limit的情况，需结合返回的has_more字段判断是否继续请求。
         :return: 接口调用结果
         """
-        data = {
-            "token": token,
-            "cursor": cursor,
-            "limit": limit,
-        }
+        data = {"token": token, "cursor": cursor, "limit": limit, "open_kfid": open_kfid}
         return self._post("kf/sync_msg", data=data)
 
     def get_service_state(self, open_kfid, external_userid):
@@ -213,3 +210,46 @@ class WeChatKF(BaseWeChatAPI):
             data["msgid"] = msgid
         data.update(msg_content)
         return self._post("kf/send_msg_on_event", data=data)
+
+    def get_corp_statistic(self, start_time, end_time, open_kfid=None):
+        """
+        获取「客户数据统计」企业汇总数据
+
+        :param start_time: 开始时间
+        :param end_time: 结束时间
+        :param open_kfid: 	客服帐号ID
+        :return: 接口调用结果
+        """
+        data = {"open_kfid": open_kfid, "start_time": start_time, "end_time": end_time}
+        return self._post("kf/get_corp_statistic", data=data)
+
+    def get_servicer_statistic(self, start_time, end_time, open_kfid=None, servicer_userid=None):
+        """
+        获取「客户数据统计」接待人员明细数据
+
+        :param start_time: 开始时间
+        :param end_time: 结束时间
+        :param open_kfid: 	客服帐号ID
+        :param servicer_userid: 接待人员
+        :return: 接口调用结果
+        """
+        data = {
+            "open_kfid": open_kfid,
+            "servicer_userid": servicer_userid,
+            "start_time": start_time,
+            "end_time": end_time,
+        }
+        return self._post("kf/get_servicer_statistic", data=data)
+
+    def account_update(self, open_kfid, name, media_id):
+        """
+        修改客服账号
+
+        :param open_kfid: 客服帐号ID
+        :param name: 客服名称
+        :param media_id: 客服头像临时素材
+
+        :return: 接口调用结果
+        """
+        data = {"open_kfid": open_kfid, "name": name, "media_id": media_id}
+        return self._post("kf/account/update", data=data)

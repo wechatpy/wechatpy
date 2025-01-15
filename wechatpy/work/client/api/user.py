@@ -219,3 +219,19 @@ class WeChatUser(BaseWeChatAPI):
         """
         resp = self._post("user/getuserid", data={"mobile": mobile})
         return resp["userid"]
+
+    def list_id(self, cursor: str, limit: int = 10000) -> dict:
+        """
+        获取成员ID列表
+
+        获取企业成员的userid与对应的部门ID列表
+
+        详情请参考
+        https://developer.work.weixin.qq.com/document/path/96067
+
+        :param cursor: 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用不填
+        :param limit: 分页，预期请求的数据量，取值范围 1 ~ 10000
+        :return:
+        """
+        resp = self._post("user/list_id", data={"cursor": cursor, "limit": limit})
+        return resp

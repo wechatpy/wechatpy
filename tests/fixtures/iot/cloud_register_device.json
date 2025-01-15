@@ -1,0 +1,21 @@
+{
+  "errcode": 0,
+  "errmsg": "xxx",
+  "iot_device_list": [
+    {
+      "sn": "abcpatric",
+      "ilink_im_sdk_id": "xxx@ilink.im.sdk"
+    },
+    {
+      "sn": "abcpatric1",
+      "ilink_im_sdk_id": "xxx@ilink.im.sdk"
+    }
+  ],
+  "err_device_list": [
+    {
+      "sn": "abcpatric2",
+      "errcode": -1,
+      "errmsg": "xxxx"
+    }
+  ]
+}
