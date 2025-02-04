@@ -12,7 +12,7 @@ class SessionStorage:
         raise NotImplementedError()
 
     def __getitem__(self, key):
-        self.get(key)
+        return self.get(key)
 
     def __setitem__(self, key, value):
         self.set(key, value)
