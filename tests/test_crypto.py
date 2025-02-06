@@ -13,7 +13,6 @@ class PrpCryptoMock(_crypto.PrpCrypto):
 
 
 class CryptoTestCase(unittest.TestCase):
-
     token = "123456"
     encoding_aes_key = "kWxPEV2UEDyxWpmPdKC3F4dgPDmOvfKX1HGnEUDS1aR"
     corp_id = "wx49f0ab532d5d035a"
