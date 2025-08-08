@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.client.jsapi
-    ~~~~~~~~~~~~~~~~~~~~
+wechatpy.client.jsapi
+~~~~~~~~~~~~~~~~~~~~
 
-    This module provides some APIs for JS SDK
+This module provides some APIs for JS SDK
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 
 

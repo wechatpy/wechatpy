@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.oauth
-    ~~~~~~~~~~~~~~~
+wechatpy.oauth
+~~~~~~~~~~~~~~~
 
-    This module provides OAuth2 library for WeChat
+This module provides OAuth2 library for WeChat
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 import json
 from urllib.parse import quote

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.component
-    ~~~~~~~~~~~~~~~
+wechatpy.component
+~~~~~~~~~~~~~~~
 
-    This module provides client library for WeChat Open Platform
+This module provides client library for WeChat Open Platform
 
-    :copyright: (c) 2015 by hunter007.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2015 by hunter007.
+:license: MIT, see LICENSE for more details.
 """
 import json
 import logging

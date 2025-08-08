@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.exceptions
-    ~~~~~~~~~~~~~~~~~~~~
+wechatpy.exceptions
+~~~~~~~~~~~~~~~~~~~~
 
-    Basic exceptions definition.
+Basic exceptions definition.
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 
 

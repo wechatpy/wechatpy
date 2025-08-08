@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.crypto
-    ~~~~~~~~~~~~~~~~
+wechatpy.crypto
+~~~~~~~~~~~~~~~~
 
-    This module provides some crypto tools for WeChat and WeChat work
+This module provides some crypto tools for WeChat and WeChat work
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 
 import json
