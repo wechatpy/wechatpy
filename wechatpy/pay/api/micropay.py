@@ -8,6 +8,7 @@ from wechatpy.pay.api.base import BaseWeChatPayAPI
 
 
 class WeChatMicroPay(BaseWeChatPayAPI):
+<<<<<<< HEAD
     def create(
         self,
         body,
@@ -23,6 +24,10 @@ class WeChatMicroPay(BaseWeChatPayAPI):
         limit_pay=None,
         receipt="Y",
     ):
+=======
+    def create(self, body, total_fee, auth_code, client_ip=None, out_trade_no=None, detail=None, attach=None,
+               fee_type='CNY', goods_tag=None, device_info=None, limit_pay=None, receipt='Y'):
+>>>>>>> 211f77971d2277b21f40ddbb623f79f1916f2bb2
         """
         刷卡支付接口
         :param device_info: 可选，终端设备号(商户自定义，如门店编号)

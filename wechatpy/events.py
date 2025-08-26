@@ -396,6 +396,7 @@ class UserGetCardEvent(BaseEvent):
     详情请参阅
     https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Coupons_Vouchers_and_Cards_Event_Push_Messages.html#2
     """
+<<<<<<< HEAD
 
     event = "user_get_card"
     card_id = StringField("CardId")
@@ -424,6 +425,16 @@ class UserGiftingCardEvent(BaseEvent):
     is_return_back = IntegerField("IsReturnBack")
     friend = StringField("FriendUserName")
     is_chat_room = IntegerField("IsChatRoom")
+=======
+    event = 'user_get_card'
+    card_id = StringField('CardId')
+    is_given_by_friend = IntegerField('IsGiveByFriend')
+    friend = StringField('FriendUserName')
+    code = StringField('UserCardCode')
+    old_code = StringField('OldUserCardCode')
+    outer_id = StringField('OuterId')
+    outer_str = StringField('OuterStr')
+>>>>>>> 211f77971d2277b21f40ddbb623f79f1916f2bb2
 
 
 class UserDeleteCardEvent(BaseEvent):
@@ -439,6 +450,36 @@ class UserDeleteCardEvent(BaseEvent):
     code = StringField("UserCardCode")
 
 
+<<<<<<< HEAD
+=======
+@register_event('submit_membercard_user_info')
+class SubmitMembercardUserInfo(BaseEvent):
+    """
+    接收会员信息事件通知
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    """
+    event = 'submit_membercard_user_info'
+    card_id = StringField('CardId')
+    card_code = StringField('UserCardCode')
+
+
+@register_event('user_view_card')
+class User_View_Card(BaseEvent):
+    """
+    进入会员卡事件推送
+
+    详情请参阅
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
+    """
+    event = 'user_view_card'
+    card_id = StringField('CardId')
+    card_code = StringField('UserCardCode')
+
+
+@register_event('user_consume_card')
+>>>>>>> 211f77971d2277b21f40ddbb623f79f1916f2bb2
 class UserConsumeCardEvent(BaseEvent):
     """
     卡券核销事件推送
