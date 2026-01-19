@@ -13,10 +13,11 @@ classifiers = [
     "Operating System :: POSIX",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Intended Audience :: Developers",
@@ -29,21 +30,20 @@ homepage = "https://github.com/wechatpy/wechatpy"
 documentation = "http://docs.wechatpy.org"
 
 [tool.poetry.dependencies]
-python = ">=3.6,<4"
+python = ">=3.9,<4"
 requests = ">=2.4.3"
 xmltodict = ">=0.11.0"
 optionaldict = ">=0.1.0"
 python-dateutil = ">=2.5.2"
 cryptography = ">=3.1"
-dataclasses = { version = "^0.7", python = "~3.6" }
 requests-pkcs12 = "^1.7"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
+pytest = "^8.3.4"
 pytest-cov = "^3.0.0"
 httmock = "^1.4.0"
 coverage = "^6.1.2"
-redis = "^3.5.3"
+redis = "^5.2.1"
 pymemcache = "^3.5.0"
 
 [tool.poetry.urls]
@@ -51,7 +51,7 @@ issues = "https://github.com/wechatpy/wechatpy/issues"
 
 [tool.black]
 line-length = 120
-target-version = ['py36', 'py37', 'py38']
+target-version = ['py39']
 
 [build-system]
 requires = ["poetry>=0.12"]

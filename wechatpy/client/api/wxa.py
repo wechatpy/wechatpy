@@ -22,11 +22,12 @@ class WeChatWxa(BaseWeChatAPI):
         auto_color=False,
         line_color=None,
         is_hyaline=False,
+        env_version="release",
     ):
         """
         创建小程序码（接口A: 适用于需要的码数量较少的业务场景）
         详情请参考
-        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.get.html
+        https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getQRCode.html
         """
         if line_color is None:
             line_color = {"r": "0", "g": "0", "b": "0"}
@@ -38,6 +39,7 @@ class WeChatWxa(BaseWeChatAPI):
                 "auto_color": auto_color,
                 "line_color": line_color,
                 "is_hyaline": is_hyaline,
+                "env_version": env_version,
             },
         )
 
@@ -49,11 +51,13 @@ class WeChatWxa(BaseWeChatAPI):
         line_color=None,
         page=None,
         is_hyaline=False,
+        check_path=True,
+        env_version="release",
     ):
         """
         创建小程序码（接口B：适用于需要的码数量极多，或仅临时使用的业务场景）
         详情请参考
-        https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html
+        https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getUnlimitedQRCode.html
         """
         if line_color is None:
             line_color = {"r": "0", "g": "0", "b": "0"}
@@ -66,6 +70,8 @@ class WeChatWxa(BaseWeChatAPI):
                 auto_color=auto_color,
                 line_color=line_color,
                 is_hyaline=is_hyaline,
+                check_path=check_path,
+                env_version=env_version,
             ),
         )
 

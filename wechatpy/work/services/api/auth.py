@@ -78,3 +78,39 @@ class WeChatAuth(BaseWeChatAPI):
                 "permanent_code": permanent_code,
             },
         )
+
+    def get_corp_token(self, auth_corpid, permanent_code):
+        """
+        获取企业access_token
+
+        详情请参考
+        https://work.weixin.qq.com/api/doc/10975
+        :param auth_corpid: 	授权方corpid
+        :param permanent_code: 	永久授权码，通过get_permanent_code获取
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            "service/get_corp_token",
+            data={
+                "auth_corpid": auth_corpid,
+                "permanent_code": permanent_code,
+            },
+        )
+
+    def get_admin_list(self, auth_corpid, agentid):
+        """
+        授权方安装的应用agentid
+
+        详情请参考
+        https://work.weixin.qq.com/api/doc/10975
+        :param auth_corpid: 	授权方corpid
+        :param agentid: 		授权方安装的应用agentid
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            "service/get_admin_list",
+            data={
+                "auth_corpid": auth_corpid,
+                "agentid": agentid,
+            },
+        )

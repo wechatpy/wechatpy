@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.utils
-    ~~~~~~~~~~~~~~~
+wechatpy.utils
+~~~~~~~~~~~~~~~
 
-    This module provides some useful utilities.
+This module provides some useful utilities.
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 
 import string

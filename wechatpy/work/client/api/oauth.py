@@ -51,18 +51,19 @@ class WeChatOAuth(BaseWeChatAPI):
             },
         )
 
-    def get_user_detail(self,ticket):
+    def get_user_detail(self, user_ticket):
         """
-        获取用户敏感信息
-
+        自建应用与代开发应用可通过该接口获取成员授权的敏感字段
+        详情请参考
         https://developer.work.weixin.qq.com/document/path/95833
-        :param ticket: 用户OAuth授权后拿到的票据
-        :return: 包含敏感信息的用户信息
+
+        :param user_ticket: 成员票据
+        :return: 返回的 JSON 数据包
         """
 
         return self._post(
             "auth/getuserdetail",
             data={
-                "user_ticket": ticket
-            }
+                "user_ticket": user_ticket,
+            },
         )

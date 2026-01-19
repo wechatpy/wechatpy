@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 name: CI
 
@@ -7,9 +7,10 @@ jobs:
     name: Test
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
+        python-version: [3.9, "3.10", 3.11, 3.12, 3.13]
     services:
       redis:
         image: redis
@@ -21,34 +22,32 @@ jobs:
         ports:
           - 11211:11211
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: codespell-project/actions-codespell@master
         with:
-          ignore_words_list: ba
+          ignore_words_list: assertin,ba,checkin
+          skip: "./tests/certs"
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Display Python version
-        shell: python
-        run: |
-            import sys
-            print(sys.version)
+        run: python --version
       - name: Install Dependencies
         run: |
           pip install poetry
           poetry install
           pip list
       - name: Check code style
-        if: matrix.python-version == 3.8
+        if: matrix.python-version == 3.9
         run: |
           pip install black
-          black -l 120 -t py36 -t py37 -t py38 --check .
+          black -l 120 -t py39 --check .
       - name: pytest
         run: |
           poetry run pytest --cov --cov-report=term --cov-report=xml
       - name: Upload to codecov.io
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v5
         with:
           file: ./coverage.xml
           flags: unittests
@@ -57,11 +56,14 @@ jobs:
     name: mypy-check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
         with:
-          python-version: 3.8
+          args: check --extend-ignore=F401
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
       - name: Install Dependencies
         run: |
           pip install poetry
@@ -70,7 +72,7 @@ jobs:
       - name: mypy
         run: |
           # run mypy, tee output to file
-          poetry run mypy --non-interactive --install-types --show-column-numbers --hide-error-context wechatpy | tee /tmp/mypy.out
+          poetry run mypy --non-interactive --install-types --implicit-optional --show-column-numbers --hide-error-context wechatpy | tee /tmp/mypy.out
           exit_code="${PIPESTATUS[0]}"
           # analyze output
           poetry run python .github/workflows/github.py /tmp/mypy.out

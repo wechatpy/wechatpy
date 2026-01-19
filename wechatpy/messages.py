@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.messages
-    ~~~~~~~~~~~~~~~~~~
+wechatpy.messages
+~~~~~~~~~~~~~~~~~~
 
-    This module defines all the messages you can get from WeChat server
+This module defines all the messages you can get from WeChat server
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 import copy
 

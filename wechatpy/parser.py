@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.parser
-    ~~~~~~~~~~~~~~~~
-    This module provides functions for parsing WeChat messages
+wechatpy.parser
+~~~~~~~~~~~~~~~~
+This module provides functions for parsing WeChat messages
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 import xmltodict
 

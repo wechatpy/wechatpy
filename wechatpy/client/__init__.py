@@ -8,7 +8,6 @@ from wechatpy.client import api
 
 
 class WeChatClient(BaseWeChatClient):
-
     """
     微信 API 操作类
     通过这个类可以操作微信 API，发送主动消息、群发消息和创建自定义菜单等。
@@ -76,7 +75,6 @@ class WeChatClient(BaseWeChatClient):
 
 
 class WeChatComponentClient(WeChatClient):
-
     """
     开放平台代公众号调用客户端
     """

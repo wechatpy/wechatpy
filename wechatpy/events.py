@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    wechatpy.events
-    ~~~~~~~~~~~~~~~~
+wechatpy.events
+~~~~~~~~~~~~~~~~
 
-    This module contains all the events WeChat callback uses.
+This module contains all the events WeChat callback uses.
 
-    :copyright: (c) 2014 by messense.
-    :license: MIT, see LICENSE for more details.
+:copyright: (c) 2014 by messense.
+:license: MIT, see LICENSE for more details.
 """
 from typing import Dict, List
 
