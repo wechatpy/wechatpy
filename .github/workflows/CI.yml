@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: codespell-project/actions-codespell@master
         with:
-          ignore_words_list: assertin,ba,checkin
+          ignore_words_list: assertin,ba,checkin,CalId
           skip: "./tests/certs"
       - name: Setup Python
         uses: actions/setup-python@v6
