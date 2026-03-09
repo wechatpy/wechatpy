@@ -22,7 +22,7 @@ jobs:
         ports:
           - 11211:11211
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: codespell-project/actions-codespell@master
         with:
           ignore_words_list: assertin,ba,checkin,CalId
@@ -56,7 +56,7 @@ jobs:
     name: mypy-check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: astral-sh/ruff-action@v3
         with:
           args: check --extend-ignore=F401
