@@ -58,16 +58,16 @@ class WeChatExternalContactGroupChat(BaseWeChatAPI):
                 break
         return chat_list
 
-    def get(self, chat_id: str):
+    def get(self, chat_id: str, need_name = 0):
         """
         通过客户群ID，获取详情。包括群名、群成员列表、群成员入群时间、入群方式。（客户群是由具有客户群使用权限的成员创建的外部群）
         需注意的是，如果发生群信息变动，会立即收到群变更事件，但是部分信息是异步处理，可能需要等一段时间调此接口才能得到最新结果
         PS: 接口命名为get，调用却是POST，无语
-        https://work.weixin.qq.com/api/doc/90000/90135/92122
+        https://developer.work.weixin.qq.com/document/path/92122
         :param chat_id: 客户群ID
         :return: 返回的 JSON 数据包
         """
-        return self._post("externalcontact/groupchat/get", data={"chat_id": chat_id})
+        return self._post("externalcontact/groupchat/get", data={"chat_id": chat_id,"need_name": need_name})
 
     def statistic(
         self,
