@@ -37,6 +37,7 @@ optionaldict = ">=0.1.0"
 python-dateutil = ">=2.5.2"
 cryptography = ">=3.1"
 requests-pkcs12 = "^1.7"
+shove= "^0.6.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.3.4"
