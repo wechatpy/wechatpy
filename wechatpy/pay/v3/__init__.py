@@ -252,16 +252,16 @@ class WeChatPay:
             self.wechat_cert_dict[serial_no] = new_cert
 
     def get_cert_path(self, serial_no):
-        return os.path.join(self.wechat_cert_dir, "wechatpy_" + serial_no + ".pem")
+        return os.path.join(self.wechat_cert_dir, "wechatpay_" + serial_no + ".pem")
 
     def load_wechat_cert(self):
         dirs = os.listdir(self.wechat_cert_dir)
         for file in dirs:
-            if file.startswith("wechatpy_"):
+            if file.startswith("wechatpay_"):
                 # 读取证书并缓存
                 with open(os.path.join(self.wechat_cert_dir, file), "rb") as f:
                     cert_file = f.read()
-                serial_no = file.replace("wechatpy_", "").replace(".pem", "")
+                serial_no = file.replace("wechatpay_", "").replace(".pem", "")
                 certificate = load_pem_x509_certificate(data=cert_file, backend=default_backend())
                 self.wechat_cert_dict[serial_no] = certificate
 
