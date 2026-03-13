@@ -40,6 +40,24 @@ class WeChatMedia(BaseWeChatAPI):
         """
         return self._post("media/uploadimg", files={"media": image_file})
 
+    def upload_attachment(self, media_type, attachment_type, media_file):
+        """
+        上传附件资源
+
+        https://developer.work.weixin.qq.com/document/path/95098
+
+        :param media_type: 媒体文件类型，分别有图片（image）、视频（video）、普通文件（file）
+        :param attachment_type: 附件类型，不同的附件类型用于不同的场景。1：朋友圈；2:商品图册
+        :param media_file: 要上传的文件，一个 File-object
+
+        :return: 返回的 JSON 数据包
+        """
+        return self._post(
+            "media/upload_attachment",
+            params={"media_type": media_type, "attachment_type": attachment_type},
+            files={"media": media_file}
+        )
+
     def get_url(self, media_id):
         """
         获取临时素材
