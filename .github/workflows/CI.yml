@@ -22,7 +22,7 @@ jobs:
         ports:
           - 11211:11211
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: codespell-project/actions-codespell@master
         with:
           ignore_words_list: assertin,ba,checkin,CalId
@@ -47,7 +47,7 @@ jobs:
         run: |
           poetry run pytest --cov --cov-report=term --cov-report=xml
       - name: Upload to codecov.io
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           file: ./coverage.xml
           flags: unittests
@@ -56,7 +56,7 @@ jobs:
     name: mypy-check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: astral-sh/ruff-action@v3
         with:
           args: check --extend-ignore=F401
