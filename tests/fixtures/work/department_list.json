@@ -1,0 +1,16 @@
+{
+   "errcode": 0,
+   "errmsg": "ok",
+   "department": [
+       {
+           "id": 2,
+           "name": "广州研发中心",
+           "parentid": 1
+       },
+       {
+           "id": 3,
+           "name": "邮箱产品部",
+           "parentid": 2
+       }
+   ]
+}

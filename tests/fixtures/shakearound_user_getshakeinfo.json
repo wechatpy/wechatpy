@@ -1,0 +1,14 @@
+{
+    "data": {
+        "page_id": 14211,
+        "beacon_info": {
+            "distance": 55.00620700469034,
+            "major": 10001,
+            "minor": 19007,
+            "uuid": "FDA50693-A4E2-4FB1-AFCF-C6EB07647825"
+        },
+        "openid": "oVDmXjp7y8aG2AlBuRpMZTb1-cmA"
+    },
+    "errcode": 0,
+    "errmsg": "success."
+}

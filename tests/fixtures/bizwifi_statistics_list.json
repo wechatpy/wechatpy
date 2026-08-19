@@ -1,0 +1,21 @@
+{
+  "errcode": 0,
+  "data": [
+    {
+      "shop_id": "-1",
+      "statis_time": 1430409600000,
+      "total_user": 2,
+      "homepage_uv": 0,
+      "new_fans": 0,
+      "total_fans": 4
+    },
+    {
+      "shop_id": "-1",
+      "statis_time": 1430496000000,
+      "total_user": 2,
+      "homepage_uv": 0,
+      "new_fans": 0,
+      "total_fans": 4
+    }
+  ]
+}

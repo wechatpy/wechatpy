@@ -1,0 +1,16 @@
+{
+    "kf_list": [
+        {
+            "kf_account": "test1@test",
+            "kf_nick": "test1",
+            "kf_id": "1001",
+            "kf_headimg": ""
+        },
+        {
+            "kf_account": "test2@test",
+            "kf_nick": "test2",
+            "kf_id": "1002",
+            "kf_headimg": ""
+        }
+    ]
+}

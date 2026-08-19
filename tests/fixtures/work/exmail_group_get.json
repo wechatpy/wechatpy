@@ -1,0 +1,28 @@
+{
+   "errcode": 0,
+   "errmsg": "ok",
+    "groupid": "zhangsangroup@gzdev.com",
+    "groupname": "zhangsangroup",
+    "email_list": {
+    "list": ["lisi@gzdev.com", "wangwu@gzdev.com"]
+    },
+    "tag_list": {
+    "list": [2, 5]
+    },
+    "department_list": {
+    "list": [1, 2]
+    },
+    "group_list": {
+    "list": ["aaa@gzdev.com"]
+    },
+    "allow_type": 3,
+    "allow_emaillist": {
+    "list": ["zhangsanp@gzdev.com"]
+    },
+    "allow_departmentlist": {
+    "list": [1, 2]
+    },
+    "allow_taglist": {
+    "list": [1, 3]
+    }
+}

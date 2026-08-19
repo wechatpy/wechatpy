@@ -1,0 +1,15 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "result_list": [
+    {
+      "ori_openid": "oEmYbwN-n24jxvk4Sox81qedINkQ",
+      "new_openid": "o2FwqwI9xCsVadFah_HtpPfaR-X4",
+      "err_msg": "ok"
+    },
+    {
+      "ori_openid": "oEmYbwH9uVd4RKJk7ZZg6SzL6tTo",
+      "err_msg": "ori_openid error"
+    }
+  ]
+}

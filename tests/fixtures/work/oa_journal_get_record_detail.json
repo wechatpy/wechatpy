@@ -1,0 +1,60 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "info": {
+        "journal_uuid": "41eJejN57EJNzr8HrZfmKyJZ6E3W9NQbr94x6QEA6MwvK2sVqFQNWy4BaF4Ptyzk26",
+        "template_name": "今日工作汇报",
+        "report_time": 1606365591,
+        "submitter": {
+            "userid": "LiQiJun"
+        },
+        "receivers": [
+            {
+                "userid": "LiQiJun"
+            }
+        ],
+        "readed_receivers": [
+            {
+                "userid": "LiQiJun"
+            }
+        ],
+        "apply_data": {
+            "contents": [
+                {
+                    "control": "Text",
+                    "id": "Text-1606365477123",
+                    "title": [
+                        {
+                            "text": "工作内容",
+                            "lang": "zh_CN"
+                        }
+                    ],
+                    "value": {
+                        "text": "今日暂无工作",
+                        "tips": [],
+                        "members": [],
+                        "departments": [],
+                        "files": [],
+                        "children": [],
+                        "stat_field": [],
+                        "sum_field": [],
+                        "related_approval": [],
+                        "students": [],
+                        "classes": []
+                    }
+                }
+            ]
+        },
+        "comments": [
+            {
+                "commentid": 6899287783354824502,
+                "tocommentid": 0,
+                "comment_userinfo": {
+                    "userid": "LiYiBo"
+                },
+                "content": "加油",
+                "comment_time": 1606365615
+            }
+        ]
+    }
+}

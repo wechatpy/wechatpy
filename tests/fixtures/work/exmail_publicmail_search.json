@@ -1,0 +1,16 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "list": [
+    {
+      "id": 11,
+      "email": "apitest3@gzdev.com",
+      "name": "apitest3"
+    },
+    {
+      "id": 12,
+      "email": "apitest4@gzdev.com",
+      "name": "apitest4"
+    }
+  ]
+}

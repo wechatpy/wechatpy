@@ -1,0 +1,13 @@
+{
+  "errcode": 0,
+  "data": {
+    "shop_name": "南山店",
+    "ssid": "WX4123",
+    "password": "123456789",
+    "protocol_type": 4,
+    "ap_count": 2,
+    "template_id": 1,
+    "homepage_url": "http://www.weixin.qq.com/",
+    "bar_type": 1
+  }
+}

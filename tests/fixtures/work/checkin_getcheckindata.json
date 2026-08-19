@@ -1,0 +1,32 @@
+{
+   "errcode":0,
+   "errmsg":"ok",
+   "checkindata": [{
+        "userid" : "james",
+        "groupname" : "打卡一组",
+        "checkin_type" : "上班打卡",
+        "exception_type" : "地点异常",
+        "checkin_time" : 1492617610,
+        "location_title" : "依澜府",
+        "location_detail" : "四川省成都市武侯区益州大道中段784号附近",
+        "wifiname" : "办公一区",
+        "notes" : "路上堵车，迟到了5分钟",
+        "wifimac" : "3c:46:d8:0c:7a:70",
+        "mediaids":["WWCISP_G8PYgRaOVHjXWUWFqchpBqqqUpGj0OyR9z6WTwhnMZGCPHxyviVstiv_2fTG8YOJq8L8zJT2T2OvTebANV-2MQ"]
+    },{
+        "userid" : "paul",
+        "groupname" : "打卡二组",
+        "checkin_type" : "外出打卡",
+        "exception_type" : "时间异常",
+        "checkin_time" : 1492617620,
+        "location_title" : "重庆出口加工区",
+        "location_detail" : "重庆市渝北区金渝大道101号金渝大道",
+        "wifiname" : "办公室二区",
+        "notes" : "",
+        "wifimac" : "3c:46:d8:0c:7a:71",
+        "mediaids":["WWCISP_G8PYgRaOVHjXWUWFqchpBqqqUpGj0OyR9z6WTwhnMZGCPHxyviVstiv_2fTG8YOJq8L8zJT2T2OvTebANV-2MQ"],
+        "lat": 30547645,
+        "lng": 104063236,
+        "deviceid":"E5FA89F6-3926-4972-BE4F-4A7ACF4701E2"
+    }]
+}

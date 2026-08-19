@@ -1,0 +1,28 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "group_chat": {
+        "chat_id": "wrOgQhDgAAMYQiS5ol9G7gK9JVAAAA",
+        "name": "销售客服群",
+        "owner": "ZhuShengBen",
+        "create_time": 1572505490,
+        "notice" : "文明沟通，拒绝脏话",
+        "member_list": [{
+            "userid": "abel",
+            "type": 1,
+            "join_time": 1572505491,
+            "join_scene": 1
+        }, {
+            "userid": "sam",
+            "type": 1,
+            "join_time": 1572505491,
+            "join_scene": 1
+        }, {
+            "userid": "wmOgQhDgAAuXFJGwbve4g4iXknfOAAAA",
+            "type": 2,
+            "unionid": "ozynqsulJFCZ2z1aYeS8h-nuasdAAA",
+            "join_time": 1572505491,
+            "join_scene": 1
+        }]
+    }
+}

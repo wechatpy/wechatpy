@@ -1,0 +1,16 @@
+{ 
+   "list": [ 
+       { 
+           "ref_date": "2014-12-07", 
+           "ref_hour": 1200, 
+           "int_page_read_user": 0, 
+           "int_page_read_count": 0, 
+           "ori_page_read_user": 4, 
+           "ori_page_read_count": 25517, 
+           "share_user": 4, 
+           "share_count": 96, 
+           "add_to_fav_user": 1, 
+           "add_to_fav_count": 3
+       }
+   ]
+}

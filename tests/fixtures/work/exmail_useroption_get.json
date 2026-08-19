@@ -1,0 +1,16 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "option": {
+    "list": [{
+      "type": 1,
+      "value": "0"
+    }, {
+      "type": 2,
+      "value": "1"
+    }, {
+      "type": 3,
+      "value": "0"
+    }]
+  }
+}

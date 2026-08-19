@@ -1,0 +1,11 @@
+{ 
+   "list": [ 
+       { 
+           "ref_date": "2014-12-07", 
+           "ref_hour": 0, 
+           "msg_type": 1, 
+           "msg_user": 9, 
+           "msg_count": 10
+       }
+   ]
+}

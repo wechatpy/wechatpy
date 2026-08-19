@@ -1,0 +1,13 @@
+{
+  "errcode":0,
+  "errmsg":"ok",
+  "check_status":1,
+  "detail_list":[
+    {
+      "external_userid":"wmqfasd1e19278asdasdasd",
+      "userid":"zhangsan",
+      "status":1,
+      "send_time":1552536375
+    }
+  ]
+}

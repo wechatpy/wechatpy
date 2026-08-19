@@ -1,0 +1,13 @@
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "phone_info": {
+        "phoneNumber":"13123456789",
+        "purePhoneNumber": "13123456789",
+        "countryCode": 86,
+        "watermark": {
+            "timestamp": 1637744274,
+            "appid": ""
+        }
+    }
+}

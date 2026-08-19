@@ -1,0 +1,12 @@
+ {
+     "sessionlist": [
+         {
+             "openid": "OPENID", 
+             "createtime": 123456789
+         }, 
+         {
+             "openid": "OPENID", 
+             "createtime": 123456789
+         }
+     ]
+ }

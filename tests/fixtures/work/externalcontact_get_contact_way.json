@@ -1,0 +1,16 @@
+{
+  "errcode":0,
+  "errmsg":"ok",
+  "contact_way":[
+    {
+      "config_id":"42b34949e138eb6e027c123cba77fad7",
+      "type":1,
+      "scene":1,
+      "style":2,
+      "remark":"test remark",
+      "skip_verify":true,
+      "state":"teststate",
+      "qr_code":"http://p.qpic.cn/wwhead/duc2TvpEgSdicZ9RrdUtBkv2UiaA/0"
+    }
+  ]
+}

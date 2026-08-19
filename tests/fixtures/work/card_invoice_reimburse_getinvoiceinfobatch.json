@@ -1,0 +1,37 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "item_list": [
+        {
+            "card_id": "CARDID",
+            "openid": "ofdsfasfsafsafasf",
+            "type": "增值税电子普通发票",
+            "payee": "深圳市XX有限公司",
+            "detail": "可在公司企业微信内报销使用",
+            "user_info": {
+                "fee": 4000,
+                "title": "XX有限公司",
+                "billing_time": 1478620800,
+                "billing_no": "00000001",
+                "billing_code": "000000000001",
+                "info": [
+                    {
+                        "name": "NAME",
+                        "num": 10,
+                        "unit": "吨",
+                        "fee": 10,
+                        "price": 4
+                    }
+                ],
+                "fee_without_tax": 2345,
+                "tax": 123,
+                "detail": "项目",
+                "pdf_url": "pdf_url",
+                "reimburse_status": "INVOICE_REIMBURSE_INIT",
+                "order_id": "12345678",
+                "check_code": "CHECKCODE",
+                "buyer_number": "BUYERNUMER"
+            }
+        }
+    ]
+}

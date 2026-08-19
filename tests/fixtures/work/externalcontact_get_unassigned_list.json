@@ -1,0 +1,17 @@
+{
+  "errcode":0,
+  "errmsg":"ok",
+  "info":[
+    {
+      "handover_userid":"zhangsan",
+      "external_userid":"woAJ2GCAAAd4uL12hdfsdasassdDmAowRA",
+      "dimission_time":1550838571
+    },
+    {
+      "handover_userid":"ShanRuoQi",
+      "external_userid":"wmAJ2GCAAAzLTI123ghsdfoGZNqqB1qw",
+      "dimission_time":1550661468
+    }
+  ],
+  "is_last":false
+}

@@ -1,0 +1,23 @@
+{
+ "errcode": 0,
+ "errmsg": "ok",
+ "total": 2,
+ "key_list": [
+  {
+   "keystandard": "ean13",
+   "keystr": "6390000000000",
+   "category_id": 537117576,
+   "category_name": "果泥/菜泥/肉泥",
+   "update_time": 1413181580,
+   "status": "on"
+  },
+  {
+   "keystandard": "ean13",
+   "keystr": "6390000000002",
+   "category_id": 537117576,
+   "category_name": "果泥/菜泥/肉泥",
+   "update_time": 1412834605,
+   "status": "on"
+  }
+ ]
+}

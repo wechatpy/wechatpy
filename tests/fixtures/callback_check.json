@@ -1,0 +1,28 @@
+{
+    "dns": [
+        {
+            "ip": "111.161.64.40", 
+            "real_operator": "UNICOM"
+        }, 
+        {
+            "ip": "111.161.64.48", 
+            "real_operator": "UNICOM"
+        }
+    ], 
+    "ping": [
+        {
+            "ip": "111.161.64.40", 
+            "from_operator": "UNICOM", 
+            
+            
+            "package_loss": "0%", 
+            "time": "23.079ms"
+        }, 
+        {
+            "ip": "111.161.64.48", 
+            "from_operator": "UNICOM", 
+            "package_loss": "0%", 
+            "time": "21.434ms"
+        }
+    ]
+}

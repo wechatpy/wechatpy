@@ -1,0 +1,22 @@
+{
+  "return_code": "SUCCESS",
+  "return_msg": "OK",
+  "appid": "wx2421b1c4370ec43b",
+  "mch_id": "10000100",
+  "device_info": "1000",
+  "nonce_str": "TN55wO9Pba5yENl8",
+  "sign": "BDF0099C15FF7BC6B1585FBB110AB635",
+  "result_code": "SUCCESS",
+  "openid": "oUpF8uN95-Ptaags6E_roPHg7AG0",
+  "is_subscribe": "Y",
+  "trade_type": "MICROPAY",
+  "bank_type": "CCB_DEBIT",
+  "total_fee": "1",
+  "fee_type": "CNY",
+  "transaction_id": "1008450740201411110005820873",
+  "out_trade_no": "1415757673",
+  "attach": "\u8ba2\u5355\u989d\u5916\u63cf\u8ff0",
+  "time_end": "20141111170043",
+  "trade_state": "SUCCESS",
+  "contract_id": "Wx15463511252015071056489715"
+}

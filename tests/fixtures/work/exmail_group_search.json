@@ -1,0 +1,15 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "count": 2,
+  "groups": [
+    {
+      "groupid": "zhangsan@gzdev.com",
+      "groupname": "张三"
+    },
+    {
+      "groupid": "lisi@gzdev.com",
+      "groupname": "李四"
+    }
+  ]
+}

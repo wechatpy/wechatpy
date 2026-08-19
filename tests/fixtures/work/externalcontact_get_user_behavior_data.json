@@ -1,0 +1,20 @@
+{
+  "errcode":0,
+  "errmsg":"ok",
+  "behavior_data":[
+    {
+      "stat_time":1536508800,
+      "chat_cnt":100,
+      "message_cnt":80,
+      "reply_percentage":60.25,
+      "avg_reply_time":1
+    },
+    {
+      "stat_time":1536940800,
+      "chat_cnt":20,
+      "message_cnt":40,
+      "reply_percentage":100,
+      "avg_reply_time":1
+    }
+  ]
+}

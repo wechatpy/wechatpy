@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "odoo-wechatpy"
+version = "2.0.0.5"
+description = "WeChat SDK for Python"
+authors = ["messense <messense@icloud.com>"]
+license = "MIT"
+packages = [{ include = "wechatpy" }]
+readme = 'README.md'
+keywords = ["wechat", "weixin", "wechat SDK", "weixin SDK"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities"
+]
+repository = "https://github.com/wechatpy/wechatpy.git"
+homepage = "https://github.com/wechatpy/wechatpy"
+documentation = "http://docs.wechatpy.org"
+
+[tool.poetry.dependencies]
+python = ">=3.6,<4"
+requests = ">=2.4.3"
+xmltodict = ">=0.11.0"
+optionaldict = ">=0.1.0"
+python-dateutil = ">=2.5.2"
+cryptography = ">=3.1"
+requests-pkcs12 = "^1.7"
+websocket-client = ">=1.6.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^3.0.0"
+httmock = "^1.4.0"
+coverage = "^6.1.2"
+redis = "^5.2.1"
+pymemcache = "^3.5.0"
+
+[tool.poetry.urls]
+issues = "https://github.com/wechatpy/wechatpy/issues"
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+
+[build-system]
+requires = ["poetry-core>=1.0.0,<2.0.0"]
+build-backend = "poetry.core.masonry.api"

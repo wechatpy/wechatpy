@@ -1,0 +1,13 @@
+{
+  "download_bill_count" : 1,
+  "download_bill_list" : [
+    {
+      "bill_sequence" : 1,
+      "hash_type" : "SHA1",
+      "hash_value" : "79bb0f45fc4c42234a918000b2668d689e2bde04",
+      "download_url" : "https://api.mch.weixin.qq.com/v3/bill/downloadurl?token=xxx",
+      "encrypt_key" : "a0YK7p+9XaKzE9N4qtFfG/9za1oqKlLXXJWBkH+kX84onAs2Ol/E1fk+6S+FuBXczGDRU8I8D+6PfbwKYBGm0wANUTqHOSezzfbieIo2t51UIId7sP9SoN38W2+IcYDviIsu59KSdyiL3TY2xqZNT8UDcnMWzTNZdSv+CLsSgblB6OKGN9JONTadOFGfv1OKkTp86Li+X7S9bG62wsa572/5Rm4MmDCiKwY4bX2EynWQHBEOExD5URxT6/MX3F1D3BNYrE4fUu1F03k25xVlXnZDjksy6Rf3SCgadR+Cepc6mdfF9b2gTxNsJFMEdYXbqL0W1WQZ3UqSPQCguK6uLA==",
+      "nonce" : "a8607ef79034c49c"
+    }
+  ]
+}

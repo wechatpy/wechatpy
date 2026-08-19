@@ -1,0 +1,18 @@
+{
+    "kf_online_list": [
+        {
+            "kf_account": "test1@test",
+            "status": 1,
+            "kf_id": "1001",
+            "auto_accept": 0,
+            "accepted_case": 1
+        },
+        {
+            "kf_account": "test2@test",
+            "status": 1,
+            "kf_id": "1002",
+            "auto_accept": 0,
+            "accepted_case": 2
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+flake8:
+  enabled: true
+  config_file: setup.cfg
+
+fail_on_violations: true

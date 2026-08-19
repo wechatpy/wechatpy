@@ -1,0 +1,22 @@
+{
+  "errcode": 0,
+  "data": {
+    "totalcount": 16,
+    "pageindex": 1,
+    "pagecount": 8,
+    "records": [
+      {
+        "shop_id": 429620,
+        "shop_name": "南山店",
+        "ssid": null,
+        "protocol_type": 0
+      },
+      {
+        "shop_id": 7921527,
+        "shop_name": "宝安店",
+        "ssid": null,
+        "protocol_type": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+	"errcode": 0,
+	"errmsg": "ok",
+	"meetingroom_id": 1,
+	"schedule": {
+		"meeting_id": "mtebsada6e027c123cbafAAA",
+		"schedule_id": "17c7d2bd9f20d652840f72f59e796AAA",
+		"start_time": 1593532800,
+		"end_time": 1593662400,
+		"booker": "zhangsan",
+		"status":0
+	}
+}

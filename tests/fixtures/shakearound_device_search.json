@@ -1,0 +1,29 @@
+{
+    "data": {
+        "devices": [
+            {
+                "comment": "",
+                "device_id": 10097,
+                "major": 10001,
+                "minor": 12102,
+                "page_ids": "15369",
+                "status": 1,
+                "poi_id": 0,
+                "uuid": "FDA50693-A4E2-4FB1-AFCF-C6EB07647825"
+            },
+            {
+                "comment": "",
+                "device_id": 10098,
+                "major": 10001,
+                "minor": 12103,
+                "page_ids": "15368",
+                "status": 1,
+                "poi_id": 0,
+                "uuid": "FDA50693-A4E2-4FB1-AFCF-C6EB07647825"
+            } 
+        ],
+        "total_count": 151
+    },
+    "errcode": 0,
+    "errmsg": "success."
+}
