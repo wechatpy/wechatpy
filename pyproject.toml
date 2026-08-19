@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "wechatpy"
-version = "2.0.0.alpha26"
+name = "odoo-wechatpy"
+version = "2.0.0.5"
 description = "WeChat SDK for Python"
 authors = ["messense <messense@icloud.com>"]
 license = "MIT"
+packages = [{ include = "wechatpy" }]
 readme = 'README.md'
 keywords = ["wechat", "weixin", "wechat SDK", "weixin SDK"]
 classifiers = [

@@ -10,7 +10,6 @@ from wechatpy.utils import random_string
 
 
 class WeChatMessage(BaseWeChatAPI):
-
     OPENID_RE = re.compile(r"^[\w\-]{28}$", re.I)
 
     def _send_custom_message(self, data, account=None):

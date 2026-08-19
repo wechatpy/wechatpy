@@ -7,7 +7,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatWiFi(BaseWeChatAPI):
-
     API_BASE_URL = "https://api.weixin.qq.com/bizwifi/"
 
     def list_shops(self, page_index=1, page_size=20):

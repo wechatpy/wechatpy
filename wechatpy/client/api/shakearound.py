@@ -9,7 +9,6 @@ from wechatpy.client.api.base import BaseWeChatAPI
 
 
 class WeChatShakeAround(BaseWeChatAPI):
-
     API_BASE_URL = "https://api.weixin.qq.com/"
 
     @classmethod

@@ -8,7 +8,7 @@ from wechatpy.client.api.base import BaseWeChatAPI
 class WeChatOAuth(BaseWeChatAPI):
     OAUTH_BASE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize"
 
-    def authorize_url(self, redirect_uri, state=None):
+    def authorize_url(self, redirect_uri, state=None, agent_id=None, scope="snsapi_base"):
         """
         构造网页授权链接
         详情请参考
@@ -25,7 +25,9 @@ class WeChatOAuth(BaseWeChatAPI):
             self._client.corp_id,
             "&redirect_uri=",
             redirect_uri,
-            "&response_type=code&scope=snsapi_base",
+            "&agentid=",
+            agent_id,
+            f"&response_type=code&scope={scope}",
         ]
         if state:
             url_list.extend(["&state=", state])
