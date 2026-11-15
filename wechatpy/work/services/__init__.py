@@ -45,7 +45,7 @@ class WeChatServiceClient(BaseWeChatClient):
     def _fetch_access_token(self, url, params):
         """The real fetch access token"""
         logger.info("Fetching access token")
-        res = self._http.post(url=url, json=params)
+        res = self._http.post(url=url, json=params, timeout=self.timeout)
         try:
             res.raise_for_status()
         except requests.RequestException as reqe:
@@ -73,7 +73,7 @@ class WeChatServiceClient(BaseWeChatClient):
         self.expires_at = int(time.time()) + expires_in
         return result
 
-    def _request(self, method, url_or_endpoint, **kwargs):
+    def _request(self, method, url_or_endpoint, _retry=True, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
             api_base_url = kwargs.pop("api_base_url", self.API_BASE_URL)
             url = f"{api_base_url}{url_or_endpoint}"
@@ -103,7 +103,7 @@ class WeChatServiceClient(BaseWeChatClient):
                 response=reqe.response,
             )
 
-        return self._handle_result(res, method, url, result_processor, **kwargs)
+        return self._handle_result(res, method, url, result_processor, _retry=_retry, **kwargs)
 
     def fetch_access_token(self):
         """Fetch access token"""
