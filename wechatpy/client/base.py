@@ -117,15 +117,11 @@ class BaseWeChatClient:
         if "errcode" in result and result["errcode"] != 0:
             errcode = result["errcode"]
             errmsg = result.get("errmsg", errcode)
-            if (
-                self.auto_retry
-                and _retry
-                and errcode
-                in (
-                    WeChatErrorCode.INVALID_CREDENTIAL.value,
-                    WeChatErrorCode.INVALID_ACCESS_TOKEN.value,
-                    WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value,
-                )
+            _retry = self.auto_retry and _retry
+            if _retry and errcode in (
+                WeChatErrorCode.INVALID_CREDENTIAL.value,
+                WeChatErrorCode.INVALID_ACCESS_TOKEN.value,
+                WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value,
             ):
                 logger.info("Access token expired, fetch a new one and retry request")
                 self.fetch_access_token()
