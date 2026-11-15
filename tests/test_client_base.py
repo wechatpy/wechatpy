@@ -3,6 +3,7 @@
 
 import json
 import unittest
+from functools import partial
 from unittest import mock
 from urllib.parse import parse_qs
 
@@ -58,9 +59,7 @@ class BaseWeChatClientTestCase(unittest.TestCase):
                     api_requests = []
                     token_requests = []
 
-                    def api_mock(
-                        url, request, api_requests=api_requests, token_requests=token_requests, errcode=errcode
-                    ):
+                    def api_mock(url, request, *, api_requests, token_requests, errcode):
                         """Reject API calls while recording this case's token refreshes."""
                         token = self.token_response(url, request)
                         if token is not None:
@@ -70,7 +69,10 @@ class BaseWeChatClientTestCase(unittest.TestCase):
                         self.assertLessEqual(len(api_requests), 2, "retried an already refreshed token")
                         return response(200, {"errcode": errcode, "errmsg": "invalid token"}, request=request)
 
-                    with HTTMock(api_mock), self.assertRaises(WeChatClientException) as raised:
+                    handler = partial(
+                        api_mock, api_requests=api_requests, token_requests=token_requests, errcode=errcode
+                    )
+                    with HTTMock(handler), self.assertRaises(WeChatClientException) as raised:
                         client.get("test")
                     self.assertEqual(errcode, raised.exception.errcode)
                     self.assertEqual("invalid token", raised.exception.errmsg)
@@ -88,7 +90,7 @@ class BaseWeChatClientTestCase(unittest.TestCase):
                 token_requests = []
                 processor = mock.Mock(side_effect=lambda result: result["value"])
 
-                def api_mock(url, request, api_requests=api_requests, token_requests=token_requests):
+                def api_mock(url, request, *, api_requests, token_requests):
                     """Accept the same request after its expired token is refreshed."""
                     token = self.token_response(url, request)
                     if token is not None:
@@ -104,7 +106,8 @@ class BaseWeChatClientTestCase(unittest.TestCase):
                     self.assertEqual(["new-token"], query["access_token"])
                     return response(200, {"errcode": 0, "value": "ok"}, request=request)
 
-                with HTTMock(api_mock), mock.patch.object(client._http, "send", wraps=client._http.send) as send:
+                handler = partial(api_mock, api_requests=api_requests, token_requests=token_requests)
+                with HTTMock(handler), mock.patch.object(client._http, "send", wraps=client._http.send) as send:
                     result = client.post(
                         "test",
                         params={"param": "kept"},
@@ -129,12 +132,13 @@ class BaseWeChatClientTestCase(unittest.TestCase):
                 with self.subTest(client=type(client), auto_retry=auto_retry, errcode=errcode):
                     api_requests = []
 
-                    def api_mock(url, request, api_requests=api_requests, errcode=errcode):
+                    def api_mock(url, request, *, api_requests, errcode):
                         """Return this case's API error without acquiring a new token."""
                         api_requests.append(request)
                         return response(200, {"errcode": errcode, "errmsg": "rejected"}, request=request)
 
-                    with HTTMock(api_mock), self.assertRaises(exception) as raised:
+                    handler = partial(api_mock, api_requests=api_requests, errcode=errcode)
+                    with HTTMock(handler), self.assertRaises(exception) as raised:
                         client.get("test")
                     self.assertEqual(errcode, raised.exception.errcode)
                     self.assertEqual(1, len(api_requests))
@@ -146,11 +150,11 @@ class BaseWeChatClientTestCase(unittest.TestCase):
                 with self.subTest(client=type(client), access_token=access_token):
                     api_requests = []
 
-                    def api_mock(url, request, api_requests=api_requests):
+                    def api_mock(url, request, *, api_requests):
                         """Record the attempted request before timing out."""
                         api_requests.append(request)
                         raise requests.Timeout("request timed out")
 
-                    with HTTMock(api_mock), self.assertRaises(requests.Timeout):
+                    with HTTMock(partial(api_mock, api_requests=api_requests)), self.assertRaises(requests.Timeout):
                         client.get("test")
                     self.assertEqual(1, len(api_requests))
