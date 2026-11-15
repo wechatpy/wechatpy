@@ -57,7 +57,7 @@ class BaseWeChatClient:
     def expires_at(self, value):
         self.session.set(self.access_token_expires_at_key, value)
 
-    def _request(self, method, url_or_endpoint, **kwargs):
+    def _request(self, method, url_or_endpoint, _retry=True, **kwargs):
         if not url_or_endpoint.startswith(("http://", "https://")):
             api_base_url = kwargs.pop("api_base_url", self.API_BASE_URL)
             url = f"{api_base_url}{url_or_endpoint}"
@@ -87,7 +87,7 @@ class BaseWeChatClient:
                 response=reqe.response,
             )
 
-        return self._handle_result(res, method, url, result_processor, **kwargs)
+        return self._handle_result(res, method, url, result_processor, _retry=_retry, **kwargs)
 
     def _decode_result(self, res):
         try:
@@ -98,7 +98,7 @@ class BaseWeChatClient:
             return res
         return result
 
-    def _handle_result(self, res, method=None, url=None, result_processor=None, **kwargs):
+    def _handle_result(self, res, method=None, url=None, result_processor=None, _retry=True, **kwargs):
         if not isinstance(res, dict):
             # Dirty hack around asyncio based AsyncWeChatClient
             result = self._decode_result(res)
@@ -117,7 +117,8 @@ class BaseWeChatClient:
         if "errcode" in result and result["errcode"] != 0:
             errcode = result["errcode"]
             errmsg = result.get("errmsg", errcode)
-            if self.auto_retry and errcode in (
+            _retry = self.auto_retry and _retry
+            if _retry and errcode in (
                 WeChatErrorCode.INVALID_CREDENTIAL.value,
                 WeChatErrorCode.INVALID_ACCESS_TOKEN.value,
                 WeChatErrorCode.EXPIRED_ACCESS_TOKEN.value,
@@ -126,7 +127,9 @@ class BaseWeChatClient:
                 self.fetch_access_token()
                 access_token = self.session.get(self.access_token_key)
                 kwargs["params"]["access_token"] = access_token
-                return self._request(method=method, url_or_endpoint=url, result_processor=result_processor, **kwargs)
+                return self._request(
+                    method=method, url_or_endpoint=url, result_processor=result_processor, _retry=False, **kwargs
+                )
             elif errcode == WeChatErrorCode.OUT_OF_API_FREQ_LIMIT.value:
                 # api freq out of limit
                 raise APILimitedException(errcode, errmsg, client=self, request=res.request, response=res)
@@ -144,7 +147,7 @@ class BaseWeChatClient:
     def _fetch_access_token(self, url, params):
         """The real fetch access token"""
         logger.info("Fetching access token")
-        res = self._http.get(url=url, params=params)
+        res = self._http.get(url=url, params=params, timeout=self.timeout)
         try:
             res.raise_for_status()
         except requests.RequestException as reqe:
